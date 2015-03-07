@@ -1,0 +1,43 @@
+# Using glob syntax
+syntax: glob
+
+/bin
+**/bin/Debug
+**/bin/Release
+**/obj/Debug
+**/obj/Release
+**/x64/Debug
+**/x64/Release
+
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.pdb
+*.pch
+*.ipch
+*.class
+*.metadata
+*.idea
+*.userprefs
+*.vshost.*
+_ReSharper.*
+_NCrunch_*
+*.aux
+*.ent
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.tlog
+*.idb
+*.unsuccessfulbuild
+*.lastbuildstate
+*.obj
+*.cache
+*.FileListAbsolute.txt
+
+# Using regexp syntax
+syntax: regexp
