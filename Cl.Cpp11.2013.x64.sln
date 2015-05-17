@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cl.Tape.Cpp11.2013.x64", "tapescript\cpp\cl\tape\Cl.Tape.Cpp11.2013.x64.vcxproj", "{27712514-1FE3-4409-AAF7-00D1D20FB522}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cl.Tape.CppAD.Tests.Cpp11.2013.x64", "tapescript\cpp\cl\tape\cppad\tests\Cl.Tape.CppAD.Tests.Cpp11.2013.x64.vcxproj", "{6EF59D37-5253-47E5-9B0E-DB8F86FE7228}"
+	ProjectSection(ProjectDependencies) = postProject
+		{27712514-1FE3-4409-AAF7-00D1D20FB522} = {27712514-1FE3-4409-AAF7-00D1D20FB522}
+		{05FCBA2D-EBAF-4265-94E6-CB33526C758F} = {05FCBA2D-EBAF-4265-94E6-CB33526C758F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Boost.Cpp11.2013.x64", "dependencies\cpp\boost\Boost.Cpp11.2013.x64.vcxproj", "{05FCBA2D-EBAF-4265-94E6-CB33526C758F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27712514-1FE3-4409-AAF7-00D1D20FB522}.Debug|x64.ActiveCfg = Debug|x64
+		{27712514-1FE3-4409-AAF7-00D1D20FB522}.Debug|x64.Build.0 = Debug|x64
+		{27712514-1FE3-4409-AAF7-00D1D20FB522}.Release|x64.ActiveCfg = Release|x64
+		{27712514-1FE3-4409-AAF7-00D1D20FB522}.Release|x64.Build.0 = Release|x64
+		{6EF59D37-5253-47E5-9B0E-DB8F86FE7228}.Debug|x64.ActiveCfg = Debug|x64
+		{6EF59D37-5253-47E5-9B0E-DB8F86FE7228}.Debug|x64.Build.0 = Debug|x64
+		{6EF59D37-5253-47E5-9B0E-DB8F86FE7228}.Release|x64.ActiveCfg = Release|x64
+		{6EF59D37-5253-47E5-9B0E-DB8F86FE7228}.Release|x64.Build.0 = Release|x64
+		{05FCBA2D-EBAF-4265-94E6-CB33526C758F}.Debug|x64.ActiveCfg = Debug|x64
+		{05FCBA2D-EBAF-4265-94E6-CB33526C758F}.Debug|x64.Build.0 = Debug|x64
+		{05FCBA2D-EBAF-4265-94E6-CB33526C758F}.Release|x64.ActiveCfg = Release|x64
+		{05FCBA2D-EBAF-4265-94E6-CB33526C758F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
