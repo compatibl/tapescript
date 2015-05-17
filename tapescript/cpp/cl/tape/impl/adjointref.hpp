@@ -20,10 +20,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_adjointref_hpp__
-#define __cl_tape_adjointref_hpp__
+#ifndef __cl_tape_impl_adjointref_hpp__
+#define __cl_tape_impl_adjointref_hpp__
 
-#include <cl/tape/adjointrefoperator.hpp>
+#include <cl/tape/impl/adjointrefoperator.hpp>
 
 ///     Adaptation segment
 /// It is use for convertible esences providing
@@ -869,4 +869,4 @@ namespace cl_ext
     }
 }
 
-#endif // __cl_tape_adjointref_hpp__
+#endif // __cl_tape_impl_adjointref_hpp__

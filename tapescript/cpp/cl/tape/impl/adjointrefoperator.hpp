@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_adjointrefoperator_hpp__
-#define __cl_tape_adjointrefoperator_hpp__
+#ifndef __cl_tape_impl_adjointrefoperator_hpp__
+#define __cl_tape_impl_adjointrefoperator_hpp__
 
 #define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                   \
     template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                   \
@@ -53,4 +53,4 @@ limitations under the License.
         }                                                                   \
     };                                                                      \
 
-#endif // __cl_tape_adjointrefoperator_hpp__
+#endif // __cl_tape_impl_adjointrefoperator_hpp__

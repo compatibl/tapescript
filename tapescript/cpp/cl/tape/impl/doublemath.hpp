@@ -20,10 +20,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_doublemath_hpp__
-#define __cl_tape_doublemath_hpp__
+#ifndef __cl_tape_impl_doublemath_hpp__
+#define __cl_tape_impl_doublemath_hpp__
 
-#include <cl/tape/double.hpp>
+#include <cl/tape/impl/double.hpp>
 #include <complex>
 
 /// Math in AD mode, in progress
@@ -520,4 +520,4 @@ namespace CL_EXTERNAL_NAMESPACE
 }
 #endif
 
-#endif  // __cl_tape_doublemath_hpp__
+#endif  // __cl_tape_impl_doublemath_hpp__

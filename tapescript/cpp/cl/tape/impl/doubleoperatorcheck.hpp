@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_doubleoperatorcheck_hpp__
-#define __cl_tape_doubleoperatorcheck_hpp__
+#ifndef __cl_tape_impl_doubleoperatorcheck_hpp__
+#define __cl_tape_impl_doubleoperatorcheck_hpp__
 
 #if defined CL_TAPE_CPPAD
 #include <cppad/cppad.hpp>
@@ -188,4 +188,4 @@ namespace cl
     }
 }
 
-#endif // __cl_tape_doubleoperatorcheck_hpp__
+#endif // __cl_tape_impl_doubleoperatorcheck_hpp__

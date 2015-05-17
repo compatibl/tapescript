@@ -20,10 +20,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_doubleoperators_hpp__
-#define __cl_tape_doubleoperators_hpp__
+#ifndef __cl_tape_impl_doubleoperators_hpp__
+#define __cl_tape_impl_doubleoperators_hpp__
 
-#include <cl/tape/double.hpp>
+#include <cl/tape/impl/double.hpp>
 
 #if !defined(CL_NO_BOOST_NUMERIC)
 #   include <boost/numeric/ublas/fwd.hpp>
@@ -691,4 +691,4 @@ namespace boost
     }
 }
 
-#endif  // __cl_tape_doubleoperators_hpp__
+#endif  // __cl_tape_impl_doubleoperators_hpp__
