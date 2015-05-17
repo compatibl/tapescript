@@ -24,13 +24,13 @@ limitations under the License.
 #define __tape_import_hpp__
 
 // Supports compilation into Windows DLL
-#ifndef TAPE_IMPLEMENT
+#ifndef CL_IMPLEMENT
 #   if defined(_WIN32) && !defined(__MINGW32__)
-#       define TAPE_IMPLEMENT __declspec(dllexport)
-#       define TAPE_DECLARE __declspec(dllimport)
+#       define CL_IMPLEMENT __declspec(dllexport)
+#       define CL_DECLARE __declspec(dllimport)
 #   else
-#       define TAPE_IMPLEMENT
-#       define TAPE_DECLARE
+#       define CL_IMPLEMENT
+#       define CL_DECLARE
 #   endif
 #endif
 

@@ -23,10 +23,10 @@ limitations under the License.
 #ifndef __tape_implement_hpp__
 #define __tape_implement_hpp__
 
-#include <tape/import.hpp>
+#include <cl/tape/import.hpp>
 
-#ifndef TAPE_API
-#   define TAPE_API TAPE_IMPLEMENT
+#ifndef CL_TAPE
+#   define CL_TAPE CL_IMPLEMENT
 #endif
 
 #endif // __tape_implement_hpp__
