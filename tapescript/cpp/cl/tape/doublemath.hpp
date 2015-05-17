@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef __cl_tape_doublemath_hpp__
 #define __cl_tape_doublemath_hpp__
 
-#include <cl/tape/cppdouble.hpp>
+#include <cl/tape/double.hpp>
 #include <complex>
 
 /// Math in AD mode, in progress

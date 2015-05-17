@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef __cl_tape_doublelimits_hpp__
 #define __cl_tape_doublelimits_hpp__
 
-#include <cl/tape/cppdouble.hpp>
+#include <cl/tape/double.hpp>
 #include <limits>
 
 namespace std

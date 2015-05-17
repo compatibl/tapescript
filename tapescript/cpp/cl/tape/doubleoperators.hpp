@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef __cl_tape_doubleoperators_hpp__
 #define __cl_tape_doubleoperators_hpp__
 
-#include <cl/tape/cppdouble.hpp>
+#include <cl/tape/double.hpp>
 
 #if !defined(CL_NO_BOOST_NUMERIC)
 #   include <boost/numeric/ublas/fwd.hpp>

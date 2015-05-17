@@ -58,15 +58,15 @@ namespace ext
 }
 #endif
 
-#include <cl/tape/cppdouble.hpp>
+#include <cl/tape/double.hpp>
 
 #if defined CL_TAPE_COMPLEX_ENABLED
-#   include <cl/tape/cppcomplex.hpp>
+#   include <cl/tape/complex.hpp>
 #endif
 
-#include <cl/tape/cppdoublelimits.hpp>
-#include <cl/tape/cppdoubleoperators.hpp>
-#include <cl/tape/cppdoublemath.hpp>
+#include <cl/tape/doublelimits.hpp>
+#include <cl/tape/doubleoperators.hpp>
+#include <cl/tape/doublemath.hpp>
 
 /// Adaptation adjoint framework essencies
 namespace cl
@@ -118,7 +118,7 @@ namespace cl
 #endif
 }
 
-#include <cl/tape/cppadjointref.hpp>
-#include <cl/tape/cppadjointrefoperator.hpp>
+#include <cl/tape/adjointref.hpp>
+#include <cl/tape/adjointrefoperator.hpp>
 
 #endif // __cl_tape_doublecl_hpp__

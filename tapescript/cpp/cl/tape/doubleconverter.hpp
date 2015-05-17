@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef __cl_tape_doubleconverter_hpp__
 #define __cl_tape_doubleconverter_hpp__
 
-#include <cl/tape/cppdoubleoperatorcheck.hpp>
+#include <cl/tape/doubleoperatorcheck.hpp>
 
 namespace cl
 {

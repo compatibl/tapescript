@@ -24,7 +24,7 @@ limitations under the License.
 #define __cl_tape_double_hpp__
 
 #include <cl/tape/declare.hpp>
-#include <cl/tape/cppdoubleconverter.hpp>
+#include <cl/tape/doubleconverter.hpp>
 
 namespace cl
 {

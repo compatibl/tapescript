@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef __cl_tape_adjointref_hpp__
 #define __cl_tape_adjointref_hpp__
 
-#include <cl/tape/cppadjointrefoperator.hpp>
+#include <cl/tape/adjointrefoperator.hpp>
 
 ///     Adaptation segment
 /// It is use for convertible esences providing
