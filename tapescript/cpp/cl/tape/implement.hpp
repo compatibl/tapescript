@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __tape_implement_hpp__
-#define __tape_implement_hpp__
+#ifndef __cl_tape_implement_hpp__
+#define __cl_tape_implement_hpp__
 
 #include <cl/tape/import.hpp>
 
@@ -29,4 +29,4 @@ limitations under the License.
 #   define CL_TAPE CL_IMPLEMENT
 #endif
 
-#endif // __tape_implement_hpp__
+#endif // __cl_tape_implement_hpp__

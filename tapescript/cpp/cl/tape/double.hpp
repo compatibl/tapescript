@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_double_CppDouble_hpp__
-#define cl_double_CppDouble_hpp__
+#ifndef __cl_tape_double_hpp__
+#define __cl_tape_double_hpp__
 
 #include <cl/tape/declare.hpp>
 #include <cl/tape/cppdoubleconverter.hpp>
@@ -307,4 +307,4 @@ namespace cl
     };
 }
 
-#endif  // cl_double_CppDouble_hpp__
+#endif  // __cl_tape_double_hpp__

@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __tape_import_hpp__
-#define __tape_import_hpp__
+#ifndef __cl_tape_import_hpp__
+#define __cl_tape_import_hpp__
 
 // Supports compilation into Windows DLL
 #ifndef CL_IMPLEMENT
@@ -58,4 +58,4 @@ limitations under the License.
 #include <iomanip>
 #include <algorithm>
 
-#endif // __tape_import_hpp__
+#endif // __cl_tape_import_hpp__

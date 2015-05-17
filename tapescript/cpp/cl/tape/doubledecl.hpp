@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef tapescript_cpp_cl_double_cppdoubledecl_hpp__
-#define tapescript_cpp_cl_double_cppdoubledecl_hpp__
+#ifndef __cl_tape_doublecl_hpp__
+#define __cl_tape_doublecl_hpp__
 
 namespace cl
 {
@@ -121,4 +121,4 @@ namespace cl
 #include <cl/tape/cppadjointref.hpp>
 #include <cl/tape/cppadjointrefoperator.hpp>
 
-#endif // tapescript_cpp_cl_double_cppdoubledecl_hpp__
+#endif // __cl_tape_doublecl_hpp__

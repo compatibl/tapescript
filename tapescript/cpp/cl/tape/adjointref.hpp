@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#if !defined cl_double_adjoint_ref_hpp__
-#define cl_double_adjoint_ref_hpp__
+#ifndef __cl_tape_adjointref_hpp__
+#define __cl_tape_adjointref_hpp__
 
 #include <cl/tape/cppadjointrefoperator.hpp>
 
@@ -869,4 +869,4 @@ namespace cl_ext
     }
 }
 
-#endif // cl_double_adjoint_ref_hpp__
+#endif // __cl_tape_adjointref_hpp__

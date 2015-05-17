@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_double_CppDoubleMath_hpp__
-#define cl_double_CppDoubleMath_hpp__
+#ifndef __cl_tape_doublemath_hpp__
+#define __cl_tape_doublemath_hpp__
 
 #include <cl/tape/cppdouble.hpp>
 #include <complex>
@@ -520,4 +520,4 @@ namespace CL_EXTERNAL_NAMESPACE
 }
 #endif
 
-#endif  // cl_double_CppDoubleMath_hpp__
+#endif  // __cl_tape_doublemath_hpp__

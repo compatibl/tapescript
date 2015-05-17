@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_double_CppDoubleOperators_hpp__
-#define cl_double_CppDoubleOperators_hpp__
+#ifndef __cl_tape_doubleoperators_hpp__
+#define __cl_tape_doubleoperators_hpp__
 
 #include <cl/tape/cppdouble.hpp>
 
@@ -691,4 +691,4 @@ namespace boost
     }
 }
 
-#endif  // cl_double_CppDoubleOperators_hpp__
+#endif  // __cl_tape_doubleoperators_hpp__
