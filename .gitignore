@@ -21,8 +21,6 @@ syntax: glob
 *.idea
 *.userprefs
 *.vshost.*
-_ReSharper.*
-_NCrunch_*
 *.aux
 *.ent
 *.log
@@ -38,6 +36,9 @@ _NCrunch_*
 *.obj
 *.cache
 *.FileListAbsolute.txt
+_ReSharper.*
+_NCrunch_*
+testCaseCollection.xml
 
 # Using regexp syntax
 syntax: regexp
