@@ -222,11 +222,11 @@ namespace cl
 #if defined DEBUG
 
 #   define CL_CHECK_ELEMENTS \
-        assert(refs_.size() == adjoint_.size()); \
+        assert(refs_.size() == vec_.size()); \
         assert(check_equals_elements_());
 
 #else
-#   define CL_CHECK_ELEMENTS assert(refs_.size() == adjoint_.size());
+#   define CL_CHECK_ELEMENTS assert(refs_.size() == vec_.size());
 #endif
     namespace tapescript
     {
@@ -247,7 +247,7 @@ namespace cl
             inline bool
                 check_equals_elements_() const
             {
-                TapeDoubleValueVector::const_iterator begin = adjoint_.begin();
+                TapeDoubleValueVector::const_iterator begin = vec_.begin();
                 bool result = refs_.size() ? false : true;
                 std::for_each(refs_.begin(), refs_.end()
                     , [&result, &begin](TapeRef<> const& aa)
@@ -257,16 +257,16 @@ namespace cl
 #endif
             inline TapeIterator<> begin()
             {
-                return std::make_pair(this->adjoint_.begin(), this->refs_.begin());
+                return std::make_pair(this->vec_.begin(), this->refs_.begin());
             }
 
             inline TapeIterator<> end()
             {
-                return std::make_pair(this->adjoint_.end(), this->refs_.end());
+                return std::make_pair(this->vec_.end(), this->refs_.end());
             }
 
             TapeRefVector(std::size_t s = 0) :refs_(s)
-                , adjoint_(s)
+                , vec_(s)
             {
                 this->assign_refs_();
             }
@@ -287,24 +287,24 @@ namespace cl
 
             inline void assign_refs_()
             {
-                if (refs_.size() != adjoint_.size())
-                    refs_.resize(adjoint_.size());
+                if (refs_.size() != vec_.size())
+                    refs_.resize(vec_.size());
 
                 this->assign_refs_(refs_.begin()
-                    , refs_.end(), adjoint_.begin());
+                    , refs_.end(), vec_.begin());
 
                 CL_CHECK_ELEMENTS;
             }
         public:
             inline void reserve(std::size_t size)
             {
-                adjoint_.reserve(size);
+                vec_.reserve(size);
                 refs_.resize(size);
             }
 
             inline void resize(std::size_t size)
             {
-                adjoint_.resize(size);
+                vec_.resize(size);
                 refs_.resize(size);
 
                 this->assign_refs_();
@@ -314,22 +314,22 @@ namespace cl
             {
                 CL_CHECK_ELEMENTS;
 
-                return adjoint_.size();
+                return vec_.size();
             }
 
             template <typename Base>
             void push_back(TapeInnerType<Base> const& adj)
             {
-                adjoint_.push_back(adj);
-                refs_.push_back(adjoint_.back());
+                vec_.push_back(adj);
+                refs_.push_back(vec_.back());
             }
 
             template<class Iter>
             typename std::enable_if<std::_Is_iterator<Iter>::value, iterator>::type
                 insert(const_iterator _Where, Iter first, Iter last)
             {
-                    size_type _Off = _Where.first - this->adjoint_.begin();
-                    adjoint_.insert(_Where.first, first.first, last.first);
+                    size_type _Off = _Where.first - this->vec_.begin();
+                    vec_.insert(_Where.first, first.first, last.first);
                     this->assign_refs_();
 
                     CL_CHECK_ELEMENTS;
@@ -340,7 +340,7 @@ namespace cl
             std::vector<TapeRef<> > refs_;
 
         private:
-            TapeDoubleValueVector adjoint_;
+            TapeDoubleValueVector vec_;
         };
 
         /// The pointer adapter
@@ -740,7 +740,7 @@ namespace cl
     {
     public:
         TapeFunction(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
-            : TapeFunctionBase<Base>(x.adjoint_, y.adjoint_)
+            : TapeFunctionBase<Base>(x.vec_, y.vec_)
         { }
 
         TapeFunction(std::vector<cl::TapeDouble> const& x, std::vector<cl::TapeDouble> const& y)
