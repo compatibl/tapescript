@@ -167,7 +167,7 @@ namespace cl
     namespace tapescript
     {
         template <typename Vector = AdjVectorBase>
-        struct adj_iterator : std::pair<typename Vector::iterator
+        struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
             , std::random_access_iterator_tag
         {
@@ -176,34 +176,34 @@ namespace cl
 
             typedef std::random_access_iterator_tag iterator_category;
 
-            adj_iterator() : base()
+            TapeIterator() : base()
             {   }
 
             template <typename First, typename Second>
-            adj_iterator(First const& f, Second const& s) : base(f, s)
+            TapeIterator(First const& f, Second const& s) : base(f, s)
             {   }
 
             template <typename First, typename Second>
-            adj_iterator(std::pair<First, Second > const& p) : base(p)
+            TapeIterator(std::pair<First, Second > const& p) : base(p)
             {   }
 
-            inline adj_iterator<Vector>& operator ++()
+            inline TapeIterator<Vector>& operator ++()
             {
                 ++first; ++second; return *this;
             }
 
-            inline adj_iterator<Vector>
+            inline TapeIterator<Vector>
                 operator ++(int)
             {
                 return std::make_pair(first++; second++);
             }
 
-            inline adj_iterator<Vector> operator + (std::size_t size)
+            inline TapeIterator<Vector> operator + (std::size_t size)
             {
                 return std::make_pair(first + size, second + size);
             }
 
-            inline adj_iterator<Vector> operator - (std::size_t size)
+            inline TapeIterator<Vector> operator - (std::size_t size)
             {
                 return std::make_pair(first - size, second - size);
             }
@@ -213,7 +213,7 @@ namespace cl
 
 namespace std
 {
-    template <typename Vector> struct _Is_iterator<cl::tapescript::adj_iterator<Vector> >
+    template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
         : std::true_type{};
 }
 
@@ -232,25 +232,24 @@ namespace cl
     {
         /// The vector to expose vectors based on a AdjointRef
         /// But currently we use approach used to AdjVector and mirror
-        class adj_ref_vector
+        class TapeRefVector
         {
-            friend inline void Independent(adj_ref_vector& v);
-            friend inline void Independent(adj_ref_vector& v, std::size_t abort_index);
+            friend inline void Independent(TapeRefVector& v);
+            friend inline void Independent(TapeRefVector& v, std::size_t abort_index);
             template <typename Base>
             friend class TapeFunction;
 
-            typedef std::vector<cl::TapeDouble::value_type> adj_vector;
-            typedef std::vector<TapeRef<> >                ref_vector;
+            typedef std::vector<cl::TapeDouble::value_type> TapeDoubleValueVector;
         public:
-            typedef adj_iterator<> iterator;
-            typedef adj_iterator<> const_iterator;
+            typedef TapeIterator<> iterator;
+            typedef TapeIterator<> const_iterator;
             typedef std::size_t size_type;
 
 #if defined DEBUG
             inline bool
                 check_equals_elements_() const
             {
-                adj_vector::const_iterator begin = adjoint_.begin();
+                TapeDoubleValueVector::const_iterator begin = adjoint_.begin();
                 bool result = refs_.size() ? false : true;
                 std::for_each(refs_.begin(), refs_.end()
                     , [&result, &begin](TapeRef<> const& aa)
@@ -258,17 +257,17 @@ namespace cl
                 return result;
             }
 #endif
-            inline adj_iterator<> begin()
+            inline TapeIterator<> begin()
             {
                 return std::make_pair(this->adjoint_.begin(), this->refs_.begin());
             }
 
-            inline adj_iterator<> end()
+            inline TapeIterator<> end()
             {
                 return std::make_pair(this->adjoint_.end(), this->refs_.end());
             }
 
-            adj_ref_vector(std::size_t s = 0) :refs_(s)
+            TapeRefVector(std::size_t s = 0) :refs_(s)
                 , adjoint_(s)
             {
                 this->assign_refs_();
@@ -343,7 +342,7 @@ namespace cl
             std::vector<TapeRef<> > refs_;
 
         private:
-            adj_vector adjoint_;
+            TapeDoubleValueVector adjoint_;
         };
 
         /// The pointer adapter
@@ -742,7 +741,7 @@ namespace cl
     class TapeFunction : public TapeFunctionBase<Base>
     {
     public:
-        TapeFunction(tapescript::adj_ref_vector const& x, tapescript::adj_ref_vector const& y)
+        TapeFunction(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
             : TapeFunctionBase<Base>(x.adjoint_, y.adjoint_)
         { }
 

@@ -38,7 +38,7 @@ namespace cl
         inline typename TapeType::value_type& value(TapeType& tv);
     }
 
-    template <typename... Comparsion>
+    template <typename... Comparison>
     struct Conversion;
 
     /// <summary>This template and its specializations provide conversion to TapeDouble value_type.</summary>
