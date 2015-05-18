@@ -141,7 +141,7 @@ namespace cl
         template <typename Type>
         inline void to(std::true_type) const
         {
-#pragma message ("Possible lost adjoint functionality in case: " __FUNCSIG__)
+#pragma message ("Derivatives may be incorrect if this method is invoked: " __FUNCSIG__)
         }
 
 #if defined CL_TAPE_CPPAD
