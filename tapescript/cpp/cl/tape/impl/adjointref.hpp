@@ -32,13 +32,13 @@ namespace cl
 {
 #if defined CL_TAPE_CPPAD
     template <typename Base>
-    using Adjoint = CppAD::AD<Base>;
+    using TapeInnerType = CppAD::AD<Base>;
 #elif CL_TAPE_ADOLC
 	template <typename Base>
-	using Adjoint = Adolc::DoubleAdapter<Base>;
+	using TapeInnerType = Adolc::DoubleAdapter<Base>;
 #else
     template <typename Base>
-    struct Adjoint {    };
+    struct TapeInnerType {    };
 #endif
 
     template <typename Type>
@@ -70,7 +70,7 @@ namespace cl
     template <typename Base>
     struct TapeRef
     {
-        typedef Adjoint<Base> adjoint_type;
+        typedef TapeInnerType<Base> adjoint_type;
         typedef adjoint_type* adjoint_ptr_type;
 
         /// Default constructor
@@ -230,8 +230,6 @@ namespace cl
 #endif
     namespace tapescript
     {
-        /// The vector to expose vectors based on a AdjointRef
-        /// But currently we use approach used to AdjVector and mirror
         class TapeRefVector
         {
             friend inline void Independent(TapeRefVector& v);
@@ -320,7 +318,7 @@ namespace cl
             }
 
             template <typename Base>
-            void push_back(Adjoint<Base> const& adj)
+            void push_back(TapeInnerType<Base> const& adj)
             {
                 adjoint_.push_back(adj);
                 refs_.push_back(adjoint_.back());
@@ -468,7 +466,7 @@ namespace cl
     };
 
     //  Adapted type calculation inside AdaptVector
-    // we should provide convert from complex<Adjoint<Base> > to Adjoint<complex<Base>>
+    // we should provide convert from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
     // it can help to configure behaviour of adjoint logic with
     template <typename Value>
     struct adapt_type_convention <std::vector<std::complex<cl::TapeDouble>
@@ -734,7 +732,7 @@ namespace cl
 
     }
     /// Currently we use this approach to
-    /// adaptation the extern type vectors to inside Adjoint
+    /// adaptation the extern type vectors to inside TapeInnerType
     typedef std::vector<cl::TapeDouble> TapeDoubleVector;
 
     template <typename Base>
@@ -766,7 +764,7 @@ namespace cl
     Independent(std::vector<std::complex<cl::TapeDouble>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::Adjoint<std::complex<double> > >(v_tape), abort_index);
+        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(v_tape), abort_index);
 #endif
     }
 
@@ -780,10 +778,10 @@ namespace cl
     Independent(std::vector<std::complex<cl::TapeDouble>> &x)
     {
 #if defined CL_COMPILE_TIME_DEBUG
-        print_type<decltype(adapt_typed<Adjoint<std::complex<double> > >(x)[0])>();
+        print_type<decltype(adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
 #endif
 #if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::Adjoint<std::complex<double> > >(x));
+        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x));
 #endif
     }
 
@@ -794,7 +792,7 @@ namespace cl_ext
     template <int const_, typename Then, typename Else>
     using if_c = cl::detail::if_c<const_, Then, Else>;
 
-    struct AdjointRefOperators;
+    struct TapeRefOperators;
 
     // This is can be also declared in external
     // TODO check possibility to change extern namespace to the other
@@ -803,25 +801,25 @@ namespace cl_ext
     template <typename Base, typename Right>
     struct custom_operator<cl::TapeRef<Base>, Right>
     {
-        typedef AdjointRefOperators type;
+        typedef TapeRefOperators type;
     };
 
     template <typename Left, typename Base>
     struct custom_operator<Left, cl::TapeRef<Base> >
     {
-        typedef AdjointRefOperators type;
+        typedef TapeRefOperators type;
     };
 
     template <typename Base>
     struct custom_operator<cl::TapeRef<Base>, cl::TapeRef<Base> >
     {
-        typedef AdjointRefOperators type;
+        typedef TapeRefOperators type;
     };
 
     template <typename Base, typename Right>
     struct custom_operator<std::vector<Base, std::allocator<Base> >, Right >
     {
-        typedef AdjointRefOperators type;
+        typedef TapeRefOperators type;
     };
 
     template <typename Return, typename Oper, typename Constr>
