@@ -20,10 +20,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-# include <cppad/cppad.hpp>
-# include <boost/test/unit_test.hpp>
-# include <time.h>
-# include <boost/timer.hpp>
+#include <cppad/cppad.hpp>
+#include <boost/test/unit_test.hpp>
+#include <time.h>
+#include <boost/timer.hpp>
 #include <cl/tape/tape.hpp>
 
 using namespace cl;
