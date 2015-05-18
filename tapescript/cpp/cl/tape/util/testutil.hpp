@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_impl_testutil_hpp__
-#define __cl_tape_impl_testutil_hpp__
+#ifndef __cl_tape_util_testutil_hpp__
+#define __cl_tape_util_testutil_hpp__
 
 #include <vector>
 
@@ -50,4 +50,4 @@ inline std::vector<LType> vectorCast(std::vector<RType> const& rhs)
     return result;
 }
 
-#endif // __cl_tape_impl_testutil_hpp__
+#endif // __cl_tape_util_testutil_hpp__
