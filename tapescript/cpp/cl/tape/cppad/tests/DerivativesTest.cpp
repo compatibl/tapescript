@@ -22,7 +22,7 @@ limitations under the License.
 
 #include <cppad/cppad.hpp>
 #include <boost/test/unit_test.hpp>
-#include <cl/tape/doubledecl.hpp>
+#include <cl/tape/tape.hpp>
 
 using namespace cl;
 

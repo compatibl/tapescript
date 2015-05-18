@@ -24,7 +24,7 @@ limitations under the License.
 # include <boost/test/unit_test.hpp>
 # include <time.h>
 # include <boost/timer.hpp>
-#include <cl/tape/doubledecl.hpp>
+#include <cl/tape/tape.hpp>
 
 using namespace cl;
 
