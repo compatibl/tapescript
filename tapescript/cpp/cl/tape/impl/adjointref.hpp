@@ -58,11 +58,11 @@ namespace cl
 
     /// Declaration deref for adjoint ref class
     template <typename Type>
-    inline typename TapeRef<Type>::adjoint_type&
+    inline typename TapeRef<Type>::inner_type&
     deref(ref_type<TapeRef<Type> > v);
 
     template <typename Type>
-    inline typename TapeRef<Type>::adjoint_type&
+    inline typename TapeRef<Type>::inner_type&
     deref(ref_type<TapeRef<Type> const> v);
 
     ///  This template is adapter from cl::TapeDouble functionality to adjoint functionality
@@ -70,15 +70,15 @@ namespace cl
     template <typename Base>
     struct TapeRef
     {
-        typedef TapeInnerType<Base> adjoint_type;
-        typedef adjoint_type* adjoint_ptr_type;
+        typedef TapeInnerType<Base> inner_type;
+        typedef inner_type* inner_type_ptr;
 
         /// Default constructor
         TapeRef() : ptr_(0)
         {}
 
         /// This is created from adjoint type CppAD::AD, adolc and others
-        TapeRef(adjoint_type& ref) : ptr_(&ref)
+        TapeRef(inner_type& ref) : ptr_(&ref)
         {}
 
         /// copy constructor is default
@@ -91,14 +91,14 @@ namespace cl
             return *this;
         }
 
-        adjoint_type operator -()
+        inner_type operator -()
         {
             assert(ptr_);
             return ptr_->operator -();
         }
 
         /// operator to conversion from adjoint type
-        TapeRef<Base>& operator = (adjoint_type& v)
+        TapeRef<Base>& operator = (inner_type& v)
         {
             ptr_ = &v;
             return *this;
@@ -109,7 +109,7 @@ namespace cl
         {
             if (!ptr_)
             {
-                ptr_ = new adjoint_type(tv.operator adjoint_type());
+                ptr_ = new inner_type(tv.operator inner_type());
             }
             else {
                 *ptr_ = tv.value();
@@ -138,27 +138,27 @@ namespace cl
             return t_double(*ptr_);
         }
 
-        adjoint_ptr_type ptr_;
+        inner_type_ptr ptr_;
     private:
-        inline adjoint_type& ref()
+        inline inner_type& ref()
         {
             assert(ptr_);
             return *ptr_;
         }
         // TODO: if we'll should notify to push_, resize, set and similar insert event
-        // typedef std::tuple<adjoint_ptr_type, std::vector<adjoint_type> > agrs_functionality_type;
-        // std::function<void (std::pair<adjoint_ptr_type, )>
+        // typedef std::tuple<inner_type_ptr, std::vector<inner_type> > agrs_functionality_type;
+        // std::function<void (std::pair<inner_type_ptr, )>
     };
 
     template <typename Type>
-    inline typename TapeRef<Type >::adjoint_type&
+    inline typename TapeRef<Type >::inner_type&
     deref(ref_type<TapeRef<Type > > v)
     {
         return *(v.get().ptr_);
     }
 
     template <typename Type>
-    inline typename TapeRef<Type>::adjoint_type&
+    inline typename TapeRef<Type>::inner_type&
     deref(ref_type<TapeRef<Type> const> v)
     {
         return *(v.get().ptr_);

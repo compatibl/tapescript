@@ -27,17 +27,17 @@ limitations under the License.
     template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                   \
     struct operator_traits<cl::TapeRef<Base>, FrameworkType, oper                                                \
                 , LeftConst, RightConst, TapeRefOperators>                                                   \
-                : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                \
+                : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                \
     {};                                                                                                         \
                                                                                                                 \
     template <typename FrameworkType, typename Base, typename LeftConst, typename RightConst>                   \
     struct operator_traits<FrameworkType, cl::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>   \
-        : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                        \
+        : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                        \
     {};                                                                                                         \
                                                                                                                 \
     template <typename Base, typename LeftConst, typename RightConst>                                           \
     struct operator_traits<cl::TapeRef<Base>, cl::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>\
-        : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                        \
+        : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                        \
     {};                                                                                                         \
 
 #define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                             \
