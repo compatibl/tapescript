@@ -38,7 +38,7 @@ inline void func(vector<T>& x, vector<T>& y)
 
 void elementaryOperationsPerformance()
 {
-    cout << "Test performance of elementary operations for AD<double> and CppDouble" << endl << endl;
+    cout << "Test performance of elementary operations for AD<double> and TapeDouble" << endl << endl;
 
     const size_t iterNum = 100000;
 
@@ -52,13 +52,13 @@ void elementaryOperationsPerformance()
     }
     double cppADStartStopTime = timer.elapsed() / iterNum;
 
-    // CppDouble time of the start and the stop of tape recording
+    // TapeDouble time of the start and the stop of tape recording
     timer.restart();
     for (size_t i = 0; i < iterNum; ++i)
     {
-        vector<cl::CppDouble> x(4), y(4);
+        vector<cl::TapeDouble> x(4), y(4);
         cl::Independent(x);
-        cl::CppAdjFun<double> f(x, y);
+        cl::TapeFunction<double> f(x, y);
     }
     double clStartStopTime = timer.elapsed() / iterNum;
 
@@ -73,14 +73,14 @@ void elementaryOperationsPerformance()
     }
     double cppADTapeTime = timer.elapsed() / iterNum;
 
-    // CppDouble time of tape recording
+    // TapeDouble time of tape recording
     timer.restart();
     for (size_t i = 0; i < iterNum; ++i)
     {
-        vector<cl::CppDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
+        vector<cl::TapeDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::CppAdjFun<double> f(x, y);
+        cl::TapeFunction<double> f(x, y);
     }
     double clTapeTime = timer.elapsed() / iterNum;
 
@@ -97,14 +97,14 @@ void elementaryOperationsPerformance()
     }
     double cppADForwardTime = timer.elapsed() / iterNum - cppADTapeTime;
 
-    // CppDouble time of the forward mode
+    // TapeDouble time of the forward mode
     timer.restart();
     for (size_t i = 0; i < iterNum; ++i)
     {
-        vector<cl::CppDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
+        vector<cl::TapeDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::CppAdjFun<double> f(x, y);
+        cl::TapeFunction<double> f(x, y);
         vector<double> dx(4, 1.0), dy;
         dy = f.Forward(1, dx);
     }
@@ -123,14 +123,14 @@ void elementaryOperationsPerformance()
     }
     double cppADReverseTime = timer.elapsed() / iterNum - cppADTapeTime;
 
-    // CppDouble time of the reverse mode
+    // TapeDouble time of the reverse mode
     timer.restart();
     for (size_t i = 0; i < iterNum; ++i)
     {
-        vector<cl::CppDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
+        vector<cl::TapeDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::CppAdjFun<double> f(x, y);
+        cl::TapeFunction<double> f(x, y);
         vector<double> dv(4, 1.0), du;
         du = f.Reverse(1, dv);
     }
@@ -149,14 +149,14 @@ void elementaryOperationsPerformance()
     }
     double cppADJacobianTime = timer.elapsed() / iterNum - cppADTapeTime;
 
-    // CppDouble time of the Jacobian calculation
+    // TapeDouble time of the Jacobian calculation
     timer.restart();
     for (size_t i = 0; i < iterNum; ++i)
     {
-        vector<cl::CppDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
+        vector<cl::TapeDouble> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         CppAD::Independent(x);
         func(x, y);
-        cl::CppAdjFun<double> f(x, y);
+        cl::TapeFunction<double> f(x, y);
         vector<double> x0(4, 1.0), y0;
         y0 = f.Jacobian(x0);
     }
@@ -164,28 +164,28 @@ void elementaryOperationsPerformance()
 
     cout << "\tStart and stop of tape recording" << endl
         << "\tTime for AD<double> : " << cppADStartStopTime << " s" << endl
-        << "\tTime for CppDouble : " << clStartStopTime << " s" << endl
-        << "\tTimes ratio CppDouble / AD<double> : " << clStartStopTime / cppADStartStopTime << endl
+        << "\tTime for TapeDouble : " << clStartStopTime << " s" << endl
+        << "\tTimes ratio TapeDouble / AD<double> : " << clStartStopTime / cppADStartStopTime << endl
         << endl;
     cout << "\tTape recording" << endl
         << "\tTime for AD<double> : " << cppADTapeTime << " s" << endl
-        << "\tTime for CppDouble : " << clTapeTime << " s" << endl
-        << "\tTimes ratio CppDouble / AD<double> : " << clTapeTime / cppADTapeTime << endl
+        << "\tTime for TapeDouble : " << clTapeTime << " s" << endl
+        << "\tTimes ratio TapeDouble / AD<double> : " << clTapeTime / cppADTapeTime << endl
         << endl;
     cout << "\tForward mode" << endl
         << "\tTime for AD<double> : " << cppADForwardTime << " s" << endl
-        << "\tTime for CppDouble : " << clForwardTime << " s" << endl
-        << "\tTimes ratio CppDouble / AD<double> : " << clForwardTime / cppADForwardTime << endl
+        << "\tTime for TapeDouble : " << clForwardTime << " s" << endl
+        << "\tTimes ratio TapeDouble / AD<double> : " << clForwardTime / cppADForwardTime << endl
         << endl;
     cout << "\tReverse mode" << endl
         << "\tTime for AD<double> : " << cppADReverseTime << " s" << endl
-        << "\tTime for CppDouble : " << clReverseTime << " s" << endl
-        << "\tTimes ratio CppDouble / AD<double> : " << clReverseTime / cppADReverseTime << endl
+        << "\tTime for TapeDouble : " << clReverseTime << " s" << endl
+        << "\tTimes ratio TapeDouble / AD<double> : " << clReverseTime / cppADReverseTime << endl
         << endl;
     cout << "\tJacobian calculation" << endl
         << "\tTime for AD<double> : " << cppADJacobianTime << " s" << endl
-        << "\tTime for CppDouble : " << clJacobianTime << " s" << endl
-        << "\tTimes ratio CppDouble / AD<double> : " << clJacobianTime / cppADJacobianTime << endl
+        << "\tTime for TapeDouble : " << clJacobianTime << " s" << endl
+        << "\tTimes ratio TapeDouble / AD<double> : " << clJacobianTime / cppADJacobianTime << endl
         << endl;
 }
 

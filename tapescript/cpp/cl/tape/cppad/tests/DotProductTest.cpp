@@ -46,7 +46,7 @@ inline ResultType dotProduct(std::vector<LType> const& lhs, std::vector<RType> c
     return result;
 }
 
-// Calculates dot product of two AD<double> vectors and two CppDouble vectors.
+// Calculates dot product of two AD<double> vectors and two TapeDouble vectors.
 // Vectors are not declared as independent.
 void performanceTestWithoutTape()
 {
@@ -54,28 +54,28 @@ void performanceTestWithoutTape()
     std::vector<CppAD::AD<double>> leftAD = vectorCast<CppAD::AD<double>>(leftVector);
     std::vector<CppAD::AD<double>> rightAD = vectorCast<CppAD::AD<double>>(rightVector);
 
-    std::vector<cl::CppDouble> leftCppDouble = vectorCast<cl::CppDouble>(leftVector);
-    std::vector<cl::CppDouble> rightCppDouble = vectorCast<cl::CppDouble>(rightVector);
+    std::vector<cl::TapeDouble> leftTapeDouble = vectorCast<cl::TapeDouble>(leftVector);
+    std::vector<cl::TapeDouble> rightTapeDouble = vectorCast<cl::TapeDouble>(rightVector);
 
     CppAD::AD<double> ADResult = 0;
-    cl::CppDouble CppDoubleResult = 0;
+    cl::TapeDouble TapeDoubleResult = 0;
 
     boost::timer timer;
     ADResult = dotProduct<CppAD::AD<double>>(leftAD, rightAD);
     double ADtime = timer.elapsed();
 
     timer.restart();
-    CppDoubleResult = dotProduct<cl::CppDouble >(leftCppDouble, rightCppDouble);
+    TapeDoubleResult = dotProduct<cl::TapeDouble >(leftTapeDouble, rightTapeDouble);
     double CppTime = timer.elapsed();
 
     std::cout << "\tTime for AD<double> " << ADtime << " s" << std::endl;
-    std::cout << "\tTime for CppDouble " << CppTime << " s" << std::endl;
+    std::cout << "\tTime for TapeDouble " << CppTime << " s" << std::endl;
     std::cout << "\tThe relative difference  " << 1.0 * std::abs(CppTime - ADtime) / std::max(CppTime, ADtime)
         << std::endl ;
 
 }
 
-// Calculates dot product of two AD<double> vectors and two CppDouble vectors.
+// Calculates dot product of two AD<double> vectors and two TapeDouble vectors.
 // Vectors are declared as independent.
 void performanceTestWithTape()
 {
@@ -83,11 +83,11 @@ void performanceTestWithTape()
     std::vector<CppAD::AD<double>> leftAD = vectorCast<CppAD::AD<double>>(leftVector);
     std::vector<CppAD::AD<double>> rightAD = vectorCast<CppAD::AD<double>>(rightVector);
 
-    std::vector<cl::CppDouble> leftCppDouble = vectorCast<cl::CppDouble>(leftVector);
-    std::vector<cl::CppDouble> rightCppDouble = vectorCast<cl::CppDouble>(rightVector);
+    std::vector<cl::TapeDouble> leftTapeDouble = vectorCast<cl::TapeDouble>(leftVector);
+    std::vector<cl::TapeDouble> rightTapeDouble = vectorCast<cl::TapeDouble>(rightVector);
 
     CppAD::AD<double> ADResult = 0;
-    cl::CppDouble CppDoubleResult = 0;
+    cl::TapeDouble TapeDoubleResult = 0;
 
     CppAD::Independent(leftAD);
 
@@ -96,15 +96,15 @@ void performanceTestWithTape()
     CppAD::ADFun<double> adfun(leftAD, std::vector<CppAD::AD<double>>({ ADResult }));
     double ADtime = timer.elapsed();
 
-    cl::Independent(leftCppDouble);
+    cl::Independent(leftTapeDouble);
 
     timer.restart();
-    CppDoubleResult = dotProduct<cl::CppDouble >(leftCppDouble, rightCppDouble);
-    cl::CppAdjFun<double> fcl(leftCppDouble, std::vector<cl::CppDouble>({ CppDoubleResult }));
+    TapeDoubleResult = dotProduct<cl::TapeDouble >(leftTapeDouble, rightTapeDouble);
+    cl::TapeFunction<double> fcl(leftTapeDouble, std::vector<cl::TapeDouble>({ TapeDoubleResult }));
     double CppTime = timer.elapsed();
 
     std::cout << "\tTime for AD<double> " << ADtime << " s" << std::endl;
-    std::cout << "\tTime for CppDouble " << CppTime << " s" << std::endl;
+    std::cout << "\tTime for TapeDouble " << CppTime << " s" << std::endl;
     std::cout << "\tThe relative difference  " << 1.0 * std::abs(CppTime - ADtime) / std::max(CppTime, ADtime)
         << std::endl ;
 }

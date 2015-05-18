@@ -37,7 +37,7 @@ namespace cl
 
 namespace std
 {
-    inline cl::CppDouble fabs(cl::CppDouble x)
+    inline cl::TapeDouble fabs(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::fabs(x.value());
@@ -48,7 +48,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble abs(cl::CppDouble x)
+    inline cl::TapeDouble abs(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::abs(x.value());
@@ -59,10 +59,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble floor(cl::CppDouble x)
+    inline cl::TapeDouble floor(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        return  cl::CppDouble(std::floor(CppAD::Value(x.value())));  //!!! Review
+        return  cl::TapeDouble(std::floor(CppAD::Value(x.value())));  //!!! Review
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -70,10 +70,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble ceil(cl::CppDouble x)
+    inline cl::TapeDouble ceil(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        return cl::CppDouble(std::ceil(CppAD::Value(x.value())));  //!!! Review
+        return cl::TapeDouble(std::ceil(CppAD::Value(x.value())));  //!!! Review
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -81,7 +81,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble sqrt(cl::CppDouble x)
+    inline cl::TapeDouble sqrt(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::sqrt(x.value());
@@ -92,7 +92,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble log(cl::CppDouble x)
+    inline cl::TapeDouble log(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::log(x.value());
@@ -103,7 +103,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble exp(cl::CppDouble x)
+    inline cl::TapeDouble exp(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::exp(x.value());
@@ -114,7 +114,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble sin(cl::CppDouble x)
+    inline cl::TapeDouble sin(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::sin(x.value());
@@ -125,7 +125,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble cos(cl::CppDouble x)
+    inline cl::TapeDouble cos(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::cos(x.value());
@@ -136,7 +136,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble tan(cl::CppDouble x)
+    inline cl::TapeDouble tan(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::tan(x.value());
@@ -147,7 +147,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble asin(cl::CppDouble x)
+    inline cl::TapeDouble asin(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::asin(x.value());
@@ -158,7 +158,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble acos(cl::CppDouble x)
+    inline cl::TapeDouble acos(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::acos(x.value());
@@ -169,7 +169,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble atan(cl::CppDouble x)
+    inline cl::TapeDouble atan(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::atan(x.value());
@@ -180,7 +180,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble sinh(cl::CppDouble x)
+    inline cl::TapeDouble sinh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::sinh(x.value());
@@ -191,7 +191,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble cosh(cl::CppDouble x)
+    inline cl::TapeDouble cosh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::cosh(x.value());
@@ -202,7 +202,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble tanh(cl::CppDouble x)
+    inline cl::TapeDouble tanh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::tanh(x.value());
@@ -213,7 +213,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble pow(cl::CppDouble x, cl::CppDouble y)
+    inline cl::TapeDouble pow(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::pow(x.value(), y.value());
@@ -224,10 +224,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble pow(cl::CppDouble x, double y)
+    inline cl::TapeDouble pow(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return pow(x, cl::CppDouble(y));
+        return pow(x, cl::TapeDouble(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -235,10 +235,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble pow(double x, cl::CppDouble y)
+    inline cl::TapeDouble pow(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return pow(cl::CppDouble(x), y);
+        return pow(cl::TapeDouble(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -246,10 +246,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble asinh(cl::CppDouble x)
+    inline cl::TapeDouble asinh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        return log(x + sqrt(cl::CppDouble(1.0) + pow(x, 2.0)));
+        return log(x + sqrt(cl::TapeDouble(1.0) + pow(x, 2.0)));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented");return x;
 #else
@@ -257,10 +257,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble acosh(cl::CppDouble x)
+    inline cl::TapeDouble acosh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        return log(x + sqrt(cl::CppDouble(-1.0) + pow(x, 2.0)));
+        return log(x + sqrt(cl::TapeDouble(-1.0) + pow(x, 2.0)));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -268,10 +268,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble atanh(cl::CppDouble x)
+    inline cl::TapeDouble atanh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        return 0.5* log((cl::CppDouble(1.0) + x) / (cl::CppDouble(1.0) - x));
+        return 0.5* log((cl::TapeDouble(1.0) + x) / (cl::TapeDouble(1.0) - x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -279,7 +279,7 @@ namespace std
 #endif
     }
 
-    inline bool isnan(cl::CppDouble x)
+    inline bool isnan(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::isnan(x.value());
@@ -291,7 +291,7 @@ namespace std
     }
 
 
-    inline cl::CppDouble min(cl::CppDouble x, cl::CppDouble y)
+    inline cl::TapeDouble min(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return x < y ? x : y;
@@ -302,7 +302,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble min(cl::CppDouble x, double y)
+    inline cl::TapeDouble min(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
         return x < y ? x : y;
@@ -313,7 +313,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble min(double x, cl::CppDouble y)
+    inline cl::TapeDouble min(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return x < y ? x : y;
@@ -324,7 +324,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble max(cl::CppDouble x, cl::CppDouble y)
+    inline cl::TapeDouble max(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return x > y ? x : y;
@@ -335,10 +335,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble max(cl::CppDouble x, double y)
+    inline cl::TapeDouble max(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x > y ? x : cl::CppDouble(y);
+        return x > y ? x : cl::TapeDouble(y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -346,10 +346,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble max(double x, cl::CppDouble y)
+    inline cl::TapeDouble max(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x > y ? cl::CppDouble(x) : y;
+        return x > y ? cl::TapeDouble(x) : y;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -357,7 +357,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble atan2(cl::CppDouble x, cl::CppDouble y)
+    inline cl::TapeDouble atan2(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::atan2(x.value(), y.value());
@@ -368,10 +368,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble atan2(cl::CppDouble x, double y)
+    inline cl::TapeDouble atan2(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return atan2(x, cl::CppDouble(y));
+        return atan2(x, cl::TapeDouble(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -379,10 +379,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble atan2(double x, cl::CppDouble y)
+    inline cl::TapeDouble atan2(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return atan2(cl::CppDouble(x), y);
+        return atan2(cl::TapeDouble(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -390,7 +390,7 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble fmod(cl::CppDouble x, cl::CppDouble y)
+    inline cl::TapeDouble fmod(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
         return x - y * ( x / y > 0 ? floor(x / y) : ceil (x / y));
@@ -401,10 +401,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble fmod(cl::CppDouble x, double y)
+    inline cl::TapeDouble fmod(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return fmod(x, cl::CppDouble(y));
+        return fmod(x, cl::TapeDouble(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -412,10 +412,10 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble fmod(double x, cl::CppDouble y)
+    inline cl::TapeDouble fmod(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return fmod(cl::CppDouble(x), y);
+        return fmod(cl::TapeDouble(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -423,14 +423,14 @@ namespace std
 #endif
     }
 
-    inline cl::CppDouble modf(cl::CppDouble x, cl::CppDouble* iptr)
+    inline cl::TapeDouble modf(cl::TapeDouble x, cl::TapeDouble* iptr)
     {
 #ifdef CL_TAPE_CPPAD
         double fractpart;
         double intpart;
         fractpart = std::modf(CppAD::Value(x.value()), &intpart);     //!!! Review
-        (*iptr) = cl::CppDouble(intpart);
-        return cl::CppDouble( fractpart);
+        (*iptr) = cl::TapeDouble(intpart);
+        return cl::TapeDouble( fractpart);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -438,16 +438,16 @@ namespace std
         double intpart;
         fractpart = std::modf(x.value(), &intpart);
         (*iptr) = intpart;
-        return cl::CppDouble( fractpart);
+        return cl::TapeDouble( fractpart);
 #endif
     }
 
-//!! Do we need this define if CppDouble is always a class?
+//!! Do we need this define if TapeDouble is always a class?
 #if defined(CL_TAPE_NOAD) || defined(CL_TAPE_CPPAD) || defined(CL_TAPE_ADOLC)
     template<class T1, class T2>
-    inline cl::CppDouble inner_product(T1 first1, T1 last1, T2 first2, double value)
+    inline cl::TapeDouble inner_product(T1 first1, T1 last1, T2 first2, double value)
     {
-        cl::CppDouble prod(value);
+        cl::TapeDouble prod(value);
         while (first1 != last1)
         {
             prod += (*first1) * (*first2);
@@ -457,57 +457,57 @@ namespace std
     }
 #endif
 
-    // Arithmetics for std::complex<cl::CppDouble> and cl::CppDouble
+    // Arithmetics for std::complex<cl::TapeDouble> and cl::TapeDouble
 
-    inline std::complex<cl::CppDouble> operator+(const std::complex<cl::CppDouble>& lhs, cl::CppDouble rhs){
-        return complex<cl::CppDouble>(lhs.real() + rhs, lhs.imag());
+    inline std::complex<cl::TapeDouble> operator+(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
+        return complex<cl::TapeDouble>(lhs.real() + rhs, lhs.imag());
     }
 
-    inline std::complex<cl::CppDouble> operator-(const std::complex<cl::CppDouble>& lhs, cl::CppDouble rhs){
-        return complex<cl::CppDouble>(lhs.real() - rhs, lhs.imag());
+    inline std::complex<cl::TapeDouble> operator-(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
+        return complex<cl::TapeDouble>(lhs.real() - rhs, lhs.imag());
     }
 
-    inline std::complex<cl::CppDouble> operator*(const std::complex<cl::CppDouble>& lhs, cl::CppDouble rhs){
-        return complex<cl::CppDouble>(lhs.real() *rhs, lhs.imag()*rhs);
+    inline std::complex<cl::TapeDouble> operator*(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
+        return complex<cl::TapeDouble>(lhs.real() *rhs, lhs.imag()*rhs);
     }
 
-    inline std::complex<cl::CppDouble> operator/(const std::complex<cl::CppDouble>& lhs, cl::CppDouble rhs){
-        return complex<cl::CppDouble>(lhs.real() / rhs, lhs.imag() / rhs);
+    inline std::complex<cl::TapeDouble> operator/(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
+        return complex<cl::TapeDouble>(lhs.real() / rhs, lhs.imag() / rhs);
     }
 
-    inline std::complex<cl::CppDouble> operator+(cl::CppDouble lhs, const std::complex<cl::CppDouble>& rhs){
-        return complex<cl::CppDouble>(lhs + rhs.real(), rhs.imag());
+    inline std::complex<cl::TapeDouble> operator+(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
+        return complex<cl::TapeDouble>(lhs + rhs.real(), rhs.imag());
     }
 
-    inline std::complex<cl::CppDouble> operator-(cl::CppDouble lhs, const std::complex<cl::CppDouble>& rhs){
-        return complex<cl::CppDouble>(lhs - rhs.real(), -rhs.imag());
+    inline std::complex<cl::TapeDouble> operator-(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
+        return complex<cl::TapeDouble>(lhs - rhs.real(), -rhs.imag());
     }
 
-    inline std::complex<cl::CppDouble> operator*(cl::CppDouble lhs, const std::complex<cl::CppDouble>& rhs){
-        return complex<cl::CppDouble>(rhs.real() *lhs, rhs.imag()*lhs);
+    inline std::complex<cl::TapeDouble> operator*(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
+        return complex<cl::TapeDouble>(rhs.real() *lhs, rhs.imag()*lhs);
     }
 
-    inline std::complex<cl::CppDouble> operator/(cl::CppDouble lhs, const std::complex<cl::CppDouble>& rhs){
-        return std::complex<cl::CppDouble>(lhs, 0.0) / rhs;
+    inline std::complex<cl::TapeDouble> operator/(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
+        return std::complex<cl::TapeDouble>(lhs, 0.0) / rhs;
     }
 
-    // Arithmetics for std::complex<cl::CppDouble> and double
+    // Arithmetics for std::complex<cl::TapeDouble> and double
 
-    inline std::complex<cl::CppDouble> operator+(const std::complex<cl::CppDouble>& lhs, double rhs) { return lhs + cl::CppDouble(rhs); }
+    inline std::complex<cl::TapeDouble> operator+(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs + cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::CppDouble> operator-(const std::complex<cl::CppDouble>& lhs, double rhs) { return lhs - cl::CppDouble(rhs); }
+    inline std::complex<cl::TapeDouble> operator-(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs - cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::CppDouble> operator*(const std::complex<cl::CppDouble>& lhs, double rhs) { return lhs * cl::CppDouble(rhs); }
+    inline std::complex<cl::TapeDouble> operator*(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs * cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::CppDouble> operator/(const std::complex<cl::CppDouble>& lhs, double rhs) { return lhs / cl::CppDouble(rhs); }
+    inline std::complex<cl::TapeDouble> operator/(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs / cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::CppDouble> operator+(double lhs, const std::complex<cl::CppDouble>& rhs) { return cl::CppDouble(lhs) + rhs; }
+    inline std::complex<cl::TapeDouble> operator+(double lhs, const std::complex<cl::TapeDouble>& rhs) { return cl::TapeDouble(lhs) + rhs; }
 
-    inline std::complex<cl::CppDouble> operator-(double lhs, const std::complex<cl::CppDouble>& rhs) { return cl::CppDouble(lhs) - rhs; }
+    inline std::complex<cl::TapeDouble> operator-(double lhs, const std::complex<cl::TapeDouble>& rhs) { return cl::TapeDouble(lhs) - rhs; }
 
-    inline std::complex<cl::CppDouble> operator*(double lhs, const std::complex<cl::CppDouble>& rhs) { return cl::CppDouble(lhs) * rhs; }
+    inline std::complex<cl::TapeDouble> operator*(double lhs, const std::complex<cl::TapeDouble>& rhs) { return cl::TapeDouble(lhs) * rhs; }
 
-    inline std::complex<cl::CppDouble> operator/(double lhs, const std::complex<cl::CppDouble>& rhs) { return cl::CppDouble(lhs) / rhs; }
+    inline std::complex<cl::TapeDouble> operator/(double lhs, const std::complex<cl::TapeDouble>& rhs) { return cl::TapeDouble(lhs) / rhs; }
 
     //!! Providing implementation causes compilation error due to NaN not being defined for Real, to be resolved
 }

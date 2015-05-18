@@ -76,8 +76,8 @@ namespace cl
 #if defined CL_TAPE && defined CL_TAPE_CPPAD
 
     template <typename Type>
-    using AdjFunBase = CppAD::ADFun<Type>;
-    typedef std::vector<cl::CppDouble::value_type > AdjVectorBase;
+    using TapeFunctionBase = CppAD::ADFun<Type>;
+    typedef std::vector<cl::TapeDouble::value_type > AdjVectorBase;
 
     inline void Independent(AdjVectorBase& v)
     {
@@ -92,8 +92,8 @@ namespace cl
 #elif defined CL_TAPE_ADOLC
 
     template <typename Type>
-    using AdjFunBase = empty_template<Type>;
-    typedef std::vector<cl::CppDouble::value_type > AdjVectorBase;
+    using TapeFunctionBase = empty_template<Type>;
+    typedef std::vector<cl::TapeDouble::value_type > AdjVectorBase;
 
     inline void Independent(AdjVectorBase& v)
     {
@@ -106,7 +106,7 @@ namespace cl
     template <typename Type>
     using AdjFun = empty_template<Type>;
 
-    typedef std::vector<cl::CppDouble> AdjVectorBase;
+    typedef std::vector<cl::TapeDouble> AdjVectorBase;
 
     inline void Independent(AdjVectorBase& v)
     {

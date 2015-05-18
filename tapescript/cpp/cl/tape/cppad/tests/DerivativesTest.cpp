@@ -30,12 +30,12 @@ BOOST_AUTO_TEST_SUITE(DerivativesTest)
 
 BOOST_AUTO_TEST_CASE(Add)
 {
-    CppAdjVector X(2, 3.0);
+    TapeDoubleVector X(2, 3.0);
 
     Independent(X);
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = 2 * X[0] + X[1];
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Calculate derivative of Y on X[0] in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
@@ -57,12 +57,12 @@ BOOST_AUTO_TEST_CASE(Add)
 
 BOOST_AUTO_TEST_CASE(Mult)
 {
-    CppAdjVector X(2, 3.0);
+    TapeDoubleVector X(2, 3.0);
 
     Independent(X);
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = X[0]*X[1];
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Calculate derivative in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
@@ -78,12 +78,12 @@ BOOST_AUTO_TEST_CASE(Mult)
 
 BOOST_AUTO_TEST_CASE(Pow)
 {
-    CppAdjVector X(1, 3.0);
+    TapeDoubleVector X(1, 3.0);
 
     Independent(X);
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = std::pow(X[0], 4);
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Calculate derivative in Forward mode.
     std::vector<double> sy, sx(1, 1.0);
@@ -98,13 +98,13 @@ BOOST_AUTO_TEST_CASE(Pow)
 
 BOOST_AUTO_TEST_CASE(Exp)
 {
-    CppAdjVector X(1, 3.0);
+    TapeDoubleVector X(1, 3.0);
     Independent(X);
 
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = std::exp(-2.0 * X[0]);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Calculate derivative in Forward mode.
     std::vector<double> sy, sx(1, 1.0);
@@ -119,13 +119,13 @@ BOOST_AUTO_TEST_CASE(Exp)
 
 BOOST_AUTO_TEST_CASE(CosSin)
 {
-    CppAdjVector X(2, 3.0);
+    TapeDoubleVector X(2, 3.0);
     Independent(X);
 
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = std::cos(X[0]) + std::sin(X[1]);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
     // Calculate derivative of Y on X[0] in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
     sx[0] = 1;
@@ -146,13 +146,13 @@ BOOST_AUTO_TEST_CASE(CosSin)
 
 BOOST_AUTO_TEST_CASE(Max)
 {
-    CppAdjVector X(1, 3.0);
+    TapeDoubleVector X(1, 3.0);
     Independent(X);
 
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = std::max(X[0]*X[0], 2 - X[0]);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Derivatives in x = 3 are correct.
     // Should be: y(x = 3) = max(X * X, 2 - X) = X * X
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE(Max)
 
     Y[0] = std::max(X[0] * X[0], 2 - X[0]);
 
-    CppAdjFun<double> f2(X, Y);
+    TapeFunction<double> f2(X, Y);
 
     // Derivatives in x = 0 are correct now.
     // Should be: y(x = 0) = max(X * X, 2 - X) = 2 - X
@@ -232,13 +232,13 @@ BOOST_AUTO_TEST_CASE(Max)
 
 BOOST_AUTO_TEST_CASE(Min)
 {
-    CppAdjVector X(1, 3.0);
+    TapeDoubleVector X(1, 3.0);
     Independent(X);
 
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Derivatives in x = 3 are correct.
     // Should be: y(x = 3) = min(X * X, 2 - X) = 2 - X
@@ -286,7 +286,7 @@ BOOST_AUTO_TEST_CASE(Min)
 
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
 
-    CppAdjFun<double> f2(X, Y);
+    TapeFunction<double> f2(X, Y);
 
     // Derivatives in x = 0 are correct now.
     // Should be: y(x = 0) = min(X * X, 2 - X) = X * X
@@ -314,14 +314,14 @@ BOOST_AUTO_TEST_CASE(Min)
 }
 BOOST_AUTO_TEST_CASE(MinBound)
 {
-    CppAdjVector X(1, 1.0);
-    CppAdjVector Y(1);
+    TapeDoubleVector X(1, 1.0);
+    TapeDoubleVector Y(1);
 
     Independent(X);
 
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Derivatives in x = 1 are correct now.
     // Right operand is chosen.
@@ -340,7 +340,7 @@ BOOST_AUTO_TEST_CASE(MinBound)
 
     Y[0] = std::min(2 - X[0], X[0] * X[0]);
 
-    CppAdjFun<double> f2(X, Y);
+    TapeFunction<double> f2(X, Y);
 
     // Derivatives in x = 1 are correct now.
     // Right operand is chosen
@@ -360,14 +360,14 @@ BOOST_AUTO_TEST_CASE(LogBarrier)
     double b = 1;
     double H = pow(10, 6);
 
-    CppAdjVector X(1, 0.0);
+    TapeDoubleVector X(1, 0.0);
     Independent(X);
 
-    CppAdjVector Y(1);
+    TapeDoubleVector Y(1);
 
      Y[0] = std::min(-std::log(b - X[0]), H);
 
-    CppAdjFun<double> f(X, Y);
+    TapeFunction<double> f(X, Y);
 
     // Derivatives in x = 0 are correct.
     // Should be: y(x = 0) = - log(b - X[0])
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE(LogBarrier)
 
     Y[0] = std::min(-std::log(b - X[0]), H);
 
-    CppAdjFun<double> f2(X, Y);
+    TapeFunction<double> f2(X, Y);
 
     // Derivatives in x = b - 1 / (std::exp(H)) are correspond to H.
     x[0] = b - 1 / (std::exp(H));

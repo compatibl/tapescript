@@ -44,11 +44,11 @@ namespace cl
     template <typename Type>
     using ref_type = std::reference_wrapper<Type>;
 
-    typedef cl::CppDouble t_double;
+    typedef cl::TapeDouble t_double;
 
     template <typename Base
-        = typename cl::remove_ad<cl::CppDouble::value_type >::type >
-    struct CppAdjointRef;
+        = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
+    struct TapeRef;
 
     template <typename Type>
     inline Type& deref(ref_type<Type> v)
@@ -58,34 +58,34 @@ namespace cl
 
     /// Declaration deref for adjoint ref class
     template <typename Type>
-    inline typename CppAdjointRef<Type>::adjoint_type&
-    deref(ref_type<CppAdjointRef<Type> > v);
+    inline typename TapeRef<Type>::adjoint_type&
+    deref(ref_type<TapeRef<Type> > v);
 
     template <typename Type>
-    inline typename CppAdjointRef<Type>::adjoint_type&
-    deref(ref_type<CppAdjointRef<Type> const> v);
+    inline typename TapeRef<Type>::adjoint_type&
+    deref(ref_type<TapeRef<Type> const> v);
 
-    ///  This template is adapter from cl::CppDouble functionality to adjoint functionality
+    ///  This template is adapter from cl::TapeDouble functionality to adjoint functionality
     /// The Base class can be deferent
     template <typename Base>
-    struct CppAdjointRef
+    struct TapeRef
     {
         typedef Adjoint<Base> adjoint_type;
         typedef adjoint_type* adjoint_ptr_type;
 
         /// Default constructor
-        CppAdjointRef() : ptr_(0)
+        TapeRef() : ptr_(0)
         {}
 
         /// This is created from adjoint type CppAD::AD, adolc and others
-        CppAdjointRef(adjoint_type& ref) : ptr_(&ref)
+        TapeRef(adjoint_type& ref) : ptr_(&ref)
         {}
 
         /// copy constructor is default
-        CppAdjointRef(CppAdjointRef const&) = default;
+        TapeRef(TapeRef const&) = default;
 
         /// operator to conversion from adjoint type
-        CppAdjointRef<Base>& operator = (CppAdjointRef<Base>& v)
+        TapeRef<Base>& operator = (TapeRef<Base>& v)
         {
             ptr_ = &v;
             return *this;
@@ -98,14 +98,14 @@ namespace cl
         }
 
         /// operator to conversion from adjoint type
-        CppAdjointRef<Base>& operator = (adjoint_type& v)
+        TapeRef<Base>& operator = (adjoint_type& v)
         {
             ptr_ = &v;
             return *this;
         }
 
         /// operator from conversation
-        CppAdjointRef<Base>& operator = (cl::CppDouble const& tv)
+        TapeRef<Base>& operator = (cl::TapeDouble const& tv)
         {
             if (!ptr_)
             {
@@ -119,14 +119,14 @@ namespace cl
         }
 
         template <typename Right>
-        CppAdjointRef<Base>& operator += (Right const& val)
+        TapeRef<Base>& operator += (Right const& val)
         {
             ref() += deref(std::ref(val));
             return *this;
         }
 
         template <typename Right>
-        CppAdjointRef<Base>& operator -= (Right const& val)
+        TapeRef<Base>& operator -= (Right const& val)
         {
             ref() -= deref(std::ref(val));
             return *this;
@@ -151,15 +151,15 @@ namespace cl
     };
 
     template <typename Type>
-    inline typename CppAdjointRef<Type >::adjoint_type&
-    deref(ref_type<CppAdjointRef<Type > > v)
+    inline typename TapeRef<Type >::adjoint_type&
+    deref(ref_type<TapeRef<Type > > v)
     {
         return *(v.get().ptr_);
     }
 
     template <typename Type>
-    inline typename CppAdjointRef<Type>::adjoint_type&
-    deref(ref_type<CppAdjointRef<Type> const> v)
+    inline typename TapeRef<Type>::adjoint_type&
+    deref(ref_type<TapeRef<Type> const> v)
     {
         return *(v.get().ptr_);
     }
@@ -168,11 +168,11 @@ namespace cl
     {
         template <typename Vector = AdjVectorBase>
         struct adj_iterator : std::pair<typename Vector::iterator
-            , typename std::vector<CppAdjointRef<> >::iterator >
+            , typename std::vector<TapeRef<> >::iterator >
             , std::random_access_iterator_tag
         {
             typedef std::pair<typename Vector::iterator
-            , typename std::vector<CppAdjointRef<> >::iterator > base;
+            , typename std::vector<TapeRef<> >::iterator > base;
 
             typedef std::random_access_iterator_tag iterator_category;
 
@@ -237,10 +237,10 @@ namespace cl
             friend inline void Independent(adj_ref_vector& v);
             friend inline void Independent(adj_ref_vector& v, std::size_t abort_index);
             template <typename Base>
-            friend class CppAdjFun;
+            friend class TapeFunction;
 
-            typedef std::vector<cl::CppDouble::value_type> adj_vector;
-            typedef std::vector<CppAdjointRef<> >                ref_vector;
+            typedef std::vector<cl::TapeDouble::value_type> adj_vector;
+            typedef std::vector<TapeRef<> >                ref_vector;
         public:
             typedef adj_iterator<> iterator;
             typedef adj_iterator<> const_iterator;
@@ -253,7 +253,7 @@ namespace cl
                 adj_vector::const_iterator begin = adjoint_.begin();
                 bool result = refs_.size() ? false : true;
                 std::for_each(refs_.begin(), refs_.end()
-                    , [&result, &begin](CppAdjointRef<> const& aa)
+                    , [&result, &begin](TapeRef<> const& aa)
                 { assert(result = (aa.ptr_ == &(*begin++))); });
                 return result;
             }
@@ -274,7 +274,7 @@ namespace cl
                 this->assign_refs_();
             }
 
-            inline CppAdjointRef<>& operator [](std::size_t ix)
+            inline TapeRef<>& operator [](std::size_t ix)
             {
                 return refs_[ix];
             }
@@ -283,7 +283,7 @@ namespace cl
             inline void assign_refs_(IterRef begin, IterRef end, IterValues start)
             {
                 std::for_each(begin, end
-                    , [&start](CppAdjointRef<>& aa) {
+                    , [&start](TapeRef<>& aa) {
                     aa = *start++;
                 });
             }
@@ -340,7 +340,7 @@ namespace cl
                 }
 
 
-            std::vector<CppAdjointRef<> > refs_;
+            std::vector<TapeRef<> > refs_;
 
         private:
             adj_vector adjoint_;
@@ -472,11 +472,11 @@ namespace cl
     // we should provide convert from complex<Adjoint<Base> > to Adjoint<complex<Base>>
     // it can help to configure behaviour of adjoint logic with
     template <typename Value>
-    struct adapt_type_convention <std::vector<std::complex<cl::CppDouble>
-                        , std::allocator<std::complex<cl::CppDouble> > >, Value>
+    struct adapt_type_convention <std::vector<std::complex<cl::TapeDouble>
+                        , std::allocator<std::complex<cl::TapeDouble> > >, Value>
     {
         // Vector type
-        typedef std::vector<std::complex<cl::CppDouble> > Vector;
+        typedef std::vector<std::complex<cl::TapeDouble> > Vector;
 
         // Perhaps it's std vector and we can get value_type from it
         typedef typename
@@ -736,35 +736,35 @@ namespace cl
     }
     /// Currently we use this approach to
     /// adaptation the extern type vectors to inside Adjoint
-    typedef std::vector<cl::CppDouble> CppAdjVector;
+    typedef std::vector<cl::TapeDouble> TapeDoubleVector;
 
     template <typename Base>
-    class CppAdjFun : public AdjFunBase<Base>
+    class TapeFunction : public TapeFunctionBase<Base>
     {
     public:
-        CppAdjFun(tapescript::adj_ref_vector const& x, tapescript::adj_ref_vector const& y)
-            : AdjFunBase<Base>(x.adjoint_, y.adjoint_)
+        TapeFunction(tapescript::adj_ref_vector const& x, tapescript::adj_ref_vector const& y)
+            : TapeFunctionBase<Base>(x.adjoint_, y.adjoint_)
         { }
 
-        CppAdjFun(std::vector<cl::CppDouble> const& x, std::vector<cl::CppDouble> const& y)
-            : AdjFunBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
+        TapeFunction(std::vector<cl::TapeDouble> const& x, std::vector<cl::TapeDouble> const& y)
+            : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
         { }
     };
 
     inline void
-    Independent(std::vector<cl::CppDouble>& v_tape, std::size_t abort_index)
+    Independent(std::vector<cl::TapeDouble>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
     inline void
-    Independent(std::vector<cl::CppDouble>& v_tape)
+    Independent(std::vector<cl::TapeDouble>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }
 
     inline void
-    Independent(std::vector<std::complex<cl::CppDouble>> &x, std::size_t abort_index)
+    Independent(std::vector<std::complex<cl::TapeDouble>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
         ext::Independent(cl::tapescript::adapt_typed<cl::Adjoint<std::complex<double> > >(v_tape), abort_index);
@@ -778,7 +778,7 @@ namespace cl
     }
 
     inline void
-    Independent(std::vector<std::complex<cl::CppDouble>> &x)
+    Independent(std::vector<std::complex<cl::TapeDouble>> &x)
     {
 #if defined CL_COMPILE_TIME_DEBUG
         print_type<decltype(adapt_typed<Adjoint<std::complex<double> > >(x)[0])>();
@@ -802,19 +802,19 @@ namespace cl_ext
     // as a variant we should use clearly top namespace
     // it can use, but conflicts possibility very hight
     template <typename Base, typename Right>
-    struct custom_operator<cl::CppAdjointRef<Base>, Right>
+    struct custom_operator<cl::TapeRef<Base>, Right>
     {
         typedef AdjointRefOperators type;
     };
 
     template <typename Left, typename Base>
-    struct custom_operator<Left, cl::CppAdjointRef<Base> >
+    struct custom_operator<Left, cl::TapeRef<Base> >
     {
         typedef AdjointRefOperators type;
     };
 
     template <typename Base>
-    struct custom_operator<cl::CppAdjointRef<Base>, cl::CppAdjointRef<Base> >
+    struct custom_operator<cl::TapeRef<Base>, cl::TapeRef<Base> >
     {
         typedef AdjointRefOperators type;
     };
@@ -863,7 +863,7 @@ namespace cl_ext
 
 
     template <typename Base>
-    inline std::ostream& operator << (std::ostream &o, cl::CppAdjointRef<Base> const& adj)
+    inline std::ostream& operator << (std::ostream &o, cl::TapeRef<Base> const& adj)
     {
         return (o << *adj.ptr_);
     }

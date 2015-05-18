@@ -25,19 +25,19 @@ limitations under the License.
 
 #define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                   \
     template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                   \
-    struct operator_traits<cl::CppAdjointRef<Base>, FrameworkType, oper                                                \
+    struct operator_traits<cl::TapeRef<Base>, FrameworkType, oper                                                \
                 , LeftConst, RightConst, AdjointRefOperators>                                                   \
-                : operator_ref_<typename cl::CppAdjointRef<Base>::adjoint_type, oper, std::false_type >                \
+                : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                \
     {};                                                                                                         \
                                                                                                                 \
     template <typename FrameworkType, typename Base, typename LeftConst, typename RightConst>                   \
-    struct operator_traits<FrameworkType, cl::CppAdjointRef<Base>, oper, LeftConst, RightConst, AdjointRefOperators>   \
-        : operator_ref_<typename cl::CppAdjointRef<Base>::adjoint_type, oper, std::false_type >                        \
+    struct operator_traits<FrameworkType, cl::TapeRef<Base>, oper, LeftConst, RightConst, AdjointRefOperators>   \
+        : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                        \
     {};                                                                                                         \
                                                                                                                 \
     template <typename Base, typename LeftConst, typename RightConst>                                           \
-    struct operator_traits<cl::CppAdjointRef<Base>, cl::CppAdjointRef<Base>, oper, LeftConst, RightConst, AdjointRefOperators>\
-        : operator_ref_<typename cl::CppAdjointRef<Base>::adjoint_type, oper, std::false_type >                        \
+    struct operator_traits<cl::TapeRef<Base>, cl::TapeRef<Base>, oper, LeftConst, RightConst, AdjointRefOperators>\
+        : operator_ref_<typename cl::TapeRef<Base>::adjoint_type, oper, std::false_type >                        \
     {};                                                                                                         \
 
 #define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                             \

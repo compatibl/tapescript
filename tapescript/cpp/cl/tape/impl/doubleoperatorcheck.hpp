@@ -31,7 +31,7 @@ limitations under the License.
 
 namespace cl
 {
-    class CppDouble;
+    class TapeDouble;
 
     struct empty_type {};
 
@@ -75,7 +75,7 @@ namespace cl
         };
 
         // Typedef is not visible outside the detail namespace
-        typedef cl::CppDouble double_type;
+        typedef cl::TapeDouble double_type;
 
         template <typename Type, typename V = dummy>
         struct is_has_operator_real
@@ -84,7 +84,7 @@ namespace cl
             typedef std::integral_constant<bool, value > type;
         };
 
-        typedef cl::CppDouble double_type;
+        typedef cl::TapeDouble double_type;
 
         // This is partial specialization of SFINAE
         // when we have a operator to convert to Double
