@@ -30,14 +30,14 @@ static int dimension = (int)1e+7;
 static std::vector<double> doubleVector = getRandomVector(dimension);
 
 // Return time of tape recording for AD<double>.
-double ADTapePerformance()
+double ADTapePerformance(std::ofstream & log)
 {
     std::vector<CppAD::AD<double>> ADvec = vectorCast<CppAD::AD<double>>(getRandomVector(dimension));
 
     CppAD::AD<double> ADResult = 0;
 
     CppAD::Independent(ADvec);
-
+    log << "Start of tape recording : " << currentTime() << std::endl;
     boost::timer timer;
 
     for (CppAD::AD<double> item : ADvec)
@@ -46,18 +46,20 @@ double ADTapePerformance()
             + CppAD::cos(CppAD::log(CppAD::exp(item * CppAD::cos(ADResult)) + CppAD::atan2(ADResult, item)));
     }
     CppAD::ADFun<double> f(ADvec, std::vector<CppAD::AD<double>>({ ADResult }));
-    return timer.elapsed();
+    double time = timer.elapsed();
+    log << "End of tape recording" << std::endl;
+    return time;
 }
 
 // Return time of tape recording for TapeDouble.
-double TapeDoubleTapePerformance()
+double TapeDoubleTapePerformance(std::ofstream & log)
 {
     std::vector<cl::TapeDouble> CppVec = vectorCast<cl::TapeDouble>(getRandomVector(dimension));
 
     cl::TapeDouble CppResult = 0;
 
     cl::Independent(CppVec);
-
+    log << "Start of tape recording : " << currentTime() << std::endl;
     boost::timer timer;
 
     for (cl::TapeDouble item : CppVec)
@@ -66,21 +68,24 @@ double TapeDoubleTapePerformance()
             + std::cos(std::log(std::exp(item * std::cos(CppResult)) + std::atan2(CppResult, item)));
     }
     cl::TapeFunction<double> f(CppVec, std::vector<cl::TapeDouble>({ CppResult }));
-    return timer.elapsed();
+    double time = timer.elapsed();
+    log << "End of tape recording" << std::endl;
+    return time;
 }
 
 BOOST_AUTO_TEST_SUITE(TapeRecordingTest)
 
     BOOST_AUTO_TEST_CASE(TapeRecordingPerformance)
 {
-        std::cout << std::endl << "Test performance for tape recording" << std::endl;
-        double ADtime = ADTapePerformance();
-        double CppTime = TapeDoubleTapePerformance();
-        std::cout << "\tTime for AD<double> " << ADtime << " s" << std::endl;
-        std::cout << "\tTime for TapeDouble " << CppTime << " s" << std::endl;
-        std::cout << "\tThe relative difference  " << 1.0 * std::abs(CppTime - ADtime) / std::max(CppTime, ADtime)
+        std::ofstream out("..\\..\\..\\..\\..\\..\\..\\output\\en-us\\Tape\\CppAD\\Tests\\TapeRecordingTest\\Log.csv",
+            std::ofstream::out | std::ofstream::app);
+        out << std::endl << "Independent variable vectors size " << dimension << std::endl;
+        double ADtime = ADTapePerformance(out);
+        double CppTime = TapeDoubleTapePerformance(out);
+        out << "\tTime for AD<double> " << ADtime << " s" << std::endl;
+        out << "\tTime for TapeDouble " << CppTime << " s" << std::endl;
+        out << "\tThe relative difference  " << 1.0 * std::abs(CppTime - ADtime) / std::max(CppTime, ADtime)
             << std::endl ;
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
