@@ -23,7 +23,7 @@ limitations under the License.
 #include <boost/test/unit_test.hpp>
 #include <boost/timer.hpp>
 #include <cl/tape/tape.hpp>
-#include <cl/tape/tests/testutil.hpp>
+#include <cl/tape/util/testutil.hpp>
 
 static int dimension = (int)1e+7;
 

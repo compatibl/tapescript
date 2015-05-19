@@ -452,4 +452,6 @@ namespace cl
     };
 }
 
+#endif
+
 #endif // __cl_tape_util_testoutput_hpp__
