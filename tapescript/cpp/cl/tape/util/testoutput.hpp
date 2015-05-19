@@ -35,6 +35,7 @@ limitations under the License.
 #define BOOST_FILESYSTEM_NO_LIB
 #define BOOST_SYSTEM_NO_LIB
 
+#if defined CL_GRAPH_GEN
 #include <boost/system/config.hpp>
 #include <boost/filesystem.hpp>
 
@@ -84,12 +85,19 @@ namespace cl
             typedef std::true_type has_type;
         };
 
+        // default configuration
+        struct config
+        {
+            std::string root_ouput_path_ = "tests-output";
+        };
+
+#if defined CL_GRAPH_GEN
         // Path maker
         // args: path_out - ouput path
         //       , not_clear - if true the folder will not clean before output
         // return: path and title pair
         inline std::pair<std::string, std::string>
-            make_test_path(std::string const& path_out, bool not_clear = false)
+        make_test_path(std::string const& path_out, bool not_clear = false)
         {
                 try
                 {
@@ -141,14 +149,10 @@ namespace cl
 
                 return std::make_pair(std::string(), std::string());
             }
+#endif
     }
 
-    // default configuration
-    struct config
-    {
-        std::string root_ouput_path_ = "tests-output";
-    };
-
+#if defined CL_GRAPH_GEN
     // Stream of output 
     template <typename stream_type = std::ofstream>
     struct adjoint_test_out
@@ -386,7 +390,7 @@ namespace cl
         int struct_start_;
     };
 
-#if defined CL_GRAPH_GEN
+//#if defined CL_GRAPH_GEN
     typedef adjoint_test_out<> AdjointTestOutput;
 #else
     struct fake_stream

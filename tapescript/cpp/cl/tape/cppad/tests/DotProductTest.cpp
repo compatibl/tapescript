@@ -24,6 +24,7 @@ limitations under the License.
 #include <boost/timer.hpp>
 #include <cl/tape/tape.hpp>
 #include <cl/tape/tests/testutil.hpp>
+#include <cl/tape/util/testoutput.hpp>
 
 static int dimension = (int)1e+7;
 
@@ -34,6 +35,7 @@ static std::vector<double> rightVector = getRandomVector(dimension);
 template <typename ResultType, typename LType, typename RType >
 inline ResultType dotProduct(std::vector<LType> const& lhs, std::vector<RType> const& rhs)
 {
+    cl::AdjointTestOutput("") << ::std::endl;
     ResultType result = 0.0;
     typename
         std::vector<RType>::const_iterator begin = rhs.begin();
