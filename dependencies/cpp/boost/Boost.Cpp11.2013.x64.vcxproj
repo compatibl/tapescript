@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="filesystem\src\*.cpp" />
     <ClCompile Include="test\impl\**\*.ipp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
