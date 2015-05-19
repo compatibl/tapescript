@@ -1,0 +1,16 @@
+
+Test performance for dot product calculation without tape recording
+Dot product of two vectors (size 10000000 ) is being calculated
+Start of calculating: 19h 3m 34s 
+End of calculating
+	Time for AD<double> 0.1 s
+	Time for TapeDouble 0.13 s
+	The relative difference  0.230769
+
+Test performance for dot product calculation with tape recording
+Dot product of two vectors (size 10000000 ) is being calculated
+Start of calculating: 19h 3m 35s 
+End of calculating
+	Time for AD<double> 1.333 s
+	Time for TapeDouble 1.38 s
+	The relative difference  0.034058

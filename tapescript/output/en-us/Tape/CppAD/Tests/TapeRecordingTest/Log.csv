@@ -1,0 +1,9 @@
+
+Independent variable vectors size 10000000
+Start of tape recording : 18h 41m 50s 
+End of tape recording
+Start of tape recording : 18h 42m 9s 
+End of tape recording
+	Time for AD<double> 18.436 s
+	Time for TapeDouble 18.538 s
+	The relative difference  0.00550221

@@ -1,0 +1,108 @@
+
+Function Y =  2 * X[0] + X[1] is being tested at X[0] = 3, X[1] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0]) = 2
+Derivative of Y on X[1] in Forward mode calculated successfully. dY / dX (X[1]) = 1
+Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = 2, dY / dX (X[1]) = 1
+
+Function Y =  X[0] * X[1] is being tested at X[0] = 3, X[1] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0]) = 3
+Derivative of Y on X[1] in Forward mode calculated successfully. dY / dX (X[1]) = 3
+Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = 3, dY / dX (X[1]) = 3
+
+Function Y =  X[0]^4 is being tested at X[0] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0]) = 108
+Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = 108
+
+Function Y =  exp(-2.0 * X[0]) is being tested at X[0] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0]) = -0.0049575
+Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = -0.0049575
+
+Function Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = 3, X[1] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0]) = -0.14112
+Derivative of Y on X[1] in Forward mode calculated successfully. dY / dX (X[1]) = -0.989992
+Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = -0.14112, dY / dX (X[1]) = -0.989992
+
+Function Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = 3
+Sequence of operations in a tape is fixed according to the value of X[0]
+Y = max(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]
+because X[0]*X[0] > 2 - X[0] at X[0] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 3) = 6
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 3) = 6
+Check derivative of Y at X[0] =1
+Derivative is correspond to Y = X[0]*X[0]
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = 2
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = 2
+Check derivative of Y at X[0] = 0
+Derivative is correspond to Y = X[0]*X[0], but for X[0] = 0 Y should be 2 - X[0]
+Derivative of Y on X[0] in Forward mode calculated unsuccessfully. dY / dX (X[0] = 0) = 0
+Derivative of Y on X[0] in Reverse mode calculated unsuccessfully. dY / dX (X[0] = 0) = 0
+For successflul calculation form of function should be changed.
+Function Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = 0
+Sequence of operations in a tape is fixed according to the value of X[0]
+Y = max(X[0]*X[0], 2 - X[0]) =  2 - X[0]
+because X[0]*X[0] < 2 - X[0] at X[0] = 0
+Check derivative of Y at X[0] =0
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 0) = -1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 0) = -1
+Check derivative of Y at X[0] =1
+Derivative is correspond to Y = 2 - X[0].
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = -1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = -1
+
+Function Y = min(X[0]*X[0], 2 - X[0]) is being tested at X[0] = 3
+Sequence of operations in a tape is fixed according to the value of X[0]
+Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]
+because X[0]*X[0] > 2 - X[0] at X[0] = 3
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 3) = -1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 3) = -1
+Check derivative of Y at X[0] =1
+Derivative is correspond to Y = 2 - X[0]
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = -1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = -1
+Check derivative of Y at X[0] =0
+Derivative is correspond to Y = 2 - X[0], but for X[0] = 0 Y should be X[0] * X[0]
+Derivative of Y on X[0] in Forward mode calculated unsuccessfully. dY / dX (X[0] = 0) = -1
+Derivative of Y on X[0] in Reverse mode calculated unsuccessfully. dY / dX (X[0] = 0) = -1
+For successflul calculation form of function should be changed.
+Function Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = 0
+Sequence of operations in a tape is fixed according to the value of X[0]
+Y = min(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]
+because X[0]*X[0] > 2 - X[0] at X[0] = 0
+Check derivative of Y at X[0] =0
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 0) = 0
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 0) = 0
+Check derivative of Y at X[0] =1
+Derivative is correspond to Y = X[0]*X[0]
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = 2
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = 2
+
+Function Y = min(X[0]*X[0], 2 - X[0]) is being tested at X[0] = 1
+Sequence of operations in a tape is fixed according to the value of X[0].
+As at X[0] = 1 right and left operand are equal, Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]
+due to the realization of min function.
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = -1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = -1
+Positions of operands are changed. 
+Function Y = min(2 - X[0], X[0]*X[0]) is being tested at X[0] = 1
+Sequence of operations in a tape is fixed according to the value of X[0].
+As at X[0] = 1 right and left operand are equal, Y = min(2 - X[0], X[0]*X[0]) = X[0]*X[0]
+due to the realization of min function.
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = 2
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = 2
+
+Function Y = min(-log(b - X[0]), H), b = 1, H = 1e+006 is being tested at X[0] = 0
+Sequence of operations in a tape is fixed according to the value of X[0].
+Y = min(-log(b - X[0]), H) =  -log(b - X[0]),
+because -log(b - X[0]) < H at X[0] = 0
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 0) = 1
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 0) = 1
+Check derivative of Y at X[0] = b - 1 / exp(10) = 0.999955
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 0.999955) = 22026.5 (should be big due to division by little number)
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 0.999955) = 22026.5 (should be big due to division by little number)
+Function Y = min(-log(b - X[0]), H), b = 1, H = 1e+006 is being tested at X[0] = 2
+Sequence of operations in a tape is fixed according to the value of X[0].
+Y = min(-log(b - X[0]), H) =  H,
+because -log(b - X[0]) < H at X[0] = 2
+Check derivative of Y at X[0] = b - 1 / exp(H) = 1
+Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = 1) = 0
+Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = 1) = 0

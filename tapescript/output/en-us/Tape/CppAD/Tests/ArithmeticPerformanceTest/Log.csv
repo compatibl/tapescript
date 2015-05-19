@@ -1,0 +1,27 @@
+Test performance of arithmetic operations for AD<double> and TapeDouble 19h 37m 0s 
+
+	Start and stop of tape recording
+	Time for AD<double> : 8.96e-006 s
+	Time for TapeDouble : 8.92e-006 s
+	Times ratio TapeDouble / AD<double> : 0.995536
+
+	Tape recording
+	Time for AD<double> : 5.34e-006 s
+	Time for TapeDouble : 5.36e-006 s
+	Times ratio TapeDouble / AD<double> : 1.00375
+
+	Forward mode
+	Time for AD<double> : 4.41e-006 s
+	Time for TapeDouble : 4.41e-006 s
+	Times ratio TapeDouble / AD<double> : 1
+
+	Reverse mode
+	Time for AD<double> : 5.82e-006 s
+	Time for TapeDouble : 5.81e-006 s
+	Times ratio TapeDouble / AD<double> : 0.998282
+
+	Jacobian calculation
+	Time for AD<double> : 1.499e-005 s
+	Time for TapeDouble : 1.512e-005 s
+	Times ratio TapeDouble / AD<double> : 1.00867
+
