@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="system\src\*.cpp" />
     <ClCompile Include="filesystem\src\*.cpp" />
     <ClCompile Include="test\impl\**\*.ipp" />
   </ItemGroup>
