@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_declare_hpp__
-#define __cl_tape_declare_hpp__
+#ifndef cl_tape_declare_hpp
+#define cl_tape_declare_hpp
 
 #include <cl/tape/import.hpp>
 
@@ -29,4 +29,4 @@ limitations under the License.
 #   define CL_TAPE CL_DECLARE
 #endif
 
-#endif // __cl_tape_declare_hpp__
+#endif // cl_tape_declare_hpp

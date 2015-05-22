@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_doublecl_hpp__
-#define __cl_tape_doublecl_hpp__
+#ifndef cl_tape_doublecl_hpp
+#define cl_tape_doublecl_hpp
 
 namespace cl
 {
@@ -121,4 +121,4 @@ namespace cl
 #include <cl/tape/impl/adjointref.hpp>
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
-#endif // __cl_tape_doublecl_hpp__
+#endif // cl_tape_doublecl_hpp

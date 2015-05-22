@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_util_testutil_hpp__
-#define __cl_tape_util_testutil_hpp__
+#ifndef cl_tape_util_testutil_hpp
+#define cl_tape_util_testutil_hpp
 
 #include <vector>
 #include <time.h>
@@ -63,4 +63,4 @@ inline std::string currentTime()
     return ss.str();
 }
 
-#endif // __cl_tape_util_testutil_hpp__
+#endif // cl_tape_util_testutil_hpp

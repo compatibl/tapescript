@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_util_testoutput_hpp__
-#define __cl_tape_util_testoutput_hpp__
+#ifndef cl_tape_util_testoutput_hpp
+#define cl_tape_util_testoutput_hpp
 
 #include <string>
 #include <vector>
@@ -454,4 +454,4 @@ namespace cl
 
 #endif
 
-#endif // __cl_tape_util_testoutput_hpp__
+#endif // cl_tape_util_testoutput_hpp

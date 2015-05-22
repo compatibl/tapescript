@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef __cl_tape_impl_doublelimits_hpp__
-#define __cl_tape_impl_doublelimits_hpp__
+#ifndef cl_tape_impl_doublelimits_hpp
+#define cl_tape_impl_doublelimits_hpp
 
 #include <cl/tape/impl/double.hpp>
 #include <limits>
@@ -65,4 +65,4 @@ namespace std
     };
 }
 
-#endif  // __cl_tape_impl_doublelimits_hpp__
+#endif  // cl_tape_impl_doublelimits_hpp
