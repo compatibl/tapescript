@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2003-2015 CompatibL
 
 This file is part of TapeScript, an open source library and tape encoding
@@ -32,14 +32,11 @@ limitations under the License.
 #include <boost/range/end.hpp>
 #include <boost/range/begin.hpp>
 
-#define BOOST_FILESYSTEM_NO_LIB
-#define BOOST_SYSTEM_NO_LIB
-
-#if defined CL_GRAPH_GEN
-#include <boost/system/config.hpp>
-#include <boost/filesystem.hpp>
-
-namespace fs = boost::filesystem; //!! Remove if this has scope outside the header
+#if defined CL_TAPE_TEST_OUTPUT
+#	include <boost/system/config.hpp>
+#	include <boost/filesystem.hpp>
+	namespace fs = boost::filesystem;
+#endif
 
 namespace cl
 {
@@ -91,7 +88,7 @@ namespace cl
             std::string root_ouput_path_ = "tests-output";
         };
 
-#if defined CL_GRAPH_GEN
+#if defined CL_TAPE_TEST_OUTPUT
         // Path maker
         // args: path_out - ouput path
         //       , not_clear - if true the folder will not clean before output
@@ -152,7 +149,7 @@ namespace cl
 #endif
     }
 
-#if defined CL_GRAPH_GEN
+#if defined CL_TAPE_TEST_OUTPUT
     // Stream of output 
     template <typename stream_type = std::ofstream>
     struct adjoint_test_out
@@ -390,7 +387,7 @@ namespace cl
         int struct_start_;
     };
 
-//#if defined CL_GRAPH_GEN
+
     typedef adjoint_test_out<> AdjointTestOutput;
 #else
     struct fake_stream
@@ -452,6 +449,5 @@ namespace cl
     };
 }
 
-#endif
 
 #endif // cl_tape_util_testoutput_hpp
