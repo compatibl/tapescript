@@ -35,7 +35,7 @@ namespace
 BOOST_AUTO_TEST_SUITE(DerivativesTest)
 
 
-BOOST_AUTO_TEST_CASE(Add)
+BOOST_AUTO_TEST_CASE(AddDerivativesTest)
 {
     TapeDoubleVector X(2, 3.0);
 
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(Add)
     output  << "Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = " << sy[0] << ", dY / dX (X[1]) = " << sy[1] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(Mult)
+BOOST_AUTO_TEST_CASE(MultDerivativesTest)
 {
     TapeDoubleVector X(2, 3.0);
 
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(Mult)
     output  << "Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = " << sy[0] << ", dY / dX (X[1]) = " << sy[1] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(Pow)
+BOOST_AUTO_TEST_CASE(PowDerivativesTest)
 {
     TapeDoubleVector X(1, 3.0);
 
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(Pow)
     output  << "Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = " << sy[0] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(Exp)
+BOOST_AUTO_TEST_CASE(ExpDerivativesTest)
 {
     TapeDoubleVector X(1, 3.0);
     Independent(X);
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE(Exp)
     output  << "Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = " << sy[0] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(CosSin)
+BOOST_AUTO_TEST_CASE(CosSinDerivativesTest)
 {
     TapeDoubleVector X(2, 3.0);
     Independent(X);
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE(CosSin)
     output  << "Derivative of Y on X in Reverse mode calculated successfully. dY / dX (X[0]) = " << sy[0] << ", dY / dX (X[1]) = " << sy[1] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(Max)
+BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
 {
     TapeDoubleVector X(1, 3.0);
     Independent(X);
@@ -286,7 +286,7 @@ BOOST_AUTO_TEST_CASE(Max)
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(Min)
+BOOST_AUTO_TEST_CASE(MinDerivativesTest)
 {
     TapeDoubleVector X(1, 3.0);
     Independent(X);
@@ -395,7 +395,7 @@ BOOST_AUTO_TEST_CASE(Min)
 
 }
 
-BOOST_AUTO_TEST_CASE(MinBound)
+BOOST_AUTO_TEST_CASE(MinBoundDerivativesTest)
 {
     TapeDoubleVector X(1, 1.0);
     TapeDoubleVector Y(1);
@@ -450,7 +450,7 @@ BOOST_AUTO_TEST_CASE(MinBound)
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
 }
 
-BOOST_AUTO_TEST_CASE(LogBarrier)
+BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
 {
     double b = 1;
     double H = pow(10, 6);

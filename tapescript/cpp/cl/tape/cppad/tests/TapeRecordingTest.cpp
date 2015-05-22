@@ -42,8 +42,7 @@ double ADTapePerformance(std::ofstream & log)
 
     for (CppAD::AD<double> item : ADvec)
     {
-        ADResult += CppAD::sin(item * CppAD::pow(ADResult, CppAD::sqrt(CppAD::pow(item, 2.0) * CppAD::exp(CppAD::cos(ADResult * CppAD::tan(item))))))
-            + CppAD::cos(CppAD::log(CppAD::exp(item * CppAD::cos(ADResult)) + CppAD::atan2(ADResult, item)));
+        ADResult += CppAD::sin(item * CppAD::pow(ADResult, CppAD::sqrt(CppAD::pow(item, 2.0) * CppAD::exp(CppAD::cos(ADResult * CppAD::tan(item))))));
     }
     CppAD::ADFun<double> f(ADvec, std::vector<CppAD::AD<double>>({ ADResult }));
     double time = timer.elapsed();
@@ -64,8 +63,7 @@ double TapeDoubleTapePerformance(std::ofstream & log)
 
     for (cl::TapeDouble item : CppVec)
     {
-        CppResult += std::sin(item * std::pow(CppResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(CppResult * std::tan(item))))))
-            + std::cos(std::log(std::exp(item * std::cos(CppResult)) + std::atan2(CppResult, item)));
+        CppResult += std::sin(item * std::pow(CppResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(CppResult * std::tan(item))))));
     }
     cl::TapeFunction<double> f(CppVec, std::vector<cl::TapeDouble>({ CppResult }));
     double time = timer.elapsed();
@@ -75,7 +73,7 @@ double TapeDoubleTapePerformance(std::ofstream & log)
 
 BOOST_AUTO_TEST_SUITE(TapeRecordingTest)
 
-    BOOST_AUTO_TEST_CASE(TapeRecordingPerformance)
+    BOOST_AUTO_TEST_CASE(TapeRecordingPerformanceTest)
 {
         std::ofstream out("..\\..\\..\\..\\..\\..\\..\\output\\en-us\\Tape\\CppAD\\Tests\\TapeRecordingTest\\Log.csv",
             std::ofstream::out | std::ofstream::app);

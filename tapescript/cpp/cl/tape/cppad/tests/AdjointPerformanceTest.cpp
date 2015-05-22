@@ -53,151 +53,155 @@ void adjointPerformanceTest()
     out << "Test adjoint vs finite differences method: " << std::endl;
 
     // Set number of independent variables.
-    size_t n = 10000;
+    size_t startSize = 9999;
+    size_t maxSize = 10000;
 
-    out << "Number of independent variables: " << n << std::endl;
-    out << "Number of dependent variables: 1" << std::endl;
-
-    TapeDoubleVector X(n, 2);
-    TapeDoubleVector Y(1);
-    boost::timer timer;
-
-    // Start timing of tape recording.
-    timer.restart();
-
-    // Start taping.
-    Independent(X);
-
-    out << "Start of tape recording: " << currentTime() << std::endl;
-
-    // Calculate functions.
-    Y[0] = calculate<TapeDouble>(X);
-
-    // End of tape recording. Declare vector Y as dependent variable.
-    TapeFunction<double> f(X, Y);
-
-    // Calculate time for tape recording.
-    double tapeRecordingTime = timer.elapsed();
-    std::cout << "\tTime for tape recording : " << tapeRecordingTime << " s" << std::endl;
-    out << "End of tape recording. " << std::endl;
-    out << "Time for tape recording: " << tapeRecordingTime << std::endl;
-
-    std::vector<double> sy, sx(n, 0.0), sw(1, 1), sf_Forward(n), sf_Reverse(n);
-
-
-    // Forward mode.
-    timer.restart();
-
-    out << "Start of differentiation in Forward mode: " << currentTime() << std::endl;
-
-    for (size_t i = 0; i < n; i++)
+    for (size_t n = startSize; n < maxSize; n++)
     {
-        sx[i] = 1;
-        sy = f.Forward(1, sx);
-        sf_Forward[i] = sy[0];
-        sx[i] = 0;
-    }
-    // Calculate time for forward mode.
-    double forwardTime = timer.elapsed();
-    std::cout << "\tTime for Forward mode : " << forwardTime << " s" << std::endl;
+        out << "Number of independent variables: " << n << std::endl;
+        out << "Number of dependent variables: 1" << std::endl;
 
-    out << "End of differentiation in Forward mode." << std::endl;
-    out << "Time for Forward mode: " << forwardTime << std::endl;
+        TapeDoubleVector X(n, 2);
+        TapeDoubleVector Y(1);
+        boost::timer timer;
 
-    // Reverse mode
-    timer.restart();
+        // Start timing of tape recording.
+        timer.restart();
 
-    out << "Start of differentiation in Reverse mode: " << currentTime() << std::endl;
+        // Start taping.
+        Independent(X);
 
-    for (size_t i = 0; i < 10; i++)
-        sf_Reverse = f.Reverse(1, sw);
-    // Calculate time for reverse mode.
-    double reverseTime = timer.elapsed()/10;
-    std::cout << "\tTime for Reverse mode : " << reverseTime << " s" << std::endl;
+        out << "Start of tape recording: " << currentTime() << std::endl;
 
-    out << "End of differentiation in Reverse mode." << std::endl;
-    out << "Time for Reverse mode: " << reverseTime << std::endl;
+        // Calculate functions.
+        Y[0] = calculate<TapeDouble>(X);
 
-    out << "Start of  differentiation using finite differences method: " << currentTime() << std::endl;
+        // End of tape recording. Declare vector Y as dependent variable.
+        TapeFunction<double> f(X, Y);
 
-    //Finite differences
-    timer.restart();
-    std::vector<double> x(n, 2.0), sf_Finite(n);
-    double h = 0.001;
-    double right, left;
-    for (size_t i = 0; i < n; i++)
-    {
-        //Calculate function with shifting x on value +h
-        x[i] += h;
-        right = calculate<double>(x);
-        //Calculate function with shifting x on value -h
-        x[i] -= 2 * h;
-        left = calculate<double>(x);
-        //Calculate central finite differences.
-        sf_Finite[i] = (right - left) / (2 * h);
-        x[i] += h;
-    }
-    // Calculate time for finite differences.
-    double finiteTime = timer.elapsed();
-    std::cout << "\tTime for Finite differences : " << finiteTime << " s" << std::endl;
+        // Calculate time for tape recording.
+        double tapeRecordingTime = timer.elapsed();
+        std::cout << "\tTime for tape recording : " << tapeRecordingTime << " s" << std::endl;
+        out << "End of tape recording. " << std::endl;
+        out << "Time for tape recording: " << tapeRecordingTime << std::endl;
 
-    out << "End of differentiation using finite  differences method." << std::endl;
-    out << "Time for finite differences method: " << finiteTime << std::endl;
+        std::vector<double> sy, sx(n, 0.0), sw(1, 1), sf_Forward(n), sf_Reverse(n);
 
 
-    //Check results.
-    bool result = true;
-    for (int i = 0; i < n; i++)
-    {
-        /*BOOST_CHECK_CLOSE(sf_Forward[i], sf_Finite[i], 1e-5);
-        BOOST_CHECK_CLOSE(sf_Forward[i], sf_Reverse[i], 1e-5);
-        BOOST_CHECK_CLOSE(sf_Reverse[i], sf_Finite[i], 1e-5);*/
+        // Forward mode.
+        timer.restart();
 
-        double maxabs = std::max(std::abs(sf_Finite[i]), std::max(std::abs(sf_Forward[i]), std::abs(sf_Reverse[i])));
-        double tollerance = 1e-5 * maxabs;
-        if (std::abs(sf_Forward[i] - sf_Finite[i]) > tollerance)
+        out << "Start of differentiation in Forward mode: " << currentTime() << std::endl;
+
+        for (size_t i = 0; i < n; i++)
         {
-            result = false;
-            BOOST_ERROR("\nForward mode and Finite difference derivative[" << i << "] mismatch."
-                        << "\n    forward mode:      " << sf_Forward[i]
-                        << "\n    finite difference: " << sf_Finite[i]
-                        << "\n    tolerance:  " << tollerance);
-            out << "\nForward mode and Finite difference derivative[" << i << "] mismatch:" << "forward mode" << sf_Forward[i] << "finite difference" << sf_Finite[i] << std::endl;
+            sx[i] = 1;
+            sy = f.Forward(1, sx);
+            sf_Forward[i] = sy[0];
+            sx[i] = 0;
+        }
+        // Calculate time for forward mode.
+        double forwardTime = timer.elapsed();
+        std::cout << "\tTime for Forward mode : " << forwardTime << " s" << std::endl;
 
-        }
-        if (std::abs(sf_Reverse[i] - sf_Finite[i]) > tollerance)
-        {
-            result = false;
-            BOOST_ERROR("\nReverse mode and Finite difference derivative[" << i << "] mismatch."
-                        << "\n    reverse mode:      " << sf_Reverse[i]
-                        << "\n    finite difference: " << sf_Finite[i]
-                        << "\n    tolerance:  " << tollerance);
-            out << "\n Reverse mode and Finite difference derivative[" << i << "] mismatch:" << "reverse mode" << sf_Reverse[i] << "finite difference" << sf_Finite[i] << std::endl;
-        }
-        if (std::abs(sf_Reverse[i] - sf_Forward[i]) > tollerance)
-        {
-            result = false;
-            BOOST_ERROR("\nForward mode and Reverse mode derivative[" << i << "] mismatch."
-                        << "\n    forward mode:      " << sf_Forward[i]
-                        << "\n    reverse mode:      " << sf_Reverse[i]
-                        << "\n    tolerance:  " << tollerance);
-            out << "\nForward mode and Reverse mode derivative[" << i << "] mismatch:" << "forward mode" << sf_Forward[i] << "reverse mode" << sf_Reverse[i] << std::endl;
-        }
-    }
+        out << "End of differentiation in Forward mode." << std::endl;
+        out << "Time for Forward mode: " << forwardTime << std::endl;
 
-    if (result)
-    {
-        out << "Forward, Reverse and Finite diference derivatives:" << std::endl;
+        // Reverse mode
+        timer.restart();
+
+        out << "Start of differentiation in Reverse mode: " << currentTime() << std::endl;
+
+        for (size_t i = 0; i < 10; i++)
+            sf_Reverse = f.Reverse(1, sw);
+        // Calculate time for reverse mode.
+        double reverseTime = timer.elapsed() / 10;
+        std::cout << "\tTime for Reverse mode : " << reverseTime << " s" << std::endl;
+
+        out << "End of differentiation in Reverse mode." << std::endl;
+        out << "Time for Reverse mode: " << reverseTime << std::endl;
+
+        out << "Start of  differentiation using finite differences method: " << currentTime() << std::endl;
+
+        //Finite differences
+        timer.restart();
+        std::vector<double> x(n, 2.0), sf_Finite(n);
+        double h = 0.001;
+        double right, left;
+        for (size_t i = 0; i < n; i++)
+        {
+            //Calculate function with shifting x on value +h
+            x[i] += h;
+            right = calculate<double>(x);
+            //Calculate function with shifting x on value -h
+            x[i] -= 2 * h;
+            left = calculate<double>(x);
+            //Calculate central finite differences.
+            sf_Finite[i] = (right - left) / (2 * h);
+            x[i] += h;
+        }
+        // Calculate time for finite differences.
+        double finiteTime = timer.elapsed();
+        std::cout << "\tTime for Finite differences : " << finiteTime << " s" << std::endl;
+
+        out << "End of differentiation using finite  differences method." << std::endl;
+        out << "Time for finite differences method: " << finiteTime << std::endl;
+
+
+        //Check results.
+        bool result = true;
         for (int i = 0; i < n; i++)
         {
-            out << "dy / dx[" << i << "] : " << sf_Forward[i] << "\t " << sf_Reverse[i] << "\t " << sf_Finite[i] << std::endl;
-        }
-    }
+            /*BOOST_CHECK_CLOSE(sf_Forward[i], sf_Finite[i], 1e-5);
+            BOOST_CHECK_CLOSE(sf_Forward[i], sf_Reverse[i], 1e-5);
+            BOOST_CHECK_CLOSE(sf_Reverse[i], sf_Finite[i], 1e-5);*/
 
-    out << std::endl << std::endl;
+            double maxabs = std::max(std::abs(sf_Finite[i]), std::max(std::abs(sf_Forward[i]), std::abs(sf_Reverse[i])));
+            double tollerance = 1e-5 * maxabs;
+            if (std::abs(sf_Forward[i] - sf_Finite[i]) > tollerance)
+            {
+                result = false;
+                BOOST_ERROR("\nForward mode and Finite difference derivative[" << i << "] mismatch."
+                            << "\n    forward mode:      " << sf_Forward[i]
+                            << "\n    finite difference: " << sf_Finite[i]
+                            << "\n    tolerance:  " << tollerance);
+                out << "\nForward mode and Finite difference derivative[" << i << "] mismatch:" << "forward mode" << sf_Forward[i] << "finite difference" << sf_Finite[i] << std::endl;
+
+            }
+            if (std::abs(sf_Reverse[i] - sf_Finite[i]) > tollerance)
+            {
+                result = false;
+                BOOST_ERROR("\nReverse mode and Finite difference derivative[" << i << "] mismatch."
+                            << "\n    reverse mode:      " << sf_Reverse[i]
+                            << "\n    finite difference: " << sf_Finite[i]
+                            << "\n    tolerance:  " << tollerance);
+                out << "\n Reverse mode and Finite difference derivative[" << i << "] mismatch:" << "reverse mode" << sf_Reverse[i] << "finite difference" << sf_Finite[i] << std::endl;
+            }
+            if (std::abs(sf_Reverse[i] - sf_Forward[i]) > tollerance)
+            {
+                result = false;
+                BOOST_ERROR("\nForward mode and Reverse mode derivative[" << i << "] mismatch."
+                            << "\n    forward mode:      " << sf_Forward[i]
+                            << "\n    reverse mode:      " << sf_Reverse[i]
+                            << "\n    tolerance:  " << tollerance);
+                out << "\nForward mode and Reverse mode derivative[" << i << "] mismatch:" << "forward mode" << sf_Forward[i] << "reverse mode" << sf_Reverse[i] << std::endl;
+            }
+        }
+
+        if (result)
+        {
+            out << "Forward, Reverse and Finite diference derivatives:" << std::endl;
+            for (int i = 0; i < n; i++)
+            {
+                out << "dy / dx[" << i << "] : " << sf_Forward[i] << "\t " << sf_Reverse[i] << "\t " << sf_Finite[i] << std::endl;
+            }
+        }
+
+        out << std::endl << std::endl;
+    }
 }
 
-void JacobianTest()
+void jacobianPerformanceTest()
 {
     std::cout << "\nTest adjoint Jacobian vs finite differences method:" << std::endl;
 
@@ -333,9 +337,9 @@ void JacobianTest()
                         << "\n  finite differences method: " << JacobianFinite[i]
                         << "\n  tollerance: " << tollerance);
             out << "\nAdjoint derivative and finite differences derivative at position " << i << " mismatch."
-                         << "\n  adjoint: " << Jacobian[i]
-                         << "\n  finite differences method: " << JacobianFinite[i]
-                         << "\n  tollerance: " << tollerance;
+                << "\n  adjoint: " << Jacobian[i]
+                << "\n  finite differences method: " << JacobianFinite[i]
+                << "\n  tollerance: " << tollerance;
         }
     }
     out << "Derivatives Jacobian adjoint and Jacobian finite differences: " << std::endl;
@@ -357,14 +361,14 @@ void JacobianTest()
 
 BOOST_AUTO_TEST_SUITE(AdjointPerformanceTest)
 
-BOOST_AUTO_TEST_CASE(adjPerformTest)
+BOOST_AUTO_TEST_CASE(adjointPerformanceTest)
 {
     adjointPerformanceTest();
 }
 
-BOOST_AUTO_TEST_CASE(jacobianTest)
+BOOST_AUTO_TEST_CASE(jacobianPerformanceTest)
 {
-    JacobianTest();
+    jacobianPerformanceTest();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

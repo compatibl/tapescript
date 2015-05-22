@@ -122,12 +122,12 @@ void performanceTestWithTape()
 
 BOOST_AUTO_TEST_SUITE(DotProductTest)
 
-BOOST_AUTO_TEST_CASE(WithoutTapeRecord)
+BOOST_AUTO_TEST_CASE(WithoutTapeRecordingDotProductTest)
 {
     performanceTestWithoutTape();
 }
 
-BOOST_AUTO_TEST_CASE(WithTapeRecord)
+BOOST_AUTO_TEST_CASE(WithTapeRecordingDotProductTest)
 {
     performanceTestWithTape();
 }
