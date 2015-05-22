@@ -147,15 +147,10 @@ void adjointPerformanceTest()
         out << "End of differentiation using finite  differences method." << std::endl;
         out << "Time for finite differences method: " << finiteTime << std::endl;
 
-
         //Check results.
         bool result = true;
         for (int i = 0; i < n; i++)
         {
-            /*BOOST_CHECK_CLOSE(sf_Forward[i], sf_Finite[i], 1e-5);
-            BOOST_CHECK_CLOSE(sf_Forward[i], sf_Reverse[i], 1e-5);
-            BOOST_CHECK_CLOSE(sf_Reverse[i], sf_Finite[i], 1e-5);*/
-
             double maxabs = std::max(std::abs(sf_Finite[i]), std::max(std::abs(sf_Forward[i]), std::abs(sf_Reverse[i])));
             double tollerance = 1e-5 * maxabs;
             if (std::abs(sf_Forward[i] - sf_Finite[i]) > tollerance)
@@ -361,12 +356,12 @@ void jacobianPerformanceTest()
 
 BOOST_AUTO_TEST_SUITE(AdjointPerformanceTest)
 
-BOOST_AUTO_TEST_CASE(adjointPerformanceTest)
+BOOST_AUTO_TEST_CASE(AdjointPerformanceTest)
 {
     adjointPerformanceTest();
 }
 
-BOOST_AUTO_TEST_CASE(jacobianPerformanceTest)
+BOOST_AUTO_TEST_CASE(JacobianPerformanceTest)
 {
     jacobianPerformanceTest();
 }
