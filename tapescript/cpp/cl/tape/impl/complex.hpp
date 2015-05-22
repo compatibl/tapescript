@@ -64,7 +64,7 @@ namespace std
         {    }
 
         inline real_type real(real_type const& right)
-        {	
+        {
             if (mode_ & RealBase)
             {
                 complex_.real(right.value());
@@ -93,7 +93,7 @@ namespace std
         }
 
         inline real_type real() const
-        {	
+        {
             if (mode_ & RealBase)
             {
                 return complex_.real();
@@ -111,7 +111,7 @@ namespace std
         }
 
         inline complex_type& operator=(const real_type& right)
-        {	
+        {
             if (mode_ & RealBase)
             {
                 complex_.real(right.value());

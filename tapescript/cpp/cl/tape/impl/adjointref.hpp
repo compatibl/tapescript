@@ -46,9 +46,12 @@ namespace cl
 
     typedef cl::TapeDouble t_double;
 
-    template <typename Base
-        = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
-    struct TapeRef;
+    namespace tapescript
+    {
+        template <typename Base
+            = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
+        struct TapeRef;
+    }
 
     template <typename Type>
     inline Type& deref(ref_type<Type> v)
@@ -58,114 +61,100 @@ namespace cl
 
     /// Declaration deref for adjoint ref class
     template <typename Type>
-    inline typename TapeRef<Type>::inner_type&
-    deref(ref_type<TapeRef<Type> > v);
+    inline typename tapescript::TapeRef<Type>::inner_type&
+    deref(ref_type<tapescript::TapeRef<Type> > v);
 
     template <typename Type>
-    inline typename TapeRef<Type>::inner_type&
-    deref(ref_type<TapeRef<Type> const> v);
-
-    ///  This template is adapter from cl::TapeDouble functionality to adjoint functionality
-    /// The Base class can be deferent
-    template <typename Base>
-    struct TapeRef
-    {
-        typedef TapeInnerType<Base> inner_type;
-        typedef inner_type* inner_type_ptr;
-
-        /// Default constructor
-        TapeRef() : ptr_(0)
-        {}
-
-        /// This is created from adjoint type CppAD::AD, adolc and others
-        TapeRef(inner_type& ref) : ptr_(&ref)
-        {}
-
-        /// copy constructor is default
-        TapeRef(TapeRef const&) = default;
-
-        /// operator to conversion from adjoint type
-        TapeRef<Base>& operator = (TapeRef<Base>& v)
-        {
-            ptr_ = &v;
-            return *this;
-        }
-
-        inner_type operator -()
-        {
-            assert(ptr_);
-            return ptr_->operator -();
-        }
-
-        /// operator to conversion from adjoint type
-        TapeRef<Base>& operator = (inner_type& v)
-        {
-            ptr_ = &v;
-            return *this;
-        }
-
-        /// operator from conversation
-        TapeRef<Base>& operator = (cl::TapeDouble const& tv)
-        {
-            if (!ptr_)
-            {
-                ptr_ = new inner_type(tv.operator inner_type());
-            }
-            else {
-                *ptr_ = tv.value();
-            }
-
-            return *this;
-        }
-
-        template <typename Right>
-        TapeRef<Base>& operator += (Right const& val)
-        {
-            ref() += deref(std::ref(val));
-            return *this;
-        }
-
-        template <typename Right>
-        TapeRef<Base>& operator -= (Right const& val)
-        {
-            ref() -= deref(std::ref(val));
-            return *this;
-        }
-
-        operator t_double () const
-        {
-            assert(ptr_);
-            return t_double(*ptr_);
-        }
-
-        inner_type_ptr ptr_;
-    private:
-        inline inner_type& ref()
-        {
-            assert(ptr_);
-            return *ptr_;
-        }
-        // TODO: if we'll should notify to push_, resize, set and similar insert event
-        // typedef std::tuple<inner_type_ptr, std::vector<inner_type> > agrs_functionality_type;
-        // std::function<void (std::pair<inner_type_ptr, )>
-    };
-
-    template <typename Type>
-    inline typename TapeRef<Type >::inner_type&
-    deref(ref_type<TapeRef<Type > > v)
-    {
-        return *(v.get().ptr_);
-    }
-
-    template <typename Type>
-    inline typename TapeRef<Type>::inner_type&
-    deref(ref_type<TapeRef<Type> const> v)
-    {
-        return *(v.get().ptr_);
-    }
+    inline typename tapescript::TapeRef<Type>::inner_type&
+    deref(ref_type<tapescript::TapeRef<Type> const> v);
 
     namespace tapescript
     {
+        ///  This template is adapter from cl::TapeDouble functionality to adjoint functionality
+        /// The Base class can be deferent
+        template <typename Base>
+        struct TapeRef
+        {
+            typedef TapeInnerType<Base> inner_type;
+            typedef inner_type* inner_type_ptr;
+
+            /// Default constructor
+            TapeRef() : ptr_(0)
+            {}
+
+            /// This is created from adjoint type CppAD::AD, adolc and others
+            TapeRef(inner_type& ref) : ptr_(&ref)
+            {}
+
+            /// copy constructor is default
+            TapeRef(TapeRef const&) = default;
+
+            /// operator to conversion from adjoint type
+            TapeRef<Base>& operator = (TapeRef<Base>& v)
+            {
+                ptr_ = &v;
+                return *this;
+            }
+
+            inner_type operator -()
+            {
+                assert(ptr_);
+                return ptr_->operator -();
+            }
+
+            /// operator to conversion from adjoint type
+            TapeRef<Base>& operator = (inner_type& v)
+            {
+                ptr_ = &v;
+                return *this;
+            }
+
+            /// operator from conversation
+            TapeRef<Base>& operator = (cl::TapeDouble const& tv)
+            {
+                if (!ptr_)
+                {
+                    ptr_ = new inner_type(tv.operator inner_type());
+                }
+                else {
+                    *ptr_ = tv.value();
+                }
+
+                return *this;
+            }
+
+            template <typename Right>
+            TapeRef<Base>& operator += (Right const& val)
+            {
+                ref() += deref(std::ref(val));
+                return *this;
+            }
+
+            template <typename Right>
+            TapeRef<Base>& operator -= (Right const& val)
+            {
+                ref() -= deref(std::ref(val));
+                return *this;
+            }
+
+            operator t_double () const
+            {
+                assert(ptr_);
+                return t_double(*ptr_);
+            }
+
+            inner_type_ptr ptr_;
+        private:
+            inline inner_type& ref()
+            {
+                assert(ptr_);
+                return *ptr_;
+            }
+            // TODO: if we'll should notify to push_, resize, set and similar insert event
+            // typedef std::tuple<inner_type_ptr, std::vector<inner_type> > agrs_functionality_type;
+            // std::function<void (std::pair<inner_type_ptr, )>
+        };
+
         template <typename Vector = AdjVectorBase>
         struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
@@ -209,6 +198,21 @@ namespace cl
             }
         };
     }
+
+    template <typename Type>
+    inline typename tapescript::TapeRef<Type >::inner_type&
+    deref(ref_type<tapescript::TapeRef<Type > > v)
+    {
+        return *(v.get().ptr_);
+    }
+
+    template <typename Type>
+    inline typename tapescript::TapeRef<Type>::inner_type&
+    deref(ref_type<tapescript::TapeRef<Type> const> v)
+    {
+        return *(v.get().ptr_);
+    }
+
 }
 
 namespace std
@@ -337,7 +341,7 @@ namespace cl
                 }
 
 
-            std::vector<TapeRef<> > refs_;
+            std::vector<tapescript::TapeRef<> > refs_;
 
         private:
             TapeDoubleValueVector vec_;
@@ -384,14 +388,14 @@ namespace cl
         enum { is_convertible_value = !std::is_same<Type, Value>::value };
 
         // calculate convertible type
-        typedef typename cl::detail::if_c<
+        typedef typename cl::tapescript::if_c<
             !is_convertible_value
                 , typename Type::value_type
                 , Value>::type converted_value_type;
 
         // When we return value for Independent adaptation we shuold return reference
         // otherway we should return converted value
-        typedef typename cl::detail::if_c<is_convertible_value
+        typedef typename cl::tapescript::if_c<is_convertible_value
             , converted_value_type&, converted_value_type&>::type ret_value_type;
 
         /// Convertion when we have requested
@@ -424,7 +428,7 @@ namespace cl
         static converted_value_type&
         conv_2value(Type& v, Branch)
         {
-            return conv_2value__(cl::detail::value(v), Branch());
+            return conv_2value__(cl::tapescript::value(v), Branch());
         }
 
         ///
@@ -461,7 +465,7 @@ namespace cl
         static converted_value_type const&
             cconv_2value(Type const& v, Branch)
         {
-            return cconv_2value__(cl::detail::cvalue(v), Branch());
+            return cconv_2value__(cl::tapescript::cvalue(v), Branch());
         }
     };
 
@@ -484,14 +488,14 @@ namespace cl
         enum { is_convertible_value = !std::is_same<Type, Value>::value };
 
         // calculate convertible type
-        typedef typename cl::detail::if_c<
+        typedef typename cl::tapescript::if_c<
             !is_convertible_value
                 , typename Type::value_type
                 , Value>::type converted_value_type;
 
         // When we return value for Independent adaptation we should return reference
         // otherway we should return converted value
-        typedef typename cl::detail::if_c<is_convertible_value
+        typedef typename cl::tapescript::if_c<is_convertible_value
             , converted_value_type&, converted_value_type&>::type ret_value_type;
 
         /// Convertion when we have requested
@@ -790,7 +794,7 @@ namespace cl
 namespace cl_ext
 {
     template <int const_, typename Then, typename Else>
-    using if_c = cl::detail::if_c<const_, Then, Else>;
+    using if_c = cl::tapescript::if_c<const_, Then, Else>;
 
     struct TapeRefOperators;
 
@@ -799,19 +803,19 @@ namespace cl_ext
     // as a variant we should use clearly top namespace
     // it can use, but conflicts possibility very hight
     template <typename Base, typename Right>
-    struct custom_operator<cl::TapeRef<Base>, Right>
+    struct custom_operator<cl::tapescript::TapeRef<Base>, Right>
     {
         typedef TapeRefOperators type;
     };
 
     template <typename Left, typename Base>
-    struct custom_operator<Left, cl::TapeRef<Base> >
+    struct custom_operator<Left, cl::tapescript::TapeRef<Base> >
     {
         typedef TapeRefOperators type;
     };
 
     template <typename Base>
-    struct custom_operator<cl::TapeRef<Base>, cl::TapeRef<Base> >
+    struct custom_operator<cl::tapescript::TapeRef<Base>, cl::tapescript::TapeRef<Base> >
     {
         typedef TapeRefOperators type;
     };
@@ -860,7 +864,7 @@ namespace cl_ext
 
 
     template <typename Base>
-    inline std::ostream& operator << (std::ostream &o, cl::TapeRef<Base> const& adj)
+    inline std::ostream& operator << (std::ostream &o, cl::tapescript::TapeRef<Base> const& adj)
     {
         return (o << *adj.ptr_);
     }

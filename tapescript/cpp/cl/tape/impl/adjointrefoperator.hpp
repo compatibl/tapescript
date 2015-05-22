@@ -23,34 +23,34 @@ limitations under the License.
 #ifndef __cl_tape_impl_adjointrefoperator_hpp__
 #define __cl_tape_impl_adjointrefoperator_hpp__
 
-#define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                   \
-    template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                   \
-    struct operator_traits<cl::TapeRef<Base>, FrameworkType, oper                                                \
-                , LeftConst, RightConst, TapeRefOperators>                                                   \
-                : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                \
-    {};                                                                                                         \
-                                                                                                                \
-    template <typename FrameworkType, typename Base, typename LeftConst, typename RightConst>                   \
-    struct operator_traits<FrameworkType, cl::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>   \
-        : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                        \
-    {};                                                                                                         \
-                                                                                                                \
-    template <typename Base, typename LeftConst, typename RightConst>                                           \
-    struct operator_traits<cl::TapeRef<Base>, cl::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>\
-        : operator_ref_<typename cl::TapeRef<Base>::inner_type, oper, std::false_type >                        \
-    {};                                                                                                         \
+#define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                                           \
+    template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                                           \
+    struct operator_traits<cl::tapescript::TapeRef<Base>, FrameworkType, oper                                                           \
+                , LeftConst, RightConst, TapeRefOperators>                                                                              \
+                : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                             \
+    {};                                                                                                                                 \
+                                                                                                                                        \
+    template <typename FrameworkType, typename Base, typename LeftConst, typename RightConst>                                           \
+    struct operator_traits<FrameworkType, cl::tapescript::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>                 \
+        : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                                     \
+    {};                                                                                                                                 \
+                                                                                                                                        \
+    template <typename Base, typename LeftConst, typename RightConst>                                                                   \
+    struct operator_traits<cl::tapescript::TapeRef<Base>, cl::tapescript::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators> \
+        : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                                     \
+    {};                                                                                                                                 \
 
-#define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                             \
-    template <typename Return>                                              \
-    struct operator_ref_<Return, oper, std::false_type>                     \
-    {                                                                       \
-        typedef Return type;                                                \
-    public:                                                                 \
-        template <typename left_impl, typename right_impl>                  \
-        inline type operator()(left_impl& left, right_impl const& right)    \
-        {                                                                   \
-            return deref(std::ref(left)) oper_i deref(std::ref(right));     \
-        }                                                                   \
-    };                                                                      \
+#define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                                                                                         \
+    template <typename Return>                                                                                                          \
+    struct operator_ref_<Return, oper, std::false_type>                                                                                 \
+    {                                                                                                                                   \
+        typedef Return type;                                                                                                            \
+    public:                                                                                                                             \
+        template <typename left_impl, typename right_impl>                                                                              \
+        inline type operator()(left_impl& left, right_impl const& right)                                                                \
+        {                                                                                                                               \
+            return deref(std::ref(left)) oper_i deref(std::ref(right));                                                                 \
+        }                                                                                                                               \
+    };                                                                                                                                  \
 
 #endif // __cl_tape_impl_adjointrefoperator_hpp__
