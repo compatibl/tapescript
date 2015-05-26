@@ -35,12 +35,14 @@ namespace cl
 {
     namespace tapescript
     {
+        /// Take value from tape double 
         template <typename TapeType>
         inline typename TapeType::value_type const& cvalue(TapeType const& tv)
         {
             return tv.value_;
         }
 
+        /// Take const value from tape double 
         template <typename TapeType>
         inline typename TapeType::value_type& value(TapeType& tv)
         {
@@ -127,6 +129,7 @@ namespace cl_ext
         typedef basic_operators type;
     };
 
+    /// Base template for operator override
     template <typename Left, typename Right, typename Operator
         , typename left_convertible = typename cl::tapescript::is_has_operator_real<Left>::type
         , typename right_convertible = typename cl::tapescript::is_has_operator_real<Right>::type
@@ -135,6 +138,7 @@ namespace cl_ext
     {
     };
 
+    /// Operator + for class which has conversion to double
     template <typename Left, typename Right>
     struct operator_traits<Left, Right, struct oper_plus, std::true_type, std::true_type, basic_operators>
     {
@@ -154,6 +158,7 @@ namespace cl_ext
         }
     };
 
+    /// Operator - for class which has conversion to double
     template <typename Left, typename Right>
     struct operator_traits<Left, Right, struct oper_minus, std::true_type, std::true_type, basic_operators>
     {
@@ -173,6 +178,7 @@ namespace cl_ext
         }
     };
 
+    /// Operator + for class which has conversion to double for right hand side argument
     template <typename Left, typename RC>
     struct operator_traits<Left, cl::TapeDouble, struct oper_plus, std::true_type, RC, basic_operators>
     {
@@ -192,6 +198,7 @@ namespace cl_ext
         }
     };
 
+    /// Operator + for class which has conversion to double for right hand side argument
     template <typename Right, typename LC>
     struct operator_traits<cl::TapeDouble, Right, struct oper_plus, LC, std::true_type, basic_operators>
     {
@@ -211,6 +218,7 @@ namespace cl_ext
         }
     };
 
+    /// Operator - for class which has conversion to double for left hand side argument
     template <typename Left, typename RC>
     struct operator_traits<Left, cl::TapeDouble, struct oper_minus, std::true_type, RC, basic_operators>
     {
@@ -230,6 +238,7 @@ namespace cl_ext
         }
     };
 
+    /// Operator - for class which has conversion to double for right hand side argument
     template <typename Right, typename LC>
     struct operator_traits<cl::TapeDouble, Right, struct oper_minus, LC, std::true_type, basic_operators>
     {

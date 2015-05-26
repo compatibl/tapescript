@@ -29,7 +29,7 @@ namespace ext = CppAD;
 
 namespace std
 {
-    // The complex partial specialization
+    /// <summary>The complex type based on tape double.</summary>
     template<>
     class complex<cl::TapeDouble>
     {
@@ -41,8 +41,7 @@ namespace std
 
         enum en_complex_type { None = 0 , RealBase = 1 >> 1, ComplBase = 1 >> 2, BothBase = 1 >> 3 };
 
-        //  If we initialized by certain values this is real base type
-        // and type of valaue is
+        // Initialization from real and imaginary parts
         complex(real_type const& real, real_type const& imag)
             : complex_(real.value(), imag.value())
             , value_()

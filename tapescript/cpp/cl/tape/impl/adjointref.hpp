@@ -25,9 +25,7 @@ limitations under the License.
 
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
-///     Adaptation segment
-/// It is use for convertible esences providing
-/// in general we can have many frameworks for using
+/// <summary>Adapter for types convertible to double.</summary>
 namespace cl
 {
 #if defined CL_TAPE_CPPAD
@@ -40,7 +38,9 @@ namespace cl
     template <typename Base>
     struct TapeInnerType {    };
 #endif
-
+    /// <summary>Alias on std reference wrapper type
+    /// it used for prevented native type specification
+    /// for adapted types.</summary>
     template <typename Type>
     using ref_type = std::reference_wrapper<Type>;
 
@@ -48,22 +48,25 @@ namespace cl
 
     namespace tapescript
     {
+        /// <summary>Need for referenced values.</summary>
         template <typename Base
             = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
         struct TapeRef;
     }
 
+    /// <summary>Reference extractor.</summary>
     template <typename Type>
     inline Type& deref(ref_type<Type> v)
     {
         return v.get();
     }
 
-    /// Declaration deref for adjoint ref class
+    /// <summary>Declaration dereference for adjoint reference class.</summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> > v);
 
+    /// <summary>Declaration dereference for adjoint reference const class.</summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> const> v);
@@ -155,6 +158,7 @@ namespace cl
             // std::function<void (std::pair<inner_type_ptr, )>
         };
 
+        /// <summary>Iterator by tape double accessors, used for the algorithmic adjoint.</summary>
         template <typename Vector = AdjVectorBase>
         struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
@@ -199,6 +203,7 @@ namespace cl
         };
     }
 
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type >::inner_type&
     deref(ref_type<tapescript::TapeRef<Type > > v)
@@ -206,6 +211,7 @@ namespace cl
         return *(v.get().ptr_);
     }
 
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> const> v)
@@ -217,6 +223,7 @@ namespace cl
 
 namespace std
 {
+    /// <summary>Implementation of std traits for algorithmic use.</summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
         : std::true_type{};
 }
@@ -332,13 +339,13 @@ namespace cl
             typename std::enable_if<std::_Is_iterator<Iter>::value, iterator>::type
                 insert(const_iterator _Where, Iter first, Iter last)
             {
-                    size_type _Off = _Where.first - this->vec_.begin();
-                    vec_.insert(_Where.first, first.first, last.first);
-                    this->assign_refs_();
+                size_type _Off = _Where.first - this->vec_.begin();
+                vec_.insert(_Where.first, first.first, last.first);
+                this->assign_refs_();
 
-                    CL_CHECK_ELEMENTS;
-                    return begin() + _Off;
-                }
+                CL_CHECK_ELEMENTS;
+                return begin() + _Off;
+            }
 
 
             std::vector<tapescript::TapeRef<> > refs_;
@@ -359,318 +366,318 @@ namespace cl
             P* ptr_;
         };
 
-    //    We should have convertible value type
-    template <typename Type>
-    struct vector_value
-    {
-        typedef Type type;
-    };
-
-    // calculation this place if vector has value, we can have different
-    // value type and converter to it
-    template <typename Type>
-    struct vector_value<std::vector<Type, std::allocator<Type>>>
-    {
-        typedef Type type;
-    };
-
-    // Adapted type calculation inside AdaptVector
-    template <typename Vector
-                , typename Value>
-    struct adapt_type_convention
-    {
-        // Perhaps it's std vector and we can get value_type from it
-        typedef typename
-            Vector::value_type Type;
-
-        //  If requested value not equals of vector::value_type
-        // it can happens inside Jacobian
-        enum { is_convertible_value = !std::is_same<Type, Value>::value };
-
-        // calculate convertible type
-        typedef typename cl::tapescript::if_c<
-            !is_convertible_value
-                , typename Type::value_type
-                , Value>::type converted_value_type;
-
-        // When we return value for Independent adaptation we shuold return reference
-        // otherway we should return converted value
-        typedef typename cl::tapescript::if_c<is_convertible_value
-            , converted_value_type&, converted_value_type&>::type ret_value_type;
-
-        /// Convertion when we have requested
-        /// value type is not equals vector::value type
+        // We should have convertible value type
         template <typename Type>
-        static converted_value_type
-        conv_2value__(Type const& v, std::true_type)
+        struct vector_value
         {
-            // should be check is it params
-            // we can't make it from
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
-#pragma message ("conv_2value : " __FUNCSIG__)
-            return converted_value_type();
-#else
-            return ext::Value(v);
-#endif
-        }
+            typedef Type type;
+        };
 
-        // Get same value when Vector::value_type == Value
+        // calculation this place if vector has value, we can have different
+        // value type and converter to it
         template <typename Type>
-        static converted_value_type&
-        conv_2value__(Type& v, std::false_type)
+        struct vector_value<std::vector<Type, std::allocator<Type>>>
         {
-            // should be check is it params
-            // we can't make it from
-            return v;
-        }
+            typedef Type type;
+        };
 
-        template <typename Type, typename Branch>
-        static converted_value_type&
-        conv_2value(Type& v, Branch)
+        // Adapted type calculation inside AdaptVector
+        template <typename Vector
+                    , typename Value>
+        struct adapt_type_convention
         {
-            return conv_2value__(cl::tapescript::value(v), Branch());
-        }
+            // Perhaps it's std vector and we can get value_type from it
+            typedef typename
+                Vector::value_type Type;
 
-        ///
-        template <typename Type>
-        static converted_value_type
-        cconv_2value__(Type const& v, std::true_type)
+            //  If requested value not equals of vector::value_type
+            // it can happens inside Jacobian
+            enum { is_convertible_value = !std::is_same<Type, Value>::value };
+
+            // calculate convertible type
+            typedef typename cl::tapescript::if_c<
+                !is_convertible_value
+                    , typename Type::value_type
+                    , Value>::type converted_value_type;
+
+            // When we return value for Independent adaptation we shuold return reference
+            // otherway we should return converted value
+            typedef typename cl::tapescript::if_c<is_convertible_value
+                , converted_value_type&, converted_value_type&>::type ret_value_type;
+
+            /// Convertion when we have requested
+            /// value type is not equals vector::value type
+            template <typename Type>
+            static converted_value_type
+            conv_2value__(Type const& v, std::true_type)
+            {
+                // should be check is it params
+                // we can't make it from
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
+    #pragma message ("conv_2value : " __FUNCSIG__)
+                return converted_value_type();
+    #else
+                return ext::Value(v);
+    #endif
+            }
+
+            // Get same value when Vector::value_type == Value
+            template <typename Type>
+            static converted_value_type&
+            conv_2value__(Type& v, std::false_type)
+            {
+                // should be check is it params
+                // we can't make it from
+                return v;
+            }
+
+            template <typename Type, typename Branch>
+            static converted_value_type&
+            conv_2value(Type& v, Branch)
+            {
+                return conv_2value__(cl::tapescript::value(v), Branch());
+            }
+
+            ///
+            template <typename Type>
+            static converted_value_type
+            cconv_2value__(Type const& v, std::true_type)
+            {
+                // should be check is it params
+                // we can't make it from
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+    #pragma message ("conv_2value : " __FUNCSIG__)
+                return ext::Value(v);
+    #else
+                return ext::Value(v);
+    #endif
+            }
+
+            // Get same value when Vector::value_type == Value
+            template <typename Type>
+            static converted_value_type const&
+            cconv_2value__(Type const& v, std::false_type)
+            {
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+    #pragma message ("conv_2value : " __FUNCSIG__)
+    #endif
+                // should be check is it params
+                // we can't make it from
+                return v;
+            }
+
+            //  Interface method to get value from
+            // const value
+            template <typename Type, typename Branch>
+            static converted_value_type const&
+                cconv_2value(Type const& v, Branch)
+            {
+                return cconv_2value__(cl::tapescript::cvalue(v), Branch());
+            }
+        };
+
+        //  Adapted type calculation inside AdaptVector
+        // we should provide convert from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
+        // it can help to configure behaviour of adjoint logic with
+        template <typename Value>
+        struct adapt_type_convention <std::vector<std::complex<cl::TapeDouble>
+                            , std::allocator<std::complex<cl::TapeDouble> > >, Value>
         {
-            // should be check is it params
-            // we can't make it from
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-#pragma message ("conv_2value : " __FUNCSIG__)
-            return ext::Value(v);
-#else
-            return ext::Value(v);
-#endif
-        }
+            // Vector type
+            typedef std::vector<std::complex<cl::TapeDouble> > Vector;
 
-        // Get same value when Vector::value_type == Value
-        template <typename Type>
-        static converted_value_type const&
-        cconv_2value__(Type const& v, std::false_type)
+            // Perhaps it's std vector and we can get value_type from it
+            typedef typename
+                Vector::value_type Type;
+
+            //  If requested value not equals of vector::value_type
+            // it can happens inside Jacobian
+            enum { is_convertible_value = !std::is_same<Type, Value>::value };
+
+            // calculate convertible type
+            typedef typename cl::tapescript::if_c<
+                !is_convertible_value
+                    , typename Type::value_type
+                    , Value>::type converted_value_type;
+
+            // When we return value for Independent adaptation we should return reference
+            // otherway we should return converted value
+            typedef typename cl::tapescript::if_c<is_convertible_value
+                , converted_value_type&, converted_value_type&>::type ret_value_type;
+
+            /// Convertion when we have requested
+            /// value type is not equals vector::value type
+            template <typename Type>
+            static ret_value_type
+            conv_2value(Type& v, std::true_type)
+            {
+                // should be check is it params
+                // we can't make it from
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
+    #pragma message ("conv_2value : " __FUNCSIG__)
+                return converted_value_type();
+    #else
+                return v.value_;
+    #endif
+            }
+
+            // Get same value when Vector::value_type == Value
+            template <typename Type>
+            static ret_value_type
+            conv_2value(Type& v, std::false_type)
+            {
+                // should be check is it params
+                // we can't make it from
+                return v;
+            }
+
+            ///
+            template <typename Type>
+            static converted_value_type const&
+            cconv_2value(Type& v, std::true_type)
+            {
+                // should be check is it params
+                // we can't make it from
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+    #pragma message ("conv_2value : " __FUNCSIG__)
+                return ext::Value(v);
+    #else
+                return v.value_;
+    #endif
+            }
+
+            // Get same value when Vector::value_type == Value
+            template <typename Type>
+            static converted_value_type const&
+            cconv_2value(Type const& v, std::false_type)
+            {
+    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+    #pragma message ("conv_2value : " __FUNCSIG__)
+    #endif
+                // should be check is it params
+                // we can't make it from
+                return v;
+            }
+
+        };
+
+            /// <summary>Class which is functionality
+            /// about adaptation </summary>
+        template <typename Vector
+                , typename Value = typename vector_value<Vector>::type >
+        struct AdapterVector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
         {
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-#pragma message ("conv_2value : " __FUNCSIG__)
-#endif
-            // should be check is it params
-            // we can't make it from
-            return v;
-        }
+            // typedef std::vector<Type, std::allocator<Type>> Vector;
+            typedef typename
+            std::remove_const<Vector>::type orig_vector;
 
-        //  Interface method to get value from
-        // const value
-        template <typename Type, typename Branch>
-        static converted_value_type const&
-            cconv_2value(Type const& v, Branch)
-        {
-            return cconv_2value__(cl::tapescript::cvalue(v), Branch());
-        }
-    };
+            // using by inside
+            template <typename P>
+            using adapt_type = adapt_ptr<P>;
 
-    //  Adapted type calculation inside AdaptVector
-    // we should provide convert from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
-    // it can help to configure behaviour of adjoint logic with
-    template <typename Value>
-    struct adapt_type_convention <std::vector<std::complex<cl::TapeDouble>
-                        , std::allocator<std::complex<cl::TapeDouble> > >, Value>
-    {
-        // Vector type
-        typedef std::vector<std::complex<cl::TapeDouble> > Vector;
+            // convention type
+            typedef adapt_type_convention<orig_vector, Value> Convention;
 
-        // Perhaps it's std vector and we can get value_type from it
-        typedef typename
-            Vector::value_type Type;
+            // We should expose the value_type to the adjoint functionality
+            typedef typename
+                Convention::converted_value_type value_type;
 
-        //  If requested value not equals of vector::value_type
-        // it can happens inside Jacobian
-        enum { is_convertible_value = !std::is_same<Type, Value>::value };
+            // get size type
+            // in general case we wait std vector this place
+            typedef typename
+                Vector::size_type size_type;
 
-        // calculate convertible type
-        typedef typename cl::tapescript::if_c<
-            !is_convertible_value
-                , typename Type::value_type
-                , Value>::type converted_value_type;
+            ///  Constructor
+            /// we should initialize from pointer, but shared_ptr couldn't
+            AdapterVector(adapt_type<Vector> vc_ref)
+                : ref_(vc_ref), ptr_()
+            {   }
 
-        // When we return value for Independent adaptation we should return reference
-        // otherway we should return converted value
-        typedef typename cl::tapescript::if_c<is_convertible_value
-            , converted_value_type&, converted_value_type&>::type ret_value_type;
+            ///  Constructor
+            /// we should create instance value will put to ref
+            AdapterVector(size_type size) : ptr_(new orig_vector(size))
+                , ref_(ptr_.get())
+            {   }
 
-        /// Convertion when we have requested
-        /// value type is not equals vector::value type
-        template <typename Type>
-        static ret_value_type
-        conv_2value(Type& v, std::true_type)
-        {
-            // should be check is it params
-            // we can't make it from
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
-#pragma message ("conv_2value : " __FUNCSIG__)
-            return converted_value_type();
-#else
-            return v.value_;
-#endif
-        }
+            /// Constructor
+            /// we should create instance value will put to ref
+            AdapterVector() : ptr_(new orig_vector())
+                , ref_(ptr_.get())
+            {   }
 
-        // Get same value when Vector::value_type == Value
-        template <typename Type>
-        static ret_value_type
-        conv_2value(Type& v, std::false_type)
-        {
-            // should be check is it params
-            // we can't make it from
-            return v;
-        }
+            /// Constructor
+            /// we should create instance and copy it from copy value
+            AdapterVector(AdapterVector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
+                , ref_(ptr_.get())
+            {    }
 
-        ///
-        template <typename Type>
-        static converted_value_type const&
-        cconv_2value(Type& v, std::true_type)
-        {
-            // should be check is it params
-            // we can't make it from
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-#pragma message ("conv_2value : " __FUNCSIG__)
-            return ext::Value(v);
-#else
-            return v.value_;
-#endif
-        }
+            /// <summary> Const operator [] </summary>
+            inline converted_value_type const&
+                operator[](size_type ix) const
+            {
+                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                return Convention::cconv_2value(ref_->operator [](ix), is_Conv());
+            }
 
-        // Get same value when Vector::value_type == Value
-        template <typename Type>
-        static converted_value_type const&
-        cconv_2value(Type const& v, std::false_type)
-        {
-#if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-#pragma message ("conv_2value : " __FUNCSIG__)
-#endif
-            // should be check is it params
-            // we can't make it from
-            return v;
-        }
+        private:
+            /// In cpp AD didn't call std::remove_const<>
+            /// If it's const
+            template <typename If_Need_Compile__>
+            inline ret_value_type
+                get__(size_type ix, std::false_type)
+            {
+                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                return Convention::conv_2value(ptr_->operator[](ix), is_Conv());
+            }
 
-    };
+            template <typename If_Need_Compile__>
+            inline ret_value_type
+                get__(size_type ix, std::true_type)
+            {
+                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                return Convention::conv_2value(ref_->operator[](ix), is_Conv());
+            }
+        public:
 
-        /// <summary>Class which is functionality
-        /// about adaptation </summary>
-    template <typename Vector
-            , typename Value = typename vector_value<Vector>::type >
-    struct AdapterVector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
-    {
-        // typedef std::vector<Type, std::allocator<Type>> Vector;
-        typedef typename
-        std::remove_const<Vector>::type orig_vector;
+            /// If it's constant vector the instance should be placed in the shared ptr
+            /// not constant operator []
+            inline ret_value_type
+                operator[](size_type ix)
+            {
+                return this->get__<struct try__>(ix, std::is_same<orig_vector, Vector>());
+            }
 
-        // using by inside
-        template <typename P>
-        using adapt_type = adapt_ptr<P>;
+            inline typename Vector::size_type
+                size() const
+            {
+                return ref_->size();
+            }
 
-        // convention type
-        typedef adapt_type_convention<orig_vector, Value> Convention;
+            template <typename Size>
+            void resize(Size s)
+            {
+                assert(ptr_);
+                ptr_->resize(s);
+            }
 
-        // We should expose the value_type to the adjoint functionality
-        typedef typename
-            Convention::converted_value_type value_type;
+            inline AdapterVector& operator = (AdapterVector const& v)
+            {
+                ptr_ = std::shared_ptr<orig_vector>(new orig_vector(*v.ref_.ptr_));
+                ref_ = adapt_type<Vector>(ptr_.get());
+                return *this;
+            }
 
-        // get size type
-        // in general case we wait std vector this place
-        typedef typename
-            Vector::size_type size_type;
+            std::shared_ptr<orig_vector > ptr_;
+            adapt_type<Vector> ref_;
+        };
 
-        ///  Constructor
-        /// we should initialize from pointer, but shared_ptr couldn't
-        AdapterVector(adapt_type<Vector> vc_ref)
-            : ref_(vc_ref), ptr_()
-        {   }
-
-        ///  Constructor
-        /// we should create instance value will put to ref
-        AdapterVector(size_type size) : ptr_(new orig_vector(size))
-            , ref_(ptr_.get())
-        {   }
-
-        /// Constructor
-        /// we should create instance value will put to ref
-        AdapterVector() : ptr_(new orig_vector())
-            , ref_(ptr_.get())
-        {   }
-
-        /// Constructor
-        /// we should create instance and copy it from copy value
-        AdapterVector(AdapterVector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
-            , ref_(ptr_.get())
-        {    }
-
-        /// <summary> Const operator [] </summary>
-        inline converted_value_type const&
-            operator[](size_type ix) const
-        {
-            typedef std::integral_constant<bool, is_convertible_value> is_Conv;
-            return Convention::cconv_2value(ref_->operator [](ix), is_Conv());
-        }
-
-    private:
-        /// In cpp AD didn't call std::remove_const<>
-        /// If it's const
-        template <typename If_Need_Compile__>
-        inline ret_value_type
-            get__(size_type ix, std::false_type)
-        {
-            typedef std::integral_constant<bool, is_convertible_value> is_Conv;
-            return Convention::conv_2value(ptr_->operator[](ix), is_Conv());
-        }
-
-        template <typename If_Need_Compile__>
-        inline ret_value_type
-            get__(size_type ix, std::true_type)
-        {
-            typedef std::integral_constant<bool, is_convertible_value> is_Conv;
-            return Convention::conv_2value(ref_->operator[](ix), is_Conv());
-        }
-    public:
-
-        /// If it's constant vector the instance should be placed in the shared ptr
-        /// not constant operator []
-        inline ret_value_type
-            operator[](size_type ix)
-        {
-            return this->get__<struct try__>(ix, std::is_same<orig_vector, Vector>());
-        }
-
-        inline typename Vector::size_type
-            size() const
-        {
-            return ref_->size();
-        }
-
-        template <typename Size>
-        void resize(Size s)
-        {
-            assert(ptr_);
-            ptr_->resize(s);
-        }
-
-        inline AdapterVector& operator = (AdapterVector const& v)
-        {
-            ptr_ = std::shared_ptr<orig_vector>(new orig_vector(*v.ref_.ptr_));
-            ref_ = adapt_type<Vector>(ptr_.get());
-            return *this;
-        }
-
-        std::shared_ptr<orig_vector > ptr_;
-        adapt_type<Vector> ref_;
-    };
-
-    template <typename Type
-        , typename Value = typename vector_value<typename std::remove_const<Type>::type >::type >
+        template <typename Type
+            , typename Value = typename vector_value<typename std::remove_const<Type>::type >::type >
         struct Adapter;
 
-    template <typename Type, typename Value>
-    struct Adapter<std::vector<Type, std::allocator<Type>> const, Value>
-        : AdapterVector<std::vector<Type, std::allocator<Type>> const, Value>
+        template <typename Type, typename Value>
+        struct Adapter<std::vector<Type, std::allocator<Type>> const, Value>
+            : AdapterVector<std::vector<Type, std::allocator<Type>> const, Value>
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
             Adapter(adapt_type<vector_type const> vc_ref)
@@ -689,9 +696,9 @@ namespace cl
             {}
         };
 
-    template <typename Type, typename Value>
-    struct Adapter<std::vector<Type, std::allocator<Type>>, Value >
-        : AdapterVector<std::vector<Type, std::allocator<Type>>, Value >
+        template <typename Type, typename Value>
+        struct Adapter<std::vector<Type, std::allocator<Type>>, Value >
+            : AdapterVector<std::vector<Type, std::allocator<Type>>, Value >
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
             Adapter(adapt_type<vector_type> vc_ref)
@@ -712,33 +719,35 @@ namespace cl
 
         template <typename Type>
         inline Adapter<Type >
-            adapt(Type& v) {
-                return Adapter<Type>(adapt_ptr<Type>(&v));
-            }
+        adapt(Type& v) {
+            return Adapter<Type>(adapt_ptr<Type>(&v));
+        }
 
         template <typename Type>
         inline Adapter<Type const>
-            adapt(Type const& v) {
-                return Adapter<Type const>(adapt_ptr<Type const>(&v));
-            }
+        adapt(Type const& v) {
+            return Adapter<Type const>(adapt_ptr<Type const>(&v));
+        }
 
-    template <typename Conv, typename Type>
-    inline Adapter<Type, Conv>
-    adapt_typed(Type& v) {
-        return Adapter<Type, Conv>(adapt_ptr<Type>(&v));
+        template <typename Conv, typename Type>
+        inline Adapter<Type, Conv>
+        adapt_typed(Type& v) {
+            return Adapter<Type, Conv>(adapt_ptr<Type>(&v));
+        }
+
+        template <typename Conv, typename Type>
+        inline Adapter<Type const, Conv const>
+        adapt_typed(Type const& v) {
+            return Adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
+        }
     }
 
-    template <typename Conv, typename Type>
-    inline Adapter<Type const, Conv const>
-    adapt_typed(Type const& v) {
-        return Adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
-    }
-
-    }
-    /// Currently we use this approach to
-    /// adaptation the extern type vectors to inside TapeInnerType
+    /// <summary>Currently we use this approach for adaptation of
+    /// the extern type vectors to inside TapeInnerType.</summary>
     typedef std::vector<cl::TapeDouble> TapeDoubleVector;
 
+    /// <summary>Tape function is a compatible external functional implementation
+    /// this should be suitable inside external framework.</summary>
     template <typename Base>
     class TapeFunction : public TapeFunctionBase<Base>
     {
