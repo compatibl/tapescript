@@ -52,18 +52,24 @@ namespace std
             , value_()
             , mode_(mode)
         {
-            bool is_variable = ext::Variable(cl::tapescript::cvalue(real))
-                || ext::Variable(cl::tapescript::cvalue(imag));
-
-            if (is_variable || RealBase == mode_)
+            if (mode_ & RealBase)
             {
-                mode_ = RealBase;
                 complex_ = real_based_type(real.value(), imag.value());
             }
-            else
+            if (mode_ & ComplBase)
             {
-                mode_ = ComplBase;
-                value_ = complex_double((double)real, (double)imag);
+                bool is_variable = ext::Variable(cl::tapescript::cvalue(real))
+                    || ext::Variable(cl::tapescript::cvalue(imag));
+
+                if (is_variable)
+                {
+                    mode_ = RealBase;
+                    complex_ = real_based_type(real.value(), imag.value());
+                }
+                else
+                {
+                    value_ = complex_double(ext::Value(real.value()), ext::Value(imag.value()));
+                }
             }
         }
 
@@ -80,6 +86,11 @@ namespace std
             , mode_(other.mode_)
         {    }
 
+        template<class Ty>
+        complex(complex<Ty> const & other)
+            : complex(other.real(), other.imag())
+        {	 }
+
         inline real_type real(real_type const& right)
         {
             if (mode_ & RealBase)
@@ -88,9 +99,16 @@ namespace std
             }
             if (mode_ & ComplBase)
             {
-                // !!!
-                cl::CheckParameter(right.value());
-                value_ = complex<double>(ext::Value(right.value()), 0);
+                if (ext::Variable(right.value()))
+                {
+                    cl::CheckParameter(value_);
+                    mode_ = RealBase;
+                    complex_ = real_based_type(right.value(), ext::Value(value_).imag());
+                }
+                else
+                {
+                    value_ = complex<double>(ext::Value(right.value()), ext::Value(value_).imag());
+                }
             }
             return right;
         }
@@ -103,8 +121,16 @@ namespace std
             }
             if (mode_ & ComplBase)
             {
-                cl::CheckParameter(right.value());
-                value_ = complex<double>(0, ext::Value(right.value()));
+                if (ext::Variable(right.value()))
+                {
+                    cl::CheckParameter(value_);
+                    mode_ = RealBase;
+                    complex_ = real_based_type(ext::Value(value_).real(), right.value());
+                }
+                else
+                {
+                    value_ = complex<double>(ext::Value(value_).real(), ext::Value(right.value()));
+                }
             }
             return right;
         }
@@ -129,9 +155,24 @@ namespace std
 
         inline complex_type& operator=(complex_type const& right)
         {
-            this->value_ = right.value_;
-            this->complex_ = right.complex_;
-            this->mode_ = right.mode_;
+            if (mode_ & RealBase)
+            {
+                complex_ = real_based_type(right.real(), right.imag());
+            }
+            if (mode_ & ComplBase)
+            {
+                if (right.mode_ & RealBase)
+                {
+                    cl::CheckParameter(value_);
+                    mode_ = RealBase;
+                    complex_ = real_based_type(right.real(), right.imag());
+                }
+                else
+                {
+                    value_ = right.value_;
+                }
+            }
+
             return *this;
         }
 
@@ -139,11 +180,11 @@ namespace std
         {
             if (mode_ & RealBase)
             {
-                complex_.real(right);
+                complex_ = right;
             }
             if (mode_ & ComplBase)
             {
-                value_ = complex<double>(right, 0);
+                value_ = right;
             }
             return (*this);
         }
@@ -152,12 +193,20 @@ namespace std
         {
             if (mode_ & RealBase)
             {
-                complex_.real(right.value());
+                complex_ = right.value();
             }
             if (mode_ & ComplBase)
             {
-                cl::CheckParameter(right.value());
-                value_ = complex<double>(ext::Value(right.value()), 0);
+                if (ext::Variable(right.value()))
+                {
+                    cl::CheckParameter(value_);
+                    mode_ = RealBase;
+                    complex_ = right.value();                    
+                }
+                else
+                {
+                    value_ = complex<double>(ext::Value(right.value()), 0);
+                }
             }
 
             return (*this);
@@ -289,7 +338,7 @@ namespace std
             return (*this);
         }
 
-        std::complex<cl::TapeInnerType<double> > complex_;
+        real_based_type complex_;
         value_type value_;
         Complex_Mode mode_;
     };

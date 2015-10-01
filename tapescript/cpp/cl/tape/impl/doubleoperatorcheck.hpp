@@ -183,8 +183,8 @@ namespace cl
     template <typename _AD_type>
     inline void CheckParameter(_AD_type& x)
     {
-        if (ext::Parameter(x))
-            cl::throw_("Can't be parameter");
+        if (ext::Variable(x))
+            cl::throw_("Can't be variable");
     }
 }
 
