@@ -30,6 +30,8 @@ limitations under the License.
 #   include <boost/numeric/ublas/matrix_proxy.hpp>
 #endif
 
+#include <cl/tape/impl/boost_connectors.hpp>
+
 //!! Certain tape double operators
 namespace cl
 {
