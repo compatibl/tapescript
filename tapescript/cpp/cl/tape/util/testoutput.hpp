@@ -15,6 +15,8 @@
 
 #if defined CL_GRAPH_GEN
 
+#define CL_GRAPHPDF_GEN // Enable pdf file generator
+
 #include <boost/system/config.hpp>
 #include <boost/filesystem.hpp>
 
