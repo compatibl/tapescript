@@ -27,6 +27,10 @@ limitations under the License.
 #include <cl/tape/impl/double.hpp>
 #include <complex>
 
+#ifdef CL_TAPE_COMPLEX_ENABLED
+#include <cl/tape/impl/complex.hpp>
+#endif
+
 /// Math in AD mode, in progress
 namespace cl
 {
@@ -110,7 +114,7 @@ namespace std
 
         return  cl::TapeDouble(std::floor((double)x));
 #elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented"); return x;
+        cl::throw_("Not implemented"); return x;po
 #else
         return std::floor(x.value());
 #endif
@@ -343,6 +347,30 @@ namespace std
         return std::pow(x, y.value());
 #endif
     }
+
+    inline std::complex<cl::TapeDouble> pow(std::complex<cl::TapeDouble> const & _Left, int _Right)
+    {
+#ifdef CL_TAPE_COMPLEX_ENABLED
+        typedef std::complex<cl::TapeDouble> complex_type;
+            // return complex ^ integer
+            complex_type _Tmp = _Left;
+            unsigned int _Count = _Right;
+
+            if (_Right < 0)
+                _Count = 0 - _Count;	// safe negation as unsigned
+
+            for (complex_type _Zv = complex_type(1, 0, _Left.mode_);; _Tmp *= _Tmp)
+            {	
+                // fold in _Left ^ (2 ^ _Count) as needed
+                if ((_Count & 1) != 0)
+                    _Zv *= _Tmp;
+                if ((_Count >>= 1) == 0)
+                    return (_Right < 0 ? complex_type(1, 0, _Left.mode_) / _Zv : _Zv);
+            }
+#else
+        cl::throw_("Not implemented"); return 0;
+#endif
+        }
 
     inline cl::TapeDouble asinh(cl::TapeDouble x)
     {
