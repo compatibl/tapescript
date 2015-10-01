@@ -430,39 +430,22 @@ namespace std
     }
 
 
+
     inline cl::TapeDouble min(cl::TapeDouble x, cl::TapeDouble y)
     {
 #if defined CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-        CL_CHECK(v_((x + y - std::abs(x - y)) / 2)
-            == std::min(v_(x), v_(y)));
-
-        return (x + y - std::abs(x - y)) / 2;
-#   else
-        return x < y ? x : y;
-#   endif
-
+        return CppAD::CondExpLt(x.value(), y.value(), x.value(), y.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
-        return std::min(x.value(),y.value());
+        return std::min(x.value(), y.value());
 #endif
     }
 
     inline cl::TapeDouble min(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-        CL_CHECK(v_((x + y - std::abs(x - y)) / 2)
-            == std::min(v_(x), v_(y)));
-
-        return (x + y - std::abs(x - y)) / 2;
-#   else
-        return x < y ? x : y;
-#   endif
-
+        return CppAD::CondExpLt(x.value(), CppAD::AD<double>(y), x.value(), CppAD::AD<double>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -473,18 +456,9 @@ namespace std
     inline cl::TapeDouble min(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-        CL_CHECK(v_((x + y - std::abs(x - y)) / 2)
-            == std::min(v_(x), v_(y)));
-
-        return (x + y - std::abs(x - y)) / 2;
-#   else
-        return x < y ? x : y;
-#   endif
-
+        return CppAD::CondExpLt(CppAD::AD<double>(x), y.value(), CppAD::AD<double>(x), y.value());
 #elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented");return x;
+        cl::throw_("Not implemented"); return x;
 #else
         return std::min(x, y.value());
 #endif
@@ -493,16 +467,7 @@ namespace std
     inline cl::TapeDouble max(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-            CL_CHECK(v_((x + y + std::abs(x - y)) / 2)
-                == std::max(v_(x), v_(y)));
-
-            return (x + y + std::abs(x - y)) / 2;
-#   else
-            return x < y ? y : x;
-#   endif
-
+        return CppAD::CondExpGt(x.value(), y.value(), x.value(), y.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -513,16 +478,7 @@ namespace std
     inline cl::TapeDouble max(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-        CL_CHECK(v_((x + y + std::abs(x - y)) / 2)
-            == std::max(v_(x), v_(y)));
-
-        return (x + y + std::abs(x - y)) / 2;
-#   else
-        return x < y ? y : x;
-#   endif
-
+        return CppAD::CondExpGt(x.value(), CppAD::AD<double>(y), x.value(), CppAD::AD<double>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -533,16 +489,7 @@ namespace std
     inline cl::TapeDouble max(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-
-#   if defined CL_NEW_MINMAX_ALGORITHM
-        CL_CHECK(v_((x + y + std::abs(x - y)) / 2)
-            == std::max(v_(x), v_(y)));
-
-        return (x + y + std::abs(x - y)) / 2;
-#   else
-        return x < y ? y : x;
-#   endif
-
+        return CppAD::CondExpGt(CppAD::AD<double>(x), y.value(), CppAD::AD<double>(x), y.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
