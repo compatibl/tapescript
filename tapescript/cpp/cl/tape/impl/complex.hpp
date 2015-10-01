@@ -59,15 +59,6 @@ namespace std
                 value_ = complex_double((double)real, (double)imag);
         }
 
-        /*complex(double real, double imag = 0.0, Complex_Mode en = ComplBase)
-            : complex_(en == RealBase ? complex_type(real, imag) 
-                                      : complex_type())
-            , value_(en == ComplBase ? complex_double(real, imag) 
-                                     : complex_double())
-            , mode_(en)
-        {
-        }*/
-
         // This call whn resize vector
         complex() 
             : complex_()
