@@ -490,8 +490,16 @@ namespace std
         return complex<cl::TapeDouble>(lhs - rhs.real(), -rhs.imag());
     }
 
+    // Arithmetics for std::complex<cl::TapeDouble> and double
     inline std::complex<cl::TapeDouble> operator*(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
         return complex<cl::TapeDouble>(rhs.real() *lhs, rhs.imag()*lhs);
+    }
+
+    inline cl::TapeDouble
+    pow(cl::TapeDouble const &_Left, int _Right)
+    {
+        double D = static_cast<double>(_Right);
+        return std::pow(_Left, D);
     }
 
     inline std::complex<cl::TapeDouble> operator/(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs){
@@ -499,6 +507,43 @@ namespace std
     }
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
+    template <typename Right>
+    complex<cl::TapeDouble> inline
+    pow_(complex<cl::TapeDouble> const &_Left
+        , complex<cl::TapeDouble> const &_First, Right _Right, bool _Even)
+    {
+        if (_Right <= 1)
+            return _Even ? _Left : _Left*_First;
+
+        return pow_(_Left * _Left, _First, _Right / 2, _Even);
+    }
+
+    //template <typename Right>
+    inline complex<cl::TapeDouble>
+    pow(complex<cl::TapeDouble> const & _Left, int _Right)
+    {
+        if (_Right == 0)
+            return complex<cl::TapeDouble>(1.0);
+
+        return _Right == 1 ? _Left : pow_(_Left * _Left, _Left
+            , _Right / 2, (_Right / 2) * 2 == _Right);
+    }
+
+    inline complex<cl::TapeDouble> 
+    pow(complex<cl::TapeDouble> const &_Left, cl::TapeDouble _Right)
+    {
+        if (_Right == 0)
+            return complex<cl::TapeDouble>(1.0);
+
+        return _Right == 1 ? _Left : pow_(_Left * _Left, _Left
+            , _Right / 2, (_Right / 2) * 2 == _Right);
+    }
+
+    inline complex<cl::TapeDouble>
+    pow(cl::TapeDouble const &_Left, complex<cl::TapeDouble> const &_Right)
+    {
+        return complex<cl::TapeDouble>();
+    }
 
     inline std::complex<cl::TapeDouble> operator+(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs + cl::TapeDouble(rhs); }
 

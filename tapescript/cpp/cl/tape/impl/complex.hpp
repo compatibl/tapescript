@@ -25,6 +25,7 @@ limitations under the License.
 
 #include <complex>
 
+
 namespace ext = CppAD;
 
 namespace std
@@ -39,31 +40,42 @@ namespace std
 
         typedef cl::TapeDouble real_type;
         typedef complex<cl::TapeDouble> complex_type;
-        typedef ext::AD<complex<double> > value_type;
+        typedef complex<double> complex_double;
+        typedef cl::TapeInnerType<complex_double > value_type;
 
-        enum en_complex_type { None = 0 , RealBase = 1 >> 1, ComplBase = 1 >> 2, BothBase = 1 >> 3 };
 
-        /// <summary>
-        ///  Initialization from real and imaginary parts
-        /// </summary>
-        complex(real_type const& real, real_type const& imag)
+        enum en_complex_type { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2), BothBase = (1 << 3) };
+        
+        //  If we initialized by certain values this is real base type 
+        // and type of valaue is 
+        complex(real_type const& real, real_type const& imag = 0.0)
             : complex_(real.value(), imag.value())
             , value_()
             , mode_(RealBase)
         {
         }
 
-        complex(double v)//real_type const& real, real_type const& imag)
-            : complex_(v, 0.0)
-            , value_()
-            , mode_(RealBase)
+
+        complex(double real, double imag = 0.0, en_complex_type en = ComplBase)
+            : complex_(en == RealBase ? complex_type(real, imag) 
+                                      : complex_type())
+            , value_(en == ComplBase ? complex_double(real, imag) 
+                                     : complex_double())
+            , mode_(en)
         {
         }
 
         // This call whn resize vector
-        complex() : complex_()
+        complex() 
+            : complex_()
             , value_()
             , mode_(None)
+        {    }
+
+        complex(complex const& other) 
+            : complex_(other.complex_)
+            , value_(other.value_)
+            , mode_(other.mode_)
         {    }
 
         inline real_type real(real_type const& right)
@@ -113,6 +125,27 @@ namespace std
             return ext::Value(value_).imag();
         }
 
+        inline complex_type& operator=(complex_type const& right)
+        {
+            this->value_ = right.value_;
+            this->complex_ = right.complex_;
+            this->mode_ = right.mode_;
+            return *this;
+        }
+
+        inline complex_type& operator=(double const& right)
+        {
+            if (mode_ & RealBase)
+            {
+                complex_.real(right);
+            }
+            if (mode_ & ComplBase)
+            {
+                value_ = complex<double>(right, 0);
+            }
+            return (*this);
+        }
+
         inline complex_type& operator=(const real_type& right)
         {
             if (mode_ & RealBase)
@@ -124,6 +157,7 @@ namespace std
                 cl::CheckParameter(right.value());
                 value_ = complex<double>(ext::Value(right.value()), 0);
             }
+
             return (*this);
         }
 
@@ -241,17 +275,17 @@ namespace std
             return (*this);
         }
 
-        std::complex<ext::AD<double> > complex_;
+        std::complex<cl::TapeInnerType<double> > complex_;
         value_type value_;
         en_complex_type mode_;
     };
 
-    complex<cl::TapeDouble> inline
+    /*complex<cl::TapeDouble> inline
     pow(complex<cl::TapeDouble> const & _Left, int _Right)
     {
         cl::throw_("Not implemented.");
         return _Left;
-    }
+    }*/
 
 }
 

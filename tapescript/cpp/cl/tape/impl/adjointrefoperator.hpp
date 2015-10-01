@@ -25,7 +25,7 @@ limitations under the License.
 
 #define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                                           \
     template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                                           \
-    struct operator_traits<cl::tapescript::TapeRef<Base>, FrameworkType, oper                                                           \
+    struct operator_traits<cl::tapescript::TapeRef<Base>, FrameworkType, struct oper                                                    \
                 , LeftConst, RightConst, TapeRefOperators>                                                                              \
                 : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                             \
     {};                                                                                                                                 \
@@ -42,7 +42,7 @@ limitations under the License.
 
 #define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                                                                                         \
     template <typename Return>                                                                                                          \
-    struct operator_ref_<Return, oper, std::false_type>                                                                                 \
+    struct operator_ref_<Return, struct oper, std::false_type>                                                                          \
     {                                                                                                                                   \
         typedef Return type;                                                                                                            \
     public:                                                                                                                             \

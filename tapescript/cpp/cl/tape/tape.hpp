@@ -60,6 +60,7 @@ namespace ext
 
 #include <cl/tape/impl/double.hpp>
 
+#include <cl/tape/impl/adjointref.hpp>
 #if defined CL_TAPE_COMPLEX_ENABLED
 #   include <cl/tape/impl/complex.hpp>
 #endif
@@ -118,7 +119,6 @@ namespace cl
 #endif
 }
 
-#include <cl/tape/impl/adjointref.hpp>
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
 #endif // cl_tape_doublecl_hpp

@@ -33,6 +33,9 @@ namespace cl
 #if defined CL_TAPE_CPPAD
     template <typename Base>
     using TapeInnerType = CppAD::AD<Base>;
+
+    template <typename Base>
+    using TapeFunctionBase = CppAD::ADFun<Base>;
 #elif CL_TAPE_ADOLC
 	template <typename Base>
 	using TapeInnerType = Adolc::DoubleAdapter<Base>;
@@ -169,7 +172,7 @@ namespace cl
         ///  Iterator by tape double accessors
         ///, used for the algorithmic adjoint.
         /// </summary>
-        template <typename Vector = AdjVectorBase>
+        template <typename Vector = std::vector<cl::TapeDouble> >
         struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
             , std::random_access_iterator_tag
@@ -781,6 +784,20 @@ namespace cl
         { }
     };
 
+    template <>
+    class TapeFunction<std::complex<cl::TapeDouble > > 
+        : public cl::TapeFunctionBase<std::complex<double> >
+    {
+    public:
+        typedef cl::TapeFunctionBase<std::complex<double> > fun_base;
+        template <typename VectorType>
+        TapeFunction(VectorType& x, VectorType& y)
+            : fun_base(
+                cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x)
+                , cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(y))
+        {   }
+    };
+
     inline void
     Independent(std::vector<cl::TapeDouble>& v_tape, std::size_t abort_index)
     {
@@ -797,7 +814,7 @@ namespace cl
     Independent(std::vector<std::complex<cl::TapeDouble>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(v_tape), abort_index);
+        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x), abort_index);
 #endif
     }
 
@@ -826,6 +843,9 @@ namespace cl_ext
     using if_c = cl::tapescript::if_c<const_, Then, Else>;
 
     struct TapeRefOperators;
+
+    template <typename Left, typename Right>
+    struct custom_operator;
 
     // This is can be also declared in external
     // TODO check possibility to change extern namespace to the other
@@ -862,14 +882,14 @@ namespace cl_ext
     ADJOINT_REF_OPERATOR_IMPL(oper_plus, +);
     ADJOINT_REF_OPERATOR_IMPL(oper_mult, *);
     ADJOINT_REF_OPERATOR_IMPL(oper_div, / );
-    ADJOINT_REF_OPERATOR_IMPL(struct oper_plus_eq, += );
-    ADJOINT_REF_OPERATOR_IMPL(struct oper_minus_eq, -= );
+    ADJOINT_REF_OPERATOR_IMPL(oper_plus_eq, += );
+    ADJOINT_REF_OPERATOR_IMPL(oper_minus_eq, -= );
 
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_minus);
+    /*OPERATOR_TRAITS_ADJOINTREF_DECL(oper_minus);
     OPERATOR_TRAITS_ADJOINTREF_DECL(oper_plus);
     OPERATOR_TRAITS_ADJOINTREF_DECL(oper_mult);
     OPERATOR_TRAITS_ADJOINTREF_DECL(oper_div);
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_plus_eq);
+    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_plus_eq);*/
 
 #if defined EXT_UNARY_OPERATORS
     template <typename Left, typename Right>
