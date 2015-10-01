@@ -301,7 +301,7 @@ namespace std
     inline cl::TapeDouble min(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x < y ? x : y;
+        return (x + y - std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -312,7 +312,7 @@ namespace std
     inline cl::TapeDouble min(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x < y ? x : y;
+		return (x + y - std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -323,7 +323,7 @@ namespace std
     inline cl::TapeDouble min(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x < y ? x : y;
+		return (x + y - std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented");return x;
 #else
@@ -334,7 +334,7 @@ namespace std
     inline cl::TapeDouble max(cl::TapeDouble x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x > y ? x : y;
+		return (x + y + std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -345,7 +345,7 @@ namespace std
     inline cl::TapeDouble max(cl::TapeDouble x, double y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x > y ? x : cl::TapeDouble(y);
+		return (x + y + std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -356,7 +356,7 @@ namespace std
     inline cl::TapeDouble max(double x, cl::TapeDouble y)
     {
 #ifdef CL_TAPE_CPPAD
-        return x > y ? cl::TapeDouble(x) : y;
+		return (x + y + std::abs(x - y)) / 2;
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
