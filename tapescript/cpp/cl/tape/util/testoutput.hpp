@@ -1,27 +1,8 @@
-/*
-Copyright (C) 2003-2015 CompatibL
 
-This file is part of TapeScript, an open source library and tape encoding
-standard for adjoint algorithmic differentiation (AAD), available from
-
-    http://github.com/compatibl/tapescript (source)
-    http://tapescript.org (documentation)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-#ifndef cl_tape_util_testoutput_hpp
-#define cl_tape_util_testoutput_hpp
+#if !defined ADJOINT_TEST_OUTPUT_HPP_INCLUDED_JSDFHGJDSFGDYTERKGHKDS_3498763463
+#define ADJOINT_TEST_OUTPUT_HPP_INCLUDED_JSDFHGJDSFGDYTERKGHKDS_3498763463
+#define BOOST_FILESYSTEM_NO_LIB
+#define BOOST_SYSTEM_NO_LIB
 
 #include <string>
 #include <vector>
@@ -32,12 +13,39 @@ limitations under the License.
 #include <boost/range/end.hpp>
 #include <boost/range/begin.hpp>
 
-#if defined CL_TAPE_TEST_OUTPUT
-#	include <boost/system/config.hpp>
-#	include <boost/filesystem.hpp>
-	namespace fs = boost::filesystem;
+#if defined CL_GRAPH_GEN
+
+#include <boost/system/config.hpp>
+#include <boost/filesystem.hpp>
+
+#if defined CL_GRAPHPDF_GEN
+#   include <windows.h>
+
+namespace
+{
+    inline bool shell_execute(std::string const& filename)
+    {
+        CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+        SHELLEXECUTEINFOA shexinfo = { 0, 0, GetDesktopWindow(), NULL, filename.c_str(), NULL, NULL };
+
+        shexinfo.cbSize = sizeof (SHELLEXECUTEINFO);
+        shexinfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+        shexinfo.nShow = SW_SHOWNORMAL;
+
+        ShellExecuteEx(&shexinfo);
+
+        WaitForSingleObject(shexinfo.hProcess, INFINITE);
+
+        return shexinfo.hProcess != INVALID_HANDLE_VALUE;
+    }
+}
+
 #endif
 
+namespace fs = boost::filesystem;
+#endif
+
+//#include
 namespace cl
 {
     namespace tapescript
@@ -88,13 +96,13 @@ namespace cl
             std::string root_ouput_path_ = "tests-output";
         };
 
-#if defined CL_TAPE_TEST_OUTPUT
+#if defined CL_GRAPH_GEN
         // Path maker
         // args: path_out - ouput path
         //       , not_clear - if true the folder will not clean before output
         // return: path and title pair
         inline std::pair<std::string, std::string>
-        make_test_path(std::string const& path_out, bool not_clear = false)
+            make_test_path(std::string const& path_out, bool not_clear = false)
         {
                 try
                 {
@@ -102,7 +110,7 @@ namespace cl
                     // we should move to one level up
                     boost::filesystem::path initdir = boost::filesystem::initial_path().parent_path();
 
-                    // make path to output string path 
+                    // make path to output string path
                     fs::path testout =
                         (initdir.string() + "//" + path_out);
 
@@ -146,20 +154,41 @@ namespace cl
 
                 return std::make_pair(std::string(), std::string());
             }
+
+#if defined CL_GRAPHPDF_GEN
+        inline void execute_(std::string const& file_path, std::string const& filename)
+        {
+#if defined CL_TRACE_OUTPUT
+            std::cout << "file path: " << (file_path + ".plt").c_str() << std::endl;
 #endif
+            shell_execute(file_path + ".plt");
+
+            //  Copy pdf files from output directory 
+            // perhaps it is in a current directory 
+            std::string result_pdf_path = fs::current_path().string() + std::string("//") + filename;
+            if (fs::exists(result_pdf_path))
+            {
+                fs::copy_file(result_pdf_path, file_path + ".pdf", fs::copy_option::overwrite_if_exists);
+                fs::remove(result_pdf_path);
+            }
+        }
+#endif
+
+#endif
+
     }
 
-#if defined CL_TAPE_TEST_OUTPUT
-    // Stream of output 
+#if defined CL_GRAPH_GEN
+    // Stream of output
     template <typename stream_type = std::ofstream>
     struct adjoint_test_out
     {
-        // Settings type 
+        // Settings type
         typedef std::map<std::string, std::string> settings_type;
 
         // Methods return certain setting
         // args: stt - map of settings
-        //       , n - name of setting 
+        //       , n - name of setting
         //       , defualt_v - default value if setting isn't present
         // return: setting value
         static std::string setting(settings_type &stt, std::string const& n, std::string const& default_v)
@@ -175,10 +204,11 @@ namespace cl
         // default ctor
         adjoint_test_out(std::string const& outpath, settings_type const& settings = settings_type())
             : settings_(settings)
-            , path_(tapescript::make_test_path(config().root_ouput_path_ + "//" + outpath, !settings_["not_clear"].empty()))
-            , of_(path_.first + setting(settings_, "filename", "AdjointPerf") + ".csv")
-            , plt_of_(path_.first + setting(settings_, "filename", "AdjointPerf") + ".plt")
-            , log_(path_.first + "Log.csv")
+            , path_(tapescript::make_test_path(tapescript::config().root_ouput_path_ + "//" + outpath, !settings_["not_clear"].empty()))
+            , file_path_(path_.first + setting(settings_, "filename", "AdjointPerformance"))
+            , of_(file_path_ + ".csv")
+            , plt_of_(file_path_ + ".plt")
+            , log_(path_.first + "Log.csv", setting(settings_, "cleanlog", "true") == "true" ? std::ofstream::out : std::ofstream::out | std::ofstream::app)
             , title_(setting(settings_, "title", path_.second))
             , graphics_()
             , columns_()
@@ -188,12 +218,42 @@ namespace cl
         // default destructor
         ~adjoint_test_out()
         {   }
+    private:
+        inline void save_pdf()
+        {
+            this->plt_of_.close();
+
+            tapescript::execute_(file_path_, setting(settings_, "filename", "AdjointPerformance") + ".pdf");
+            this->plt_of_.open(file_path_ + ".plt");
+        }
 
         template <typename Struct>
-        inline void print_plt_header()
+        inline void write_pdf_header()
+        {
+            std::string na = setting(settings_, "filename", "AdjointPerformance") + ".pdf";
+            plt_of_ << "set terminal pdf color font \"helvetica,16\" dashed size 7, 5" << std::endl;
+            plt_of_ << "set output '" << na << "'" << std::endl;
+            plt_of_ << "set size 1, 1" << std::endl;
+        }
+
+        template <typename Struct>
+        inline void write_pdf_bottom()
+        {
+            plt_of_ << "unset output" << std::endl;
+            plt_of_ << "set terminal pop" << std::endl;
+            plt_of_ << "exit gnuplot" << std::endl;
+        }
+
+        template <typename Struct>
+        inline void write_plt_header()
         {
             plt_of_ << "set terminal pdfcairo font \"sans,11\"" << std::endl;
             plt_of_ << "set terminal windows font \"helvetica,16\"" << std::endl;
+        }
+
+        template <typename Struct>
+        inline void write_graph_header()
+        {
             plt_of_ << "set locale \"English_US\"" << std::endl;
             plt_of_ << "set encoding utf8" << std::endl;
             plt_of_ << "set decimalsign '.'" << std::endl;
@@ -244,29 +304,31 @@ namespace cl
             static int line_types[] = { 1, 4, 5, 3, 6, 7, 8 };
             int lt_ix = 0;
 
-            // Output graphic lines style 
+            // Output graphic lines style
             auto color_where = boost::begin(settings::colors()), end_color = boost::end(settings::colors());
             plt_of_ << "plot ";
             std::for_each(columns_.begin() + 1, columns_.end(), [this, &lt_ix, &color_where, &end_color, &lw](std::string& n)
             {
                 std::stringstream lt;
-                lt << line_types[lt_ix++];
+                lt << ((lt_ix < (sizeof(line_types) / sizeof(int))) ? line_types[lt_ix++] : lt_ix++);
                 std::string const& color = color_where == end_color ? std::string("blue") : *color_where++;
                 plt_of_ << "\"-\" using 1:2 w lines title \"" << n << "\" lt " << lt.str() << " lw " << lw << " lc \"" << color << "\",\\" << std::endl;
             });
         }
+
+        template <int, typename > void print_()
+        {
+#           pragma message (__FUNCSIG__)
+        }
+
+    public:
 
         inline stream_type& log()
         {
             return log_;
         }
 
-        template <int, typename > void print_()
-        {
-#pragma message (__FUNCSIG__)
-        }
-
-        // method write generate plt graphics 
+        // method write generate plt graphics
         // args:
         // return:
         inline void write_graphics()
@@ -292,7 +354,6 @@ namespace cl
             }
 
             plt_of_.clear();
-            of_.clear();
         }
 
         template <typename Type>
@@ -315,7 +376,6 @@ namespace cl
 
             if (struct_start_ >= 0)
             {
-                // plt_of_ << v;
                 std::stringstream ss_;
                 ss_ << v;
 
@@ -344,33 +404,51 @@ namespace cl
 
             return *this;
         }
-
-        // General output operator for vectors 
+    private:
         template <typename Struct>
-        void operator << (std::vector<Struct >& ouput)
+        inline void write_vector_2stms_(std::vector<Struct >& output, bool fill_graphics_date = true)
         {
-            columns_ = Struct::get_columns();
-
-            print_plt_header<Struct>();
-
             plt_of_ << "#State;Row" << std::endl;
-
-            for each(std::string const &cs in columns_)
-            {
-                of_ << cs << ";";
-            }
-
-            of_ << std::endl;
-
             typedef std::vector <Struct> otype;
-
-            std::for_each(ouput.begin(), ouput.end()
+            if (fill_graphics_date)
+                std::for_each(output.begin(), output.end()
                 , [this](Struct& v)
             {
                 struct_start_ = std::is_class<Struct>::type::value ? 0 : -1;
                 *this << v;
                 struct_start_ = -1;
             });
+
+            makeSmooth(graphics_, setting(settings_, "smooth", "0")
+                , [this](const std::string& s){ return s != columns_[0]; });
+        }
+    public:
+        // General output operator for vectors
+        template <typename Struct>
+        inline void operator << (std::vector<Struct >& output)
+        {
+            columns_ = Struct::get_columns();
+            for each(std::string const &cs in columns_)
+            {
+                of_ << cs << ";";
+            }
+            of_ << std::endl;
+
+            // Generate pdf file
+#if defined CL_GRAPHPDF_GEN
+            this->write_pdf_header<Struct>();
+            this->write_graph_header<Struct>();
+
+            this->write_vector_2stms_(output);
+            this->write_graphics();
+
+            this->save_pdf();
+#endif
+            // generate plt
+            this->write_plt_header<Struct>();
+            this->write_graph_header<Struct>();
+
+            this->write_vector_2stms_(output, false);
 
             this->write_graphics();
         }
@@ -379,6 +457,7 @@ namespace cl
         settings_type settings_;
 
         std::pair<std::string, std::string> path_;
+        std::string file_path_;
         stream_type of_;
         stream_type plt_of_;
         stream_type log_;
@@ -390,7 +469,7 @@ namespace cl
         int struct_start_;
     };
 
-
+    //#if defined CL_GRAPH_GEN
     typedef adjoint_test_out<> AdjointTestOutput;
 #else
     struct fake_stream
@@ -453,4 +532,4 @@ namespace cl
 }
 
 
-#endif // cl_tape_util_testoutput_hpp
+#endif
