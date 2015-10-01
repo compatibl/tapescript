@@ -753,8 +753,8 @@ namespace std
 #if defined CL_EXTERNAL_NAMESPACE && defined CL_USE_USING_STD
 namespace CL_EXTERNAL_NAMESPACE
 {
-	using std::exp;
-	using std::sqrt;
+    using std::exp;
+    using std::sqrt;
 }
 #endif
 

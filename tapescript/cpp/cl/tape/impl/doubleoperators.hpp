@@ -269,7 +269,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#	pragma message ("overload operator - : " __FUNCSIG__)
+#pragma message ("overload operator - : " __FUNCSIG__)
 #endif
 
             operator_traits<typename std::remove_const<Left>::type
@@ -285,7 +285,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#	pragma message ("overload operator + : " __FUNCSIG__)
+#pragma message ("overload operator + : " __FUNCSIG__)
 #endif
 
         operator_traits<typename std::remove_const<Left>::type
@@ -359,7 +359,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#	pragma message ("overload operator / : " __FUNCSIG__)
+#pragma message ("overload operator / : " __FUNCSIG__)
 #endif
 
         operator_traits<typename std::remove_const<Left>::type
@@ -432,7 +432,7 @@ namespace cl_ext
         operator * (Left left, Right right)
     {
 #if defined CL_COMPILE_TIME_DEBUG
-#	pragma message ("overload operator * : " __FUNCSIG__)
+#pragma message ("overload operator * : " __FUNCSIG__)
 #endif
         operator_traits<typename std::remove_const<Left>::type
             , typename std::remove_const<Right>::type, oper_mult> op;
@@ -467,11 +467,11 @@ namespace std
     {
         template <typename Left, typename Right>
         typename cl::TapeDouble::value_type operator () (Left const& left, Right const& right) const
-		{
+        {
 #if defined CL_TAPE_CPPAD
             return (left * right).value();
 #else
-			return (cl::TapeDouble::value_type)(left * right);
+            return (cl::TapeDouble::value_type)(left * right);
 #endif
         }
     };
