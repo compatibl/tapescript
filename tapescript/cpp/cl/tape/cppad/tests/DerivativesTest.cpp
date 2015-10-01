@@ -184,8 +184,7 @@ BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
     output  << "\nFunction Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
     TapeFunction<double> f(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0]\n"<<
-        "Y = max(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]\n"<<
+    output  <<  "Y = max(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]\n"  <<
         "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
 
     // Derivatives in x = 3 are correct.
@@ -204,85 +203,37 @@ BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
     BOOST_CHECK(sy[0] == 2 * X[0]);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
 
-    // Derivatives in x = 1 are correspond to y = X * X.
-    // Initialize function in x = 1.
+    // Derivatives in x = 0.0 are correspond to y = 2 - X.
+    // Initialize function in x = 0.0.
 
-    std::vector<double> x(1, 1.0);
+    std::vector<double> x(1, 0.0);
     sy = f.Forward(0, x);
     output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
     // Calculate derivative in Forward mode.
     sy = f.Forward(1, sx);
-    BOOST_CHECK(sy[0] == 2 * x[0]);
-    output  << "Derivative is correspond to Y = X[0]*X[0]" << std::endl;
+    BOOST_CHECK(sy[0] == -1);
+    output  << "Derivative is correspond to Y = 2 - X[0]" << std::endl;
     output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 
     // Calculate derivatives in Reverse mode.
     sy = f.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == 2 * x[0]);
+    BOOST_CHECK(sy[0] == -1);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 
-    // Derivatives in x = 0 are incorrect.
-    // Should be: y(x = 0) = max(X * X, 2 - X) = 2 - X
-    // dy/dx(x = 0) = -1
-    // Initialize function in x = 0.
-    x[0] = 0;
+    // Initialize function in x = -3.
+    x[0] = -3;
     output  << "Check derivative of Y at X[0] = " << x[0] << std::endl;
     sy = f.Forward(0, x);
 
     // Calculate derivative in Forward mode.
     sy = f.Forward(1, sx);
-    BOOST_CHECK(sy[0] != -1.0);
-    output  << "Derivative is correspond to Y = X[0]*X[0], but for X[0] = " << x[0] << " Y should be 2 - X[0]" << std::endl;
-    output  << "Derivative of Y on X[0] in Forward mode calculated unsuccessfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivatives in Reverse mode.
-    sy = f.Reverse(1, sw);
-    BOOST_CHECK(sy[0] != -1.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated unsuccessfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    output  << "For successflul calculation form of function should be changed." << std::endl;
-
-    // Change form of function.
-    X[0] = 0;
-    output  << "Function Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
-
-    Independent(X);
-    Y[0] = std::max(X[0] * X[0], 2 - X[0]);
-
-    TapeFunction<double> f2(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0]\n" <<
-        "Y = max(X[0]*X[0], 2 - X[0]) =  2 - X[0]\n" <<
-        "because X[0]*X[0] < 2 - X[0] at X[0] = " << X[0] << std::endl;
-
-    // Derivatives in x = 0 are correct now.
-    // Should be: y(x = 0) = max(X * X, 2 - X) = 2 - X
-    // dy/dx(x = 0) = -1
-    // Calculate derivative in Forward mode.
-    output  << "Check derivative of Y at X[0] =" << X[0] << std::endl;
-    sy = f2.Forward(1, sx);
-    BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivatives in Reverse mode.
-    sy = f2.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Derivatives in x = 1 are correspond to y = 2 - X.
-    x[0] = 1;
-    output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
-    // Initialize function in x = 1
-    sy = f2.Forward(0, x);
-
-    // Calculate derivative in Forward mode.
-    sy = f2.Forward(1, sx);
-    BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative is correspond to Y = 2 - X[0]." << std::endl;
+    BOOST_CHECK(sy[0] == -6.0);
+    output  << "Derivative is correspond to Y = X[0]*X[0] for X[0] = " << x[0] << std::endl;
     output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 
     // Calculate derivatives in Reverse mode.
-    sy = f2.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == -1.0);
+    sy = f.Reverse(1, sw);
+    BOOST_CHECK(sy[0] == -6.0);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 }
 
@@ -293,11 +244,10 @@ BOOST_AUTO_TEST_CASE(MinDerivativesTest)
 
     TapeDoubleVector Y(1);
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
-    output  << "\nFunction Y = min(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
+    output  << "\nFunction Y = min(X[0]*X[0], 2 - X[0]) is tested at X[0] = " << X[0] << std::endl;
 
     TapeFunction<double> f(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0]\n" <<
-        "Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]\n" <<
+    output  << "Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]\n" <<
         "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
 
     // Derivatives in x = 3 are correct.
@@ -314,140 +264,89 @@ BOOST_AUTO_TEST_CASE(MinDerivativesTest)
     BOOST_CHECK(sy[0] == -1.0);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
 
-    // Derivatives in x = 1 are correspond to y = 2 - X.
-    std::vector<double> x(1, 1.0);
+    // Derivatives in x = 0 are correspond to y = X * X.
+    std::vector<double> x(1, 0.0);
     output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
-    // Initialize function in x = 1.
+    // Initialize function in x = 0.0
     sy = f.Forward(0, x);
 
     // Calculate derivative in Forward mode.
     sy = f.Forward(1, sx);
+    BOOST_CHECK(sy[0] == 0.0);
+    output  << "Derivative is correspond to Y = X[0] * X[0]" << std::endl;
+    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
+
+    // Calculate derivative in Reverse mode.
+    sy = f.Reverse(1, sw);
+    BOOST_CHECK(sy[0] == 0.0);
+    output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
+
+    // Derivatives in x = -3 are correct.
+    // Should be: y(x = -3) = min(X * X, 2 - X) = 2 - X
+    // dy/dx(x = -3) = -1
+    // Initialize function in x = -3
+    x[0] = -3;
+    output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
+    sy = f.Forward(0, x);
+    // Calculate derivative in Forward mode.
+    sy = f.Forward(1, sx);
     BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative is correspond to Y = 2 - X[0]" << std::endl;
+    output  << "Derivative is correspond to Y = 2 - X[0] " << std::endl;
     output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 
     // Calculate derivative in Reverse mode.
     sy = f.Reverse(1, sw);
     BOOST_CHECK(sy[0] == -1.0);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    // Derivatives in x = 0 are incorrect.
-    // Should be: y(x = 0) = min(X * X, 2 - X) = X * X
-    // dy/dx(x = 0) = 2*x = 0
-    // Initialize function in x = 0
-    x[0] = 0;
-    output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
-    sy = f.Forward(0, x);
-    // Calculate derivative in Forward mode.
-    sy = f.Forward(1, sx);
-    BOOST_CHECK(sy[0] != 0.0);
-    output  << "Derivative is correspond to Y = 2 - X[0], but for X[0] = " << x[0] << " Y should be X[0] * X[0]"<< std::endl;
-    output  << "Derivative of Y on X[0] in Forward mode calculated unsuccessfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivative in Reverse mode.
-    sy = f.Reverse(1, sw);
-    BOOST_CHECK(sy[0] != 0.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated unsuccessfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    // Change form of function.
-    output  << "For successflul calculation form of function should be changed." << std::endl;
-    X[0] = 0;
-    Independent(X);
-
-    Y[0] = std::min(X[0] * X[0], 2 - X[0]);
-    output  << "Function Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
-
-    TapeFunction<double> f2(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0]\n" <<
-        "Y = min(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]\n" <<
-        "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
-
-    // Derivatives in x = 0 are correct now.
-    // Should be: y(x = 0) = min(X * X, 2 - X) = X * X
-    // dy/dx(x = 0) = 2*x = 0
-    // Calculate derivative in Forward mode.
-    output  << "Check derivative of Y at X[0] =" << X[0] << std::endl;
-    sy = f2.Forward(1, sx);
-    BOOST_CHECK(sy[0] == 0.0);
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivative in Reverse mode.
-    sy = f2.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == 0.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Derivatives in x = 1 are correspond to y = X * X.
-    x[0] = 1;
-    output  << "Check derivative of Y at X[0] =" << x[0] << std::endl;
-    // Initialize function in x = 1.
-    sy = f2.Forward(0, x);
-    // Calculate derivative in Forward mode.
-    sy = f2.Forward(1, sx);
-    BOOST_CHECK(sy[0] == 2.0);
-    output  << "Derivative is correspond to Y = X[0]*X[0]" << std::endl;
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivative in Reverse mode.
-    sy = f2.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == 2.0);
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
-
-
 }
 
-BOOST_AUTO_TEST_CASE(MinBoundDerivativesTest)
+BOOST_AUTO_TEST_CASE(MaxLimitsDerivativesTest)
 {
-    TapeDoubleVector X(1, 1.0);
+	output << "The test is devoted to the function std::max for the limit values of doubles " << std::endl;
+	double epsilon = ((std::numeric_limits<cl::TapeDouble>::epsilon)());
+	double maxDouble = ((std::numeric_limits<cl::TapeDouble>::max)());
+
     TapeDoubleVector Y(1);
+	TapeDoubleVector X(1, epsilon);
+	Independent(X);
 
-    Independent(X);
+	Y[0] = std::max(5 - X[0] * X[0], 2);
+	output << "\nFunction Y = max(5 - X[0]*X[0], 2 ) is tested at X[0] = " << X[0] << std::endl;
 
-    Y[0] = std::min(X[0] * X[0], 2 - X[0]);
+	TapeFunction<double> f(X, Y);
+	output << "Y = max(5 - X[0]*X[0], 2 ) = 5 - X[0]*X[0], " <<
+		"because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
+	// Derivatives in x = epsilon are correct.
+	// Should be: y(x = epsilon) = max(5 - X * X, 2 - X) = 5 - X * X
+	// dy/dx(x = epsilon) = -2 * epsilon
+	// Calculate derivative in Forward mode.
+	std::vector<double> sy, sx(1, 1.0);
+	sy = f.Forward(1, sx);
+	BOOST_CHECK(sy[0] == -2 * epsilon);
+	output << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
+	// Calculate derivatives in Reverse mode.
+	std::vector<double> sw(1, 1.0);
+	sy = f.Reverse(1, sw);
+	BOOST_CHECK(sy[0] == -2 * epsilon);
+	output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
 
-    output  << "\nFunction Y = min(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
-    TapeFunction<double> f(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0].\n" <<
-        "As at X[0] = 1 right and left operand are equal, " <<
-        "Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]\n" <<
-        "due to the realization of min function."<< std::endl;
+	// Calculate derivative at maxDouble that should correspond
+	// to the case y( x = maxDouble ) = max( 5 - X * X, 2 ) = 2
 
-    // Derivatives in x = 1 are correct.
-    // Right operand is chosen.
-    // Calculate derivatives in Forward mode.
-    std::vector<double> sy, sx(1, 1.0);
-    sy = f.Forward(1, sx);
-    BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Calculate derivatives in Reverse mode.
-    std::vector<double> sw(1, 1.0);
-    sy = f.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == -1.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-
-    // Change position of operands.
-    output  << "Positions of operands are changed. "<< std::endl;
-    Independent(X);
-
-    Y[0] = std::min(2 - X[0], X[0] * X[0]);
-    output  << "Function Y = min(2 - X[0], X[0]*X[0]) is being tested at X[0] = " << X[0] << std::endl;
-    TapeFunction<double> f2(X, Y);
-
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0].\n" <<
-        "As at X[0] = 1 right and left operand are equal, " <<
-        "Y = min(2 - X[0], X[0]*X[0]) = X[0]*X[0]\n" <<
-        "due to the realization of min function." << std::endl;
-    // Derivatives in x = 1 are correct now.
-    // Right operand is chosen
-    // Calculate derivatives in Forward mode
-    sy = f2.Forward(1, sx);
-    BOOST_CHECK(sy[0] == 2.0);
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
-    // Calculate derivatives in Reverse mode
-    sy = f2.Reverse(1, sw);
-    BOOST_CHECK(sy[0] == 2.0);
-    output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << X[0] << ") = " << sy[0] << std::endl;
+	std::vector<double> x(1, maxDouble);
+	output << "Check derivative of Y at X[0] = " << x[0] << std::endl;
+	sy = f.Forward(0, x);
+	// Check the value of the function at minDouble
+	BOOST_CHECK(sy[0] == 2);
+	// Calculate derivative in Forward mode.
+	sy = f.Forward(1, sx);
+	BOOST_CHECK(sy[0] == 0.0);
+	output << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
+	// Calculate derivative in Reverse mode.
+	sy = f.Reverse(1, sw);
+	BOOST_CHECK(sy[0] == 0.0);
+	output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl; 
 }
 
 BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
@@ -493,25 +392,16 @@ BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
     sy = f.Forward(1, sx);
     double exp = 1 / (b - x[0]);
     BOOST_CHECK(sy[0] == 1 / (b - x[0]));
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] <<" (should be big due to division by little number)"<< std::endl;
+    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " 
+		<< sy[0] <<" (should be big due to division by little number)"<< std::endl;
 
     // Calculate derivative in Reverse mode.
     sy = f.Reverse(1, sw);
     BOOST_CHECK(sy[0] == 1 / (b - x[0]));
-    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << " (should be big due to division by little number)" << std::endl;
+    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " 
+		<< sy[0] << " (should be big due to division by little number)" << std::endl;
 
-    //Change form of function
-    X[0] = 2;
-    Independent(X);
-
-    Y[0] = std::min(-std::log(b - X[0]), H);
-
-    output  << "Function Y = min(-log(b - X[0]), H), b = " << b << ", H = " << H << " is being tested at X[0] = " << X[0] << std::endl;
-
-    TapeFunction<double> f2(X, Y);
-    output  << "Sequence of operations in a tape is fixed according to the value of X[0].\n" <<
-        "Y = min(-log(b - X[0]), H) =  H,\n" <<
-        "because -log(b - X[0]) < H at X[0] = " << X[0] << std::endl;
+    output  << "Function Y = min(-log(b - X[0]), H), b = " << b << ", H = " << H << " is tested at X[0] = " << X[0] << std::endl;
 
     // Derivatives in x = b - 1 / (std::exp(H)) are correspond to H.
     x[0] = b - 1 / (std::exp(H));
@@ -519,11 +409,11 @@ BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
     //Initialize function in x = b - 1 / (std::exp(H))
     sy = f.Forward(0, x);
     // Calculate derivative in Forward mode.
-    sy = f2.Forward(1, sx);
+    sy = f.Forward(1, sx);
     BOOST_CHECK(sy[0] == 0.0);
     output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
     // Calculate derivative in Reverse mode.
-    sy = f2.Reverse(1, sw);
+    sy = f.Reverse(1, sw);
     BOOST_CHECK(sy[0] == 0.0);
     output  << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 
