@@ -210,7 +210,7 @@ namespace cl
             , file_path_(path_.first + setting(settings_, "filename", "AdjointPerformance"))
             , of_(file_path_ + ".csv")
             , plt_of_(file_path_ + ".plt")
-            , log_(path_.first + "Log.csv", setting(settings_, "cleanlog", "true") == "true" ? std::ofstream::out : std::ofstream::out | std::ofstream::app)
+            , log_(path_.first + "Log.txt", setting(settings_, "cleanlog", "true") == "true" ? std::ofstream::out : std::ofstream::out | std::ofstream::app)
             , title_(setting(settings_, "title", path_.second))
             , graphics_()
             , columns_()
