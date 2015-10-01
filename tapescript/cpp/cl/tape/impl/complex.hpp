@@ -71,7 +71,7 @@ namespace std
         complex() 
             : complex_()
             , value_()
-            , mode_(None)
+            , mode_(ComplBase)
         {    }
 
         complex(complex const& other) 
@@ -271,14 +271,15 @@ namespace std
 #if defined CL_OPERATOR_DIV_EQ_FIXED
                 complex_ /= right.complex_;
 #else
-                complex_ = std::complex<cl::TapeInnerType<double> >((complex_.real()*right.complex_.real() + complex_.imag()*right.complex_.imag()) /
-(pow(right.complex_.real(), 2)-pow(right.complex_.imag(),2)),
-(complex_.imag()*right.complex_.real() - complex_.real()*right.complex_.imag()) / 
-(pow(right.complex_.real(), 2)-pow(right.complex_.imag(),2))
-);
+                cl::TapeInnerType<double> x1 = complex_.real()
+                    , y1 = complex_.imag()
+                    , x2 = right.complex_.real()
+                    , y2 = right.complex_.imag()
+                    , norm2 = pow(x2, 2) + pow(y2, 2);
+                complex_ = std::complex<cl::TapeInnerType<double> >(
+                    (x1 * x2 + y1 * y2) / norm2
+                    , (y1 * x2 - x1 * y2) / norm2);
                 // cl::throw_("Can't use operator: " __FUNCSIG__);
-
-#   pragma message ("Can't use operator: " __FUNCSIG__)
 #endif
             }
             if (mode_ & ComplBase)
