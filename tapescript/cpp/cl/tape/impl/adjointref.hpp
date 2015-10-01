@@ -30,29 +30,6 @@ limitations under the License.
 /// </summary>
 namespace cl
 {
-#if defined CL_TAPE_CPPAD
-    template <typename Base>
-    using TapeInnerType = CppAD::AD<Base>;
-
-    template <typename Base>
-    using TapeFunctionBase = CppAD::ADFun<Base>;
-#elif CL_TAPE_ADOLC
-	template <typename Base>
-	using TapeInnerType = Adolc::DoubleAdapter<Base>;
-#else
-    template <typename Base>
-    struct TapeInnerType {    };
-#endif
-    /// <summary>
-    ///    Alias on std reference wrapper type
-    /// it used for prevented native type specification
-    /// for adapted types.
-    /// </summary>
-    template <typename Type>
-    using ref_type = std::reference_wrapper<Type>;
-
-    typedef cl::TapeDouble t_double;
-
     namespace tapescript
     {
         ///<summary>
@@ -287,12 +264,21 @@ namespace cl
 #endif
             inline TapeIterator<> begin()
             {
+#if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.begin(), this->refs_.begin());
+#else
+                return TapeIterator<>(); 
+#endif
             }
 
             inline TapeIterator<> end()
             {
+#if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.end(), this->refs_.end());
+#else
+                return TapeIterator<>();
+#endif
+
             }
 
             TapeRefVector(std::size_t s = 0) :refs_(s)

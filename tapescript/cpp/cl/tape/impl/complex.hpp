@@ -37,12 +37,10 @@ namespace std
     class complex<cl::TapeDouble>
     {
     public:
-
         typedef cl::TapeDouble real_type;
         typedef complex<cl::TapeDouble> complex_type;
         typedef complex<double> complex_double;
         typedef cl::TapeInnerType<complex_double > value_type;
-
 
         enum en_complex_type { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2), BothBase = (1 << 3) };
         

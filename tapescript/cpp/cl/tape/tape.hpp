@@ -58,13 +58,15 @@ namespace ext
 }
 #endif
 
+#include <cl/tape/impl/tape_fwd.hpp>
+
 #include <cl/tape/impl/double.hpp>
 
-#include <cl/tape/impl/adjointref.hpp>
 #if defined CL_TAPE_COMPLEX_ENABLED
 #   include <cl/tape/impl/complex.hpp>
 #endif
 
+#include <cl/tape/impl/adjointref.hpp>
 #include <cl/tape/impl/doublelimits.hpp>
 #include <cl/tape/impl/doubleoperators.hpp>
 #include <cl/tape/impl/doublemath.hpp>
@@ -72,26 +74,11 @@ namespace ext
 /// Adaptation adjoint framework essencies
 namespace cl
 {
-    template <typename > struct empty_template {};
-
 #if defined CL_TAPE && defined CL_TAPE_CPPAD
-
-    template <typename Type>
-    using TapeFunctionBase = CppAD::ADFun<Type>;
-    typedef std::vector<cl::TapeDouble::value_type > AdjVectorBase;
-
-    inline void Independent(AdjVectorBase& v)
-    {
-        CppAD::Independent(v);
-    }
-
-    inline void Independent(AdjVectorBase& v, std::size_t abort_index)
-    {
-        CppAD::Independent(v, abort_index);
-    }
-
+    //   The scope of fwd implementation
+    // which is not need to base functionality
+    // but need to derived
 #elif defined CL_TAPE_ADOLC
-
     template <typename Type>
     using TapeFunctionBase = empty_template<Type>;
     typedef std::vector<cl::TapeDouble::value_type > AdjVectorBase;
