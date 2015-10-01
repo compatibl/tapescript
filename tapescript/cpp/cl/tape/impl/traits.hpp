@@ -53,12 +53,10 @@ namespace std
             return (_CSTD _Cosh((double)_Left, (double)_Right));
         }
 
-        static short _Exp(_Ty *_Pleft, _Ty _Right, short _Exponent)
+        static _Ty _Exp(_Ty *_Pleft, _Ty _Right, short _Exponent)
         {	// compute exp(*_Pleft) * _Right * 2 ^ _Exponent
-            double _Tmp = (double)*_Pleft;
-            short _Ans = _CSTD _Exp(&_Tmp, (double)_Right, _Exponent);
-            *_Pleft = (_Ty)_Tmp;
-            return (_Ans);
+            *_Pleft = std::exp((*_Pleft).value())* _Right * pow(2, _Exponent);
+            return *_Pleft;
         }
 
         static _Ty _Infv(_Ty)
@@ -107,12 +105,12 @@ namespace std
 
         static _Ty atan2(_Ty _Yval, _Ty _Xval)
         {	// return atan(_Yval / _Xval)
-            return (_CSTD atan2((double)_Yval, (double)_Xval));
+            return (_CSTD CppAD::atan2(_Yval.value(), _Xval.value()));
         }
 
         static _Ty cos(_Ty _Left)
         {	// return cos(_Left)
-            return (_CSTD cos((double)_Left));
+            return (_CSTD CppAD::cos(_Left.value()));
         }
 
         static _Ty exp(_Ty _Left)
@@ -122,8 +120,7 @@ namespace std
 
         static _Ty ldexp(_Ty _Left, int _Exponent)
         {	// return _Left * 2 ^ _Exponent
-            return _Left * std::pow(2, _Exponent); // !!review 
-            //return (_CSTD ldexp((double)_Left, _Exponent));
+            return _Left * std::pow(2, _Exponent); 
         }
 
         static _Ty log(_Ty _Left)
@@ -151,7 +148,7 @@ namespace std
 
         static _Ty sin(_Ty _Left)
         {	// return sin(_Left)
-            return (_CSTD sin((double)_Left));
+            return (_CSTD CppAD::sin(_Left.value()));
         }
 
         static _Ty sqrt(_Ty _Left)
