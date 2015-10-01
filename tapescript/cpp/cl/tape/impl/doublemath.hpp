@@ -348,7 +348,7 @@ namespace std
 #endif
     }
 
-    inline std::complex<cl::TapeDouble> pow(std::complex<cl::TapeDouble> const & _Left, int _Right)
+    /*inline std::complex<cl::TapeDouble> pow(std::complex<cl::TapeDouble> const & _Left, int _Right)
     {
 #ifdef CL_TAPE_COMPLEX_ENABLED
         typedef std::complex<cl::TapeDouble> complex_type;
@@ -370,7 +370,7 @@ namespace std
 #else
         cl::throw_("Not implemented"); return 0;
 #endif
-        }
+        }*/
 
     inline cl::TapeDouble asinh(cl::TapeDouble x)
     {
@@ -666,11 +666,15 @@ namespace std
     inline std::complex<cl::TapeDouble> 
     operator/(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
     {
+#if defined CL_TAPE_COMPLEX_ENABLED 
+        return std::complex<cl::TapeDouble>(lhs, 0.0, rhs.mode_) / rhs;
+#else
         return std::complex<cl::TapeDouble>(lhs, 0.0) / rhs;
+#endif
     }
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
-#if defined CL_TAPE_COMPLEX_ENABLE
+#if defined CL_TAPE_COMPLEX_ENABLED
     template <typename Right>
     complex<cl::TapeDouble> inline
     pow_(complex<cl::TapeDouble> const &_Left

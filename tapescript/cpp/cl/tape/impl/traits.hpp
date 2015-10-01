@@ -61,7 +61,7 @@ namespace std
 
         static _Ty _Infv(_Ty)
         {	// return infinity
-            return (_CSTD _Inf._Double);
+            return (_CSTD CppAD::AD<double>(_Inf._Double));
         }
 
         static bool _Isinf(_Ty _Left)
@@ -78,7 +78,7 @@ namespace std
 
         static _Ty _Nanv(_Ty)
         {	// return NaN
-            return (_CSTD _Nan._Double);
+            return (_CSTD CppAD::AD<double>(_Nan._Double));
         }
 
         static _Ty _Sinh(_Ty _Left, _Ty _Right)
@@ -115,7 +115,7 @@ namespace std
 
         static _Ty exp(_Ty _Left)
         {	// return exp(_Left)
-            return (_CSTD exp((double)_Left));
+            return (_CSTD CppAD::exp(_Left.value()));
         }
 
         static _Ty ldexp(_Ty _Left, int _Exponent)
@@ -125,14 +125,14 @@ namespace std
 
         static _Ty log(_Ty _Left)
         {	// return log(_Left)
-            return std::log(_Left);
+            return CppAD::log(_Left.value());
         }
 
         static _Ty log1p(_Ty _Left)
         {	// return log(1 + _Left)
-            if (_Left < -1)
+            if (_Left.value() < -1)
                 return (_Nanv(_Left));
-            else if (_Left == 0)
+            else if (_Left.value() == 0)
                 return (_Left);
             else
             {	// compute log(1 + _Left) with fixup for small _Left
@@ -143,7 +143,7 @@ namespace std
 
         static _Ty pow(_Ty _Left, _Ty _Right)
         {	// return _Left ^ _Right
-            return (_CSTD pow((double)_Left, (double)_Right));
+            return (_CSTD CppAD::pow(_Left.value(), CppAD::Value(_Right.value())));
         }
 
         static _Ty sin(_Ty _Left)
@@ -158,7 +158,7 @@ namespace std
 
         static _Ty tan(_Ty _Left)
         {	// return tan(_Left)
-            return (_CSTD tan((double)_Left));
+            return (_CSTD CppAD::tan(_Left.value()));
         }
     };
 }

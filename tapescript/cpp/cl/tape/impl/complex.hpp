@@ -271,7 +271,12 @@ namespace std
 #if defined CL_OPERATOR_DIV_EQ_FIXED
                 complex_ /= right.complex_;
 #else
-            cl::throw_("Can't use operator: " __FUNCSIG__);
+                complex_ = std::complex<cl::TapeInnerType<double> >((complex_.real()*right.complex_.real() + complex_.imag()*right.complex_.imag()) /
+(pow(right.complex_.real(), 2)-pow(right.complex_.imag(),2)),
+(complex_.imag()*right.complex_.real() - complex_.real()*right.complex_.imag()) / 
+(pow(right.complex_.real(), 2)-pow(right.complex_.imag(),2))
+);
+                // cl::throw_("Can't use operator: " __FUNCSIG__);
 
 #   pragma message ("Can't use operator: " __FUNCSIG__)
 #endif
