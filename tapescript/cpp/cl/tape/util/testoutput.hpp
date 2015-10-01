@@ -199,6 +199,8 @@ namespace cl
             plt_of_ << "set decimalsign '.'" << std::endl;
             plt_of_ << "set datafile separator ';'" << std::endl;
 
+            plt_of_ << "set for[i = 1:25] linetype i dt i" << std::endl;
+
             plt_of_ << "set size 0.7, 1" << std::endl;
             plt_of_ << "unset grid" << std::endl;
             plt_of_ << "set border 1 + 2" << std::endl;
@@ -239,7 +241,8 @@ namespace cl
             plt_of_ << "set title \"" << title_ << "\"" << std::endl;
 
             std::string lw = setting(this->settings_, "lw", "3");
-            int lt_ix = 2;
+            static int line_types[] = { 1, 4, 5, 3, 6, 7, 8 };
+            int lt_ix = 0;
 
             // Output graphic lines style 
             auto color_where = boost::begin(settings::colors()), end_color = boost::end(settings::colors());
@@ -247,7 +250,7 @@ namespace cl
             std::for_each(columns_.begin() + 1, columns_.end(), [this, &lt_ix, &color_where, &end_color, &lw](std::string& n)
             {
                 std::stringstream lt;
-                lt << lt_ix++;
+                lt << line_types[lt_ix++];
                 std::string const& color = color_where == end_color ? std::string("blue") : *color_where++;
                 plt_of_ << "\"-\" using 1:2 w lines title \"" << n << "\" lt " << lt.str() << " lw " << lw << " lc \"" << color << "\",\\" << std::endl;
             });
