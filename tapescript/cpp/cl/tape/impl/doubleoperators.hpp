@@ -269,7 +269,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator - : " __FUNCSIG__)
+#    pragma message ("overload operator - : " __FUNCSIG__)
 #endif
 
             operator_traits<typename std::remove_const<Left>::type
@@ -285,7 +285,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator + : " __FUNCSIG__)
+#    pragma message ("overload operator + : " __FUNCSIG__)
 #endif
 
         operator_traits<typename std::remove_const<Left>::type
@@ -359,7 +359,7 @@ namespace cl_ext
     {
 
 #if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator / : " __FUNCSIG__)
+#    pragma message ("overload operator / : " __FUNCSIG__)
 #endif
 
         operator_traits<typename std::remove_const<Left>::type
@@ -432,7 +432,7 @@ namespace cl_ext
         operator * (Left left, Right right)
     {
 #if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator * : " __FUNCSIG__)
+#    pragma message ("overload operator * : " __FUNCSIG__)
 #endif
         operator_traits<typename std::remove_const<Left>::type
             , typename std::remove_const<Right>::type, oper_mult> op;
