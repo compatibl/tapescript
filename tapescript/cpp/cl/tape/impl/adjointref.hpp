@@ -25,7 +25,9 @@ limitations under the License.
 
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
-/// <summary>Adapter for types convertible to double.</summary>
+/// <summary>
+///    Adapter for types convertible to double.
+/// </summary>
 namespace cl
 {
 #if defined CL_TAPE_CPPAD
@@ -38,9 +40,11 @@ namespace cl
     template <typename Base>
     struct TapeInnerType {    };
 #endif
-    /// <summary>Alias on std reference wrapper type
+    /// <summary>
+    ///    Alias on std reference wrapper type
     /// it used for prevented native type specification
-    /// for adapted types.</summary>
+    /// for adapted types.
+    /// </summary>
     template <typename Type>
     using ref_type = std::reference_wrapper<Type>;
 
@@ -48,7 +52,9 @@ namespace cl
 
     namespace tapescript
     {
-        /// <summary>Need for referenced values.</summary>
+        ///<summary>
+        ///    Need for referenced values
+        ///</summary>
         template <typename Base
             = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
         struct TapeRef;
@@ -61,12 +67,16 @@ namespace cl
         return v.get();
     }
 
-    /// <summary>Declaration dereference for adjoint reference class.</summary>
+    /// <summary>
+    ///   Declaration dereference for adjoint reference class.
+    /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> > v);
 
-    /// <summary>Declaration dereference for adjoint reference const class.</summary>
+    /// <summary>
+    /// Declaration dereference for adjoint reference const class.
+    /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> const> v);
@@ -153,12 +163,12 @@ namespace cl
                 assert(ptr_);
                 return *ptr_;
             }
-            // TODO: if we'll should notify to push_, resize, set and similar insert event
-            // typedef std::tuple<inner_type_ptr, std::vector<inner_type> > agrs_functionality_type;
-            // std::function<void (std::pair<inner_type_ptr, )>
         };
 
-        /// <summary>Iterator by tape double accessors, used for the algorithmic adjoint.</summary>
+        /// <summary>
+        ///  Iterator by tape double accessors
+        ///, used for the algorithmic adjoint.
+        /// </summary>
         template <typename Vector = AdjVectorBase>
         struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
@@ -203,7 +213,9 @@ namespace cl
         };
     }
 
-    /// <summary>Dereference implementation.</summary>
+    /// <summary>
+    ///  Dereference implementation.
+    /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type >::inner_type&
     deref(ref_type<tapescript::TapeRef<Type > > v)
@@ -211,7 +223,9 @@ namespace cl
         return *(v.get().ptr_);
     }
 
-    /// <summary>Dereference implementation.</summary>
+    /// <summary>
+    ///  Dereference implementation.
+    /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
     deref(ref_type<tapescript::TapeRef<Type> const> v)
@@ -223,7 +237,9 @@ namespace cl
 
 namespace std
 {
-    /// <summary>Implementation of std traits for algorithmic use.</summary>
+    /// <summary> 
+    ///   Implementation of std traits for algorithmic use.
+    /// </summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
         : std::true_type{};
 }
@@ -742,12 +758,16 @@ namespace cl
         }
     }
 
-    /// <summary>Currently we use this approach for adaptation of
-    /// the extern type vectors to inside TapeInnerType.</summary>
+    /// <summary>
+    ///    Currently we use this approach for adaptation of
+    /// the extern type vectors to inside TapeInnerType.
+    /// </summary>
     typedef std::vector<cl::TapeDouble> TapeDoubleVector;
 
-    /// <summary>Tape function is a compatible external functional implementation
-    /// this should be suitable inside external framework.</summary>
+    /// <summary>
+    ///   Tape function is a compatible external functional implementation
+    /// this should be suitable inside external framework.
+    /// </summary>
     template <typename Base>
     class TapeFunction : public TapeFunctionBase<Base>
     {

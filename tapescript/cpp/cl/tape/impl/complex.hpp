@@ -29,7 +29,9 @@ namespace ext = CppAD;
 
 namespace std
 {
-    /// <summary>The complex type based on tape double.</summary>
+    /// <summary> 
+    ///    The complex type based on tape double.
+    /// </summary>
     template<>
     class complex<cl::TapeDouble>
     {
@@ -41,7 +43,9 @@ namespace std
 
         enum en_complex_type { None = 0 , RealBase = 1 >> 1, ComplBase = 1 >> 2, BothBase = 1 >> 3 };
 
-        // Initialization from real and imaginary parts
+        /// <summary>
+        ///  Initialization from real and imaginary parts
+        /// </summary>
         complex(real_type const& real, real_type const& imag)
             : complex_(real.value(), imag.value())
             , value_()

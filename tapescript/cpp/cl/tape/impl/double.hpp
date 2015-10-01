@@ -25,6 +25,7 @@ limitations under the License.
 
 #include <cl/tape/declare.hpp>
 #include <cl/tape/impl/doubleconverter.hpp>
+#include <cl/tape/impl/std_fwd.hpp>
 
 namespace cl
 {
@@ -60,6 +61,10 @@ namespace cl
         template <typename TapeType>
         friend inline typename TapeType::value_type& cl::tapescript::value(TapeType& tapetype);
 #endif
+        //  Friend functions
+        // in which we should get double directly
+        friend cl::TapeDouble std::ceil(cl::TapeDouble x);
+        friend cl::TapeDouble std::floor(cl::TapeDouble x);
 
     public: // TYPEDEFS
 

@@ -65,7 +65,7 @@ namespace std
         // Conversion from TapeDouble to native double is permitted
         // only when tape pointer is null, otherwise exception is thrown
 #ifdef CL_TAPE_CPPAD
-        return  cl::TapeDouble(std::floor(CppAD::Value(x.value())));  //!!! Review
+        return  cl::TapeDouble(std::floor((double)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -78,7 +78,7 @@ namespace std
 #ifdef CL_TAPE_CPPAD
         // Conversion from TapeDouble to native double is permitted
         // only when tape pointer is null, otherwise exception is thrown
-        return cl::TapeDouble(std::ceil(CppAD::Value(x.value())));  //!!! Review
+        return cl::TapeDouble(std::ceil((double)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -89,6 +89,8 @@ namespace std
     inline cl::TapeDouble sqrt(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
+        //  Conversion from TapeDouble to double is able when
+        // tape is null, otherwise exception happens
         return CppAD::sqrt(x.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
@@ -433,7 +435,7 @@ namespace std
 #ifdef CL_TAPE_CPPAD
         double fractpart;
         double intpart;
-        fractpart = std::modf(CppAD::Value(x.value()), &intpart);     //!!! Review
+        fractpart = std::modf((double)x, &intpart);     //!!! Review
         (*iptr) = cl::TapeDouble(intpart);
         return cl::TapeDouble( fractpart);
 #elif CL_TAPE_ADOLC
