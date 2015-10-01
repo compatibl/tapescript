@@ -29,8 +29,10 @@ limitations under the License.
 #   include <boost/numeric/ublas/fwd.hpp>
 #   include <boost/numeric/ublas/matrix_proxy.hpp>
 #endif
-
-#include <cl/tape/impl/boost_connectors.hpp>
+#define CL_DISTRIBUTION_ENABLE
+#if defined CL_DISTRIBUTION_ENABLE
+    #include <cl/tape/impl/boost_connectors.hpp>
+#endif
 
 //!! Certain tape double operators
 namespace cl

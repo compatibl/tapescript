@@ -507,6 +507,7 @@ namespace std
     }
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
+#if defined CL_TAPE_COMPLEX_ENABLE
     template <typename Right>
     complex<cl::TapeDouble> inline
     pow_(complex<cl::TapeDouble> const &_Left
@@ -544,6 +545,8 @@ namespace std
     {
         return complex<cl::TapeDouble>();
     }
+
+#endif
 
     inline std::complex<cl::TapeDouble> operator+(const std::complex<cl::TapeDouble>& lhs, double rhs) { return lhs + cl::TapeDouble(rhs); }
 
