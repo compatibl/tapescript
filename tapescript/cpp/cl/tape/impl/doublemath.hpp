@@ -375,10 +375,13 @@ namespace std
     inline cl::TapeDouble asinh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        CL_CHECK(v_(log(x + sqrt(cl::TapeDouble(1.0) + pow(x, 2.0))))
-            == std::asinh(v_(x)));
+        CppAD::AD<double> _x = x.value(), _x2 = _x * _x;
+        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<double>(0.001)
+            , (_x > 0) ? CppAD::log(_x) + CppAD::log(1.0 + CppAD::sqrt(1.0 + (1 / _x) * (1 / _x))) :
+            -CppAD::log(-_x) - CppAD::log(1.0 + CppAD::sqrt(1.0 + (1 / _x) * (1 / _x)))
+            , _x * (1.0 + _x2 * (-1 / 6.0 + _x2 * 3 / 40)));
 
-        return log(x + sqrt(cl::TapeDouble(1.0) + pow(x, 2.0)));
+       
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented");return x;
 #else
@@ -389,10 +392,7 @@ namespace std
     inline cl::TapeDouble acosh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        CL_CHECK(v_(log(x + sqrt(cl::TapeDouble(-1.0) + pow(x, 2.0))))
-            == std::acosh(v_(x)));
-
-        return log(x + sqrt(cl::TapeDouble(-1.0) + pow(x, 2.0)));
+        return log(x) + log(1.0 + sqrt(1.0 - (1 / x) * (1 / x)));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -403,10 +403,10 @@ namespace std
     inline cl::TapeDouble atanh(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
-        CL_CHECK(v_(0.5* log((cl::TapeDouble(1.0) + x) / (cl::TapeDouble(1.0) - x)))
-            == std::atanh(v_(x)));
-
-        return 0.5* log((cl::TapeDouble(1.0) + x) / (cl::TapeDouble(1.0) - x));
+        CppAD::AD<double> _x = x.value(), _x2 = _x * _x;
+        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<double>(0.001)
+            , 0.5 * (CppAD::log(1.0 + _x) - CppAD::log(1.0 - _x))
+            , _x * (1.0 + _x2 * (1 / 3.0 + _x2 * 0.2)));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
