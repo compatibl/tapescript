@@ -41,27 +41,32 @@ namespace std
         typedef complex<cl::TapeDouble> complex_type;
         typedef complex<double> complex_double;
         typedef cl::TapeInnerType<complex_double > value_type;
+        typedef std::complex<cl::TapeInnerType<double> > real_based_type;
 
-        enum en_complex_type { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2), BothBase = (1 << 3) };
+        enum Complex_Mode { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2) };
         
         //  If we initialized by certain values this is real base type 
         // and type of valaue is 
-        complex(real_type const& real, real_type const& imag = 0.0)
-            : complex_(real.value(), imag.value())
+        complex(real_type const& real, real_type const& imag = 0.0, Complex_Mode mode = ComplBase)
+            : complex_()
             , value_()
-            , mode_(RealBase)
+            , mode_(mode)
         {
+            if (mode_ == RealBase)
+                complex_ = real_based_type(real.value(), imag.value());
+
+            if (mode_ == ComplBase)
+                value_ = complex_double((double)real, (double)imag);
         }
 
-
-        complex(double real, double imag = 0.0, en_complex_type en = ComplBase)
+        /*complex(double real, double imag = 0.0, Complex_Mode en = ComplBase)
             : complex_(en == RealBase ? complex_type(real, imag) 
                                       : complex_type())
             , value_(en == ComplBase ? complex_double(real, imag) 
                                      : complex_double())
             , mode_(en)
         {
-        }
+        }*/
 
         // This call whn resize vector
         complex() 
@@ -264,7 +269,13 @@ namespace std
         {
             if (mode_ & RealBase)
             {
-                // complex_ /= right.complex_;
+#if defined CL_OPERATOR_DIV_EQ_FIXED
+                complex_ /= right.complex_;
+#else
+            cl::throw_("Can't use operator: " __FUNCSIG__);
+
+#   pragma message ("Can't use operator: " __FUNCSIG__)
+#endif
             }
             if (mode_ & ComplBase)
             {
@@ -275,7 +286,7 @@ namespace std
 
         std::complex<cl::TapeInnerType<double> > complex_;
         value_type value_;
-        en_complex_type mode_;
+        Complex_Mode mode_;
     };
 
     /*complex<cl::TapeDouble> inline
