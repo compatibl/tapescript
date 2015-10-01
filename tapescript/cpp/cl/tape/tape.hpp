@@ -71,6 +71,10 @@ namespace ext
 #include <cl/tape/impl/doubleoperators.hpp>
 #include <cl/tape/impl/doublemath.hpp>
 
+#if defined CL_TAPE_COMPLEX_ENABLED
+#   include <cl/tape/impl/traits.hpp>
+#endif
+
 /// Adaptation adjoint framework essencies
 namespace cl
 {

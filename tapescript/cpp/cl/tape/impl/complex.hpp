@@ -52,11 +52,19 @@ namespace std
             , value_()
             , mode_(mode)
         {
-            if (mode_ == RealBase)
-                complex_ = real_based_type(real.value(), imag.value());
+            bool is_variable = ext::Variable(cl::tapescript::cvalue(real))
+                || ext::Variable(cl::tapescript::cvalue(imag));
 
-            if (mode_ == ComplBase)
+            if (is_variable || RealBase == mode_)
+            {
+                mode_ = RealBase;
+                complex_ = real_based_type(real.value(), imag.value());
+            }
+            else
+            {
+                mode_ = ComplBase;
                 value_ = complex_double((double)real, (double)imag);
+            }
         }
 
         // This call whn resize vector
