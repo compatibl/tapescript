@@ -753,13 +753,22 @@ namespace cl
     class TapeFunction : public TapeFunctionBase<Base>
     {
     public:
+        TapeFunction()
+            : TapeFunctionBase<Base>()
+        { }
+
         TapeFunction(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
             : TapeFunctionBase<Base>(x.vec_, y.vec_)
         { }
 
-        TapeFunction(std::vector<cl::TapeDouble> const& x, std::vector<cl::TapeDouble> const& y)
+        TapeFunction(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
             : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
         { }
+        
+        void Dependent(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
+        {
+            TapeFunctionBase<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
+        }
     };
 
     template <>
@@ -776,14 +785,16 @@ namespace cl
         {   }
     };
 
+    template <class Base>
     inline void
-    Independent(std::vector<cl::TapeDouble>& v_tape, std::size_t abort_index)
+        Independent(std::vector<cl::tape_double<Base>>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
+    template <class Base>
     inline void
-    Independent(std::vector<cl::TapeDouble>& v_tape)
+        Independent(std::vector<cl::tape_double<Base>>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }
