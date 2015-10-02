@@ -104,7 +104,9 @@ namespace ext
 #   include <cl/tape/impl/traits.hpp>
 #endif
 
-#include <cl/tape/impl/inner/base_inner_array.hpp>
+#if defined CL_TAPE_INNER_ARRAY_ENABLED
+#   include <cl/tape/impl/inner/base_inner_array.hpp>
+#endif
 //#include <cl/tape/impl/inner/inner_vector_ops.hpp>
 
 /// Adaptation adjoint framework essences

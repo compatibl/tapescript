@@ -28,14 +28,24 @@ limitations under the License.
 #include <limits>
 #include <valarray>
 #include <sstream>
-#include <Eigen/Dense>
+
+#if defined CL_EIGEN_ENABLED
+#   include <Eigen/Dense>
+#endif
+
+#include <cl/tape/impl/tape_fwd.hpp>
 
 namespace cl
 {
     template <class Array> struct inner_array;
-    typedef inner_array<Eigen::ArrayXd> InnerArrayXd;
     typedef inner_array<std::valarray<double>> InnerValArray;
+    typedef tape_double<InnerValArray> TapeValArray;
     typedef InnerValArray InnerArray;
+    typedef tape_double<InnerArray> TapeArray;
+
+#if defined CL_EIGEN_ENABLED
+    typedef inner_array<Eigen::ArrayXd> InnerArrayXd;
+#endif
 
 
     /// <summary>Traits of array type for using it as inner_array template parameter.</summary>
@@ -128,7 +138,8 @@ namespace cl
             return result;
         }
     };
-
+    
+#if defined CL_EIGEN_ENABLED    
     /// <summary>Array traits of Eigen::Array.</summary>
     template <class Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
     struct array_traits<
@@ -199,6 +210,7 @@ namespace cl
             return Eigen::exp(std::log(x) * y);
         }
     };
+#endif
 
 
     /// <summary>Class that aggregates a scalar value and an array value.
