@@ -30,6 +30,7 @@ namespace cl
 }
 
 #if defined CL_TAPE_CPPAD
+#include <cl/tape/impl/base_require.hpp>
 #include <cppad/cppad.h>
 #include <cppad/local/ad.hpp>
 
