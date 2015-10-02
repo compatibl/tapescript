@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef CL_INNER_ARRAY_TRAITS_HPP_INCLUDED
-#define CL_INNER_ARRAY_TRAITS_HPP_INCLUDED
+#ifndef cl_tape_impl_inner_array_traits_hpp
+#define cl_tape_impl_inner_array_traits_hpp
 
 #pragma once
 
@@ -214,4 +214,4 @@ namespace cl
 #endif // CL_EIGEN_ENABLED
 }
 
-#endif // CL_INNER_ARRAY_TRAITS_HPP_INCLUDED
+#endif // cl_tape_impl_inner_array_traits_hpp
