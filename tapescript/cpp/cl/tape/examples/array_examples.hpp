@@ -37,6 +37,19 @@ inline void print_sizeofs()
 }
 
 
+inline void print_sizeofs_all()
+{
+    std::cout << "Sizeofs:" << std::endl;
+
+    /*
+    print_sizeofs<Eigen::ArrayXd>();
+    print_sizeofs<Eigen::Array2d>();
+    print_sizeofs<Eigen::Array4d>();
+    print_sizeofs<std::valarray<double>>();
+    */
+}
+
+
 template <class Ty>
 std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
 {
@@ -519,10 +532,11 @@ inline void linear_regression_example(std::ostream& out_str = std::cout)
     cl::TapeArray x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
     cl::TapeArray y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
     cl::TapeArray x_centralized = x - x_mean;
+    cl::TapeArray y_centralized = y - y_mean;
     // Variance times n: n * Var[x]
     cl::TapeArray var_x_n = cl::tapescript::sum_vec(x_centralized * x_centralized);
     // Covariance times n: n * Cov[x, y]
-    cl::TapeArray cov_xy_n = cl::tapescript::sum_vec(x_centralized * (y - y_mean));
+    cl::TapeArray cov_xy_n = cl::tapescript::sum_vec(x_centralized * y_centralized);
     cl::TapeArray beta = cov_xy_n / var_x_n;
     cl::TapeArray alpha = y_mean - beta * x_mean;
     cl::TapeArray y_estimate = alpha + beta * x;
@@ -546,7 +560,7 @@ inline void linear_regression_example(std::ostream& out_str = std::cout)
     out_str << "Reverse sweep result: " << rev << "\n\n\n";
 }
 
-inline void array_examples()
+inline void examples()
 {
     std::ofstream of("output.txt");
     CppAD::tape_serializer<cl::InnerArray> serializer(of);
