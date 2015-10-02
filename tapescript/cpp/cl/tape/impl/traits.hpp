@@ -24,7 +24,7 @@ limitations under the License.
 
 #ifndef cl_tape_impl_traits_hpp
 #define cl_tape_impl_traits_hpp
-# include <C:\projects\quantlib\tapescript\cpp\cl\tape\impl\doublemath.hpp>
+
 namespace std
 {
     template<typename Type>
