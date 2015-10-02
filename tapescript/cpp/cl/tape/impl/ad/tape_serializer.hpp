@@ -18,12 +18,18 @@ namespace CppAD
     struct tape_serializer : std::ostream
     {
         struct impl {};
+        struct impl_start{};
 
         tape_serializer(std::ostream& os = std::cout)
             : std::ostream(os.rdbuf())
         {}
 
         ~tape_serializer()  { std::ostream::clear(); }
+
+        void start()
+        {
+            *this << "Op#    Res#   Op       Operands          Taylor coeficients \n";
+        }
 
         template <class Type>
         void saveOpField(

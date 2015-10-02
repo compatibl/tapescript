@@ -27,6 +27,8 @@ namespace CppAD
         return false;
     }
 
+    struct serializer_start{};
+
     template <typename Serializer, typename Stream, typename... Args>
     inline void serialize__(std::false_type, Stream& stg, Args...)
     {

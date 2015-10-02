@@ -1,5 +1,6 @@
 # ifndef TAPE_SERIALIZER_CALL_INCLUDED
 # define TAPE_SERIALIZER_CALL_INCLUDED
+
 /* --------------------------------------------------------------------------
 CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
 
@@ -10,6 +11,9 @@ Eclipse Public License Version 1.0.
 A copy of this license is included in the COPYING file of this distribution.
 Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 -------------------------------------------------------------------------- */
+
+#include "tape_serializer_fwd.hpp"
+
 namespace CppAD
 {
     template <typename Ty_> struct remove_template
@@ -21,6 +25,42 @@ namespace CppAD
         , class Ty_>
     struct remove_template<Template<Ty_> >
         : std::true_type{ typedef Ty_ base; };
+
+    /// <summary>Serialization start implementation if impl_start is not
+    /// defined in Serializer.</summary>
+    template <typename Serializer, typename Meta = void>
+    struct serializer_start_impl
+    {
+        template <typename... Args>
+        static void start(Serializer&, Args&...)
+        {}
+    };
+
+    /// <summary>Serialization start implementation if impl_start is
+    /// defined in Serializer.</summary>
+    template <typename Serializer>
+    struct serializer_start_impl<Serializer
+        , std::conditional_t<false, typename Serializer::impl_start, void>
+    >
+    {
+        template <typename... Args>
+        static void start(Serializer& ss, Args&... args)
+        {
+            ss.start(args...);
+        }
+    };
+
+    /// <summary> Start serialization call. </summary>
+    template <typename Serializer, typename Stream, typename... Args>
+    inline void serialize__
+        (std::true_type
+        , Stream                             &s_out
+        , serializer_start&
+        , Args&...                            args)
+    {
+        Serializer& ss = static_cast<Serializer&>(s_out);
+        serializer_start_impl<Serializer>::start(ss, args...);
+    }
 
     /// <summary> Implementation serialization call
     /// if we have implemented serializer </summary>

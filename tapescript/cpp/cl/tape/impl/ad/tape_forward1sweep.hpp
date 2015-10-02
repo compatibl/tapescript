@@ -210,6 +210,10 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             CPPAD_ASSERT_UNKNOWN(J >= q + 1);
             CPPAD_ASSERT_UNKNOWN(play->num_var_rec() == numvar);
 
+            if (!is_cout(s_out))
+                serialize<Base>(
+                    s_out
+                    , serializer_start());
             /*
             <!-- replace forward0sweep_code_define -->
             */
