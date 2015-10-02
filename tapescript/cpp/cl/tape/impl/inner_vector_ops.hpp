@@ -53,7 +53,7 @@ namespace cl
             atomic_reverse_vec()
                 : atomic_base("atomic_reverse_vec")
             {}
-                        
+
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
@@ -67,7 +67,7 @@ namespace cl
                     ty[i] = reverse_vec(tx[i]);
                 return true;
             }
-            
+
 	        bool reverse(
 		        size_t                    q  ,
 		        const vector<Base>&       tx ,
@@ -101,7 +101,7 @@ namespace cl
                 s = r;
                 return true;
 	        }
-                        
+
 	        bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector< std::set<size_t> >&       rt ,
@@ -110,7 +110,7 @@ namespace cl
                 st = rt;
                 return true;
 	        }
-            
+
             bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector<bool>&                     rt ,
@@ -195,7 +195,7 @@ namespace cl
                     return val;
                 return InnerVector(val, model.vector_value_.size());
             }
-                        
+
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
@@ -218,7 +218,7 @@ namespace cl
                 }
                 return true;
             }
-            
+
 	        bool reverse(
 		        size_t                    q  ,
 		        const vector<Base>&       tx ,
@@ -248,7 +248,7 @@ namespace cl
                 s = r;
                 return true;
 	        }
-                        
+
 	        bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector< std::set<size_t> >&       rt ,
@@ -257,7 +257,7 @@ namespace cl
                 st = rt;
                 return true;
 	        }
-            
+
             bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector<bool>&                     rt ,
@@ -372,7 +372,7 @@ namespace cl
             }
             return result;
         }
-        
+
         struct atomic_conc_vec : public CppAD::atomic_base<InnerVector>
         {
             typedef InnerVector Base;
@@ -381,7 +381,7 @@ namespace cl
             atomic_conc_vec()
                 : atomic_base("atomic_conc_vec")
             {}
-                        
+
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
@@ -409,7 +409,7 @@ namespace cl
                 }
                 return true;
             }
-            
+
 	        bool reverse(
 		        size_t                    q  ,
 		        const vector<Base>&       tx ,
@@ -477,7 +477,7 @@ namespace cl
                 }
                 return true;
 	        }
-                        
+
 	        bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector< std::set<size_t> >&       rt ,
@@ -487,7 +487,7 @@ namespace cl
                 st[1] = rt[0];
                 return true;
 	        }
-            
+
             bool rev_sparse_jac(
 		        size_t                                  q  ,
 		        const vector<bool>&                     rt ,
