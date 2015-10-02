@@ -65,8 +65,8 @@ namespace cl
 #endif
         //  Friend functions
         // in which we should get double directly
-        friend tape_type std::ceil(tape_type x);
-        friend tape_type std::floor(tape_type x);
+        friend tape_double<double> std::ceil(tape_double<double> x);
+        friend tape_double<double> std::floor(tape_double<double> x);
 
     public: // TYPEDEFS
 
