@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\External">
+      <UniqueIdentifier>{aaab29b5-ebe8-4ea9-81fc-0a3449e1fd7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tape_example.cpp">
@@ -20,889 +23,898 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cppad\cg\c\lang_c_atomic_fun.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\lang_c_custom_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\lang_c_default_hessian_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\lang_c_default_reverse2_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\lang_c_default_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\language_c.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\language_c_arrays.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\language_c_double.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\language_c_float.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\c\language_c_index_patterns.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\bipartite.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\dae_equation_info.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\dae_index_reduction.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\dae_var_info.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\dummy_deriv.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\pantelides.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\dae_index_reduction\time_diff.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\lang_latex_custom_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\lang_latex_default_var_name_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\language_latex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\language_latex_arrays.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\language_latex_index_patterns.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\latex\latex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\compiler\abstract_c_compiler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\compiler\c_compiler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\compiler\clang_compiler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\compiler\gcc_compiler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamic_model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\ar_archiver.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\archiver.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamic_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamiclib.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_3_2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm3_2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_3_4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm3_4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_3_6.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm3_6.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\llvm.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\llvm_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\llvm\llvm_model_library.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\hessian_with_loops_info.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for0.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess_r2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac_fr1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\system\linux_system.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\system\system.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\atomic_external_function_wrapper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\atomic_generic_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\external_function_wrapper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\functor_generic_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\functor_model_library.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\generic_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\generic_model_external_function_wrapper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_for0.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_for1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_hes.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_impl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_jac.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev1.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_library.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_library_c_source_gen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_library_c_source_gen_impl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\model\save_files_model_library_processor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\index_assign_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\index_dclr_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\index_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\loop_end_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\loop_start_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nodes\print_operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\index_pattern_impl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\linear_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\plane_2d_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\random_1d_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\random_2d_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\random_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\index\sectioned_index_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\dependent_pattern_matcher.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\equation_group.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\equation_pattern.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\independent_node_sorter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\iter_equation_group.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\loop.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\loop_free_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\loop_model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\patterns\loop_position.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\abstract_atomic_fun.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\argument.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\arithmetic.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\arithmetic_assign.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\array_id_compresser.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\atomic_dependency_locator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\atomic_fun.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\atomic_fun_bridge.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\base_abstract_atomic_fun.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\base_double.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\base_float.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\cg.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\code_handler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\code_handler_loops.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\compare.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\cond_exp_op.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\cppadcg.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\cppadcg_assert.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\custom_position.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\debug.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\declare_cg.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\declare_cg_loops.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\default.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\evaluator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\evaluator_adolc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\exception.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\graph_mod.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\identical.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\job_timer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\language.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\math.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\math_other.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\nan.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\operation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\operation_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\operation_path.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\ordered.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\ostream_config_restore.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\range.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\scope_path_element.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\smart_containers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\solver.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\unary.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\util.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\variable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\cg\variable_name_generator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\extra\declare_extra.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\extra\extra.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\extra\sparse_forjac_hessian.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cppad\extra\sparsity.hpp">
+    <ClInclude Include="impl\array_examples.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\abort_recording.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\abs.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\abs_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\abstract_atomic_fun.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\compiler\abstract_c_compiler.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\acos_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_assign.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_binary.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_ctor.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_fun.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_io.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_tape.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ad_valued.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\add.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\add_eq.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\add_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\ar_archiver.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\archiver.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\argument.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\arithmetic.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\arithmetic.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\arithmetic_assign.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\array_id_compresser.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\asin_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\atan_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\atan2.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\atomic_base.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\atomic_dependency_locator.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\atomic_external_function_wrapper.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\atomic_fun.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\atomic_fun_bridge.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\atomic_generic_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\base_abstract_atomic_fun.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\base_complex.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\base_cond_exp.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\base_double.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\base_double.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\base_float.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\base_float.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\base_std_math.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\bender_quad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\bipartite.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\bool_fun.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\bool_valued.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\compiler\c_compiler.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\capacity_order.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\cg.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\checkpoint.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\compiler\clang_compiler.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\code_handler.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\code_handler_loops.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\color_general.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\color_symmetric.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\comp_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\compare.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\compare.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\compute_assign.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cond_exp.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\cond_exp_op.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cond_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\convert.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cos_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cosh_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cppad_assert.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cppad_colpack.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\cppadcg.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\cppadcg_assert.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\cskip_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\csum_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\custom_position.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_equation_info.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_index_reduction.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_var_info.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\debug.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\declare_ad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\declare_cg.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\declare_cg_loops.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\extra\declare_extra.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\default.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\define.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\dependent.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\dependent_pattern_matcher.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\discrete.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\discrete_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\div.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\div_eq.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\div_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\drivers.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\dummy_deriv.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamic_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamiclib.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\epsilon.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\equal_op_seq.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\equation_group.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\equation_pattern.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\erf.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\erf_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\evaluator.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\evaluator_adolc.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\exception.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\exp_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\external_function_wrapper.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\extra\extra.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\for_jac_sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\for_one.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\for_sparse_jac.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\for_two.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\forward.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\forward0sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\forward1sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\forward2sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\fun_check.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\fun_construct.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\fun_eval.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\functor_generic_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\functor_model_library.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\compiler\gcc_compiler.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\generic_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\generic_model_external_function_wrapper.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\graph_mod.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\hash_code.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\hessian.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\hessian_with_loops_info.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\identical.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\identical.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\independent.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\independent_node_sorter.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\index_assign_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\index_dclr_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\index_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\index_pattern_impl.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\integer.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\iter_equation_group.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\jacobian.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\job_timer.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\lang_c_atomic_fun.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\lang_c_custom_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\lang_c_default_hessian_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\lang_c_default_reverse2_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\lang_c_default_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\lang_latex_custom_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\lang_latex_default_var_name_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\language.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\language_c.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\language_c_arrays.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\language_c_double.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\language_c_float.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\c\language_c_index_patterns.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\language_latex.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\language_latex_arrays.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\language_latex_index_patterns.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\latex\latex.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\limits.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\linear_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamic_model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\system\linux_system.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\llvm.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\llvm_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\llvm_model_library.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_3_2.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_3_4.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_3_6.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm3_2.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm3_4.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm3_6.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\load_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\log_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\loop.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\loop_end_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\loop_free_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\loop_model.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\loop_position.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\loop_start_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\lu_ratio.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\math.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\math_other.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\math_other.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_for0.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_for1.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_hes.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_impl.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_jac.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for0.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for1.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess_r2.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac_fr1.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev1.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev2.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev1.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev2.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_library.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_library_c_source_gen.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_library_c_source_gen_impl.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\mul.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\mul_eq.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\mul_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nan.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\near_equal_ext.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\num_skip.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\old_atomic.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\omp_max_thread.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\op_code.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\operation.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\operation_node.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\operation_path.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\opt_val_hes.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\optimize.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\ordered.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\ordered.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\ostream_config_restore.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\pantelides.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\par_var.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\parallel_ad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\parameter_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\plane_2d_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\player.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\pod_vector.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\pow.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\pow_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\print_for.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\print_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\nodes\print_operation_node.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\prototype_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\random_1d_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\random_2d_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\random_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\range.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\recorder.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_hes_sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_jac_sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_one.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_sparse_hes.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_sparse_jac.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\rev_two.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\reverse.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\reverse_sweep.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\save_files_model_library_processor.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\scope_path_element.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\patterns\index\sectioned_index_pattern.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sign.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sign_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sin_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sinh_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\smart_containers.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\solver.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_binary_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\extra\sparse_forjac_hessian.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_hessian.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_jacobian.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_list.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_pack.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_pattern.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_set.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sparse_unary_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\extra\sparsity.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sqrt_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\std_math_ad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\std_set.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\store_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sub.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sub_eq.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\sub_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\model\system\system.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\tan_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\tanh_op.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\tape_link.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\test_vector.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\testvector.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\dae_index_reduction\time_diff.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\unary.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\unary_minus.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\unary_plus.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\undef.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\user_ad.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\util.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\value.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\var2par.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\variable.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="cppad\cg\variable_name_generator.hpp">
+      <Filter>Header Files\External</Filter>
     </ClInclude>
     <ClInclude Include="cppad\local\vec_ad.hpp">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="impl\basic_examples.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="impl\array_examples.hpp">
+    <ClInclude Include="impl\utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="impl\performance_tests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

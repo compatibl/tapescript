@@ -383,6 +383,8 @@
     <ClInclude Include="cppad\local\vec_ad.hpp" />
     <ClInclude Include="impl\array_examples.hpp" />
     <ClInclude Include="impl\basic_examples.hpp" />
+    <ClInclude Include="impl\performance_tests.hpp" />
+    <ClInclude Include="impl\utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tape_example.cpp" />

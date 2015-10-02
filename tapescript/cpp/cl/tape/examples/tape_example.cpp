@@ -30,11 +30,13 @@ limitations under the License.
 
 #include "impl/array_examples.hpp"
 #include "impl/basic_examples.hpp"
+#include "impl/performance_tests.hpp"
 
 int main()
 {
     cl::basic_examples();
     cl::array_examples();
+    cl::performance_tests();
     
     system("pause");
     return 0;
