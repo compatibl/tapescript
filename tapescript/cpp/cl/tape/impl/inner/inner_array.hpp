@@ -101,8 +101,7 @@ namespace cl
         {
             if (is_vector())
             {
-                throw std::exception("Not a scalar.");
-                //cl::throw_("Not a scalar.");
+                cl::throw_("Not a scalar.");
             }
             return scalar_value_;
         }

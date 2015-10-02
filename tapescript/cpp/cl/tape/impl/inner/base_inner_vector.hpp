@@ -169,8 +169,8 @@ namespace CppAD
             return CondExpOpEq(left, right, exp_if_true, exp_if_false);
 
         default:
-            throw std::exception("Unknown compare operation.");
-            //cl::throw_("Unknown compare operation.");
+            cl::throw_("Unknown compare operation.");
+            return exp_if_true;
         }
     }
 

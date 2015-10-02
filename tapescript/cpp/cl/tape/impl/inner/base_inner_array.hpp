@@ -81,8 +81,7 @@ namespace CppAD
         //}
         //
         //return result;
-        throw std::exception("Not implemented.");
-        //cl::throw_("Not implemented.");
+        cl::throw_("Not implemented.");
         return exp_if_true;
     }
 
@@ -136,8 +135,7 @@ namespace CppAD
         //}
         //
         //return result;
-        throw std::exception("Not implemented.");
-        //cl::throw_("Not implemented.");
+        cl::throw_("Not implemented.");
     }
 
     // Conditional expression.
@@ -166,8 +164,8 @@ namespace CppAD
             return CondExpOpEq(left, right, exp_if_true, exp_if_false);
 
         default:
-            throw std::exception("Unknown compare operation.");
-            //cl::throw_("Unknown compare operation.");
+            cl::throw_("Unknown compare operation.");
+            return exp_if_true;
         }
     }
 
