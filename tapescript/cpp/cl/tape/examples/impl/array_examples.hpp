@@ -25,41 +25,10 @@ limitations under the License.
 
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
+#include "impl/utils.hpp"
 
 namespace cl
 {
-
-    template <class Array>
-    inline void print_sizeofs()
-    {
-        std::cout << std::setw(40) << typeid(Array).name() << ": \t";
-        std::cout << sizeof(Array) << "\t";
-        std::cout << sizeof(cl::inner_array<Array>) << "\t";
-        std::cout << sizeof(CppAD::AD<cl::inner_array<Array>>) << "\t";
-        std::cout << sizeof(cl::tape_double<cl::inner_array<Array>>) << std::endl;
-    }
-
-
-    template <class Ty>
-    std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
-    {
-        if (v.size() == 0)
-        {
-            return ostr << "{}";
-        }
-
-        std::stringstream ss;
-        ss.precision(ostr.precision());
-        ss << "{ " << v[0];
-        for (size_t i = 1; i < v.size(); i++)
-        {
-            ss << ", " << v[i];
-        }
-        ss << " }";
-
-        return ostr << ss.str();
-    }
-
     inline void plus_example(std::ostream& out_str = std::cout)
     {
         out_str << "Plus operation:\n" << std::endl;
@@ -521,10 +490,12 @@ namespace cl
         cl::TapeArray& y = X[1];
         cl::TapeArray x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
         cl::TapeArray y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+        cl::TapeArray x_centralized = x - x_mean;
+        cl::TapeArray y_centralized = y - y_mean;
         // Variance times n: n * Var[x]
-        cl::TapeArray var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+        cl::TapeArray var_x_n = cl::tapescript::sum_vec(x_centralized * x_centralized);
         // Covariance times n: n * Cov[x, y]
-        cl::TapeArray cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+        cl::TapeArray cov_xy_n = cl::tapescript::sum_vec(x_centralized * y_centralized);
         cl::TapeArray beta = cov_xy_n / var_x_n;
         cl::TapeArray alpha = y_mean - beta * x_mean;
         cl::TapeArray y_estimate = alpha + beta * x;
@@ -536,10 +507,16 @@ namespace cl
         cl::TapeFunction<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 0, 0, 0 }, { 0, 0, 1 } };
+        std::vector<cl::InnerArray> dx = { { 1, 0, 0 }, { 0, 0, 0 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
+
+        // Reverse sweep calculations.
+        std::vector<cl::InnerArray> w = { 0, 1, 0 };
+        out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
+        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
     inline void array_examples()
