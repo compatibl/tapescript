@@ -161,6 +161,7 @@ namespace cl
         }
     };
 
+    // Returns reversed vector.
     inline CppAD::AD<InnerVector> reverse_vec(const CppAD::AD<InnerVector>& x)
     {
         return ReverseImpl::reverse_vec(x);
@@ -307,6 +308,7 @@ namespace cl
         }
     };
 
+    // Returns sum of vector elements.
     inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
     {
         return SumImpl::sum_vec(x);
@@ -370,17 +372,7 @@ namespace cl
             }
             return result;
         }
-
-        //static inline InnerVector adjust_size(const InnerVector& x, size_t n)
-        //{
-        //    if (x.is_scalar())
-        //    {
-        //        return InnerVector(x.scalar_value_, n);
-        //    }
-        //    assert(size(x) == n);
-        //    return x;
-        //}
-
+        
         struct atomic_conc_vec : public CppAD::atomic_base<InnerVector>
         {
             typedef InnerVector Base;

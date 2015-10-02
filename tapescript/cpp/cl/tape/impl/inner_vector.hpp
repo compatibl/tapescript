@@ -182,7 +182,7 @@ namespace cl
         {                                                                   \
             return x.scalar_value_ Op y.vector_value_;                      \
         }                                                                   \
-        else /* (left.is_vector() && right.is_vector()) */                  \
+        else /* (x.is_vector() && y.is_vector()) */                         \
         {                                                                   \
             return x.vector_value_ Op y.vector_value_;                      \
         }                                                                   \
