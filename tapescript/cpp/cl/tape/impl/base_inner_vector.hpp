@@ -260,7 +260,7 @@ namespace CppAD
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cos)
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cosh)
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, exp)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, fabs)
+	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, abs)
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log)
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log10)
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sin)
@@ -272,9 +272,9 @@ namespace CppAD
 	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, erf)
 # endif
 
-	inline cl::InnerVector abs(const cl::InnerVector& x)
+	inline cl::InnerVector fabs(const cl::InnerVector& x)
     {
-        return std::fabs(x);
+        return std::abs(x);
     }
     
 	inline cl::InnerVector sign(const cl::InnerVector& x)

@@ -244,7 +244,6 @@ namespace std
     }
 
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, abs)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerVector, fabs)
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, acos)
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, sqrt)
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, asin)
