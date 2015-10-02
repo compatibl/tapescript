@@ -503,10 +503,11 @@ inline void linear_regression_example(std::ostream& out_str = std::cout)
     cl::TapeArray& y = X[1];
     cl::TapeArray x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
     cl::TapeArray y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+    cl::TapeArray x_centralized = x - x_mean;
     // Variance times n: n * Var[x]
-    cl::TapeArray var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+    cl::TapeArray var_x_n = cl::tapescript::sum_vec(x_centralized * x_centralized);
     // Covariance times n: n * Cov[x, y]
-    cl::TapeArray cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+    cl::TapeArray cov_xy_n = cl::tapescript::sum_vec(x_centralized * (y - y_mean));
     cl::TapeArray beta = cov_xy_n / var_x_n;
     cl::TapeArray alpha = y_mean - beta * x_mean;
     cl::TapeArray y_estimate = alpha + beta * x;
@@ -518,10 +519,16 @@ inline void linear_regression_example(std::ostream& out_str = std::cout)
     cl::TapeFunction<cl::InnerArray> f(X, Y);
 
     // Forward sweep calculations.
-    std::vector<cl::InnerArray> dx = { { 0, 0, 0 }, { 0, 0, 1 } };
+    std::vector<cl::InnerArray> dx = { { 1, 0, 0 }, { 0, 0, 0 } };
     out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
     std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
     out_str << "Forward sweep result: " << forw << "\n\n";
+
+    // Reverse sweep calculations.
+    std::vector<cl::InnerArray> w = { 0, 1, 0 };
+    out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
+    std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+    out_str << "Reverse sweep result: " << rev << "\n\n\n";
 }
 
 inline void examples()

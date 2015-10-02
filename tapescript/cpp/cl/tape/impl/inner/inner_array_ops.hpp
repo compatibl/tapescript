@@ -193,7 +193,14 @@ namespace cl
                     return x;
                 return std::accumulate(begin(x.array_value_), end(x.array_value_), 0.0);
             }
-    
+
+            static inline inner_type adjust_size(double val, const inner_type& model)
+            {
+                if (model.is_scalar())
+                    return val;
+                return inner_type(val, model.array_value_.size());
+            }
+
             struct atomic_sum_vec : public CppAD::atomic_base<inner_type>
             {
                 typedef inner_type Base;
@@ -239,7 +246,7 @@ namespace cl
                     const vector<Base>&       py )
                 {
                     for (size_t i = 0; i < py.size(); i++)
-                        px[i] = sum_vec(py[i]).scalar_value_;
+                        px[i] = adjust_size(sum_vec(py[i]).scalar_value_, tx[0]);
                     return true;
                 }
     
