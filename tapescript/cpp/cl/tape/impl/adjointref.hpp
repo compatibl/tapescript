@@ -817,6 +817,10 @@ namespace cl
         print_type<decltype(adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
 #endif
 #if defined CL_TAPE_COMPLEX_ENABLED
+        for (auto &v : x)
+        {
+            v.set_mode(std::complex<cl::TapeDouble>::ComplBase);
+        }
         ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x));
 #endif
     }

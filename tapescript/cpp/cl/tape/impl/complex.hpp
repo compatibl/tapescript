@@ -87,9 +87,27 @@ namespace std
         {    }
 
         template<class Ty>
-        explicit complex(complex<Ty> const & other)
-            : complex(other.real(), other.imag())
+        explicit complex(complex<Ty> const & other, Complex_Mode mode = ComplBase)
+            : complex(other.real(), other.imag(), mode)
         {	 }
+
+        inline complex_type& set_mode(Complex_Mode mode)
+        {
+            if (mode == ComplBase && mode_ == RealBase)
+            {
+                cl::CheckParameter(complex_.real());
+                cl::CheckParameter(complex_.imag());
+                mode_ = ComplBase;
+                value_ = complex_double(ext::Value(complex_.real()), ext::Value(complex_.imag()));
+            }
+            if (mode == RealBase && mode_ == ComplBase)
+            {
+                cl::CheckParameter(value_);
+                mode_ = RealBase;
+                complex_ = real_based_type(ext::Value(value_).real(), ext::Value(value_).imag());
+            }
+            return *this;
+        }
 
         inline real_type real(real_type const& right)
         {
