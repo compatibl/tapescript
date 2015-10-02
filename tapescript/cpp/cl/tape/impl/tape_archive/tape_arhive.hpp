@@ -43,6 +43,9 @@ limitations under the License.
 
 namespace cl
 {
+    template <typename >
+    struct inner_array;
+
     template <typename Base>
     class TapeFunction;
 
@@ -63,6 +66,14 @@ namespace cl
         void saveOp(Args... fake)
         {}
     };
+
+    template <typename Archive, typename Ty_>
+    inline void extern_io(Archive &s, Ty_& v)
+    {
+# if !defined NDEBUG 
+#   pragma message ("Please implement serialization for: " __FUNCSIG__)
+# endif
+    }
 
     template <class Base>
     struct serializer : std::ostream
@@ -161,7 +172,8 @@ namespace cl
 
                 nc_type& nc = const_cast<nc_type&>(v);
                 ta_->ss_ & nc;
-# if !defined NDEBUG
+
+# if !defined NDEBUG && defined CL_TRACE_ENABLE
                 std::cout << v << " ";
 # endif
                 return *this;
@@ -254,6 +266,20 @@ namespace cl
             }
 
             template <typename Ty_>
+            serialize__& operator ()(CppAD::pod_vector<cl::inner_array<Ty_> >& v)
+            {
+                extern_io(ta_->ss_, v);
+                return *this;
+            }
+
+            template <typename Ty_>
+            serialize__& operator ()(CppAD::pod_vector<cl::inner_array<Ty_> > const& v)
+            {
+                extern_io(ta_->ss_, v);
+                return *this;
+            }
+
+            template <typename Ty_>
             serialize__& operator ()(CppAD::pod_vector<Ty_ > const& v)
             {
                 static_assert(std::is_pod<Ty_>::value
@@ -267,7 +293,7 @@ namespace cl
             serialize__& operator ()(CppAD::pod_vector<Ty_ >& v)
             {
                 static_assert(std::is_pod<Ty_>::value
-                    , "Is not pod type, please use overload semantic");
+                     , "Is not pod type, please use overload semantic");
 
                 return io_v(v, std::integral_constant<bool
                     , stream_type_trait<Serializer>::is_out>());
