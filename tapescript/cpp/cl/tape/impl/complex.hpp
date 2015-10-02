@@ -87,7 +87,7 @@ namespace std
         {    }
 
         template<class Ty>
-        complex(complex<Ty> const & other)
+        explicit complex(complex<Ty> const & other)
             : complex(other.real(), other.imag())
         {	 }
 
