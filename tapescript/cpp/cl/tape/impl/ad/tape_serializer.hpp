@@ -36,10 +36,10 @@ namespace CppAD
                 "asin",
                 "atan",
                 "Begin",
-                "CondExp",
+                "? :",
                 "cos",
                 "cosh",
-                "CSkip",
+                "?", //"CSkip",
                 "CSum",
                 "Dis",
                 "/",
@@ -143,8 +143,8 @@ namespace CppAD
                 !thread_alloc::in_parallel(),
                 "cannot print trace of AD operations in parallel mode"
                 );
-            static const char *CompareOpName[] =
-            { "Lt", "Le", "Eq", "Ge", "Gt", "Ne" };
+            static std::string CompareOpName[] =
+            { " < ", "<= ", "== ", ">= ", " > ", "!= " };
 
             // print operator
             printOpField(os, "", i_op, 5);
@@ -153,8 +153,7 @@ namespace CppAD
             else	printOpField(os, "", "", 5);
             if (op == CExpOp || op == CSkipOp)
             {
-                printOpField(os, "", OpName(op), 5);
-                printOpField(os, "", CompareOpName[ind[0]], 3);
+                printOpField(os, "", CompareOpName[ind[0]] + OpName(op), 8);
             }
             else	printOpField(os, "", OpName(op), 8);
 
@@ -339,7 +338,7 @@ namespace CppAD
             case UserOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 4);
                 {	std::string name = atomic_base<Base>::class_name(ind[0]);
-                printOpField(os, " ", name.c_str(), 2 * ncol + 5);
+                    os << " " + name;
                 }
                 break;
 
@@ -416,7 +415,7 @@ namespace CppAD
                 i_var,
                 op,
                 ind);
-            saveOpField("", ss.str(), length);
+            *this << std::left << std::setw(length) << ss.str();
 
             check_last_call(op);
         }
