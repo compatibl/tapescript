@@ -46,8 +46,8 @@ namespace std
         typedef cl::TapeInnerType<complex_double > complex_based_type;
         typedef std::complex<cl::TapeInnerType<double> > real_based_type;
 
-        enum Complex_Mode { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2) };
-        
+        enum Complex_Mode { None = 0, RealBase = (1 << 1), ComplBase = (1 << 2) };
+
         static const Complex_Mode default_mode = ComplBase;
 
         //  If we initialized by certain values this is real base type 
@@ -79,13 +79,13 @@ namespace std
         }
 
         // This call when resize vector
-        complex() 
+        complex()
             : real_base_()
             , complex_base_()
             , mode_(default_mode)
         {    }
 
-        complex(complex const& other) 
+        complex(complex const& other)
             : real_base_(other.real_base_)
             , complex_base_(other.complex_base_)
             , mode_(other.mode_)
@@ -112,7 +112,7 @@ namespace std
         {
             if (mode == mode_)
                 return;
-            
+
             if (mode == RealBase)
             {
                 real_base_ = to_real_base();
@@ -399,31 +399,32 @@ namespace std
             return real_based_type(real(), imag());
         }
 
+        inline complex<cl::TapeDouble> operator - () const
+        {
+            return complex<cl::TapeDouble>(0.0) - *this;
+        }
+
         // Used when tape is recording for real or image part of complex value.
         real_based_type real_base_;
         // Used when tape is recording for the complex value as one variable.
         complex_based_type complex_base_;
         Complex_Mode mode_;
     };
+}
 
-    // for Bessel adjoint differentiation
+namespace cl
+{
     // returns true iff the absolute value of lhs is greater than or equal rhs
-    inline bool abs_geq(const complex<cl::TapeDouble>& lhs, const double& rhs)
+    inline bool abs_geq(const std::complex<cl::TapeDouble>& lhs, const double& rhs)
     {
-        if (lhs.mode_ == complex<cl::TapeDouble>::RealBase)
+        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)
         {
             return std::abs(lhs) >= rhs;
         }
         else
         {
-            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType< complex<double> >(rhs));
+            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType< std::complex<double> >(rhs));
         }
-    }
-
-    // for Bessel adjoint differentiation
-    inline complex<cl::TapeDouble> operator - (const complex<cl::TapeDouble>& right)
-    {
-        return complex<cl::TapeDouble>(0.0) - right;
     }
 }
 
