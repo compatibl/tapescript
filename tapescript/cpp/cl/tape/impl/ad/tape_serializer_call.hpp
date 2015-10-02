@@ -1,6 +1,5 @@
 # ifndef TAPE_SERIALIZER_CALL_INCLUDED
 # define TAPE_SERIALIZER_CALL_INCLUDED
-
 /* --------------------------------------------------------------------------
 CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
 
@@ -11,9 +10,6 @@ Eclipse Public License Version 1.0.
 A copy of this license is included in the COPYING file of this distribution.
 Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 -------------------------------------------------------------------------- */
-
-#include "tape_serializer_fwd.hpp"
-
 namespace CppAD
 {
     template <typename Ty_> struct remove_template
