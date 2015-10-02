@@ -83,7 +83,7 @@ namespace CppAD
         //}
         //
         //return result;
-        return exp_if_true;
+        throw std::exception("Not implemented.");
     }
 
     inline cl::InnerArrayXd CondExpOpLt(
@@ -135,7 +135,7 @@ namespace CppAD
         //}
         //
         //return result;
-        return exp_if_true;
+        throw std::exception("Not implemented.");
     }
 
 	inline cl::InnerArrayXd CondExpOp(
