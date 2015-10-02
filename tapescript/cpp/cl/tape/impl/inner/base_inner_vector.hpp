@@ -22,18 +22,24 @@ limitations under the License.
 
 #pragma once
 
-#ifndef CL_BASE_INNER_VECTOR_INCLUDED
+#if !defined CL_BASE_INNER_VECTOR_INCLUDED
 #define CL_BASE_INNER_VECTOR_INCLUDED
 
 #include <limits>
+#include <cmath>
 
-#include <cppad/configure.hpp>
-#include <cppad/local/ad.hpp>
-#include <cppad/local/hash_code.hpp>
 #include <cl/tape/impl/inner/inner_vector.hpp>
 
 namespace CppAD
 {
+    template <typename Base>
+    inline AD<Base> CondExpOp(enum CompareOp cop,
+                            const AD<Base>&  left,
+                            const AD<Base>&  right,
+                            const AD<Base>&  if_true,
+                            const AD<Base>&  if_false);
+
+    // Conditional equal expression.
     inline cl::InnerVector CondExpOpEq(
         const cl::InnerVector&       left,
         const cl::InnerVector&       right,
@@ -85,6 +91,7 @@ namespace CppAD
         return result;
     }
 
+    // Conditional less expression.
     inline cl::InnerVector CondExpOpLt(
         const cl::InnerVector&       left,
         const cl::InnerVector&       right,
@@ -136,13 +143,14 @@ namespace CppAD
         return result;
     }
 
-	inline cl::InnerVector CondExpOp(
-		enum CompareOp               cop          ,
-		const cl::InnerVector&       left         ,
-		const cl::InnerVector&       right        ,
-		const cl::InnerVector&       exp_if_true  ,
-		const cl::InnerVector&       exp_if_false )
-	{
+    // Conditional expression.
+    inline cl::InnerVector CondExpOp(
+        enum CompareOp               cop          ,
+        const cl::InnerVector&       left         ,
+        const cl::InnerVector&       right        ,
+        const cl::InnerVector&       exp_if_true  ,
+        const cl::InnerVector&       exp_if_false )
+    {
         switch (cop)
         {
         case CompareLt:
@@ -163,9 +171,9 @@ namespace CppAD
         default:
             throw std::exception("Unknown compare operation.");
         }
-	}
+    }
 
-    // We are hacking into CppAD::AD friend function.
+    // We are hacking into CppAD::AD friend function!
     template <>
     inline AD<cl::InnerVector> CondExpOp<cl::InnerVector>(
         enum CompareOp                   cop,
@@ -207,28 +215,28 @@ namespace CppAD
         return returnValue;
     }
 
-	CPPAD_COND_EXP_REL(cl::InnerVector)
+    CPPAD_COND_EXP_REL(cl::InnerVector)
 
-//	inline bool EqualOpSeq(const cl::InnerVector& x, const cl::InnerVector& y)
-//	{	return x == y; }
+//    inline bool EqualOpSeq(const cl::InnerVector& x, const cl::InnerVector& y)
+//    {    return x == y; }
 
-	inline bool IdenticalPar(const cl::InnerVector& x)
-	{
-	    return true;
-	}
-	inline bool IdenticalZero(const cl::InnerVector& x)
-	{
-	    return x.is_scalar() && x == 0.0;
-	}
-	inline bool IdenticalOne(const cl::InnerVector& x)
-	{
-	    return x.is_scalar() && x == 1.0;
-	}
-	inline bool IdenticalEqualPar(const cl::InnerVector& x, const cl::InnerVector& y)
-	{
+    inline bool IdenticalPar(const cl::InnerVector& x)
+    {
+        return true;
+    }
+    inline bool IdenticalZero(const cl::InnerVector& x)
+    {
+        return x.is_scalar() && x == 0.0;
+    }
+    inline bool IdenticalOne(const cl::InnerVector& x)
+    {
+        return x.is_scalar() && x == 1.0;
+    }
+    inline bool IdenticalEqualPar(const cl::InnerVector& x, const cl::InnerVector& y)
+    {
         if (x.is_scalar() && y.is_scalar())
         {
-	        return x == y;
+            return x == y;
         }
         if (x.is_vector() && y.is_vector())
         {
@@ -236,49 +244,49 @@ namespace CppAD
                 && x == y;
         }
         return false;
-	}
+    }
 
-	inline int Integer(const cl::InnerVector& x)
-	{
-	    return static_cast<int>(x.to_scalar());
-	}
+    inline int Integer(const cl::InnerVector& x)
+    {
+        return static_cast<int>(x.to_scalar());
+    }
 
-	inline bool GreaterThanZero(const cl::InnerVector& x)
-	{	return x > 0.; }
-	inline bool GreaterThanOrZero(const cl::InnerVector& x)
-	{	return x >= 0.; }
-	inline bool LessThanZero(const cl::InnerVector& x)
-	{	return x < 0.; }
-	inline bool LessThanOrZero(const cl::InnerVector& x)
-	{	return x <= 0.; }
-	inline bool abs_geq(const cl::InnerVector& x, const cl::InnerVector& y)
-	{	return std::abs(x) >= std::abs(y); }
-
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, acos)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, asin)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, atan)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cos)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cosh)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, exp)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, abs)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log10)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sin)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sinh)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sqrt)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, tan)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, tanh)
+    inline bool GreaterThanZero(const cl::InnerVector& x)
+    {    return x > 0.; }
+    inline bool GreaterThanOrZero(const cl::InnerVector& x)
+    {    return x >= 0.; }
+    inline bool LessThanZero(const cl::InnerVector& x)
+    {    return x < 0.; }
+    inline bool LessThanOrZero(const cl::InnerVector& x)
+    {    return x <= 0.; }
+    inline bool abs_geq(const cl::InnerVector& x, const cl::InnerVector& y)
+    {    return std::abs(x) >= std::abs(y); }
+    
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, acos)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, asin)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, atan)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cos)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, cosh)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, exp)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, abs)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, log10)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sin)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sinh)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, sqrt)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, tan)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, tanh)
 # if CPPAD_COMPILER_HAS_ERF
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, erf)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerVector, erf)
 # endif
 
-	inline cl::InnerVector fabs(const cl::InnerVector& x)
+    inline cl::InnerVector fabs(const cl::InnerVector& x)
     {
         return std::abs(x);
     }
 
-	inline cl::InnerVector sign(const cl::InnerVector& x)
-	{
+    inline cl::InnerVector sign(const cl::InnerVector& x)
+    {
         auto sign_func = [](double v)
         {
             if (v > 0.)
@@ -289,37 +297,37 @@ namespace CppAD
         };
 
         return x.apply(sign_func);
-	}
+    }
 
-	inline cl::InnerVector pow(const cl::InnerVector& x, const cl::InnerVector& y)
-	{
-	    return std::pow(x, y);
-	}
-
-	template <>
-	class numeric_limits<cl::InnerVector>
+    inline cl::InnerVector pow(const cl::InnerVector& x, const cl::InnerVector& y)
     {
-	public:
-		// machine epsilon
-		static cl::InnerVector epsilon(void)
-		{
-		    return std::numeric_limits<cl::InnerVector>::epsilon();
-		}
-		// minimum positive normalized value
-		static cl::InnerVector min(void)
-		{
-		    return std::numeric_limits<cl::InnerVector>::min();
-		}
-		// maximum finite value
-		static cl::InnerVector max(void)
-		{
-		    return std::numeric_limits<cl::InnerVector>::max();
-		}
-	};
-	// deprecated machine epsilon
-	template <>
-	inline cl::InnerVector epsilon<cl::InnerVector>(void)
-	{
+        return std::pow(x, y);
+    }
+
+    template <>
+    class numeric_limits<cl::InnerVector>
+    {
+    public:
+        // machine epsilon
+        static cl::InnerVector epsilon(void)
+        {
+            return std::numeric_limits<cl::InnerVector>::epsilon();
+        }
+        // minimum positive normalized value
+        static cl::InnerVector min(void)
+        {
+            return std::numeric_limits<cl::InnerVector>::min();
+        }
+        // maximum finite value
+        static cl::InnerVector max(void)
+        {
+            return std::numeric_limits<cl::InnerVector>::max();
+        }
+    };
+    // deprecated machine epsilon
+    template <>
+    inline cl::InnerVector epsilon<cl::InnerVector>(void)
+    {
         return numeric_limits<cl::InnerVector>::epsilon();
     }
 
@@ -336,4 +344,4 @@ namespace CppAD
 }
 
 
-# endif
+#endif

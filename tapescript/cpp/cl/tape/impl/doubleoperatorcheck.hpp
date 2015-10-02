@@ -24,7 +24,7 @@ limitations under the License.
 #define cl_tape_impl_doubleoperatorcheck_hpp
 
 #if defined CL_TAPE_CPPAD
-#include <cppad/cppad.hpp>
+//#  include <cppad/cppad.hpp>
 #endif
 
 //!! Supporting code for double operators, in progress

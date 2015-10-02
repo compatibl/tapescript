@@ -121,17 +121,17 @@ namespace std
         typedef cl::InnerDouble _Ty;
 
         static _Ty min()
-        {	// return minimum value
+        {    // return minimum value
             return numeric_limits<base_type>::min();
         }
 
         static _Ty max()
-        {	// return maximum value
+        {    // return maximum value
             return numeric_limits<base_type>::max();
         }
 
         static _Ty epsilon()
-        {	// return smallest effective increment from 1.0
+        {    // return smallest effective increment from 1.0
             return numeric_limits<base_type>::epsilon();
         }
     };

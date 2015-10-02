@@ -25,12 +25,13 @@ limitations under the License.
 #ifndef CL_INNER_VECTOR_OPS_INCLUDED
 #define CL_INNER_VECTOR_OPS_INCLUDED
 
-#include <cl/tape/impl/inner/base_inner_vector.hpp>
-#include <cppad/local/atomic_base.hpp>
-#include <cppad/vector.hpp>
+
+//#include <cppad/local/atomic_base.hpp>
+//#include <cppad/vector.hpp>
 #include <array>
 #include <numeric>
 #include <assert.h>
+#include <cl/tape/impl/inner/base_inner_vector.hpp>
 
 namespace cl
 {
@@ -54,13 +55,13 @@ namespace cl
                 : atomic_base("atomic_reverse_vec")
             {}
 
-	        bool forward(
-		        size_t                    p ,
-		        size_t                    q ,
-		        const vector<bool>&      vx ,
-		              vector<bool>&      vy ,
-		        const vector<Base>&      tx ,
-		              vector<Base>&      ty )
+            bool forward(
+                size_t                    p ,
+                size_t                    q ,
+                const vector<bool>&      vx ,
+                      vector<bool>&      vy ,
+                const vector<Base>&      tx ,
+                      vector<Base>&      ty )
             {
                 vy = vx;
                 for (size_t i = p; i <= q; i++)
@@ -68,13 +69,13 @@ namespace cl
                 return true;
             }
 
-	        bool reverse(
-		        size_t                    q  ,
-		        const vector<Base>&       tx ,
-		        const vector<Base>&       ty ,
-		              vector<Base>&       px ,
-		        const vector<Base>&       py )
-	        {
+            bool reverse(
+                size_t                    q  ,
+                const vector<Base>&       tx ,
+                const vector<Base>&       ty ,
+                      vector<Base>&       px ,
+                const vector<Base>&       py )
+            {
 #ifndef NDEBUG
                 for (size_t i = 0; i < tx.size(); i++)
                     assert(tx[i] == reverse_vec(ty[i]));
@@ -82,71 +83,71 @@ namespace cl
                 for (size_t i = 0; i < py.size(); i++)
                     px[i] = reverse_vec(py[i]);
                 return true;
-	        }
+            }
 
             bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		              vector< std::set<size_t> >&       s  )
-	        {
-                s = r;
-                return true;
-	        }
-
-            bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		              vector<bool>&                     s  )
-	        {
-                s = r;
-                return true;
-	        }
-
-	        bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       rt ,
-		              vector< std::set<size_t> >&       st )
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                      vector< std::set<size_t> >&       s  )
             {
-                st = rt;
+                s = r;
                 return true;
-	        }
+            }
+
+            bool for_sparse_jac(
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                      vector<bool>&                     s  )
+            {
+                s = r;
+                return true;
+            }
 
             bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     rt ,
-		              vector<bool>&                     st )
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       rt ,
+                      vector< std::set<size_t> >&       st )
             {
                 st = rt;
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		        const vector< std::set<size_t> >&       u  ,
-		              vector< std::set<size_t> >&       v  )
+            bool rev_sparse_jac(
+                size_t                                  q  ,
+                const vector<bool>&                     rt ,
+                      vector<bool>&                     st )
+            {
+                st = rt;
+                return true;
+            }
+
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                const vector< std::set<size_t> >&       u  ,
+                      vector< std::set<size_t> >&       v  )
             {
                 t = s;
                 v = u;
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		        const vector<bool>&                     u  ,
-		              vector<bool>&                     v  )
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                const vector<bool>&                     u  ,
+                      vector<bool>&                     v  )
             {
                 t = s;
                 v = u;
                 return true;
-	        }
+            }
         };
 
         static inline CppAD::AD<InnerVector> reverse_vec(const CppAD::AD<InnerVector>& x)
@@ -196,13 +197,13 @@ namespace cl
                 return InnerVector(val, model.vector_value_.size());
             }
 
-	        bool forward(
-		        size_t                    p ,
-		        size_t                    q ,
-		        const vector<bool>&      vx ,
-		              vector<bool>&      vy ,
-		        const vector<Base>&      tx ,
-		              vector<Base>&      ty )
+            bool forward(
+                size_t                    p ,
+                size_t                    q ,
+                const vector<bool>&      vx ,
+                      vector<bool>&      vy ,
+                const vector<Base>&      tx ,
+                      vector<Base>&      ty )
             {
                 vy = vx;
                 for (size_t i = p; i <= q; i++)
@@ -219,81 +220,81 @@ namespace cl
                 return true;
             }
 
-	        bool reverse(
-		        size_t                    q  ,
-		        const vector<Base>&       tx ,
-		        const vector<Base>&       ty ,
-		              vector<Base>&       px ,
-		        const vector<Base>&       py )
+            bool reverse(
+                size_t                    q  ,
+                const vector<Base>&       tx ,
+                const vector<Base>&       ty ,
+                      vector<Base>&       px ,
+                const vector<Base>&       py )
             {
                 for (size_t i = 0; i < py.size(); i++)
                     px[i] = adjust_size(sum_vec(py[i]).scalar_value_, tx[0]);
                 return true;
-	        }
+            }
 
             bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		              vector< std::set<size_t> >&       s  )
-	        {
-                s = r;
-                return true;
-	        }
-
-            bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		              vector<bool>&                     s  )
-	        {
-                s = r;
-                return true;
-	        }
-
-	        bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       rt ,
-		              vector< std::set<size_t> >&       st )
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                      vector< std::set<size_t> >&       s  )
             {
-                st = rt;
+                s = r;
                 return true;
-	        }
+            }
+
+            bool for_sparse_jac(
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                      vector<bool>&                     s  )
+            {
+                s = r;
+                return true;
+            }
 
             bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     rt ,
-		              vector<bool>&                     st )
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       rt ,
+                      vector< std::set<size_t> >&       st )
             {
                 st = rt;
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		        const vector< std::set<size_t> >&       u  ,
-		              vector< std::set<size_t> >&       v  )
+            bool rev_sparse_jac(
+                size_t                                  q  ,
+                const vector<bool>&                     rt ,
+                      vector<bool>&                     st )
+            {
+                st = rt;
+                return true;
+            }
+
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                const vector< std::set<size_t> >&       u  ,
+                      vector< std::set<size_t> >&       v  )
             {
                 t = s;
                 v = u;
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		        const vector<bool>&                     u  ,
-		              vector<bool>&                     v  )
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                const vector<bool>&                     u  ,
+                      vector<bool>&                     v  )
             {
                 t = s;
                 v = u;
                 return true;
-	        }
+            }
         };
 
         static inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
@@ -382,18 +383,18 @@ namespace cl
                 : atomic_base("atomic_conc_vec")
             {}
 
-	        bool forward(
-		        size_t                    p ,
-		        size_t                    q ,
-		        const vector<bool>&      vx ,
-		              vector<bool>&      vy ,
-		        const vector<Base>&      tx ,
-		              vector<Base>&      ty )
+            bool forward(
+                size_t                    p ,
+                size_t                    q ,
+                const vector<bool>&      vx ,
+                      vector<bool>&      vy ,
+                const vector<Base>&      tx ,
+                      vector<Base>&      ty )
             {
-		        if( vx.size() > 0 )
-		        {
-			        vy[0] = vx[0] || vx[1];
-		        }
+                if( vx.size() > 0 )
+                {
+                    vy[0] = vx[0] || vx[1];
+                }
                 for (size_t i = p; i <= q; i++)
                 {
                     auto& left = tx[i];
@@ -410,12 +411,12 @@ namespace cl
                 return true;
             }
 
-	        bool reverse(
-		        size_t                    q  ,
-		        const vector<Base>&       tx ,
-		        const vector<Base>&       ty ,
-		              vector<Base>&       px ,
-		        const vector<Base>&       py )
+            bool reverse(
+                size_t                    q  ,
+                const vector<Base>&       tx ,
+                const vector<Base>&       ty ,
+                      vector<Base>&       px ,
+                const vector<Base>&       py )
             {
 #ifndef NDEBUG
                 assert(py.size() == q + 1);
@@ -454,44 +455,44 @@ namespace cl
                     }
                 }
                 return true;
-	        }
+            }
 
             bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		              vector< std::set<size_t> >&       s  )
-	        {
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                      vector< std::set<size_t> >&       s  )
+            {
                 std::set_union(r[0].begin(), r[0].end(), r[1].begin(), r[1].end()
                     , std::inserter(s[0], s[0].begin()));
                 return true;
-	        }
+            }
 
             bool for_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		              vector<bool>&                     s  )
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                      vector<bool>&                     s  )
             {
                 for (size_t j = 0; j < q; j++)
                 {
                     s[j] = r[0 * q + j] || r[1 * q + j];
                 }
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       rt ,
-		              vector< std::set<size_t> >&       st )
+            bool rev_sparse_jac(
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       rt ,
+                      vector< std::set<size_t> >&       st )
             {
                 st[0] = rt[0];
                 st[1] = rt[0];
                 return true;
-	        }
+            }
 
             bool rev_sparse_jac(
-		        size_t                                  q  ,
-		        const vector<bool>&                     rt ,
-		              vector<bool>&                     st )
+                size_t                                  q  ,
+                const vector<bool>&                     rt ,
+                      vector<bool>&                     st )
             {
                 for (size_t j = 0; j < q; j++)
                 {
@@ -499,16 +500,16 @@ namespace cl
                     st[1 * q + j] = rt[j];
                 }
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector< std::set<size_t> >&       r  ,
-		        const vector< std::set<size_t> >&       u  ,
-		              vector< std::set<size_t> >&       v  )
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector< std::set<size_t> >&       r  ,
+                const vector< std::set<size_t> >&       u  ,
+                      vector< std::set<size_t> >&       v  )
             {
                 t[0] = s[0];
                 t[1] = s[0];
@@ -516,16 +517,16 @@ namespace cl
                 v[0] = u[0];
                 v[1] = u[0];
                 return true;
-	        }
+            }
 
-	        bool rev_sparse_hes(
-		        const vector<bool>&                     vx ,
-		        const vector<bool>&                     s  ,
-		              vector<bool>&                     t  ,
-		        size_t                                  q  ,
-		        const vector<bool>&                     r  ,
-		        const vector<bool>&                     u  ,
-		              vector<bool>&                     v  )
+            bool rev_sparse_hes(
+                const vector<bool>&                     vx ,
+                const vector<bool>&                     s  ,
+                      vector<bool>&                     t  ,
+                size_t                                  q  ,
+                const vector<bool>&                     r  ,
+                const vector<bool>&                     u  ,
+                      vector<bool>&                     v  )
             {
                 t[0] = s[0];
                 t[1] = s[0];
@@ -536,7 +537,7 @@ namespace cl
                     v[1 * q + j] = u[j];
                 }
                 return true;
-	        }
+            }
         };
 
         static inline CppAD::AD<InnerVector> conc_vec(const CppAD::AD<InnerVector>& x, const CppAD::AD<InnerVector>& y)

@@ -93,7 +93,7 @@ namespace std
         template<class Ty>
         explicit complex(complex<Ty> const & other, Complex_Mode mode = default_mode)
             : complex(other.real(), other.imag(), mode)
-        {	 }
+        {     }
 
         explicit complex(const complex_based_type & other)
             : real_base_()

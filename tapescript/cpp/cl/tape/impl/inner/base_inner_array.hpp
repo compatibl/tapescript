@@ -27,13 +27,11 @@ limitations under the License.
 
 #include <limits>
 
-#include <cppad/configure.hpp>
-#include <cppad/local/ad.hpp>
-#include <cppad/local/hash_code.hpp>
 #include <cl/tape/impl/inner/inner_array.hpp>
 
 namespace CppAD
 {
+    // Conditional equal expression.
     inline cl::InnerArrayXd CondExpOpEq(
         const cl::InnerArrayXd&       left,
         const cl::InnerArrayXd&       right,
@@ -83,9 +81,11 @@ namespace CppAD
         //}
         //
         //return result;
-        throw std::exception("Not implemented.");
+        cl::throw_("Not a scalar.");
+        return exp_if_true;
     }
 
+    // Conditional less expression.
     inline cl::InnerArrayXd CondExpOpLt(
         const cl::InnerArrayXd&       left,
         const cl::InnerArrayXd&       right,
@@ -138,13 +138,14 @@ namespace CppAD
         throw std::exception("Not implemented.");
     }
 
-	inline cl::InnerArrayXd CondExpOp(
-		enum CompareOp               cop          ,
-		const cl::InnerArrayXd&       left         ,
-		const cl::InnerArrayXd&       right        ,
-		const cl::InnerArrayXd&       exp_if_true  ,
-		const cl::InnerArrayXd&       exp_if_false )
-	{
+    // Conditional expression.
+    inline cl::InnerArrayXd CondExpOp(
+        enum CompareOp               cop          ,
+        const cl::InnerArrayXd&       left         ,
+        const cl::InnerArrayXd&       right        ,
+        const cl::InnerArrayXd&       exp_if_true  ,
+        const cl::InnerArrayXd&       exp_if_false )
+    {
         switch (cop)
         {
         case CompareLt:
@@ -165,7 +166,7 @@ namespace CppAD
         default:
             throw std::exception("Unknown compare operation.");
         }
-	}
+    }
 
     // We are hacking into CppAD::AD friend function.
     template <>
@@ -209,28 +210,28 @@ namespace CppAD
         return returnValue;
     }
 
-	CPPAD_COND_EXP_REL(cl::InnerArrayXd)
+    CPPAD_COND_EXP_REL(cl::InnerArrayXd)
 
-//	inline bool EqualOpSeq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-//	{	return x == y; }
+//    inline bool EqualOpSeq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
+//    {    return x == y; }
 
-	inline bool IdenticalPar(const cl::InnerArrayXd& x)
-	{
-	    return true;
-	}
-	inline bool IdenticalZero(const cl::InnerArrayXd& x)
-	{
-	    return x.is_scalar() && x == 0.0;
-	}
-	inline bool IdenticalOne(const cl::InnerArrayXd& x)
-	{
-	    return x.is_scalar() && x == 1.0;
-	}
-	inline bool IdenticalEqualPar(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-	{
+    inline bool IdenticalPar(const cl::InnerArrayXd& x)
+    {
+        return true;
+    }
+    inline bool IdenticalZero(const cl::InnerArrayXd& x)
+    {
+        return x.is_scalar() && x == 0.0;
+    }
+    inline bool IdenticalOne(const cl::InnerArrayXd& x)
+    {
+        return x.is_scalar() && x == 1.0;
+    }
+    inline bool IdenticalEqualPar(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
+    {
         if (x.is_scalar() && y.is_scalar())
         {
-	        return x == y;
+            return x == y;
         }
         if (x.is_vector() && y.is_vector())
         {
@@ -238,49 +239,49 @@ namespace CppAD
                 && x == y;
         }
         return false;
-	}
+    }
 
-	inline int Integer(const cl::InnerArrayXd& x)
-	{
-	    return static_cast<int>(x.to_scalar());
-	}
+    inline int Integer(const cl::InnerArrayXd& x)
+    {
+        return static_cast<int>(x.to_scalar());
+    }
 
-	inline bool GreaterThanZero(const cl::InnerArrayXd& x)
-	{	return x > 0.; }
-	inline bool GreaterThanOrZero(const cl::InnerArrayXd& x)
-	{	return x >= 0.; }
-	inline bool LessThanZero(const cl::InnerArrayXd& x)
-	{	return x < 0.; }
-	inline bool LessThanOrZero(const cl::InnerArrayXd& x)
-	{	return x <= 0.; }
-	inline bool abs_geq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-	{	return std::abs(x) >= std::abs(y); }
+    inline bool GreaterThanZero(const cl::InnerArrayXd& x)
+    {    return x > 0.; }
+    inline bool GreaterThanOrZero(const cl::InnerArrayXd& x)
+    {    return x >= 0.; }
+    inline bool LessThanZero(const cl::InnerArrayXd& x)
+    {    return x < 0.; }
+    inline bool LessThanOrZero(const cl::InnerArrayXd& x)
+    {    return x <= 0.; }
+    inline bool abs_geq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
+    {    return std::abs(x) >= std::abs(y); }
 
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, acos)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, asin)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, atan)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cos)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cosh)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, exp)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, abs)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log10)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sin)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sinh)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sqrt)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tan)
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tanh)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, acos)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, asin)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, atan)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cos)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cosh)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, exp)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, abs)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log10)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sin)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sinh)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sqrt)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tan)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tanh)
 # if CPPAD_COMPILER_HAS_ERF
-	CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, erf)
+    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, erf)
 # endif
 
-	inline cl::InnerArrayXd fabs(const cl::InnerArrayXd& x)
+    inline cl::InnerArrayXd fabs(const cl::InnerArrayXd& x)
     {
         return std::abs(x);
     }
 
-	inline cl::InnerArrayXd sign(const cl::InnerArrayXd& x)
-	{
+    inline cl::InnerArrayXd sign(const cl::InnerArrayXd& x)
+    {
         auto sign_func = [](double v)
         {
             if (v > 0.)
@@ -291,37 +292,37 @@ namespace CppAD
         };
 
         return x.apply(sign_func);
-	}
+    }
 
-	inline cl::InnerArrayXd pow(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-	{
-	    return std::pow(x, y);
-	}
-
-	template <>
-	class numeric_limits<cl::InnerArrayXd>
+    inline cl::InnerArrayXd pow(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
     {
-	public:
-		// machine epsilon
-		static cl::InnerArrayXd epsilon(void)
-		{
-		    return std::numeric_limits<cl::InnerArrayXd>::epsilon();
-		}
-		// minimum positive normalized value
-		static cl::InnerArrayXd min(void)
-		{
-		    return std::numeric_limits<cl::InnerArrayXd>::min();
-		}
-		// maximum finite value
-		static cl::InnerArrayXd max(void)
-		{
-		    return std::numeric_limits<cl::InnerArrayXd>::max();
-		}
-	};
-	// deprecated machine epsilon
-	template <>
-	inline cl::InnerArrayXd epsilon<cl::InnerArrayXd>(void)
-	{
+        return std::pow(x, y);
+    }
+
+    template <>
+    class numeric_limits<cl::InnerArrayXd>
+    {
+    public:
+        // machine epsilon
+        static cl::InnerArrayXd epsilon(void)
+        {
+            return std::numeric_limits<cl::InnerArrayXd>::epsilon();
+        }
+        // minimum positive normalized value
+        static cl::InnerArrayXd min(void)
+        {
+            return std::numeric_limits<cl::InnerArrayXd>::min();
+        }
+        // maximum finite value
+        static cl::InnerArrayXd max(void)
+        {
+            return std::numeric_limits<cl::InnerArrayXd>::max();
+        }
+    };
+    // deprecated machine epsilon
+    template <>
+    inline cl::InnerArrayXd epsilon<cl::InnerArrayXd>(void)
+    {
         return numeric_limits<cl::InnerArrayXd>::epsilon();
     }
 

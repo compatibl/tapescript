@@ -30,10 +30,8 @@ namespace cl
 }
 
 #if defined CL_TAPE_CPPAD
-#include <cl/tape/impl/inner/base_require.hpp>
+#define CPPAD_UNDEF_INCLUDED
 #include <cppad/cppad.h>
-#include <cppad/local/ad.hpp>
-#include <cl/tape/impl/inner/inner_vector_ops.hpp>
 
 namespace ext = CppAD;
 
@@ -77,7 +75,11 @@ namespace ext
 #   include <cl/tape/impl/traits.hpp>
 #endif
 
-/// Adaptation adjoint framework essencies
+#include <cl/tape/impl/inner/base_inner_vector.hpp>
+#include <cl/tape/impl/inner/base_inner_array.hpp>
+#include <cl/tape/impl/inner/inner_vector_ops.hpp>
+
+/// Adaptation adjoint framework essences
 namespace cl
 {
 #if defined CL_TAPE && defined CL_TAPE_CPPAD
@@ -113,5 +115,8 @@ namespace cl
 }
 
 #include <cl/tape/impl/adjointrefoperator.hpp>
+
+# undef CPPAD_UNDEF_INCLUDED
+# include <cppad/local/undef.hpp>
 
 #endif // cl_tape_doublecl_hpp

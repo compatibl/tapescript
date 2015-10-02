@@ -35,61 +35,61 @@ namespace std
     // TEMPLATE CLASS _Ctraits
     template<>
     class _Ctraits<adouble>
-    {	// complex traits for _Ty
+    {    // complex traits for _Ty
     public:
 
         typedef adouble _Ty;
 
         static _Ty _Flt_eps()
-        {	// get epsilon
+        {    // get epsilon
             return (numeric_limits<_Ty>::epsilon());
         }
 
         static _Ty _Flt_max()
-        {	// get max
+        {    // get max
             return ((numeric_limits<_Ty>::max)());
         }
 
         static _Ty _Cosh(_Ty _Left, _Ty _Right)
-        {	// return cosh(_Left) * _Right
+        {    // return cosh(_Left) * _Right
             return (cosh(_Left) * _Right);
         }
 
         static _Ty _Exp(_Ty *_Pleft, _Ty _Right, short _Exponent)
-        {	// compute exp(*_Pleft) * _Right * 2 ^ _Exponent
+        {    // compute exp(*_Pleft) * _Right * 2 ^ _Exponent
             *_Pleft = CppAD::exp((*_Pleft).value())* _Right * pow(2, _Exponent);
             return *_Pleft;
         }
 
         static _Ty _Infv(_Ty)
-        {	// return infinity
+        {    // return infinity
             return (_CSTD CppAD::AD<double>(_Inf._Double));
         }
 
         static bool _Isinf(_Ty _Left)
-        {	// test for infinity
+        {    // test for infinity
             double* _Tmp = reinterpret_cast<double*>(&_Left);
             return (_CSTD _Dtest(_Tmp) == _INFCODE);
         }
 
         static bool _Isnan(_Ty _Left)
-        {	// test for NaN
+        {    // test for NaN
             double* _Tmp = reinterpret_cast<double*>(&_Left);
             return (_CSTD _Dtest(_Tmp) == _NANCODE);
         }
 
         static _Ty _Nanv(_Ty)
-        {	// return NaN
+        {    // return NaN
             return (_CSTD CppAD::AD<double>(_Nan._Double));
         }
 
         static _Ty _Sinh(_Ty _Left, _Ty _Right)
-        {	// return sinh(_Left) * _Right
+        {    // return sinh(_Left) * _Right
             return (sinh(_Left) * _Right);
         }
 
         static _Ty asinh(_Ty _Left)
-        {	// return asinh(_Left)
+        {    // return asinh(_Left)
             static const _Ty _Ln2 = 0.69314718055994530941723212145817658L;
 
             bool _Neg = _Left < 0;
@@ -106,7 +106,7 @@ namespace std
         }
 
         static _Ty atan2(_Ty _Yval, _Ty _Xval)
-        {	// return atan(_Yval / _Xval)
+        {    // return atan(_Yval / _Xval)
             typedef _Ty::ImplType ad_type;
 
             ad_type y = _Yval.value();
@@ -130,55 +130,55 @@ namespace std
         }
 
         static _Ty cos(_Ty _Left)
-        {	// return cos(_Left)
+        {    // return cos(_Left)
             return (_CSTD CppAD::cos(_Left.value()));
         }
 
         static _Ty exp(_Ty _Left)
-        {	// return exp(_Left)
+        {    // return exp(_Left)
             return (_CSTD CppAD::exp(_Left.value()));
         }
 
         static _Ty ldexp(_Ty _Left, int _Exponent)
-        {	// return _Left * 2 ^ _Exponent
+        {    // return _Left * 2 ^ _Exponent
             return _Left * std::pow(2, _Exponent);
         }
 
         static _Ty log(_Ty _Left)
-        {	// return log(_Left)
+        {    // return log(_Left)
             return CppAD::log(_Left.value());
         }
 
         static _Ty log1p(_Ty _Left)
-        {	// return log(1 + _Left)
+        {    // return log(1 + _Left)
             if (_Left.value() < -1)
                 return (_Nanv(_Left));
             else if (_Left.value() == 0)
                 return (_Left);
             else
-            {	// compute log(1 + _Left) with fixup for small _Left
+            {    // compute log(1 + _Left) with fixup for small _Left
                 _Ty _Leftp1 = 1 + _Left;
                 return (log(_Leftp1) - ((_Leftp1 - 1) - _Left) / _Leftp1);
             }
         }
 
         static _Ty pow(_Ty _Left, _Ty _Right)
-        {	// return _Left ^ _Right
+        {    // return _Left ^ _Right
             return (_CSTD CppAD::pow(_Left.value(), _Right.value()));
         }
 
         static _Ty sin(_Ty _Left)
-        {	// return sin(_Left)
+        {    // return sin(_Left)
             return (_CSTD CppAD::sin(_Left.value()));
         }
 
         static _Ty sqrt(_Ty _Left)
-        {	// return sqrt(_Left)
+        {    // return sqrt(_Left)
             return CppAD::sqrt(cl::tapescript::value(_Left));
         }
 
         static _Ty tan(_Ty _Left)
-        {	// return tan(_Left)
+        {    // return tan(_Left)
             return (_CSTD CppAD::tan(_Left.value()));
         }
     };

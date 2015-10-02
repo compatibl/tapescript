@@ -31,9 +31,11 @@ limitations under the License.
 #include <iterator>
 #include <sstream>
 #include <Eigen/Dense>
+#include <cl/tape/impl/doubleoperatorcheck.hpp>
 
 namespace cl
 {
+    // Class that used as Base for CppAD::AD<Base>.
     struct InnerArrayXd
     {
         typedef double scalar_type;
@@ -45,6 +47,7 @@ namespace cl
             , VectorMode
         };
 
+        // Default and double constructor.
         InnerArrayXd(double val = 0.)
             : mode_(ScalarMode)
             , scalar_value_(val)
@@ -53,6 +56,7 @@ namespace cl
 
         InnerArrayXd(const InnerArrayXd&) = default;
 
+        // Vector mode is used for vector value storage.
         InnerArrayXd(const vector_type& v)
             : mode_(VectorMode)
             , scalar_value_()
@@ -65,12 +69,14 @@ namespace cl
             , vector_value_(std::move(v))
         {}
 
+        // Construct as vector with equal coefficients.
         InnerArrayXd(double val, size_t n)
             : mode_(VectorMode)
             , scalar_value_()
             , vector_value_(vector_type::Constant(n, val))
         {}
 
+        // Construct as vector with values passed by initializer_list.
         InnerArrayXd(std::initializer_list<double> il)
             : mode_(VectorMode)
             , scalar_value_()
@@ -79,26 +85,29 @@ namespace cl
             vector_value_ = Eigen::Map<const vector_type>(il.begin(), il.size());
         }
 
+        // Returns true if scalar mode used.
         bool is_scalar() const
         {
             return mode_ == ScalarMode;
         }
 
+        // Returns true if vector mode used.
         bool is_vector() const
         {
             return !is_scalar();
         }
 
+        // Converts to scalar value.
         double to_scalar() const
         {
-            if (is_scalar())
+            if (is_vector())
             {
-                return scalar_value_;
+                cl::throw_("Not a scalar.");
             }
-
-            throw std::exception("Not a scalar.");
+            return scalar_value_;
         }
 
+        // Returns arithmetic negation.
         inline InnerArrayXd operator-() const
         {
             if (is_scalar())
@@ -147,6 +156,7 @@ namespace cl
             return *this;                                                   \
         }
 
+        // Assign operations.
         CL_INNER_VECTOR_ASSIGN_OPERATOR(+)
         CL_INNER_VECTOR_ASSIGN_OPERATOR(-)
         CL_INNER_VECTOR_ASSIGN_OPERATOR(*)
@@ -198,6 +208,7 @@ namespace cl
         }                                                                   \
     }
 
+    // Arithmetic binary operations.
     CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, - )
     CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, * )
     CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, / )
@@ -227,6 +238,7 @@ namespace cl
         return result;                                                      \
     }
 
+    // Logical binary operations.
     CL_BOOL_INNER_VECTOR_OPERATOR(!=)
     CL_BOOL_INNER_VECTOR_OPERATOR(==)
     CL_BOOL_INNER_VECTOR_OPERATOR(> )
@@ -248,6 +260,7 @@ namespace std
         return Name(x.vector_value_);                                       \
     }
 
+    // Standart math functions.
     CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, abs)
     CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, acos)
     CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, sqrt)
@@ -264,6 +277,7 @@ namespace std
     CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, tanh)
 #undef CL_INNER_VECTOR_FUNCTION
 
+    // Math power functioon.
     inline cl::InnerArrayXd pow(const cl::InnerArrayXd& left, const cl::InnerArrayXd& right)
     {
         if (left.is_scalar() && right.is_scalar())
@@ -294,17 +308,17 @@ namespace std
         typedef cl::InnerArrayXd _Ty;
 
         static _Ty min() _THROW0()
-        {	// return minimum value
+        {    // return minimum value
             return numeric_limits<base_type>::min();
         }
 
         static _Ty max() _THROW0()
-        {	// return maximum value
+        {    // return maximum value
             return numeric_limits<base_type>::max();
         }
 
         static _Ty epsilon() _THROW0()
-        {	// return smallest effective increment from 1.0
+        {    // return smallest effective increment from 1.0
             return numeric_limits<base_type>::epsilon();
         }
     };
