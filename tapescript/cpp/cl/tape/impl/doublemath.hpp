@@ -750,7 +750,7 @@ namespace std
 
 #if defined CL_TAPE_COMPLEX_ENABLED
 
-#define CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(FUN)                                            \
+#define CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(FUN)                                        \
     inline std::complex<cl::TapeDouble> FUN(const std::complex<cl::TapeDouble>& lhs)    \
     {                                                                                   \
         if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)                        \
@@ -760,11 +760,39 @@ namespace std
         return std::complex<cl::TapeDouble>(FUN(lhs.complex_base_));                    \
     }
 
-    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(sqrt)
-    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(exp)
-    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(log)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(sqrt)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(exp)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(log)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(log10)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(sin)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(cos)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(sinh)
+    CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(cosh)
+    //CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(acos)
+    //CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(asin)
+    //CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(atan)
 
-#undef CL_TAPE_DOUBLE_COMPLEX_STL_FUNC
+    inline std::complex<cl::TapeDouble> tan(const std::complex<cl::TapeDouble>& lhs)
+    {
+        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)
+        {
+            return std::tan<cl::TapeDouble>(lhs);
+        }
+        return std::complex<cl::TapeDouble>(
+            sin(lhs.complex_base_) / cos(lhs.complex_base_));
+    }
+    
+    inline std::complex<cl::TapeDouble> tanh(const std::complex<cl::TapeDouble>& lhs)
+    {
+        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)
+        {
+            return std::tanh<cl::TapeDouble>(lhs);
+        }
+        return std::complex<cl::TapeDouble>(
+            sinh(lhs.complex_base_) / cosh(lhs.complex_base_));
+    }
+
+#undef CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC
 
 #endif
 

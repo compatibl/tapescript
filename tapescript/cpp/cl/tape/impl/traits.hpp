@@ -50,7 +50,7 @@ namespace std
 
         static _Ty _Cosh(_Ty _Left, _Ty _Right)
         {	// return cosh(_Left) * _Right
-            return (_CSTD _Cosh((double)_Left, (double)_Right));
+            return (cosh(_Left) * _Right);
         }
 
         static _Ty _Exp(_Ty *_Pleft, _Ty _Right, short _Exponent)
@@ -83,7 +83,7 @@ namespace std
 
         static _Ty _Sinh(_Ty _Left, _Ty _Right)
         {	// return sinh(_Left) * _Right
-            return (_CSTD _Sinh((double)_Left, (double)_Right));
+            return (sinh(_Left) * _Right);
         }
 
         static _Ty asinh(_Ty _Left)
