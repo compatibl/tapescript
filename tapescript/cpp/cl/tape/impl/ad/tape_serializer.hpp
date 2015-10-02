@@ -28,7 +28,7 @@ namespace CppAD
 
         void start()
         {
-            *this << "\nOp#  Res# Op       Operands#          Taylor coeficients \n";
+            *this << "\nOp#  Res# Op       Operands#          Taylor coefficients\n";
         }
 
         static inline const char* OpName(OpCode op)
