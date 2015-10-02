@@ -106,16 +106,15 @@ namespace std
 #endif
     }
 
-    template <typename Base>
-    inline cl::tape_double<Base> floor(cl::tape_double<Base> x)
+    inline cl::TapeDouble floor(cl::TapeDouble x)
     {
         // Conversion from TapeDouble to native double is permitted
         // only if tape pointer is null, otherwise exception is thrown
 #ifdef CL_TAPE_CPPAD
-        CL_CHECK((Base)cl::tape_double<Base>(std::floor((Base)x))
-            == std::floor((Base)x));
+        CL_CHECK((double)cl::TapeDouble(std::floor((double)x))
+            == std::floor((double)x));
 
-        return  cl::tape_double<Base>(std::floor((Base)x));
+        return  cl::TapeDouble(std::floor((double)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -123,16 +122,15 @@ namespace std
 #endif
     }
 
-    template <typename Base>
-    inline cl::tape_double<Base> ceil(cl::tape_double<Base> x)
+    inline cl::TapeDouble ceil(cl::TapeDouble x)
     {
 #ifdef CL_TAPE_CPPAD
         // Conversion from TapeDouble to native double is permitted
         // only if tape pointer is null, otherwise exception is thrown
-        CL_CHECK((Base)cl::tape_double<Base>(std::ceil((Base)x))
-            == std::ceil((Base)x));
+        CL_CHECK((double)cl::TapeDouble(std::ceil((double)x))
+            == std::ceil((double)x));
 
-        return cl::tape_double<Base>(std::ceil((Base)x));
+        return cl::TapeDouble(std::ceil((double)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
