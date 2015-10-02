@@ -35,6 +35,7 @@ namespace cl
     class tape_double
     {
     public:
+        typedef Base base_type;
         typedef tape_double<Base> tape_type;
 
         /// <summary>AD implementation type, typedef according to this library's naming conventions.</summary>

@@ -427,23 +427,23 @@ namespace std
         return std::isnan(x.value());
 #endif
     }
+    
+} // namespace std
 
+namespace cl
+{
+    template <class Ty>
+    struct is_tape_type
+        : std::false_type
+    {};
 
+    template <class Base>
+    struct is_tape_type<cl::tape_double<Base>>
+        : std::true_type
+    {};
 
     template <typename Base>
-    inline cl::tape_double<Base> min(cl::tape_double<Base> x, cl::tape_double<Base> y)
-    {
-#if defined CL_TAPE_CPPAD
-        return CppAD::CondExpLt(x.value(), y.value(), x.value(), y.value());
-#elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented"); return x;
-#else
-        return std::min(x.value(), y.value());
-#endif
-    }
-
-    template <typename Base>
-    inline cl::tape_double<Base> min(cl::tape_double<Base> x, Base y)
+    inline cl::tape_double<Base> min_impl(cl::tape_double<Base> const& x, Base const& y)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::CondExpLt(x.value(), CppAD::AD<Base>(y), x.value(), CppAD::AD<Base>(y));
@@ -455,31 +455,13 @@ namespace std
     }
 
     template <typename Base>
-    inline cl::tape_double<Base> min(Base x, cl::tape_double<Base> y)
+    inline cl::tape_double<Base> min_impl(Base const& x, cl::tape_double<Base> const& y)
     {
-#ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpLt(CppAD::AD<Base>(x), y.value(), CppAD::AD<Base>(x), y.value());
-#elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented"); return x;
-#else
-        return std::min(x, y.value());
-#endif
+        return min_impl(y, x);
     }
 
     template <typename Base>
-    inline cl::tape_double<Base> max(cl::tape_double<Base> x, cl::tape_double<Base> y)
-    {
-#ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpGt(x.value(), y.value(), x.value(), y.value());
-#elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented"); return x;
-#else
-        return std::max(x.value(), y.value());
-#endif
-    }
-
-    template <typename Base>
-    inline cl::tape_double<Base> max(cl::tape_double<Base> x, Base y)
+    inline cl::tape_double<Base> max_impl(cl::tape_double<Base> const& x, Base const& y)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::CondExpGt(x.value(), CppAD::AD<Base>(y), x.value(), CppAD::AD<Base>(y));
@@ -491,46 +473,74 @@ namespace std
     }
 
     template <typename Base>
-    inline cl::tape_double<Base> max(Base x, cl::tape_double<Base> y)
+    inline cl::tape_double<Base> max_impl(Base const& x, cl::tape_double<Base> const& y)
     {
-#ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpGt(CppAD::AD<Base>(x), y.value(), CppAD::AD<Base>(x), y.value());
-#elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented"); return x;
-#else
-        return std::max(x, y.value());
-#endif
+        return max_impl(y, x);
     }
-
-} // namespace std
-
-namespace cl
-{
-    // Helper struct to avoid ambiguity.
-    template <class Check, class Type = double>
-    struct enable_if_not_double
-    {
-        typedef Type type;
-    };
-
-    template <class Type>
-    struct enable_if_not_double<double, Type>{};
-}
+} // namespace cl
 
 namespace std
 {
     template <typename Base>
-    inline cl::tape_double<Base> max(cl::tape_double<Base> x, typename cl::enable_if_not_double<Base>::type y)
+    inline cl::tape_double<Base> min(cl::tape_double<Base> const& x, cl::tape_double<Base> const& y)
     {
-        return std::max(x, Base(y));
+#if defined CL_TAPE_CPPAD
+        return CppAD::CondExpLt(x.value(), y.value(), x.value(), y.value());
+#elif CL_TAPE_ADOLC
+        cl::throw_("Not implemented"); return x;
+#else
+        return std::min(x.value(), y.value());
+#endif
     }
 
     template <typename Base>
-    inline cl::tape_double<Base> max(typename cl::enable_if_not_double<Base>::type x, cl::tape_double<Base> y)
+    inline cl::tape_double<Base> max(cl::tape_double<Base> const& x, cl::tape_double<Base> const& y)
     {
-        return std::max(Base(x), y);
+#ifdef CL_TAPE_CPPAD
+        return CppAD::CondExpGt(x.value(), y.value(), x.value(), y.value());
+#elif CL_TAPE_ADOLC
+        cl::throw_("Not implemented"); return x;
+#else
+        return std::max(x.value(), y.value());
+#endif
     }
 
+    template <class Ty>
+    inline typename std::enable_if<
+        cl::is_tape_type<Ty>::value
+        , Ty
+    >::type max(Ty const& x, typename Ty::base_type const& y)
+    {
+        return cl::max_impl(x, y);
+    }
+
+    template <class Ty>
+    inline typename std::enable_if<
+        cl::is_tape_type<Ty>::value
+        , Ty
+    >::type max(typename Ty::base_type const& x, Ty const& y)
+    {
+        return cl::max_impl(x, y);
+    }
+
+    template <class Ty>
+    inline typename std::enable_if<
+        cl::is_tape_type<Ty>::value
+        , Ty
+    >::type min(Ty const& x, typename Ty::base_type const& y)
+    {
+        return cl::min_impl(x, y);
+    }
+
+    template <class Ty>
+    inline typename std::enable_if<
+        cl::is_tape_type<Ty>::value
+        , Ty
+    >::type min(typename Ty::base_type const& x, Ty const& y)
+    {
+        return cl::min_impl(x, y);
+    }
+    
     template <typename Base>
     inline cl::tape_double<Base> atan2(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
@@ -639,16 +649,6 @@ namespace std
 
 namespace cl
 {
-    template <class Ty>
-    struct is_tape_type
-        : std::false_type
-    {};
-
-    template <class Base>
-    struct is_tape_type<cl::tape_double<Base>>
-        : std::true_type
-    {};
-
     template <class It1, class It2, class Meta = void>
     struct tape_type_from_iter {};
 
