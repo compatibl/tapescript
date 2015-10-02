@@ -20,69 +20,236 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#ifndef CL_INNER_ARRAY_HPP_INCLUDED
+#define CL_INNER_ARRAY_HPP_INCLUDED
+
 #pragma once
 
-#ifndef CL_INNER_ARRAY_INCLUDED
-#define CL_INNER_ARRAY_INCLUDED
-
 #include <limits>
-#include <vector>
 #include <valarray>
-#include <iterator>
 #include <sstream>
 #include <Eigen/Dense>
 
 namespace cl
 {
-    // Class that used as Base for CppAD::AD<Base>.
-    struct InnerArrayXd
+    template <class Array> struct inner_array;
+    typedef inner_array<Eigen::ArrayXd> InnerArrayXd;
+    typedef inner_array<std::valarray<double>> InnerValArray;
+    typedef InnerValArray InnerArray;
+
+    template <class Array>
+    struct array_traits;
+
+
+#define CL_INNER_ARRAY_FUNCTION_TRAITS(Qualifier, Name)     \
+    static inline array_type Name(const array_type& x)      \
+    {                                                       \
+        return Qualifier Name(x);                           \
+    }
+
+#define CL_INNER_ARRAY_FUNCTION_NOT_DEF(Array, Name)                        \
+    static inline array_type Name(const array_type& x)                      \
+    {                                                                       \
+        cl::throw_("The function " #Name " is not implemented for " Array); \
+        return x;                                                           \
+    }
+
+    template <class Scalar>
+    struct array_traits<std::valarray<Scalar>>
     {
-        typedef double scalar_type;
-        typedef Eigen::ArrayXd vector_type;
+        typedef Scalar scalar_type;
+        typedef std::valarray<scalar_type> array_type;
+        typedef size_t size_type;
+
+        static inline array_type get_const(size_t count, scalar_type const& val)
+        {
+            return std::valarray<scalar_type>(val, count);
+        }
+
+        static inline array_type get_from_init_list(std::initializer_list<scalar_type> il)
+        {
+            return std::valarray<scalar_type>(il);
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Ne(Ty1&& x, Ty2&& y)
+        {
+            return all_true(std::forward<Ty1>(x) != std::forward<Ty2>(y));
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Eq(Ty1&& x, Ty2&& y)
+        {
+            return all_true(std::forward<Ty1>(x) == std::forward<Ty2>(y));
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Lt(Ty1&& x, Ty2&& y)
+        {
+            return all_true(std::forward<Ty1>(x) < std::forward<Ty2>(y));
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Le(Ty1&& x, Ty2&& y)
+        {
+            return all_true(std::forward<Ty1>(x) <= std::forward<Ty2>(y));
+        }
+
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, abs)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, acos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sqrt)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, asin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, atan)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cosh)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sinh)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, exp)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log10)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tan)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tanh)
+
+        template <class Ty1, class Ty2>
+        static inline array_type pow(const Ty1& x, const Ty2& y)  
+        {
+            return std::pow(x, y);
+        }
+
+    private:
+        static inline bool all_true(std::valarray<bool> const& val)
+        {
+            bool result = true;
+            for (bool item : val)
+            {
+                result &= item;
+            }
+            return result;
+        }
+    };
+    
+    template <class Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
+    struct array_traits<
+        Eigen::Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols>
+    >
+    {
+        typedef Scalar scalar_type;
+        typedef Eigen::Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> array_type;
+        typedef int size_type;
+        
+        static inline array_type get_const(size_t count, scalar_type const& val)
+        {
+            return array_type::Constant(count, val);
+        }
+
+        static inline array_type get_from_init_list(std::initializer_list<scalar_type> il)
+        {
+            return array_type(Eigen::Map<const array_type>(il.begin(), il.size()));
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Ne(Ty1&& x, Ty2&& y)
+        {
+            return (std::forward<Ty1>(x) != std::forward<Ty2>(y)).all();
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Eq(Ty1&& x, Ty2&& y)
+        {
+            return (std::forward<Ty1>(x) == std::forward<Ty2>(y)).all();
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Lt(Ty1&& x, Ty2&& y)
+        {
+            return (std::forward<Ty1>(x) < std::forward<Ty2>(y)).all();
+        }
+
+        template <class Ty1, class Ty2>
+        static inline bool operator_Le(Ty1&& x, Ty2&& y)
+        {
+            return (std::forward<Ty1>(x) <= std::forward<Ty2>(y)).all();
+        }
+
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, abs)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, acos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sqrt)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, asin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, cos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, exp)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log10)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, tan)
+
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", atan)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", cosh)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", sinh)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", tanh)
+
+        template <class Ty>
+        static inline array_type pow(const array_type& x, const Ty& y)
+        {
+            return Eigen::pow(x, y);
+        }
+
+        static inline array_type pow(const scalar_type& x, const array_type& y)
+        {
+            return Eigen::exp(std::log(x) * y);
+        }
+    };
+
+
+    // Class that used as Base for CppAD::AD<Base>.
+    template <class Array>
+    struct inner_array
+    {
+        typedef array_traits<Array> traits;
+        typedef typename traits::scalar_type scalar_type;
+        typedef typename traits::array_type array_type;
+        typedef typename traits::size_type size_type;
 
         enum Mode
         {
             ScalarMode
-            , VectorMode
+            , ArrayMode
         };
 
-        // Default and double constructor.
-        InnerArrayXd(double val = 0.)
+        // Default and scalar_type constructor.
+        inner_array(const scalar_type& val = scalar_type())
             : mode_(ScalarMode)
             , scalar_value_(val)
-            , vector_value_()
+            , array_value_()
         {}
 
-        InnerArrayXd(const InnerArrayXd&) = default;
+        inner_array(const inner_array&) = default;
 
-        // Vector mode is used for vector value storage.
-        InnerArrayXd(const vector_type& v)
-            : mode_(VectorMode)
+        // Array mode is used for array value storage.
+        inner_array(const array_type& v)
+            : mode_(ArrayMode)
             , scalar_value_()
-            , vector_value_(v)
+            , array_value_(v)
         {}
 
-        InnerArrayXd(vector_type&& v)
-            : mode_(VectorMode)
+        inner_array(array_type&& v)
+            : mode_(ArrayMode)
             , scalar_value_()
-            , vector_value_(std::move(v))
+            , array_value_(std::move(v))
         {}
 
-        // Construct as vector with equal coefficients.
-        InnerArrayXd(double val, size_t n)
-            : mode_(VectorMode)
+        // Construct as array with equal coefficients.
+        inner_array(const scalar_type& val, size_t count)
+            : mode_(ArrayMode)
             , scalar_value_()
-            , vector_value_(vector_type::Constant(n, val))
+            , array_value_(traits::get_const(count, val))
         {}
 
-        // Construct as vector with values passed by initializer_list.
-        InnerArrayXd(std::initializer_list<double> il)
-            : mode_(VectorMode)
+        // Construct as array with values passed by initializer_list.
+        inner_array(std::initializer_list<scalar_type> il)
+            : mode_(ArrayMode)
             , scalar_value_()
-            , vector_value_()
-        {
-            vector_value_ = Eigen::Map<const vector_type>(il.begin(), il.size());
-        }
+            , array_value_(traits::get_from_init_list(il))
+        {}
 
         // Returns true if scalar mode used.
         bool is_scalar() const
@@ -90,16 +257,16 @@ namespace cl
             return mode_ == ScalarMode;
         }
 
-        // Returns true if vector mode used.
-        bool is_vector() const
+        // Returns true if array mode used.
+        bool is_array() const
         {
             return !is_scalar();
         }
 
         // Converts to scalar value.
-        double to_scalar() const
+        scalar_type to_scalar() const
         {
-            if (is_vector())
+            if (is_array())
             {
                 cl::throw_("Not a scalar.");
             }
@@ -107,218 +274,344 @@ namespace cl
         }
 
         // Returns arithmetic negation.
-        inline InnerArrayXd operator-() const
+        inline inner_array operator-() const
         {
             if (is_scalar())
             {
                 return -scalar_value_;
             }
-            return vector_type(-vector_value_);
+            return inner_array(-array_value_);
         }
 
-        // Returns a new InnerArrayXd of the same size with values which are acquired
+        // Returns a new inner_array of the same size with values which are acquired
         // by applying function func to the previous values of the elements.
-        InnerArrayXd apply(double func(double)) const
+        inner_array apply(scalar_type func(scalar_type)) const
         {
             if (is_scalar())
             {
                 return func(scalar_value_);
             }
-            vector_type result(vector_value_.size());
-            for (int i = 0; i < result.size(); i++)
+            array_type result(array_value_.size());
+            for (size_type i = 0; i < result.size(); i++)
             {
-                result(i) = func(vector_value_(i));
+                result[i] = func(array_value_[i]);
             }
             return result;
         }
 
-#define CL_INNER_VECTOR_ASSIGN_OPERATOR(Op)                                 \
-    inline InnerArrayXd& operator##Op##=(const InnerArrayXd& right)           \
-        {                                                                   \
-            if (is_scalar() && right.is_scalar())                           \
-            {                                                               \
-                scalar_value_ Op##= right.scalar_value_;                    \
-            }                                                               \
-            else if (is_vector() && right.is_scalar())                      \
-            {                                                               \
-                vector_value_ Op##= right.scalar_value_;                    \
-            }                                                               \
-            else if (is_scalar() && right.is_vector())                      \
-            {                                                               \
-                vector_value_ = scalar_value_ Op right.vector_value_;       \
-                mode_ = VectorMode;                                         \
-            }                                                               \
-            else if (is_vector() && right.is_vector())                      \
-            {                                                               \
-                vector_value_ Op##= right.vector_value_;                    \
-            }                                                               \
-            return *this;                                                   \
-        }
-
         // Assign operations.
-        CL_INNER_VECTOR_ASSIGN_OPERATOR(+)
-        CL_INNER_VECTOR_ASSIGN_OPERATOR(-)
-        CL_INNER_VECTOR_ASSIGN_OPERATOR(*)
-        CL_INNER_VECTOR_ASSIGN_OPERATOR(/)
-#undef CL_INNER_VECTOR_ASSIGN_OPERATOR
+#define CL_INNER_ARRAY_ASSIGN_OPERATOR(Op)                              \
+        inline inner_array& operator Op ## = (const inner_array& right) \
+        {                                                               \
+            if (is_scalar() && right.is_scalar())                       \
+            {                                                           \
+                scalar_value_ Op##= right.scalar_value_;                \
+            }                                                           \
+            else if (is_array() && right.is_scalar())                  \
+            {                                                           \
+                array_value_ Op##= right.scalar_value_;                 \
+            }                                                           \
+            else if (is_scalar() && right.is_array())                  \
+            {                                                           \
+                array_value_ = scalar_value_ Op right.array_value_;     \
+                mode_ = ArrayMode;                                      \
+            }                                                           \
+            else if (is_array() && right.is_array())                  \
+            {                                                           \
+                array_value_ Op##= right.array_value_;                  \
+            }                                                           \
+            return *this;                                               \
+        }
+        CL_INNER_ARRAY_ASSIGN_OPERATOR(+)
+        CL_INNER_ARRAY_ASSIGN_OPERATOR(-)
+        CL_INNER_ARRAY_ASSIGN_OPERATOR(*)
+        CL_INNER_ARRAY_ASSIGN_OPERATOR(/)
+#undef CL_INNER_ARRAY_ASSIGN_OPERATOR
 
         Mode mode_;
-        double scalar_value_;
-        vector_type vector_value_;
+        scalar_type scalar_value_;
+        array_type array_value_;
     };
 
 
-    inline std::ostream& operator<<(std::ostream& os, const InnerArrayXd& x)
+    // Stream insertion operator.
+    template <class Array>
+    inline std::ostream& operator<<(std::ostream& os, const inner_array<Array>& x)
     {
         if (x.is_scalar())
         {
             return os << x.scalar_value_;
         }
+        if (x.array_value_.size() == 0)
+        {
+            return os << "{}";
+        }
 
         std::stringstream ss;
         ss.precision(os.precision());
-        ss << "{ ";
-        for (int i = 0; i < x.vector_value_.size(); i++)
+        ss << "{ " << x.array_value_[0];
+        for (typename inner_array<Array>::size_type i = 1; i < x.array_value_.size(); ++i)
         {
-            ss << x.vector_value_(i) << ", ";
+            ss << ", " << x.array_value_[i];
         }
-        ss << "}";
+        ss << " }";
+
         return os << ss.str();
     }
 
-#define CL_BIN_INNER_VECTOR_OPERATOR(Res, Op)                               \
-    inline Res operator##Op(const InnerArrayXd& x, const InnerArrayXd& y)     \
-    {                                                                       \
-        if (x.is_scalar() && y.is_scalar())                                 \
-        {                                                                   \
-            return x.scalar_value_ Op y.scalar_value_;                      \
-        }                                                                   \
-        else if (x.is_vector() && y.is_scalar())                            \
-        {                                                                   \
-            return x.vector_value_ Op y.scalar_value_;                      \
-        }                                                                   \
-        else if (x.is_scalar() && y.is_vector())                            \
-        {                                                                   \
-            return x.scalar_value_ Op y.vector_value_;                      \
-        }                                                                   \
-        else /* (x.is_vector() && y.is_vector()) */                         \
-        {                                                                   \
-            return x.vector_value_ Op y.vector_value_;                      \
-        }                                                                   \
-    }
 
     // Arithmetic binary operations.
-    CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, - )
-    CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, * )
-    CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, / )
-    CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, + )
-#undef CL_BIN_INNER_VECTOR_OPERATOR
-
-#define CL_BOOL_INNER_VECTOR_OPERATOR(Op)                                   \
-    inline bool operator##Op(const InnerArrayXd& x, const InnerArrayXd& y)    \
+#define CL_BIN_INNER_ARRAY_OPERATOR(Op)                                     \
+    template <class Array>                                                  \
+    inline inner_array<Array> operator Op(                                  \
+        const inner_array<Array>& x                                         \
+        , const inner_array<Array>& y)                                      \
     {                                                                       \
         if (x.is_scalar() && y.is_scalar())                                 \
         {                                                                   \
             return x.scalar_value_ Op y.scalar_value_;                      \
         }                                                                   \
-        bool result = true;                                                 \
-        if (x.is_vector() && y.is_scalar())                                 \
+        else if (x.is_array() && y.is_scalar())                             \
         {                                                                   \
-            result = (x.vector_value_ Op y.scalar_value_).all();            \
+            return x.array_value_ Op y.scalar_value_;                       \
         }                                                                   \
-        else if (x.is_scalar() && y.is_vector())                            \
+        else if (x.is_scalar() && y.is_array())                             \
         {                                                                   \
-            result = (x.scalar_value_ Op y.vector_value_).all();            \
+            return x.scalar_value_ Op y.array_value_;                       \
         }                                                                   \
-        else /* (left.is_vector() && right.is_vector()) */                  \
+        else /* (x.is_array() && y.is_array()) */                           \
         {                                                                   \
-            result = (x.vector_value_ Op y.vector_value_).all();            \
+            return x.array_value_ Op y.array_value_;                        \
         }                                                                   \
-        return result;                                                      \
-    }
-
-    // Logical binary operations.
-    CL_BOOL_INNER_VECTOR_OPERATOR(!=)
-    CL_BOOL_INNER_VECTOR_OPERATOR(==)
-    CL_BOOL_INNER_VECTOR_OPERATOR(> )
-    CL_BOOL_INNER_VECTOR_OPERATOR(>=)
-    CL_BOOL_INNER_VECTOR_OPERATOR(< )
-    CL_BOOL_INNER_VECTOR_OPERATOR(<=)
-#undef CL_BOOL_INNER_VECTOR_OPERATOR
-}
-
-namespace std
-{
-#define CL_INNER_VECTOR_FUNCTION(Res, Name)                                 \
-    inline Res Name(const cl::InnerArrayXd& x)                               \
+    }                                                                       \
+                                                                            \
+    template <class Array>                                                  \
+    inline inner_array<Array> operator Op(                                  \
+        const inner_array<Array>& x                                         \
+        , const typename inner_array<Array>::scalar_type& y)                \
     {                                                                       \
         if (x.is_scalar())                                                  \
         {                                                                   \
-            return Name(x.scalar_value_);                                   \
+            return x.scalar_value_ Op y;                                    \
         }                                                                   \
-        return Name(x.vector_value_);                                       \
+        return x.array_value_ Op y;                                         \
+    }                                                                       \
+                                                                            \
+    template <class Array>                                                  \
+    inline inner_array<Array> operator Op(                                  \
+        const typename inner_array<Array>::scalar_type& x                   \
+        , const inner_array<Array>& y)                                      \
+    {                                                                       \
+        if (y.is_scalar())                                                  \
+        {                                                                   \
+            return x Op y.scalar_value_;                                    \
+        }                                                                   \
+        return x Op y.array_value_;                                         \
     }
 
-    // Standart math functions.
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, abs)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, acos)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, sqrt)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, asin)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, atan)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, cos)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, sin)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, cosh)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, sinh)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, exp)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, log)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, log10)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, tan)
-    CL_INNER_VECTOR_FUNCTION(cl::InnerArrayXd, tanh)
-#undef CL_INNER_VECTOR_FUNCTION
+    CL_BIN_INNER_ARRAY_OPERATOR(-)
+    CL_BIN_INNER_ARRAY_OPERATOR(*)
+    CL_BIN_INNER_ARRAY_OPERATOR(/)
+    CL_BIN_INNER_ARRAY_OPERATOR(+)
+#undef CL_BIN_INNER_ARRAY_OPERATOR
 
-    // Math power functioon.
-    inline cl::InnerArrayXd pow(const cl::InnerArrayXd& left, const cl::InnerArrayXd& right)
-    {
-        if (left.is_scalar() && right.is_scalar())
-        {
-            return pow(left.scalar_value_, right.scalar_value_);
-        }
-        else if (left.is_vector() && right.is_scalar())
-        {
-            return pow(left.vector_value_, right.scalar_value_);
-        }
-        else if (left.is_scalar() && right.is_vector())
-        {
-            return pow(left.scalar_value_, right.vector_value_);
-        }
-        else // (left.is_vector() && right.is_vector())
-        {
-            return pow(left.vector_value_, right.vector_value_);
-        }
+
+    // Logical binary operations.
+#define CL_BOOL_INNER_ARRAY_OPERATOR(Op, Code)                                                  \
+    template <class Array>                                                                      \
+    inline bool operator Op(const inner_array<Array>& x, const inner_array<Array>& y)           \
+    {                                                                                           \
+        if (x.is_scalar() && y.is_scalar())                                                     \
+        {                                                                                       \
+            return x.scalar_value_ Op y.scalar_value_;                                          \
+        }                                                                                       \
+        bool result = true;                                                                     \
+        if (x.is_array() && y.is_scalar())                                                      \
+        {                                                                                       \
+            result = array_traits<Array>::operator_##Code(x.array_value_, y.scalar_value_);     \
+        }                                                                                       \
+        else if (x.is_scalar() && y.is_array())                                                 \
+        {                                                                                       \
+            result = array_traits<Array>::operator_##Code(x.scalar_value_, y.array_value_);     \
+        }                                                                                       \
+        else /* (left.is_array() && right.is_array()) */                                        \
+        {                                                                                       \
+            result = array_traits<Array>::operator_##Code(x.array_value_, y.array_value_);      \
+        }                                                                                       \
+        return result;                                                                          \
+    }                                                                                           \
+                                                                                                \
+    template <class Array>                                                                      \
+    inline bool operator Op(                                                                    \
+        const inner_array<Array>& x                                                             \
+        , const typename inner_array<Array>::scalar_type& y)                                    \
+    {                                                                                           \
+        if (x.is_scalar())                                                                      \
+        {                                                                                       \
+            return x.scalar_value_ Op y;                                                        \
+        }                                                                                       \
+        return array_traits<Array>::operator_##Code(x.array_value_, y);                         \
+    }                                                                                           \
+                                                                                                \
+    template <class Array>                                                                      \
+    inline bool operator Op(                                                                    \
+        const typename inner_array<Array>::scalar_type& x                                       \
+        , const inner_array<Array>& y)                                                          \
+    {                                                                                           \
+        if (y.is_scalar())                                                                      \
+        {                                                                                       \
+            return x Op y.scalar_value_;                                                        \
+        }                                                                                       \
+        return array_traits<Array>::operator_##Code(x, y.array_value_);                         \
     }
 
+    CL_BOOL_INNER_ARRAY_OPERATOR(!=, Ne)
+    CL_BOOL_INNER_ARRAY_OPERATOR(==, Eq)
+    CL_BOOL_INNER_ARRAY_OPERATOR(< , Lt)
+    CL_BOOL_INNER_ARRAY_OPERATOR(<=, Le)
 
-    // CLASS numeric_limits<cl::InnerArrayXd>
-    template<>
-    class numeric_limits<cl::InnerArrayXd>
+    template <class Array>
+    inline bool operator>(const inner_array<Array>& x, const inner_array<Array>& y)
     {
-        typedef double base_type;
+        return y < x;
+    }
+    template <class Array>
+    inline bool operator>(const inner_array<Array>& x, const typename inner_array<Array>::scalar_type& y)
+    {
+        return y < x;
+    }
+    template <class Array>
+    inline bool operator>(const typename inner_array<Array>::scalar_type& x, const inner_array<Array>& y)
+    {
+        return y < x;
+    }
+    template <class Array>
+    inline bool operator>=(const inner_array<Array>& x, const inner_array<Array>& y)
+    {
+        return y <= x;
+    }
+    template <class Array>
+    inline bool operator>=(const inner_array<Array>& x, const typename inner_array<Array>::scalar_type& y)
+    {
+        return y <= x;
+    }
+    template <class Array>
+    inline bool operator>=(const typename inner_array<Array>::scalar_type& x, const inner_array<Array>& y)
+    {
+        return y <= x;
+    }
+#undef CL_BOOL_INNER_ARRAY_OPERATOR
+
+
+    namespace tapescript
+    {
+        // Standart math functions.
+#define CL_INNER_ARRAY_FUNCTION(Name)                                           \
+        template <class Array>                                                  \
+        inline cl::inner_array<Array> Name(const cl::inner_array<Array>& x)     \
+        {                                                                       \
+            if (x.is_scalar())                                                  \
+            {                                                                   \
+                return std::Name(x.scalar_value_);                              \
+            }                                                                   \
+            return cl::inner_array<Array>::traits::Name(x.array_value_);        \
+        }
+        CL_INNER_ARRAY_FUNCTION(abs)
+        CL_INNER_ARRAY_FUNCTION(acos)
+        CL_INNER_ARRAY_FUNCTION(sqrt)
+        CL_INNER_ARRAY_FUNCTION(asin)
+        CL_INNER_ARRAY_FUNCTION(atan)
+        CL_INNER_ARRAY_FUNCTION(cos)
+        CL_INNER_ARRAY_FUNCTION(sin)
+        CL_INNER_ARRAY_FUNCTION(cosh)
+        CL_INNER_ARRAY_FUNCTION(sinh)
+        CL_INNER_ARRAY_FUNCTION(exp)
+        CL_INNER_ARRAY_FUNCTION(log)
+        CL_INNER_ARRAY_FUNCTION(log10)
+        CL_INNER_ARRAY_FUNCTION(tan)
+        CL_INNER_ARRAY_FUNCTION(tanh)
+#undef CL_INNER_ARRAY_FUNCTION
+
+        // Math power functioon.
+        template <class Array>
+        inline cl::inner_array<Array> pow(
+            const cl::inner_array<Array>& left
+            , const cl::inner_array<Array>& right)
+        {
+            typedef typename cl::inner_array<Array>::traits traits;
+            if (left.is_scalar() && right.is_scalar())
+            {
+                return std::pow(left.scalar_value_, right.scalar_value_);
+            }
+            else if (left.is_array() && right.is_scalar())
+            {
+                return traits::pow(left.array_value_, right.scalar_value_);
+            }
+            else if (left.is_scalar() && right.is_array())
+            {
+                return traits::pow(left.scalar_value_, right.array_value_);
+            }
+            else // (left.is_array() && right.is_array())
+            {
+                return traits::pow(left.array_value_, right.array_value_);
+            }
+        }
+
+        // Math power functioon.
+        template <class Array>
+        inline cl::inner_array<Array> pow(
+            const cl::inner_array<Array>& left
+            , const typename cl::inner_array<Array>::scalar_type& right)
+        {
+            typedef typename cl::inner_array<Array>::traits traits;
+            if (left.is_scalar())
+            {
+                return std::pow(left.scalar_value_, right);
+            }
+            return traits::pow(left.array_value_, right);
+        }
+
+        // Math power functioon.
+        template <class Array>
+        inline cl::inner_array<Array> pow(
+            const typename cl::inner_array<Array>::scalar_type& left
+            , const cl::inner_array<Array>& right)
+        {
+            typedef typename cl::inner_array<Array>::traits traits;
+            if (right.is_scalar())
+            {
+                return std::pow(left, right.scalar_value_);
+            }
+            return traits::pow(left, right.array_value_);
+        }
+
+    } // namespace tapescript
+} // namespace cl
+
+
+namespace std
+{
+    // CLASS numeric_limits<cl::inner_array<Array>>
+    template<class Array>
+    class numeric_limits<cl::inner_array<Array>>
+    {
+        typedef typename cl::inner_array<Array>::scalar_type scalar_type;
     public:
-        typedef cl::InnerArrayXd _Ty;
+        typedef cl::inner_array<Array> _Ty;
 
-        static _Ty min() _THROW0()
+        static _Ty min()
         {    // return minimum value
-            return numeric_limits<base_type>::min();
+            return numeric_limits<scalar_type>::min();
         }
 
-        static _Ty max() _THROW0()
+        static _Ty max()
         {    // return maximum value
-            return numeric_limits<base_type>::max();
+            return numeric_limits<scalar_type>::max();
         }
 
-        static _Ty epsilon() _THROW0()
+        static _Ty epsilon()
         {    // return smallest effective increment from 1.0
-            return numeric_limits<base_type>::epsilon();
+            return numeric_limits<scalar_type>::epsilon();
         }
     };
 }

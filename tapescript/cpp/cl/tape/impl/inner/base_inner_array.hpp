@@ -20,10 +20,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#pragma once
+#ifndef CL_BASE_INNER_ARRAY_HPP_INCLUDED
+#define CL_BASE_INNER_ARRAY_HPP_INCLUDED
 
-#ifndef CL_BASE_INNER_ARRAY_INCLUDED
-#define CL_BASE_INNER_ARRAY_INCLUDED
+#pragma once
 
 #include <limits>
 
@@ -32,11 +32,12 @@ limitations under the License.
 namespace CppAD
 {
     // Conditional equal expression.
-    inline cl::InnerArrayXd CondExpOpEq(
-        const cl::InnerArrayXd&       left,
-        const cl::InnerArrayXd&       right,
-        const cl::InnerArrayXd&       exp_if_true,
-        const cl::InnerArrayXd&       exp_if_false)
+    template <class Array>
+    inline cl::inner_array<Array> CondExpOpEq(
+        const cl::inner_array<Array>&       left,
+        const cl::inner_array<Array>&       right,
+        const cl::inner_array<Array>&       exp_if_true,
+        const cl::inner_array<Array>&       exp_if_false)
     {
         if (left.is_scalar() && right.is_scalar())
         {
@@ -46,30 +47,30 @@ namespace CppAD
 
         //std::valarray<bool> mask;
         //size_t size;
-        //if (left.is_scalar() && right.is_vector())
+        //if (left.is_scalar() && right.is_array())
         //{
-        //    mask = left.scalar_value_ == right.vector_value_;
-        //    size = right.vector_value_.size();
+        //    mask = left.scalar_value_ == right.array_value_;
+        //    size = right.array_value_.size();
         //}
-        //else if (left.is_vector() && right.is_scalar())
+        //else if (left.is_array() && right.is_scalar())
         //{
-        //    mask = left.vector_value_ == right.scalar_value_;
-        //    size = left.vector_value_.size();
+        //    mask = left.array_value_ == right.scalar_value_;
+        //    size = left.array_value_.size();
         //}
-        //else /* (left.is_vector() && right.is_vector()) */
+        //else /* (left.is_array() && right.is_array()) */
         //{
-        //    mask = left.vector_value_ == right.vector_value_;
-        //    size = left.vector_value_.size();
+        //    mask = left.array_value_ == right.array_value_;
+        //    size = left.array_value_.size();
         //}
         //
-        //cl::InnerArrayXd::vector_type result(size);
+        //cl::inner_array<Array>::array_type result(size);
         //if (exp_if_true.is_scalar())
         //{
         //    result[mask] = exp_if_true.scalar_value_;
         //}
         //else
         //{
-        //    result[mask] = exp_if_true.vector_value_[mask];
+        //    result[mask] = exp_if_true.array_value_[mask];
         //}
         //if (exp_if_false.is_scalar())
         //{
@@ -77,7 +78,7 @@ namespace CppAD
         //}
         //else
         //{
-        //    result[!mask] = exp_if_false.vector_value_[!mask];
+        //    result[!mask] = exp_if_false.array_value_[!mask];
         //}
         //
         //return result;
@@ -86,11 +87,12 @@ namespace CppAD
     }
 
     // Conditional less expression.
-    inline cl::InnerArrayXd CondExpOpLt(
-        const cl::InnerArrayXd&       left,
-        const cl::InnerArrayXd&       right,
-        const cl::InnerArrayXd&       exp_if_true,
-        const cl::InnerArrayXd&       exp_if_false)
+    template <class Array>
+    inline cl::inner_array<Array> CondExpOpLt(
+        const cl::inner_array<Array>&       left,
+        const cl::inner_array<Array>&       right,
+        const cl::inner_array<Array>&       exp_if_true,
+        const cl::inner_array<Array>&       exp_if_false)
     {
         if (left.is_scalar() && right.is_scalar())
         {
@@ -100,30 +102,30 @@ namespace CppAD
 
         //std::valarray<bool> mask;
         //size_t size;
-        //if (left.is_scalar() && right.is_vector())
+        //if (left.is_scalar() && right.is_array())
         //{
-        //    mask = left.scalar_value_ < right.vector_value_;
-        //    size = right.vector_value_.size();
+        //    mask = left.scalar_value_ < right.array_value_;
+        //    size = right.array_value_.size();
         //}
-        //else if (left.is_vector() && right.is_scalar())
+        //else if (left.is_array() && right.is_scalar())
         //{
-        //    mask = left.vector_value_ < right.scalar_value_;
-        //    size = left.vector_value_.size();
+        //    mask = left.array_value_ < right.scalar_value_;
+        //    size = left.array_value_.size();
         //}
-        //else /* (left.is_vector() && right.is_vector()) */
+        //else /* (left.is_array() && right.is_array()) */
         //{
-        //    mask = left.vector_value_ < right.vector_value_;
-        //    size = left.vector_value_.size();
+        //    mask = left.array_value_ < right.array_value_;
+        //    size = left.array_value_.size();
         //}
         //
-        //cl::InnerArrayXd::vector_type result(size);
+        //cl::inner_array<Array>::array_type result(size);
         //if (exp_if_true.is_scalar())
         //{
         //    result[mask] = exp_if_true.scalar_value_;
         //}
         //else
         //{
-        //    result[mask] = exp_if_true.vector_value_[mask];
+        //    result[mask] = exp_if_true.array_value_[mask];
         //}
         //if (exp_if_false.is_scalar())
         //{
@@ -131,20 +133,22 @@ namespace CppAD
         //}
         //else
         //{
-        //    result[!mask] = exp_if_false.vector_value_[!mask];
+        //    result[!mask] = exp_if_false.array_value_[!mask];
         //}
         //
         //return result;
         cl::throw_("Not implemented.");
+        return exp_if_true;
     }
 
     // Conditional expression.
-    inline cl::InnerArrayXd CondExpOp(
+    template <class Array>
+    inline cl::inner_array<Array> CondExpOp(
         enum CompareOp               cop          ,
-        const cl::InnerArrayXd&       left         ,
-        const cl::InnerArrayXd&       right        ,
-        const cl::InnerArrayXd&       exp_if_true  ,
-        const cl::InnerArrayXd&       exp_if_false )
+        const cl::inner_array<Array>&       left         ,
+        const cl::inner_array<Array>&       right        ,
+        const cl::inner_array<Array>&       exp_if_true  ,
+        const cl::inner_array<Array>&       exp_if_false )
     {
         switch (cop)
         {
@@ -169,119 +173,158 @@ namespace CppAD
         }
     }
 
-    // We are hacking into CppAD::AD friend function.
-    template <>
-    inline AD<cl::InnerArrayXd> CondExpOp<cl::InnerArrayXd>(
-        enum CompareOp                   cop,
-        const AD<cl::InnerArrayXd>&       left,
-        const AD<cl::InnerArrayXd>&       right,
-        const AD<cl::InnerArrayXd>&       if_true,
-        const AD<cl::InnerArrayXd>&       if_false)
+    //// We are hacking into CppAD::AD friend function.
+    //template <class Array>
+    //inline AD<cl::inner_array<Array>> CondExpOp<cl::inner_array<Array>>(
+    //    enum CompareOp                   cop,
+    //    const AD<cl::inner_array<Array>>&       left,
+    //    const AD<cl::inner_array<Array>>&       right,
+    //    const AD<cl::inner_array<Array>>&       if_true,
+    //    const AD<cl::inner_array<Array>>&       if_false)
+    //{
+    //    typedef cl::inner_array<Array> Base;
+    //    AD<Base> returnValue;
+    //    CPPAD_ASSERT_UNKNOWN(Parameter(returnValue));
+    //
+    //
+    //    // must use CondExp incase Base is an AD type and recording
+    //    returnValue.value_ = CondExpOp(cop,
+    //        left.value_, right.value_, if_true.value_, if_false.value_);
+    //
+    //    // check first case where do not need to tape
+    //    if (IdenticalPar(left) & IdenticalPar(right))
+    //    {
+    //        return returnValue;
+    //    }
+    //
+    //    ADTape<Base> *tape = CPPAD_NULL;
+    //    if (Variable(left))
+    //        tape = left.tape_this();
+    //    if (Variable(right))
+    //        tape = right.tape_this();
+    //    if (Variable(if_true))
+    //        tape = if_true.tape_this();
+    //    if (Variable(if_false))
+    //        tape = if_false.tape_this();
+    //
+    //    // add this operation to the tape
+    //    if (tape != CPPAD_NULL)
+    //        tape->RecordCondExp(cop,
+    //        returnValue, left, right, if_true, if_false);
+    //
+    //    return returnValue;
+    //}
+
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Lt, CompareLt)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Le, CompareLe)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Eq, CompareEq)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Ge, CompareGe)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Gt, CompareGt)
+    
+
+    template <class Array>
+    inline bool IdenticalPar(const cl::inner_array<Array>& x)
     {
-        typedef cl::InnerArrayXd Base;
-        AD<Base> returnValue;
-        CPPAD_ASSERT_UNKNOWN(Parameter(returnValue));
-
-
-        // must use CondExp incase Base is an AD type and recording
-        returnValue.value_ = CondExpOp(cop,
-            left.value_, right.value_, if_true.value_, if_false.value_);
-
-        // check first case where do not need to tape
-        if (IdenticalPar(left) & IdenticalPar(right))
-        {
-            return returnValue;
-        }
-
-        ADTape<Base> *tape = CPPAD_NULL;
-        if (Variable(left))
-            tape = left.tape_this();
-        if (Variable(right))
-            tape = right.tape_this();
-        if (Variable(if_true))
-            tape = if_true.tape_this();
-        if (Variable(if_false))
-            tape = if_false.tape_this();
-
-        // add this operation to the tape
-        if (tape != CPPAD_NULL)
-            tape->RecordCondExp(cop,
-            returnValue, left, right, if_true, if_false);
-
-        return returnValue;
+        return false;
     }
 
-    CPPAD_COND_EXP_REL(cl::InnerArrayXd)
-
-//    inline bool EqualOpSeq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-//    {    return x == y; }
-
-    inline bool IdenticalPar(const cl::InnerArrayXd& x)
-    {
-        return true;
-    }
-    inline bool IdenticalZero(const cl::InnerArrayXd& x)
+    template <class Array>
+    inline bool IdenticalZero(const cl::inner_array<Array>& x)
     {
         return x.is_scalar() && x == 0.0;
     }
-    inline bool IdenticalOne(const cl::InnerArrayXd& x)
+
+    template <class Array>
+    inline bool IdenticalOne(const cl::inner_array<Array>& x)
     {
         return x.is_scalar() && x == 1.0;
     }
-    inline bool IdenticalEqualPar(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
+
+    template <class Array>
+    inline bool IdenticalEqualPar(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
     {
         if (x.is_scalar() && y.is_scalar())
         {
             return x == y;
         }
-        if (x.is_vector() && y.is_vector())
+        if (x.is_array() && y.is_array())
         {
-            return x.vector_value_.size() == y.vector_value_.size()
+            return x.array_value_.size() == y.array_value_.size()
                 && x == y;
         }
         return false;
     }
 
-    inline int Integer(const cl::InnerArrayXd& x)
+    template <class Array>
+    inline int Integer(const cl::inner_array<Array>& x)
     {
         return static_cast<int>(x.to_scalar());
     }
 
-    inline bool GreaterThanZero(const cl::InnerArrayXd& x)
-    {    return x > 0.; }
-    inline bool GreaterThanOrZero(const cl::InnerArrayXd& x)
-    {    return x >= 0.; }
-    inline bool LessThanZero(const cl::InnerArrayXd& x)
-    {    return x < 0.; }
-    inline bool LessThanOrZero(const cl::InnerArrayXd& x)
-    {    return x <= 0.; }
-    inline bool abs_geq(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
-    {    return std::abs(x) >= std::abs(y); }
-
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, acos)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, asin)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, atan)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cos)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, cosh)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, exp)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, abs)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, log10)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sin)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sinh)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, sqrt)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tan)
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, tanh)
-# if CPPAD_COMPILER_HAS_ERF
-    CPPAD_STANDARD_MATH_UNARY(cl::InnerArrayXd, erf)
-# endif
-
-    inline cl::InnerArrayXd fabs(const cl::InnerArrayXd& x)
+    template <class Array>
+    inline bool GreaterThanZero(const cl::inner_array<Array>& x)
     {
-        return std::abs(x);
+        return x > 0.;
     }
 
-    inline cl::InnerArrayXd sign(const cl::InnerArrayXd& x)
+    template <class Array>
+    inline bool GreaterThanOrZero(const cl::inner_array<Array>& x)
+    {
+        return x >= 0.;
+    }
+
+    template <class Array>
+    inline bool LessThanZero(const cl::inner_array<Array>& x)
+    {
+        return x < 0.;
+    }
+
+    template <class Array>
+    inline bool LessThanOrZero(const cl::inner_array<Array>& x)
+    {
+        return x <= 0.;
+    }
+
+    template <class Array>
+    inline bool abs_geq(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
+    {
+        return std::abs(x) >= std::abs(y);
+    }
+
+#define CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(Fun) \
+    template <class Array>                      \
+    inline cl::inner_array<Array> Fun(          \
+        const cl::inner_array<Array>& x)        \
+    {	return cl::tapescript::Fun(x); }
+
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(acos)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(asin)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(atan)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(cos)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(cosh)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(exp)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(abs)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(log)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(log10)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(sin)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(sinh)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(sqrt)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(tan)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(tanh)
+#undef CL_ARRAY_CPPAD_STANDARD_MATH_UNARY
+
+# if CPPAD_COMPILER_HAS_ERF
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(erf)
+# endif
+
+    template <class Array>
+    inline cl::inner_array<Array> fabs(const cl::inner_array<Array>& x)
+    {
+        return cl::tapescript::abs(x);
+    }
+
+    template <class Array>
+    inline cl::inner_array<Array> sign(const cl::inner_array<Array>& x)
     {
         auto sign_func = [](double v)
         {
@@ -295,47 +338,41 @@ namespace CppAD
         return x.apply(sign_func);
     }
 
-    inline cl::InnerArrayXd pow(const cl::InnerArrayXd& x, const cl::InnerArrayXd& y)
+    template <class Array>
+    inline cl::inner_array<Array> pow(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
     {
-        return std::pow(x, y);
+        return cl::tapescript::pow(x, y);
     }
 
-    template <>
-    class numeric_limits<cl::InnerArrayXd>
+    template <class Array>
+    class numeric_limits<cl::inner_array<Array>>
     {
     public:
         // machine epsilon
-        static cl::InnerArrayXd epsilon(void)
+        static cl::inner_array<Array> epsilon(void)
         {
-            return std::numeric_limits<cl::InnerArrayXd>::epsilon();
+            return std::numeric_limits<cl::inner_array<Array>>::epsilon();
         }
         // minimum positive normalized value
-        static cl::InnerArrayXd min(void)
+        static cl::inner_array<Array> min(void)
         {
-            return std::numeric_limits<cl::InnerArrayXd>::min();
+            return std::numeric_limits<cl::inner_array<Array>>::min();
         }
         // maximum finite value
-        static cl::InnerArrayXd max(void)
+        static cl::inner_array<Array> max(void)
         {
-            return std::numeric_limits<cl::InnerArrayXd>::max();
+            return std::numeric_limits<cl::inner_array<Array>>::max();
         }
     };
-    // deprecated machine epsilon
-    template <>
-    inline cl::InnerArrayXd epsilon<cl::InnerArrayXd>(void)
-    {
-        return numeric_limits<cl::InnerArrayXd>::epsilon();
-    }
-
-
-    template <>
-    inline unsigned short hash_code<cl::InnerArrayXd>(const cl::InnerArrayXd& value)
+    
+    template <class Array>
+    inline unsigned short hash_code(const cl::inner_array<Array>& value)
     {
         if (value.is_scalar())
         {
             return hash_code(value.scalar_value_);
         }
-        return hash_code(value.vector_value_[0]);
+        return hash_code(value.array_value_[0]);
     }
 }
 
