@@ -215,7 +215,7 @@ namespace cl
 
 
     /// <summary>Class that aggregates a scalar value and an array value.
-    /// Used as Base tamplate parameter for CppAD::AD class.</summary>
+    /// Used as Base template parameter for CppAD::AD class.</summary>
     template <class Array>
     struct inner_array
     {
