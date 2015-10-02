@@ -57,7 +57,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_reverse_vec()
-                    : atomic_base("atomic_reverse_vec")
+                    : atomic_base("Reversing")
                 {}
     
                 bool forward(
@@ -200,7 +200,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_sum_vec()
-                    : atomic_base("atomic_sum_vec")
+                    : atomic_base("Sum")
                 {}
     
                 static inline inner_type adjust_size(double val, const inner_type& model)
@@ -402,7 +402,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_conc_vec()
-                    : atomic_base("atomic_conc_vec")
+                    : atomic_base("Concatenation")
                 {}
     
                 bool forward(
@@ -615,7 +615,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
 
                 atomic_make_vec()
-                    : atomic_base("atomic_make_vec")
+                    : atomic_base("Construction")
                 {}
 
                 bool forward(

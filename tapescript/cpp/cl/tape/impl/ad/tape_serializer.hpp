@@ -17,8 +17,7 @@ namespace CppAD
     template <class Base>
     struct tape_serializer : std::ostream
     {
-        struct impl {};
-        struct impl_start{};
+        struct impl{};
 
         tape_serializer(std::ostream& os = std::cout)
             : std::ostream(os.rdbuf())
@@ -340,10 +339,7 @@ namespace CppAD
             case UserOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 4);
                 {	std::string name = atomic_base<Base>::class_name(ind[0]);
-                printOpField(os, " f=", name.c_str(), ncol);
-                printOpField(os, " i=", ind[1], ncol);
-                printOpField(os, " n=", ind[2], ncol);
-                printOpField(os, " m=", ind[3], ncol);
+                printOpField(os, " ", name.c_str(), 2 * ncol + 5);
                 }
                 break;
 
@@ -410,6 +406,7 @@ namespace CppAD
             const addr_t*          ind)
         {
             check_first_call();
+            size_t length = (op == UserOp) ? 80 : 37;
 
             std::stringstream ss;
             saveOp(
@@ -419,7 +416,7 @@ namespace CppAD
                 i_var,
                 op,
                 ind);
-            saveOpField("", ss.str(), 37);
+            saveOpField("", ss.str(), length);
 
             check_last_call(op);
         }
