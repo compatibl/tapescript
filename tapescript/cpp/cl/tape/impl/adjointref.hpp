@@ -479,12 +479,15 @@ namespace cl
         //  Adapted type convertion inside AdaptVector
         // we should provide convertion from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
         // it can help to configure behaviour of adjoint logic
-        template <typename Value>
-        struct adapt_type_convention <std::vector<std::complex<cl::TapeDouble>
-                            , std::allocator<std::complex<cl::TapeDouble> > >, Value>
+        template <typename Inner, typename Value>
+        struct adapt_type_convention <std::vector<std::complex<cl::tape_double<Inner>>
+                , std::allocator<std::complex<cl::tape_double<Inner>>>>, Value>
         {
+            // Type of tape holder
+            typedef cl::tape_double<Inner> tape_type;
+
             // Vector type
-            typedef std::vector<std::complex<cl::TapeDouble> > Vector;
+            typedef std::vector<std::complex<tape_type> > Vector;
 
             // Perhaps it's std vector and we can get value_type from it
             typedef typename
@@ -771,8 +774,8 @@ namespace cl
         }
     };
 
-    template <>
-    class TapeFunction<std::complex<cl::TapeDouble > >
+    template <typename Inner>
+    class TapeFunction<std::complex<cl::tape_double<Inner> > >
         : public cl::TapeFunctionBase<std::complex<double> >
     {
     public:

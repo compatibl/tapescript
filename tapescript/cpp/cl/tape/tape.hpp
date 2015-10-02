@@ -30,8 +30,25 @@ namespace cl
 }
 
 #if defined CL_TAPE_CPPAD
+
+#if !defined CL_USE_NATIVE_FORWARD
+// Lock forward1sweep include
+#   define CPPAD_FORWARD1SWEEP_INCLUDED
+// Lock forward1sweep include
+#   define CPPAD_FORWARD0SWEEP_INCLUDED
+#endif
+
+// Lock undef include 
 #define CPPAD_UNDEF_INCLUDED
+
 #include <cppad/cppad.h>
+
+#if !defined CL_USE_NATIVE_FORWARD
+#   include <iostream>
+#   include <cl/tape/impl/ad/tape_forward0sweep.hpp>
+#   include <cl/tape/impl/ad/tape_forward1sweep.hpp>
+#endif
+
 
 namespace ext = CppAD;
 
