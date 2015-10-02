@@ -418,18 +418,20 @@ namespace CppAD
     template <typename >
     struct serializer_traits;
 
-    template <>
-    struct serializer_traits <double>
-    {
-        typedef cl::serializer<double> type;
+#   if defined CL_USE_ARCHIVE_IN_FORWARD
+        template <>
+        struct serializer_traits <double>
+        {
+            typedef cl::serializer<double> type;
 
-        typedef serializers_list <
-                ho_serializer2<cl::tape_archive
-                    , boost::archive::binary_iarchive>
-                , ho_serializer2<cl::tape_archive
-                    , boost::archive::binary_oarchive>
-            > certain_archivers;
-    };
+            typedef serializers_list <
+                    ho_serializer2<cl::tape_archive
+                        , boost::archive::binary_iarchive>
+                    , ho_serializer2<cl::tape_archive
+                        , boost::archive::binary_oarchive>
+                > certain_archivers;
+        };
+#   endif
 
     template <typename Base>
     struct serializer_traits <std::complex<Base>>
