@@ -902,7 +902,7 @@
     <ClInclude Include="cppad\local\vec_ad.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="array_examples.hpp">
+    <ClInclude Include="impl\array_examples.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

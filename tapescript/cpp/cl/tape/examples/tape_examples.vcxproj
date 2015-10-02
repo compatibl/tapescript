@@ -87,7 +87,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="array_examples.hpp" />
     <ClInclude Include="cppad\cg\abstract_atomic_fun.hpp" />
     <ClInclude Include="cppad\cg\argument.hpp" />
     <ClInclude Include="cppad\cg\arithmetic.hpp" />
@@ -382,6 +381,7 @@
     <ClInclude Include="cppad\local\value.hpp" />
     <ClInclude Include="cppad\local\var2par.hpp" />
     <ClInclude Include="cppad\local\vec_ad.hpp" />
+    <ClInclude Include="impl\array_examples.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tape_example.cpp" />

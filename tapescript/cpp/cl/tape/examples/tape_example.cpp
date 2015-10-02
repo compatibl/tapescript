@@ -28,11 +28,11 @@ limitations under the License.
 
 #include <boost/timer.hpp>
 
-#include "array_examples.hpp"
+#include "impl/array_examples.hpp"
 
 int main()
 {
-    array_examples();
+    cl::array_examples();
 
     system("pause");
     return 0;
