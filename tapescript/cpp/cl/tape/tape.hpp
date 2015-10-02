@@ -106,6 +106,7 @@ namespace ext
 
 #if defined CL_TAPE_INNER_ARRAY_ENABLED
 #   include <cl/tape/impl/inner/base_inner_array.hpp>
+#   include <cl/tape/impl/inner/inner_array_ops.hpp>
 #endif
 
 /// Adaptation adjoint framework essences
