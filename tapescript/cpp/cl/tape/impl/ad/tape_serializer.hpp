@@ -17,12 +17,18 @@ namespace CppAD
     template <class Base>
     struct tape_serializer : std::ostream
     {
-        struct impl{};
+        struct impl {};
+        struct io_typed {};
 
         tape_serializer(std::ostream& os = std::cout)
             : std::ostream(os.rdbuf())
             , first_call_(true)
         {}
+
+        size_t io_type()
+        {
+            return CppAD::serializer_type::io_text;
+        }
 
         ~tape_serializer()  { std::ostream::clear(); }
 

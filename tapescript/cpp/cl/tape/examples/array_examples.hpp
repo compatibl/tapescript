@@ -26,6 +26,29 @@ limitations under the License.
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
 
+template <class Array>
+inline void print_sizeofs()
+{
+    std::cout << std::setw(40) << typeid(Array).name() << ": \t";
+    std::cout << sizeof(Array) << "\t";
+    std::cout << sizeof(cl::inner_array<Array>) << "\t";
+    std::cout << sizeof(CppAD::AD<cl::inner_array<Array>>) << "\t";
+    std::cout << sizeof(cl::tape_double<cl::inner_array<Array>>) << std::endl;
+}
+
+
+inline void print_sizeofs_all()
+{
+    std::cout << "Sizeofs:" << std::endl;
+
+    /*
+    print_sizeofs<Eigen::ArrayXd>();
+    print_sizeofs<Eigen::Array2d>();
+    print_sizeofs<Eigen::Array4d>();
+    print_sizeofs<std::valarray<double>>();
+    */
+}
+
 
 template <class Ty>
 std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
@@ -102,11 +125,16 @@ inline void minus_example(std::ostream& out_str = std::cout)
 
     out_str << "Ininial Forward(0) sweep...\n\n";
 
+    # if defined CL_TAPE_ARCHIVER_TEST
     typedef cl::tape_archive<double, boost::archive::binary_oarchive> tapewriter;
     tapewriter ss("c:\\ooo.bin");
 
     // Declare a tape function and stop the tape recording.
     cl::TapeFunction<cl::InnerArray> f(X, Y, ss);
+#   else
+    // Declare a tape function and stop the tape recording.
+    cl::TapeFunction<cl::InnerArray> f(X, Y);
+#   endif
 
     // Forward sweep calculations.
     std::vector<cl::InnerArray> dx = { { 2, 5 }, { 1, -1 } };
