@@ -151,10 +151,11 @@ namespace cl
 
         static inline CppAD::AD<InnerVector> reverse_vec(const CppAD::AD<InnerVector>& x)
         {
+            typedef std::array<CppAD::AD<InnerVector>, 1> ADVector;
             static atomic_reverse_vec afun;
 
-            const std::array<CppAD::AD<InnerVector>, 1> X = { x };
-            std::array<CppAD::AD<InnerVector>, 1> Y;
+            const ADVector X = { x };
+            ADVector Y;
             afun(X, Y);
             return Y[0];
         }
@@ -296,10 +297,11 @@ namespace cl
 
         static inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
         {
+            typedef std::array<CppAD::AD<InnerVector>, 1> ADVector;
             static atomic_sum_vec afun;
 
-            const std::array<CppAD::AD<InnerVector>, 1> X = { x };
-            std::array<CppAD::AD<InnerVector>, 1> Y;
+            const ADVector X = { x };
+            ADVector Y;
             afun(X, Y);
             return Y[0];
         }
@@ -308,6 +310,259 @@ namespace cl
     inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
     {
         return SumImpl::sum_vec(x);
+    }
+
+
+    struct ConcImpl
+    {
+        static inline size_t size(const InnerVector& x)
+        {
+            if (x.is_scalar())
+            {
+                return 1;
+            }
+            return x.vector_value_.size();
+        }
+
+        static inline bool equal_sized(const InnerVector& x, const InnerVector& y)
+        {
+            return x.is_scalar() == y.is_scalar() && size(x) == size(y);
+        }
+
+        static inline const double* begin(const InnerVector& x)
+        {
+            if (x.is_scalar())
+            {
+                return &(x.scalar_value_);
+            }
+            return std::begin(x.vector_value_);
+        }
+
+        static inline const double* end(const InnerVector& x)
+        {
+            if (x.is_scalar())
+            {
+                return &(x.scalar_value_) + 1;
+            }
+            return std::end(x.vector_value_);
+        }
+
+        static inline InnerVector conc_vec(const InnerVector& x, const InnerVector& y, size_t size0, size_t size1)
+        {
+            InnerVector result(0.0, size0 + size1);
+            auto x_dest = result.vector_value_[std::slice(0, size0, 1)];
+            auto y_dest = result.vector_value_[std::slice(size0, size1, 1)];
+            if (x.is_scalar())
+            {
+                x_dest = x.scalar_value_;
+            }
+            else
+            {
+                x_dest = x.vector_value_;
+            }
+            if (y.is_scalar())
+            {
+                y_dest = y.scalar_value_;
+            }
+            else
+            {
+                y_dest = y.vector_value_;
+            }
+            return result;
+        }
+
+        //static inline InnerVector adjust_size(const InnerVector& x, size_t n)
+        //{
+        //    if (x.is_scalar())
+        //    {
+        //        return InnerVector(x.scalar_value_, n);
+        //    }
+        //    assert(size(x) == n);
+        //    return x;
+        //}
+
+        struct atomic_conc_vec : public CppAD::atomic_base<InnerVector>
+        {
+            typedef InnerVector Base;
+            template <class T> using vector = CppAD::vector<T>;
+
+            atomic_conc_vec()
+                : atomic_base("atomic_conc_vec")
+            {}
+                        
+	        bool forward(
+		        size_t                    p ,
+		        size_t                    q ,
+		        const vector<bool>&      vx , 
+		              vector<bool>&      vy , 
+		        const vector<Base>&      tx ,
+		              vector<Base>&      ty )
+            {
+		        if( vx.size() > 0 )
+		        {
+			        vy[0] = vx[0] || vx[1];
+		        }
+                for (size_t i = p; i <= q; i++)
+                {
+                    auto& left = tx[i];
+                    auto& right = tx[q + 1 + i];
+                    if (left.is_scalar() && right.is_scalar() && left == right)
+                    {
+                        ty[i] = left;
+                    }
+                    else
+                    {                        
+                        ty[i] = conc_vec(tx[i], tx[q + 1 + i], size(tx[0]), size(tx[q + 1]));
+                    }
+                }
+                return true;
+            }
+            
+	        bool reverse(
+		        size_t                    q  ,
+		        const vector<Base>&       tx ,
+		        const vector<Base>&       ty ,
+		              vector<Base>&       px ,
+		        const vector<Base>&       py )
+            {
+#ifndef NDEBUG
+                assert(py.size() == q + 1);
+                assert(px.size() == 2 * (q + 1));
+#endif
+                for (size_t i = 0; i <= q; i++)
+                {
+                    if (py[i].is_scalar())
+                    {
+                        px[i] = py[i];
+                        px[i + q + 1] = py[i];
+                    }
+                    else
+                    {
+                        size_t size0 = size(tx[0]);
+                        size_t size1 = size(tx[q + 1]);
+                        assert(size(py[i]) == size0 + size1);
+                        if (tx[0].is_scalar())
+                        {
+                            px[i] = py[i].vector_value_[0];
+                        }
+                        else
+                        {
+                            px[i] = InnerVector(0.0, size0);
+                            std::copy(begin(py[i]), begin(py[i]) + size0, std::begin(px[i].vector_value_));
+                        }
+                        if (tx[q + 1].is_scalar())
+                        {
+                            px[i + q + 1] = py[i].vector_value_[size0];
+                        }
+                        else
+                        {
+                            px[i + q + 1] = InnerVector(0.0, size1);
+                            std::copy(begin(py[i]) + size0, end(py[i]), std::begin(px[i + q + 1].vector_value_));
+                        }
+                    }
+                }
+                return true;
+	        }
+
+            bool for_sparse_jac(
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       r  ,
+		              vector< std::set<size_t> >&       s  )
+	        {
+                std::set_union(r[0].begin(), r[0].end(), r[1].begin(), r[1].end()
+                    , std::inserter(s[0], s[0].begin()));
+                return true;
+	        }
+
+            bool for_sparse_jac(
+		        size_t                                  q  ,
+		        const vector<bool>&                     r  ,
+		              vector<bool>&                     s  )
+            {
+                for (size_t j = 0; j < q; j++)
+                {
+                    s[j] = r[0 * q + j] || r[1 * q + j];
+                }
+                return true;
+	        }
+                        
+	        bool rev_sparse_jac(
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       rt ,
+		              vector< std::set<size_t> >&       st )
+            {
+                st[0] = rt[0];
+                st[1] = rt[0];
+                return true;
+	        }
+            
+            bool rev_sparse_jac(
+		        size_t                                  q  ,
+		        const vector<bool>&                     rt ,
+		              vector<bool>&                     st )
+            {
+                for (size_t j = 0; j < q; j++)
+                {
+                    st[0 * q + j] = rt[j];
+                    st[1 * q + j] = rt[j];
+                }
+                return true;
+	        }
+
+	        bool rev_sparse_hes(
+		        const vector<bool>&                     vx ,
+		        const vector<bool>&                     s  ,
+		              vector<bool>&                     t  ,
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       r  ,
+		        const vector< std::set<size_t> >&       u  ,
+		              vector< std::set<size_t> >&       v  )
+            {
+                t[0] = s[0];
+                t[1] = s[0];
+
+                v[0] = u[0];
+                v[1] = u[0];
+                return true;
+	        }
+
+	        bool rev_sparse_hes(
+		        const vector<bool>&                     vx ,
+		        const vector<bool>&                     s  ,
+		              vector<bool>&                     t  ,
+		        size_t                                  q  ,
+		        const vector<bool>&                     r  ,
+		        const vector<bool>&                     u  ,
+		              vector<bool>&                     v  )
+            {
+                t[0] = s[0];
+                t[1] = s[0];
+                
+                for (size_t j = 0; j < q; j++)
+                {
+                    v[0 * q + j] = u[j];
+                    v[1 * q + j] = u[j];
+                }
+                return true;
+	        }
+        };
+
+        static inline CppAD::AD<InnerVector> conc_vec(const CppAD::AD<InnerVector>& x, const CppAD::AD<InnerVector>& y)
+        {
+            typedef std::vector<CppAD::AD<InnerVector>> ADVector;
+            static atomic_conc_vec afun;
+
+            const ADVector X = { x, y };
+            ADVector Y(1);
+            afun(X, Y);
+            return Y[0];
+        }
+    };
+
+    // Concatenation of two vectors.
+    inline CppAD::AD<InnerVector> conc_vec(const CppAD::AD<InnerVector>& x, const CppAD::AD<InnerVector>& y)
+    {
+        return ConcImpl::conc_vec(x, y);
     }
 }
 
