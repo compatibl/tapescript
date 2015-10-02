@@ -165,7 +165,7 @@ namespace std
             {
                 if (right.mode_ == RealBase)
                 {
-                    real_base_ = real_based_type(right.real(), right.imag());
+                    real_base_ = right.real_base_;
                 }
                 else
                 {
@@ -308,11 +308,44 @@ namespace std
         {
             if (mode_ == RealBase)
             {
-                real_base_ += right.real_base_;
+                if (right.mode_ == RealBase)
+                {
+                    real_base_ += right.real_base_;
+                }
+                else
+                {
+                    if (ext::Variable(right.complex_base_))
+                    {
+                        cl::CheckParameter(real_base_.real());
+                        cl::CheckParameter(real_base_.imag());
+                        mode_ = ComplBase;
+                        complex_base_ = complex_double(ext::Value(real_base_.real()), ext::Value(real_base_.imag())) + right.complex_base_;
+                    }
+                    else
+                    {
+                        real_base_ += real_based_type(right.real(), right.imag());
+                    }
+                }
             }
             if (mode_ == ComplBase)
             {
-                complex_base_ += right.complex_base_;
+                if (right.mode_ == RealBase)
+                {
+                    if (ext::Variable(right.real_base_.real()) || ext::Variable(right.real_base_.imag()))
+                    {
+                        cl::CheckParameter(complex_base_);
+                        mode_ = RealBase;
+                        real_base_ = real_based_type(ext::Value(complex_base_).real(), ext::Value(complex_base_).imag()) + right.real_base_;
+                    }
+                    else
+                    {
+                        complex_base_ += complex_double(ext::Value(right.real_base_.real()), ext::Value(right.real_base_.imag()));
+                    }
+                }
+                else
+                {
+                    complex_base_ += right.complex_base_;
+                }
             }
             return (*this);
         }
