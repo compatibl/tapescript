@@ -398,52 +398,52 @@ namespace cl
 
 
     // Arithmetic binary operations.
-#define CL_BIN_INNER_ARRAY_OPERATOR(Op)                                     \
-    template <class Array>                                                  \
-    inline inner_array<Array> operator Op(                                  \
-        const inner_array<Array>& x                                         \
-        , const inner_array<Array>& y)                                      \
-    {                                                                       \
-        if (x.is_scalar() && y.is_scalar())                                 \
-        {                                                                   \
-            return x.scalar_value_ Op y.scalar_value_;                      \
-        }                                                                   \
-        else if (x.is_array() && y.is_scalar())                             \
-        {                                                                   \
-            return x.array_value_ Op y.scalar_value_;                       \
-        }                                                                   \
-        else if (x.is_scalar() && y.is_array())                             \
-        {                                                                   \
-            return x.scalar_value_ Op y.array_value_;                       \
-        }                                                                   \
-        else /* (x.is_array() && y.is_array()) */                           \
-        {                                                                   \
-            return x.array_value_ Op y.array_value_;                        \
-        }                                                                   \
-    }                                                                       \
-                                                                            \
-    template <class Array>                                                  \
-    inline inner_array<Array> operator Op(                                  \
-        const inner_array<Array>& x                                         \
-        , const typename inner_array<Array>::scalar_type& y)                \
-    {                                                                       \
-        if (x.is_scalar())                                                  \
-        {                                                                   \
-            return x.scalar_value_ Op y;                                    \
-        }                                                                   \
-        return x.array_value_ Op y;                                         \
-    }                                                                       \
-                                                                            \
-    template <class Array>                                                  \
-    inline inner_array<Array> operator Op(                                  \
-        const typename inner_array<Array>::scalar_type& x                   \
-        , const inner_array<Array>& y)                                      \
-    {                                                                       \
-        if (y.is_scalar())                                                  \
-        {                                                                   \
-            return x Op y.scalar_value_;                                    \
-        }                                                                   \
-        return x Op y.array_value_;                                         \
+#define CL_BIN_INNER_ARRAY_OPERATOR(Op)                                                         \
+    template <class Array>                                                                      \
+    inline inner_array<Array> operator Op(                                                      \
+        const inner_array<Array>& x                                                             \
+        , const inner_array<Array>& y)                                                          \
+    {                                                                                           \
+        if (x.is_scalar() && y.is_scalar())                                                     \
+        {                                                                                       \
+            return x.scalar_value_ Op y.scalar_value_;                                          \
+        }                                                                                       \
+        else if (x.is_array() && y.is_scalar())                                                 \
+        {                                                                                       \
+            return x.array_value_ Op y.scalar_value_;                                           \
+        }                                                                                       \
+        else if (x.is_scalar() && y.is_array())                                                 \
+        {                                                                                       \
+            return x.scalar_value_ Op y.array_value_;                                           \
+        }                                                                                       \
+        else /* (x.is_array() && y.is_array()) */                                               \
+        {                                                                                       \
+            return x.array_value_ Op y.array_value_;                                            \
+        }                                                                                       \
+    }                                                                                           \
+                                                                                                \
+    template <class Array>                                                                      \
+    inline inner_array<Array> operator Op(                                                      \
+        const inner_array<Array>& x                                                             \
+        , const typename inner_array<Array>::scalar_type& y)                                    \
+    {                                                                                           \
+        if (x.is_scalar())                                                                      \
+        {                                                                                       \
+            return x.scalar_value_ Op y;                                                        \
+        }                                                                                       \
+        return x.array_value_ Op y;                                                             \
+    }                                                                                           \
+                                                                                                \
+    template <class Array>                                                                      \
+    inline inner_array<Array> operator Op(                                                      \
+        const typename inner_array<Array>::scalar_type& x                                       \
+        , const inner_array<Array>& y)                                                          \
+    {                                                                                           \
+        if (y.is_scalar())                                                                      \
+        {                                                                                       \
+            return x Op y.scalar_value_;                                                        \
+        }                                                                                       \
+        return x Op y.array_value_;                                                             \
     }
 
     CL_BIN_INNER_ARRAY_OPERATOR(-)
@@ -543,15 +543,15 @@ namespace cl
     namespace tapescript
     {
         // Standart math functions.
-#define CL_INNER_ARRAY_FUNCTION(Name)                                           \
-        template <class Array>                                                  \
-        inline cl::inner_array<Array> Name(const cl::inner_array<Array>& x)     \
-        {                                                                       \
-            if (x.is_scalar())                                                  \
-            {                                                                   \
-                return std::Name(x.scalar_value_);                              \
-            }                                                                   \
-            return cl::inner_array<Array>::traits::Name(x.array_value_);        \
+#define CL_INNER_ARRAY_FUNCTION(Name)                                                       \
+        template <class Array>                                                              \
+        inline cl::inner_array<Array> Name(const cl::inner_array<Array>& x)                 \
+        {                                                                                   \
+            if (x.is_scalar())                                                              \
+            {                                                                               \
+                return std::Name(x.scalar_value_);                                          \
+            }                                                                               \
+            return cl::inner_array<Array>::traits::Name(x.array_value_);                    \
         }
         CL_INNER_ARRAY_FUNCTION(abs)
         CL_INNER_ARRAY_FUNCTION(acos)
