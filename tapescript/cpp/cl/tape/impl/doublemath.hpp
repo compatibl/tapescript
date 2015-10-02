@@ -76,7 +76,8 @@ using namespace checkers;
 /// <summary>Provides math functions for TapeDouble.</summary>
 namespace std
 {
-    inline cl::TapeDouble fabs(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> fabs(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::fabs(ext::Value(x.value()))
@@ -90,11 +91,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble abs(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> abs(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::abs(v_(x))
-            == (cl::TapeDouble)CppAD::abs(x.value()));
+            == (cl::tape_double<Base>)CppAD::abs(x.value()));
 
         return CppAD::abs(x.value());
 #elif CL_TAPE_ADOLC
@@ -104,15 +106,16 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble floor(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> floor(cl::tape_double<Base> x)
     {
         // Conversion from TapeDouble to native double is permitted
         // only if tape pointer is null, otherwise exception is thrown
 #ifdef CL_TAPE_CPPAD
-        CL_CHECK((double)cl::TapeDouble(std::floor((double)x))
-            == std::floor((double)x));
+        CL_CHECK((Base)cl::tape_double<Base>(std::floor((Base)x))
+            == std::floor((Base)x));
 
-        return  cl::TapeDouble(std::floor((double)x));
+        return  cl::tape_double<Base>(std::floor((Base)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -120,15 +123,16 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble ceil(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> ceil(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         // Conversion from TapeDouble to native double is permitted
         // only if tape pointer is null, otherwise exception is thrown
-        CL_CHECK((double)cl::TapeDouble(std::ceil((double)x)) 
-            == std::ceil((double)x));
+        CL_CHECK((Base)cl::tape_double<Base>(std::ceil((Base)x))
+            == std::ceil((Base)x));
 
-        return cl::TapeDouble(std::ceil((double)x));
+        return cl::tape_double<Base>(std::ceil((Base)x));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -136,13 +140,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble sqrt(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> sqrt(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         //  Conversion from TapeDouble to double is able when
         // tape is null, otherwise exception happens
         CL_CHECK(std::sqrt(v_(x))
-            == (cl::TapeDouble)CppAD::sqrt(x.value()));
+            == (cl::tape_double<Base>)CppAD::sqrt(x.value()));
 
         return CppAD::sqrt(x.value());
 #elif CL_TAPE_ADOLC
@@ -152,11 +157,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble log(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> log(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::log(v_(x))
-             == (cl::TapeDouble)CppAD::log(x.value()));
+            == (cl::tape_double<Base>)CppAD::log(x.value()));
 
         return CppAD::log(x.value());
 #elif CL_TAPE_ADOLC
@@ -166,11 +172,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble exp(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> exp(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::exp(v_(x))
-            == (cl::TapeDouble)CppAD::exp(x.value()));
+            == (cl::tape_double<Base>)CppAD::exp(x.value()));
 
         return CppAD::exp(x.value());
 #elif CL_TAPE_ADOLC
@@ -180,11 +187,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble sin(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> sin(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::sin(v_(x))
-            == (cl::TapeDouble)CppAD::sin(x.value()));
+            == (cl::tape_double<Base>)CppAD::sin(x.value()));
 
         return CppAD::sin(x.value());
 #elif CL_TAPE_ADOLC
@@ -194,11 +202,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble cos(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> cos(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::cos(v_(x))
-            == (cl::TapeDouble)CppAD::cos(x.value()));
+            == (cl::tape_double<Base>)CppAD::cos(x.value()));
 
         return CppAD::cos(x.value());
 #elif CL_TAPE_ADOLC
@@ -208,11 +217,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble tan(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> tan(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::tan(v_(x))
-            == (cl::TapeDouble)CppAD::tan(x.value()));
+            == (cl::tape_double<Base>)CppAD::tan(x.value()));
 
         return CppAD::tan(x.value());
 #elif CL_TAPE_ADOLC
@@ -222,11 +232,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble asin(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> asin(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::asin(v_(x))
-            == (cl::TapeDouble)CppAD::asin(x.value()));
+            == (cl::tape_double<Base>)CppAD::asin(x.value()));
 
         return CppAD::asin(x.value());
 #elif CL_TAPE_ADOLC
@@ -236,11 +247,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble acos(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> acos(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::acos(v_(x))
-            == (cl::TapeDouble)CppAD::acos(x.value()));
+            == (cl::tape_double<Base>)CppAD::acos(x.value()));
 
         return CppAD::acos(x.value());
 #elif CL_TAPE_ADOLC
@@ -250,11 +262,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble atan(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> atan(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::atan(v_(x))
-            == (cl::TapeDouble)CppAD::atan(x.value()));
+            == (cl::tape_double<Base>)CppAD::atan(x.value()));
 
         return CppAD::atan(x.value());
 #elif CL_TAPE_ADOLC
@@ -264,11 +277,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble sinh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> sinh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::sinh(v_(x))
-            == (cl::TapeDouble)CppAD::sinh(x.value()));
+            == (cl::tape_double<Base>)CppAD::sinh(x.value()));
 
         return CppAD::sinh(x.value());
 #elif CL_TAPE_ADOLC
@@ -278,11 +292,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble cosh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> cosh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::cosh(v_(x))
-            == (cl::TapeDouble)CppAD::cosh(x.value()));
+            == (cl::tape_double<Base>)CppAD::cosh(x.value()));
 
         return CppAD::cosh(x.value());
 #elif CL_TAPE_ADOLC
@@ -292,11 +307,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble tanh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> tanh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::tanh(v_(x))
-            == (cl::TapeDouble)CppAD::tanh(x.value()));
+            == (cl::tape_double<Base>)CppAD::tanh(x.value()));
 
         return CppAD::tanh(x.value());
 #elif CL_TAPE_ADOLC
@@ -306,11 +322,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble pow(cl::TapeDouble x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> pow(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::pow(v_(x), v_(y))
-            == (cl::TapeDouble)CppAD::pow(x.value(), y.value()));
+            == (cl::tape_double<Base>)CppAD::pow(x.value(), y.value()));
 
         return CppAD::pow(x.value(), y.value());
 #elif CL_TAPE_ADOLC
@@ -320,13 +337,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble pow(cl::TapeDouble x, double y)
+    template <typename Base>
+    inline cl::tape_double<Base> pow(cl::tape_double<Base> x, double y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::pow(v_(x), y)
-            == (cl::TapeDouble)pow(x, cl::TapeDouble(y)));
+            == (cl::tape_double<Base>)pow(x, cl::tape_double<Base>(y)));
 
-        return pow(x, cl::TapeDouble(y));
+        return pow(x, cl::tape_double<Base>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -334,13 +352,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble pow(double x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> pow(Base x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(std::pow(x, v_(y))
-            == (cl::TapeDouble)pow(cl::TapeDouble(x), y));
+            == (cl::tape_double<Base>)pow(cl::tape_double<Base>(x), y));
 
-        return pow(cl::TapeDouble(x), y);
+        return pow(cl::tape_double<Base>(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -348,16 +367,17 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble asinh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> asinh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
-        CppAD::AD<double> _x = x.value(), _x2 = _x * _x;
-        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<double>(0.001)
+        CppAD::AD<Base> _x = x.value(), _x2 = _x * _x;
+        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<Base>(0.001)
             , (_x > 0) ? CppAD::log(_x) + CppAD::log(1.0 + CppAD::sqrt(1.0 + (1 / _x) * (1 / _x))) :
             -CppAD::log(-_x) - CppAD::log(1.0 + CppAD::sqrt(1.0 + (1 / _x) * (1 / _x)))
             , _x * (1.0 + _x2 * (-1 / 6.0 + _x2 * 3 / 40)));
 
-       
+
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented");return x;
 #else
@@ -365,7 +385,8 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble acosh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> acosh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
         return log(x) + log(1.0 + sqrt(1.0 - (1 / x) * (1 / x)));
@@ -376,11 +397,12 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble atanh(cl::TapeDouble x)
+    template <typename Base>
+    inline cl::tape_double<Base> atanh(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
-        CppAD::AD<double> _x = x.value(), _x2 = _x * _x;
-        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<double>(0.001)
+        CppAD::AD<Base> _x = x.value(), _x2 = _x * _x;
+        return CppAD::CondExpGt(CppAD::abs(_x), CppAD::AD<Base>(0.001)
             , 0.5 * (CppAD::log(1.0 + _x) - CppAD::log(1.0 - _x))
             , _x * (1.0 + _x2 * (1 / 3.0 + _x2 * 0.2)));
 #elif CL_TAPE_ADOLC
@@ -390,12 +412,13 @@ namespace std
 #endif
     }
 
-    inline bool isnan(cl::TapeDouble x)
+    template <typename Base>
+    inline bool isnan(cl::tape_double<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
 
         CL_CHECK(std::isnan(v_(x))
-                == CppAD::isnan(x.value()));
+            == CppAD::isnan(x.value()));
 
         return CppAD::isnan(x.value());
 #elif CL_TAPE_ADOLC
@@ -407,7 +430,8 @@ namespace std
 
 
 
-    inline cl::TapeDouble min(cl::TapeDouble x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> min(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
 #if defined CL_TAPE_CPPAD
         return CppAD::CondExpLt(x.value(), y.value(), x.value(), y.value());
@@ -418,10 +442,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble min(cl::TapeDouble x, double y)
+    template <typename Base>
+    inline cl::tape_double<Base> min(cl::tape_double<Base> x, Base y)
     {
 #ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpLt(x.value(), CppAD::AD<double>(y), x.value(), CppAD::AD<double>(y));
+        return CppAD::CondExpLt(x.value(), CppAD::AD<Base>(y), x.value(), CppAD::AD<Base>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -429,10 +454,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble min(double x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> min(Base x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpLt(CppAD::AD<double>(x), y.value(), CppAD::AD<double>(x), y.value());
+        return CppAD::CondExpLt(CppAD::AD<Base>(x), y.value(), CppAD::AD<Base>(x), y.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -440,7 +466,8 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble max(cl::TapeDouble x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> max(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         return CppAD::CondExpGt(x.value(), y.value(), x.value(), y.value());
@@ -451,10 +478,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble max(cl::TapeDouble x, double y)
+    template <typename Base>
+    inline cl::tape_double<Base> max(cl::tape_double<Base> x, Base y)
     {
 #ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpGt(x.value(), CppAD::AD<double>(y), x.value(), CppAD::AD<double>(y));
+        return CppAD::CondExpGt(x.value(), CppAD::AD<Base>(y), x.value(), CppAD::AD<Base>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -462,10 +490,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble max(double x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> max(Base x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
-        return CppAD::CondExpGt(CppAD::AD<double>(x), y.value(), CppAD::AD<double>(x), y.value());
+        return CppAD::CondExpGt(CppAD::AD<Base>(x), y.value(), CppAD::AD<Base>(x), y.value());
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -473,7 +502,8 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble atan2(cl::TapeDouble x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> atan2(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(v_(CppAD::atan2(x.value(), y.value()))
@@ -487,13 +517,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble atan2(cl::TapeDouble x, double y)
+    template <typename Base>
+    inline cl::tape_double<Base> atan2(cl::tape_double<Base> x, Base y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(v_(CppAD::atan2(x.value(), double_type(y).value()))
             == std::atan2(v_(x), v_(y)));
 
-        return atan2(x, cl::TapeDouble(y));
+        return atan2(x, cl::tape_double<Base>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -501,13 +532,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble atan2(double x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> atan2(Base x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(v_(CppAD::atan2(double_type(x).value(), y.value()))
             == std::atan2(v_(x), v_(y)));
 
-        return atan2(cl::TapeDouble(x), y);
+        return atan2(cl::tape_double<Base>(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -515,13 +547,14 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble fmod(cl::TapeDouble x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> fmod(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
         CL_CHECK(v_(x - y * (x / y > 0 ? floor(x / y) : ceil(x / y)))
             == std::fmod(v_(x), v_(y)));
 
-        return x - y * ( x / y > 0 ? floor(x / y) : ceil (x / y));
+        return x - y * (x / y > 0 ? floor(x / y) : ceil(x / y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -529,10 +562,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble fmod(cl::TapeDouble x, double y)
+    template <typename Base>
+    inline cl::tape_double<Base> fmod(cl::tape_double<Base> x, Base y)
     {
 #ifdef CL_TAPE_CPPAD
-        return fmod(x, cl::TapeDouble(y));
+        return fmod(x, cl::tape_double<Base>(y));
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -540,10 +574,11 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble fmod(double x, cl::TapeDouble y)
+    template <typename Base>
+    inline cl::tape_double<Base> fmod(Base x, cl::tape_double<Base> y)
     {
 #ifdef CL_TAPE_CPPAD
-        return fmod(cl::TapeDouble(x), y);
+        return fmod(cl::tape_double<Base>(x), y);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
@@ -551,31 +586,76 @@ namespace std
 #endif
     }
 
-    inline cl::TapeDouble modf(cl::TapeDouble x, cl::TapeDouble* iptr)
+    template <typename Base>
+    inline cl::tape_double<Base> modf(cl::tape_double<Base> x, cl::tape_double<Base>* iptr)
     {
 #ifdef CL_TAPE_CPPAD
-        double fractpart;
-        double intpart;
-        fractpart = std::modf((double)x, &intpart);     //!!! Review
-        (*iptr) = cl::TapeDouble(intpart);
-        return cl::TapeDouble(fractpart);
+        Base fractpart;
+        Base intpart;
+        fractpart = std::modf((Base)x, &intpart);     //!!! Review
+        (*iptr) = cl::tape_double<Base>(intpart);
+        return cl::tape_double<Base>(fractpart);
 #elif CL_TAPE_ADOLC
         cl::throw_("Not implemented"); return x;
 #else
-        double fractpart;
-        double intpart;
+        Base fractpart;
+        Base intpart;
         fractpart = std::modf(x.value(), &intpart);
         (*iptr) = intpart;
-        return cl::TapeDouble( fractpart);
+        return cl::tape_double<Base>( fractpart);
 #endif
     }
 
+} // namespace std
+
+namespace cl
+{
+    template <class Ty>
+    struct is_tape_type
+        : std::false_type
+    {};
+
+    template <class Base>
+    struct is_tape_type<cl::tape_double<Base>>
+        : std::true_type
+    {};
+
+    template <class It1, class It2, class Meta = void>
+    struct tape_type_from_iter {};
+
+    template <class It1, class It2>
+    struct tape_type_from_iter<
+        It1, It2
+        , typename std::enable_if<
+            cl::is_tape_type<
+                typename std::iterator_traits<It1>::value_type
+            >::value
+            || cl::is_tape_type<
+                typename std::iterator_traits<It2>::value_type
+            >::value
+        >::type
+    >
+    {
+        typedef typename std::iterator_traits<It1>::value_type type1;
+        typedef typename std::iterator_traits<It2>::value_type type2;
+        typedef typename
+            std::conditional<
+                cl::is_tape_type<type1>::value
+                , type1
+                , type2
+            >::type type;
+    };
+}
+
+namespace std
+{
 //!! Do we need this define if TapeDouble is always a class?
 #if defined(CL_TAPE_NOAD) || defined(CL_TAPE_CPPAD) || defined(CL_TAPE_ADOLC)
-    template<class T1, class T2>
-    inline cl::TapeDouble inner_product(T1 first1, T1 last1, T2 first2, double value)
+    template<class In1, class In2>
+    inline typename cl::tape_type_from_iter<In1, In2>::type inner_product(In1 first1, In1 last1, In2 first2, double value)
     {
-        cl::TapeDouble prod(value);
+        typedef typename cl::tape_type_from_iter<In1, In2>::type tape_type;
+        tape_type prod(value);
         while (first1 != last1)
         {
             prod += (*first1) * (*first2);
