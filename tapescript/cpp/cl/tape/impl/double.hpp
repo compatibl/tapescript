@@ -210,7 +210,7 @@ namespace cl
 
 //!!! Should this include other CL_TAPE_* options?
 #if defined CL_TAPE_CPPAD
-        inline tape_type(const Base& rhs) : value_(rhs) {}
+        inline tape_type(const Inner& rhs) : value_(rhs) {}
 #endif
 
     public: // OPERATORS
