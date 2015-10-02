@@ -502,7 +502,7 @@ namespace cl
             // calculate convertible type
             typedef typename cl::tapescript::if_c<
                 !is_convertible_value
-                    , typename Type::value_type
+                    , typename Type::complex_based_type
                     , Value>::type converted_value_type;
 
             // When we return value for Independent adaptation we should return reference
@@ -522,7 +522,7 @@ namespace cl
     #pragma message ("conv_2value : " __FUNCSIG__)
                 return converted_value_type();
     #else
-                return v.value_;
+                return v.complex_base();
     #endif
             }
 
@@ -547,7 +547,7 @@ namespace cl
     #pragma message ("conv_2value : " __FUNCSIG__)
                 return ext::Value(v);
     #else
-                return v.value_;
+                return v.complex_base();
     #endif
             }
 
@@ -817,10 +817,6 @@ namespace cl
         print_type<decltype(adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
 #endif
 #if defined CL_TAPE_COMPLEX_ENABLED
-        for (auto &v : x)
-        {
-            v.set_mode(std::complex<cl::TapeDouble>::ComplBase);
-        }
         ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x));
 #endif
     }
