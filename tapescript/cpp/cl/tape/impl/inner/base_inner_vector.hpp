@@ -30,7 +30,7 @@ limitations under the License.
 #include <cppad/configure.hpp>
 #include <cppad/local/ad.hpp>
 #include <cppad/local/hash_code.hpp>
-#include <cl/tape/impl/ad_base/inner_vector.hpp>
+#include <cl/tape/impl/inner/inner_vector.hpp>
 
 namespace CppAD
 {

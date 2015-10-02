@@ -30,10 +30,10 @@ namespace cl
 }
 
 #if defined CL_TAPE_CPPAD
-#include <cl/tape/impl/ad_base/base_require.hpp>
+#include <cl/tape/impl/inner/base_require.hpp>
 #include <cppad/cppad.h>
 #include <cppad/local/ad.hpp>
-#include <cl/tape/impl/ad_base/inner_vector_ops.hpp>
+#include <cl/tape/impl/inner/inner_vector_ops.hpp>
 
 namespace ext = CppAD;
 
