@@ -52,11 +52,11 @@ namespace std
             , value_()
             , mode_(mode)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ = real_based_type(real.value(), imag.value());
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 bool is_variable = ext::Variable(cl::tapescript::cvalue(real))
                     || ext::Variable(cl::tapescript::cvalue(imag));
@@ -93,11 +93,11 @@ namespace std
 
         inline real_type real(real_type const& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_.real(right.value());
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 if (ext::Variable(right.value()))
                 {
@@ -115,11 +115,11 @@ namespace std
 
         inline real_type imag(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_.imag(right.value());
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 if (ext::Variable(right.value()))
                 {
@@ -137,7 +137,7 @@ namespace std
 
         inline real_type real() const
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 return complex_.real();
             }
@@ -146,7 +146,7 @@ namespace std
 
         inline real_type imag() const
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 return complex_.imag();
             }
@@ -155,13 +155,13 @@ namespace std
 
         inline complex_type& operator=(complex_type const& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ = real_based_type(right.real(), right.imag());
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
-                if (right.mode_ & RealBase)
+                if (right.mode_ == RealBase)
                 {
                     cl::CheckParameter(value_);
                     mode_ = RealBase;
@@ -178,11 +178,11 @@ namespace std
 
         inline complex_type& operator=(double const& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ = right;
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 value_ = right;
             }
@@ -191,11 +191,11 @@ namespace std
 
         inline complex_type& operator=(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ = right.value();
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 if (ext::Variable(right.value()))
                 {
@@ -214,11 +214,11 @@ namespace std
 
         inline complex_type& operator+=(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ += right.value();
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 // !!!
                 cl::CheckParameter(right.value());
@@ -229,12 +229,12 @@ namespace std
 
         inline complex_type& operator-=(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ -= right.value();
             }
 
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 // !!!
                 cl::CheckParameter(right.value());
@@ -246,11 +246,11 @@ namespace std
 
         inline complex_type& operator*=(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ *= right.value();
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 // !!!
                 cl::CheckParameter(right.value());
@@ -261,11 +261,11 @@ namespace std
 
         inline complex_type& operator/=(const real_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ /= right.value();
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 // !!!
                 cl::CheckParameter(right.value());
@@ -276,11 +276,11 @@ namespace std
 
         inline complex_type& operator+=(const complex_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ += right.complex_;
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 value_ += right.value_;
             }
@@ -289,11 +289,11 @@ namespace std
 
         inline complex_type& operator-=(const complex_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ -= right.complex_;
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 value_ -= right.value_;
             }
@@ -302,11 +302,11 @@ namespace std
 
         inline complex_type& operator*=(const complex_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
                 complex_ *= right.complex_;
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 value_ *= right.value_;
             }
@@ -315,7 +315,7 @@ namespace std
 
         inline complex_type& operator/=(const complex_type& right)
         {
-            if (mode_ & RealBase)
+            if (mode_ == RealBase)
             {
 #if defined CL_OPERATOR_DIV_EQ_FIXED
                 complex_ /= right.complex_;
@@ -331,7 +331,7 @@ namespace std
                 // cl::throw_("Can't use operator: " __FUNCSIG__);
 #endif
             }
-            if (mode_ & ComplBase)
+            if (mode_ == ComplBase)
             {
                 value_ /= right.value_;
             }
