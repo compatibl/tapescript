@@ -28,7 +28,7 @@ namespace CppAD
 
         void start()
         {
-            *this << "Op#    Res#   Op       Operands          Taylor coeficients \n";
+            *this << "\nOp#  Res# Op       Operands#          Taylor coeficients \n";
         }
 
         static inline const char* OpName(OpCode op)
@@ -124,10 +124,10 @@ namespace CppAD
             { "Lt", "Le", "Eq", "Ge", "Gt", "Ne" };
 
             // print operator
-            printOpField(os, "o=", i_op, 5);
+            printOpField(os, "", i_op, 5);
             if (NumRes(op) > 0 && op != BeginOp)
-                printOpField(os, "v=", i_var, 5);
-            else	printOpField(os, "v=", "", 5);
+                printOpField(os, "", i_var, 5);
+            else	printOpField(os, "", "", 5);
             if (op == CExpOp || op == CSkipOp)
             {
                 printOpField(os, "", OpName(op), 5);
@@ -393,7 +393,7 @@ namespace CppAD
                 i_var,
                 op,
                 ind);
-            saveOpField("", ss.str(), 41);
+            saveOpField("", ss.str(), 37);
         }
 
         template <class Value>
@@ -407,12 +407,13 @@ namespace CppAD
             const size_t width = 20;
 
             std::ostringstream buffer;
+            buffer.precision(this->precision());
             buffer << std::left;
             size_t k;
             if (nfz != 0)
-                buffer << "| fz[" << 0 << "] = " << std::setw(width) << fz[0];
+                buffer << " fz[" << 0 << "] = " << std::setw(width) << fz[0];
             for (k = 1; k < nfz; k++)
-                buffer << prefix << "| fz[" << k << "] = " << std::setw(width) << fz[k];
+                buffer << prefix << " fz[" << k << "] = " << std::setw(width) << fz[k];
             for (k = 0; k < nrz; k++)
                 buffer << prefix << "| rz[" << k << "] = " << std::setw(width) << rz[k];
             *this << buffer.str();
