@@ -327,7 +327,7 @@ namespace std
             return (*this);
         }
 
-        // Deduce the mode that should be used for calculation and turn *this into it.
+        // Adjust the mode that should be used for calculation.
         Complex_Mode adjust_mode(real_type const& right)
         {
             if (mode_ == RealBase)
@@ -342,7 +342,7 @@ namespace std
             return mode_;
         }
 
-        // Deduce the mode that should be used for calculation and turn *this into it.
+        // Adjust the mode that should be used for calculation.
         Complex_Mode adjust_mode(complex_type const& right)
         {
             if (mode_ == right.mode_)
