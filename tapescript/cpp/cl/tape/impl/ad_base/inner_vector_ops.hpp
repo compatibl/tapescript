@@ -25,7 +25,7 @@ limitations under the License.
 #ifndef CL_INNER_VECTOR_OPS_INCLUDED
 #define CL_INNER_VECTOR_OPS_INCLUDED
 
-#include <cl/tape/impl/base_inner_vector.hpp>
+#include <cl/tape/impl/ad_base/base_inner_vector.hpp>
 #include <cppad/local/atomic_base.hpp>
 #include <cppad/vector.hpp>
 #include <array>

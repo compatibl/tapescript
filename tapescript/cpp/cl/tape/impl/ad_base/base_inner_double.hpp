@@ -28,7 +28,7 @@ limitations under the License.
 #include <limits>
 
 #include <cppad/configure.hpp>
-#include <cl/tape/impl/inner_double.hpp>
+#include <cl/tape/impl/ad_base/inner_double.hpp>
 
 namespace CppAD {
 	inline cl::InnerDouble CondExpOp( 
