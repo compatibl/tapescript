@@ -29,6 +29,7 @@ limitations under the License.
 #include <vector>
 #include <valarray>
 #include <iterator>
+#include <sstream>
 
 namespace cl
 {
@@ -156,11 +157,13 @@ namespace cl
             return os << x.scalar_value_;
         }
 
-        os << "{ ";
-        std::ostream_iterator<double> out(os, ", ");
+        std::stringstream ss;
+        ss.precision(os.precision());
+        ss << "{ ";
+        std::ostream_iterator<double> out(ss, ", ");
         std::copy(std::begin(x.vector_value_), std::end(x.vector_value_), out);
-        os << "}";
-        return os;
+        ss << "}";
+        return os << ss.str();
     }
 
 #define CL_BIN_INNER_VECTOR_OPERATOR(Res, Op)                               \
