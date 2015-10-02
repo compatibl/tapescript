@@ -204,7 +204,16 @@ namespace cl
             {
                 vy = vx;
                 for (size_t i = p; i <= q; i++)
-                    ty[i] = sum_vec(tx[i]);
+                {
+                    if (tx[i].is_scalar() && tx[0].is_vector())
+                    {
+                        ty[i] = tx[i] * tx[0].vector_value_.size();
+                    }
+                    else
+                    {
+                        ty[i] = sum_vec(tx[i]);
+                    }
+                }
                 return true;
             }
             
@@ -215,10 +224,6 @@ namespace cl
 		              vector<Base>&       px ,
 		        const vector<Base>&       py )
             {
-#ifndef NDEBUG
-                for (size_t i = 0; i < tx.size(); i++)
-                    assert(ty[i] == sum_vec(tx[i]));
-#endif
                 for (size_t i = 0; i < py.size(); i++)
                     px[i] = adjust_size(sum_vec(py[i]).scalar_value_, tx[0]);
                 return true;
