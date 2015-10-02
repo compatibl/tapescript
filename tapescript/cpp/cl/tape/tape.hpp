@@ -39,7 +39,7 @@ namespace ext = CppAD;
 
 namespace cl
 {
-    typedef CppAD::AD<double> tape_double;
+    typedef CppAD::AD<double> cppad_double;
 }
 #elif defined CL_TAPE_ADOLC
 #include <adolc/adouble.h>
@@ -50,7 +50,7 @@ namespace adolc {
 #else
 namespace cl
 {
-    typedef double tape_double;
+    typedef double cppad_double;
 }
 namespace ext
 {

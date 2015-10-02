@@ -31,13 +31,15 @@ namespace cl
 {
     /// <summary>Immutable double type with AD support designed
     /// to serve as a drop-in replacement to native double.</summary>
-    class TapeDouble
+    template <typename Base>
+    class tape_double
     {
     public:
+        typedef tape_double<Base> tape_type;
 
         /// <summary>AD implementation type, typedef according to this library's naming conventions.</summary>
 #ifdef CL_TAPE_CPPAD
-        typedef CppAD::AD<double> ImplType;
+        typedef CppAD::AD<Base> ImplType;
 #elif defined CL_TAPE_ADOLC
         typedef adouble ImplType;
 #else
@@ -63,14 +65,14 @@ namespace cl
 #endif
         //  Friend functions
         // in which we should get double directly
-        friend cl::TapeDouble std::ceil(cl::TapeDouble x);
-        friend cl::TapeDouble std::floor(cl::TapeDouble x);
+        friend tape_type std::ceil(tape_type x);
+        friend tape_type std::floor(tape_type x);
 
     public: // TYPEDEFS
 
         /// <summary>Explicit conversion operator from an arbitrary type.</summary>
         template <typename Type>
-        explicit TapeDouble(Type const& rhs)
+        explicit tape_type(Type const& rhs)
             : value_()
         {
             cl::TapeDoubleConvert<Type, value_type>::convert(*this, rhs);
@@ -78,7 +80,7 @@ namespace cl
 
         /// <summary>Assignment from other type.</summary>
         template <typename Type>
-        inline TapeDouble& operator=(Type const& rhs)
+        inline tape_type& operator=(Type const& rhs)
         {
             cl::TapeDoubleConvert<Type, value_type>::convert(*this, rhs);
             return *this;
@@ -197,14 +199,14 @@ namespace cl
 
     public: // CONSTRUCTORS
 
-        inline TapeDouble() : value_() {}
+        inline tape_type() : value_() {}
 
         /// <summary>Implicit constructor from double.</summary>
-        inline TapeDouble(value_type rhs) : value_(rhs) {}
+        inline tape_type(value_type rhs) : value_(rhs) {}
 
 //!!! Should this include other CL_TAPE_* options?
 #if defined CL_TAPE_CPPAD
-        inline TapeDouble(double rhs) : value_(rhs) {}
+        inline tape_type(double rhs) : value_(rhs) {}
 #endif
 
     public: // OPERATORS
@@ -213,85 +215,85 @@ namespace cl
         inline bool operator!() const { return value_ == 0.0; } //!! Provide special treatment for AD
 
         /// <summary>Assignment of native double.</summary>
-        inline TapeDouble& operator=(double rhs) { value_ = rhs; return *this; }
+        inline tape_type& operator=(double rhs) { value_ = rhs; return *this; }
 
         /// <summary>Adds rhs to self.</summary>
-        inline TapeDouble& operator+=(const TapeDouble& rhs) { value_ += rhs.value_; return *this; }
+        inline tape_type& operator+=(const tape_type& rhs) { value_ += rhs.value_; return *this; }
 
         /// <summary>Adds rhs to self.</summary>
-        inline TapeDouble& operator+=(double rhs) { value_ += rhs; return *this; }
+        inline tape_type& operator+=(double rhs) { value_ += rhs; return *this; }
 
         /// <summary>Subtracts rhs from self.</summary>
-        inline TapeDouble& operator-=(const TapeDouble& rhs) { value_ -= rhs.value_; return *this; }
+        inline tape_type& operator-=(const tape_type& rhs) { value_ -= rhs.value_; return *this; }
 
         /// <summary>Subtracts rhs from self.</summary>
-        inline TapeDouble& operator-=(double rhs) { value_ -= rhs; return *this; }
+        inline tape_type& operator-=(double rhs) { value_ -= rhs; return *this; }
 
         /// <summary>Multiplies self by rhs.</summary>
-        inline TapeDouble& operator*=(const TapeDouble& rhs) { value_ *= rhs.value_; return *this; }
+        inline tape_type& operator*=(const tape_type& rhs) { value_ *= rhs.value_; return *this; }
 
         /// <summary>Multiplies self by rhs.</summary>
-        inline TapeDouble& operator*=(double rhs) { value_ *= rhs; return *this; }
+        inline tape_type& operator*=(double rhs) { value_ *= rhs; return *this; }
 
         /// <summary>Divides self by rhs.</summary>
-        inline TapeDouble& operator/=(const TapeDouble& rhs) { value_ /= rhs.value_; return *this; }
+        inline tape_type& operator/=(const tape_type& rhs) { value_ /= rhs.value_; return *this; }
 
         /// <summary>Divides self by rhs.</summary>
-        inline TapeDouble& operator/=(double rhs) { value_ /= rhs; return *this; }
+        inline tape_type& operator/=(double rhs) { value_ /= rhs; return *this; }
 
         /// <summary>Returns a copy if self.</summary>
-        inline TapeDouble operator+() const { return TapeDouble(value_); }
+        inline tape_type operator+() const { return tape_type(value_); }
 
         /// <summary>Returns the negative of self.</summary>
-        inline TapeDouble operator-() const { return TapeDouble(-value_); }
+        inline tape_type operator-() const { return tape_type(-value_); }
 
         /// <summary>Returns true if self is equal to rhs.</summary>
-        inline bool operator==(const TapeDouble& rhs) const { return value_ == rhs.value_; }
+        inline bool operator==(const tape_type& rhs) const { return value_ == rhs.value_; }
 
         /// <summary>Returns true if self is equal to rhs.</summary>
         inline bool operator==(double rhs) const { return value_ == rhs; }
 
         /// <summary>Returns true if self is not equal to rhs.</summary>
-        inline bool operator!=(const TapeDouble& rhs) const { return value_ != rhs.value_; }
+        inline bool operator!=(const tape_type& rhs) const { return value_ != rhs.value_; }
 
         /// <summary>Returns true if self is not equal to rhs.</summary>
         inline bool operator!=(double rhs) const { return value_ != rhs; }
 
         /// <summary>Returns true if self is less than rhs.</summary>
-        inline bool operator<(const TapeDouble& rhs) const { return value_ < rhs.value_; }
+        inline bool operator<(const tape_type& rhs) const { return value_ < rhs.value_; }
 
         /// <summary>Returns true if self is less than rhs.</summary>
         inline bool operator<(double rhs) const { return value_ < rhs; }
 
         /// <summary>Returns true if self is less than or equal to rhs.</summary>
-        inline bool operator<=(const TapeDouble& rhs) const { return value_ <= rhs.value_; }
+        inline bool operator<=(const tape_type& rhs) const { return value_ <= rhs.value_; }
 
         /// <summary>Returns true if self is less than or equal to rhs.</summary>
         inline bool operator<=(double rhs) const { return value_ <= rhs; }
 
         /// <summary>Returns true if self is more than rhs.</summary>
-        inline bool operator>(const TapeDouble& rhs) const { return value_ > rhs.value_; }
+        inline bool operator>(const tape_type& rhs) const { return value_ > rhs.value_; }
 
         /// <summary>Returns true if self is more than rhs.</summary>
         inline bool operator>(double rhs) const { return value_ > rhs; }
 
         /// <summary>Returns true if self is more than or equal to rhs.</summary>
-        inline bool operator>=(const TapeDouble& rhs) const { return value_ >= rhs.value_; }
+        inline bool operator>=(const tape_type& rhs) const { return value_ >= rhs.value_; }
 
         /// <summary>Returns true if self is more than or equal to rhs.</summary>
         inline bool operator>=(double rhs) const { return value_ >= rhs; }
 
         /// <summary>Prefix incrementation.</summary>
-        inline TapeDouble& operator++() {   value_ += 1.0; return *this; }
+        inline tape_type& operator++() {   value_ += 1.0; return *this; }
 
         /// <summary>Postfix incrementation.</summary>
-        inline TapeDouble operator++(int) { TapeDouble result(value_); ++(*this);  return result; }
+        inline tape_type operator++(int) { tape_type result(value_); ++(*this);  return result; }
 
         /// <summary>Prefix decrementation.</summary>
-        inline TapeDouble& operator--() { value_ -= 1.0; return *this; }
+        inline tape_type& operator--() { value_ -= 1.0; return *this; }
 
         /// <summary>Postfix decrementation.</summary>
-        inline TapeDouble operator--(int) { TapeDouble result(value_); --(*this);  return result; }
+        inline tape_type operator--(int) { tape_type result(value_); --(*this);  return result; }
 
     private:
 
@@ -303,6 +305,8 @@ namespace cl
         inline static ImplType
         Value(Type const& obj, std::false_type) { return static_cast<ImplType>(obj); }
     };
+
+    typedef tape_double<double> TapeDouble;
 }
 
 #endif  // cl_tape_impl_double_hpp

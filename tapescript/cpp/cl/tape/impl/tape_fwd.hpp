@@ -52,7 +52,10 @@ namespace cl
     /// <summary>
     ///   TapeDouble forward declaration 
     /// </summary>
-    class TapeDouble;
+    template<typename Base>
+    class tape_double;
+
+    typedef tape_double<double> TapeDouble;
 
     typedef cl::TapeDouble t_double;
 }

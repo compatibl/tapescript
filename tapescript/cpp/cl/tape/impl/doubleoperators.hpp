@@ -23,7 +23,8 @@ limitations under the License.
 #ifndef cl_tape_impl_doubleoperators_hpp
 #define cl_tape_impl_doubleoperators_hpp
 
-#include <cl/tape/impl/double.hpp>
+//#include <cl/tape/impl/double.hpp>
+#include <cl/tape/impl/tape_fwd.hpp>
 
 #if !defined(CL_NO_BOOST_NUMERIC)
 #   include <boost/numeric/ublas/fwd.hpp>
@@ -602,25 +603,25 @@ namespace boost { namespace numeric { namespace ublas
                                     boost::numeric::ublas::matrix<
                                         cl::TapeDouble
                                         , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<class cl::TapeDouble, class std::allocator<class cl::TapeDouble> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
                                     >
                                     , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                 >
                                 , boost::numeric::ublas::triangular_adaptor<
                                     class boost::numeric::ublas::matrix<
-                                        class cl::TapeDouble
+                                        cl::TapeDouble
                                         , struct boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<class cl::TapeDouble, class std::allocator<class cl::TapeDouble> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
                                     >, struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
                                 , cl::TapeDouble
                             >
                     >
                     , boost::numeric::ublas::matrix<
-                        cl::TapeDouble, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<class cl::TapeDouble, class std::allocator<class cl::TapeDouble> >
+                        cl::TapeDouble, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
                       >
                     , boost::numeric::ublas::scalar_minus<
-                            cl::TapeDouble, class cl::TapeDouble
+                            cl::TapeDouble, cl::TapeDouble
                         >
                 >
                 , boost::numeric::ublas::matrix_norm_inf<
@@ -638,7 +639,7 @@ namespace boost { namespace numeric { namespace ublas
                                         boost::numeric::ublas::matrix<
                                             cl::TapeDouble
                                             , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                            , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<class cl::TapeDouble> >
+                                            , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
                                         >
                                         , struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
@@ -647,7 +648,7 @@ namespace boost { namespace numeric { namespace ublas
                                             boost::numeric::ublas::matrix<
                                                 cl::TapeDouble
                                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                                , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<class cl::TapeDouble> >
+                                                , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
                                             >
                                             , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                         >
@@ -659,7 +660,7 @@ namespace boost { namespace numeric { namespace ublas
                                             >
                                             , boost::numeric::ublas::basic_upper<unsigned int>
                                         >
-                                        , class cl::TapeDouble
+                                        , cl::TapeDouble
                                   >
                             >
                             , boost::numeric::ublas::matrix<

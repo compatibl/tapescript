@@ -31,7 +31,13 @@ limitations under the License.
 
 namespace cl
 {
-    class TapeDouble;
+    /// <summary>
+    ///   TapeDouble forward declaration 
+    /// </summary>
+    template<typename Base>
+    class tape_double;
+
+    typedef tape_double<double> TapeDouble;
 
     struct empty_type {};
 
