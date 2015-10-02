@@ -33,9 +33,9 @@ limitations under the License.
 
 int main()
 {
-    cl::array_examples();
     cl::basic_examples();
-
+    cl::array_examples();
+    
     system("pause");
     return 0;
 }
