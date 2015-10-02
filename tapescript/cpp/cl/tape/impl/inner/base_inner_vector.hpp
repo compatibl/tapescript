@@ -81,7 +81,7 @@ namespace CppAD
         {
             result[!mask] = exp_if_false.vector_value_[!mask];
         }
-        
+
         return result;
     }
 
@@ -135,31 +135,31 @@ namespace CppAD
 
         return result;
     }
-    
-	inline cl::InnerVector CondExpOp( 
+
+	inline cl::InnerVector CondExpOp(
 		enum CompareOp               cop          ,
 		const cl::InnerVector&       left         ,
-		const cl::InnerVector&       right        , 
-		const cl::InnerVector&       exp_if_true  , 
+		const cl::InnerVector&       right        ,
+		const cl::InnerVector&       exp_if_true  ,
 		const cl::InnerVector&       exp_if_false )
 	{
         switch (cop)
         {
         case CompareLt:
             return CondExpOpLt(left, right, exp_if_true, exp_if_false);
-    
+
         case CompareLe:
             return CondExpOpLt(right, left, exp_if_false, exp_if_true);
-    
+
         case CompareGe:
             return CondExpOpLt(left, right, exp_if_false, exp_if_true);
-    
+
         case CompareGt:
             return CondExpOpLt(right, left, exp_if_true, exp_if_false);
-    
+
         case CompareEq:
             return CondExpOpEq(left, right, exp_if_true, exp_if_false);
-    
+
         default:
             throw std::exception("Unknown compare operation.");
         }
@@ -177,18 +177,18 @@ namespace CppAD
         typedef cl::InnerVector Base;
         AD<Base> returnValue;
         CPPAD_ASSERT_UNKNOWN(Parameter(returnValue));
-    
-    
+
+
         // must use CondExp incase Base is an AD type and recording
         returnValue.value_ = CondExpOp(cop,
             left.value_, right.value_, if_true.value_, if_false.value_);
-    
+
         // check first case where do not need to tape
         if (IdenticalPar(left) & IdenticalPar(right))
         {
             return returnValue;
         }
-    
+
         ADTape<Base> *tape = CPPAD_NULL;
         if (Variable(left))
             tape = left.tape_this();
@@ -198,12 +198,12 @@ namespace CppAD
             tape = if_true.tape_this();
         if (Variable(if_false))
             tape = if_false.tape_this();
-    
+
         // add this operation to the tape
         if (tape != CPPAD_NULL)
             tape->RecordCondExp(cop,
             returnValue, left, right, if_true, if_false);
-    
+
         return returnValue;
     }
 
@@ -276,7 +276,7 @@ namespace CppAD
     {
         return std::abs(x);
     }
-    
+
 	inline cl::InnerVector sign(const cl::InnerVector& x)
 	{
         auto sign_func = [](double v)
@@ -317,7 +317,7 @@ namespace CppAD
 		}
 	};
 	// deprecated machine epsilon
-	template <> 
+	template <>
 	inline cl::InnerVector epsilon<cl::InnerVector>(void)
 	{
         return numeric_limits<cl::InnerVector>::epsilon();

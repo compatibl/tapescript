@@ -57,8 +57,8 @@ namespace cl
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
-		        const vector<bool>&      vx , 
-		              vector<bool>&      vy , 
+		        const vector<bool>&      vx ,
+		              vector<bool>&      vy ,
 		        const vector<Base>&      tx ,
 		              vector<Base>&      ty )
             {
@@ -199,8 +199,8 @@ namespace cl
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
-		        const vector<bool>&      vx , 
-		              vector<bool>&      vy , 
+		        const vector<bool>&      vx ,
+		              vector<bool>&      vy ,
 		        const vector<Base>&      tx ,
 		              vector<Base>&      ty )
             {
@@ -385,8 +385,8 @@ namespace cl
 	        bool forward(
 		        size_t                    p ,
 		        size_t                    q ,
-		        const vector<bool>&      vx , 
-		              vector<bool>&      vy , 
+		        const vector<bool>&      vx ,
+		              vector<bool>&      vy ,
 		        const vector<Base>&      tx ,
 		              vector<Base>&      ty )
             {
@@ -403,7 +403,7 @@ namespace cl
                         ty[i] = left;
                     }
                     else
-                    {                        
+                    {
                         ty[i] = conc_vec(tx[i], tx[q + 1 + i], size(tx[0]), size(tx[q + 1]));
                     }
                 }
@@ -529,7 +529,7 @@ namespace cl
             {
                 t[0] = s[0];
                 t[1] = s[0];
-                
+
                 for (size_t j = 0; j < q; j++)
                 {
                     v[0 * q + j] = u[j];

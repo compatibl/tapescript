@@ -51,7 +51,7 @@ namespace cl
         {}
 
         InnerVector(const InnerVector&) = default;
-        
+
         InnerVector(const vector_type& v)
             : mode_(VectorMode)
             , scalar_value_()
@@ -193,7 +193,7 @@ namespace cl
     CL_BIN_INNER_VECTOR_OPERATOR(InnerVector, / )
     CL_BIN_INNER_VECTOR_OPERATOR(InnerVector, + )
 #undef CL_BIN_INNER_VECTOR_OPERATOR
-        
+
 #define CL_BOOL_INNER_VECTOR_OPERATOR(Op)                                   \
     inline bool operator##Op(const InnerVector& x, const InnerVector& y)    \
     {                                                                       \
@@ -281,7 +281,7 @@ namespace std
 
 
     // CLASS numeric_limits<cl::InnerVector>
-    template<> 
+    template<>
     class numeric_limits<cl::InnerVector>
     {
         typedef double base_type;

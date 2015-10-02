@@ -32,7 +32,7 @@ namespace ext = CppAD;
 
 namespace std
 {
-    /// <summary> 
+    /// <summary>
     ///    The complex type based on tape double.
     /// </summary>
     template<>
@@ -50,7 +50,7 @@ namespace std
 
         static const Complex_Mode default_mode = ComplBase;
 
-        //  If type is initialized by certain values this is real base type 
+        //  If type is initialized by certain values this is real base type
         complex(real_type const& real, real_type const& imag = 0.0, Complex_Mode mode = default_mode)
             : real_base_()
             , complex_base_()

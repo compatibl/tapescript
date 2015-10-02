@@ -32,7 +32,7 @@ limitations under the License.
 namespace cl
 {
     /// <summary>
-    ///   TapeDouble forward declaration 
+    ///   TapeDouble forward declaration
     /// </summary>
     template<typename Base>
     class tape_double;

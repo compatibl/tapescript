@@ -31,11 +31,11 @@ limitations under the License.
 #include <cl/tape/impl/inner/inner_double.hpp>
 
 namespace CppAD {
-	inline cl::InnerDouble CondExpOp( 
+	inline cl::InnerDouble CondExpOp(
 		enum CompareOp               cop          ,
 		const cl::InnerDouble&       left         ,
-		const cl::InnerDouble&       right        , 
-		const cl::InnerDouble&       exp_if_true  , 
+		const cl::InnerDouble&       right        ,
+		const cl::InnerDouble&       exp_if_true  ,
 		const cl::InnerDouble&       exp_if_false )
 	{	return CondExpTemplate(cop, left, right, exp_if_true, exp_if_false);
 	}
@@ -134,7 +134,7 @@ namespace CppAD {
 		{	return std::numeric_limits<cl::InnerDouble>::max(); }
 	};
 	// deprecated machine epsilon
-	template <> 
+	template <>
 	inline cl::InnerDouble epsilon<cl::InnerDouble>(void)
 	{	return numeric_limits<cl::InnerDouble>::epsilon(); }
 }

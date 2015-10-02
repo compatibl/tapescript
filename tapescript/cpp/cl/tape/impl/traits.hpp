@@ -141,7 +141,7 @@ namespace std
 
         static _Ty ldexp(_Ty _Left, int _Exponent)
         {	// return _Left * 2 ^ _Exponent
-            return _Left * std::pow(2, _Exponent); 
+            return _Left * std::pow(2, _Exponent);
         }
 
         static _Ty log(_Ty _Left)

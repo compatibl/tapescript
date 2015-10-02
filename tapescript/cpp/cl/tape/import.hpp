@@ -38,7 +38,7 @@ limitations under the License.
 #define NOMINMAX
 
 #ifdef WIN32
-// Avoid compiler warning about DLL export for STL types 
+// Avoid compiler warning about DLL export for STL types
 #   pragma warning(disable : 4251)
 // Avoid compiler warning about conversion from size_t to int
 #   pragma warning(disable : 4267)

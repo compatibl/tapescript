@@ -40,14 +40,14 @@ namespace cl
 {
     namespace tapescript
     {
-        /// Take value from tape double 
+        /// Take value from tape double
         template <typename TapeType>
         inline typename TapeType::value_type const& cvalue(TapeType const& tv)
         {
             return tv.value_;
         }
 
-        /// Take const value from tape double 
+        /// Take const value from tape double
         template <typename TapeType>
         inline typename TapeType::value_type& value(TapeType& tv)
         {
@@ -114,7 +114,7 @@ namespace cl
 
     /// <summary>Deserialize from stream.</summary>
     inline std::istream& operator>>(std::istream& input, TapeDouble& v) { input >> cl::tapescript::value(v); return input; }
-    
+
 
     /// <summary>Returns the result of addition of two cl::tape_double<Base> objects.</summary>
     template <class Base>

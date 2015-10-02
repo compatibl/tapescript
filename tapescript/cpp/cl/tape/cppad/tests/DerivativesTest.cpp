@@ -346,7 +346,7 @@ BOOST_AUTO_TEST_CASE(MaxLimitsDerivativesTest)
     // Calculate derivative in Reverse mode.
     sy = f.Reverse(1, sw);
     BOOST_CHECK(sy[0] == 0.0);
-    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl; 
+    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " << sy[0] << std::endl;
 }
 
 BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
@@ -392,13 +392,13 @@ BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
     sy = f.Forward(1, sx);
     double exp = 1 / (b - x[0]);
     BOOST_CHECK(sy[0] == 1 / (b - x[0]));
-    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " 
+    output  << "Derivative of Y on X[0] in Forward mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = "
         << sy[0] <<" (should be big due to division by little number)"<< std::endl;
 
     // Calculate derivative in Reverse mode.
     sy = f.Reverse(1, sw);
     BOOST_CHECK(sy[0] == 1 / (b - x[0]));
-    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = " 
+    output << "Derivative of Y on X[0] in Reverse mode calculated successfully. dY / dX (X[0] = " << x[0] << ") = "
         << sy[0] << " (should be big due to division by little number)" << std::endl;
 
     output  << "Function Y = min(-log(b - X[0]), H), b = " << b << ", H = " << H << " is tested at X[0] = " << X[0] << std::endl;

@@ -165,8 +165,8 @@ namespace cl
 #endif
             shell_execute(file_path + ".plt");
 
-            //  Copy pdf files from output directory 
-            // perhaps it is in a current directory 
+            //  Copy pdf files from output directory
+            // perhaps it is in a current directory
             std::string result_pdf_path = fs::current_path().string() + std::string("//") + filename;
             if (fs::exists(result_pdf_path))
             {

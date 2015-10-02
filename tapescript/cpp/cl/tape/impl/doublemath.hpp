@@ -67,7 +67,7 @@ using namespace checkers;
 
 #   define CL_CHECK(expr) if (expr == 0) cl::throw_("error in: " __FILE__);
 
-#else 
+#else
 
 #   define CL_CHECK(expr)
 
@@ -427,7 +427,7 @@ namespace std
         return std::isnan(x.value());
 #endif
     }
-    
+
 } // namespace std
 
 namespace cl
@@ -540,7 +540,7 @@ namespace std
     {
         return cl::min_impl(x, y);
     }
-    
+
     template <typename Base>
     inline cl::tape_double<Base> atan2(cl::tape_double<Base> x, cl::tape_double<Base> y)
     {
@@ -739,7 +739,7 @@ namespace std
     }
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
-    inline std::complex<cl::TapeDouble> 
+    inline std::complex<cl::TapeDouble>
     operator*(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
     {
         complex<cl::TapeDouble> temp = rhs;
@@ -757,7 +757,7 @@ namespace std
         return _Pow_int(_Left, _Right);
     }
 
-    inline std::complex<cl::TapeDouble> 
+    inline std::complex<cl::TapeDouble>
     operator/(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
@@ -794,36 +794,36 @@ namespace std
 
 #endif
 
-    inline std::complex<cl::TapeDouble> 
-    operator+(const std::complex<cl::TapeDouble>& lhs, double rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator+(const std::complex<cl::TapeDouble>& lhs, double rhs)
     { return lhs + cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::TapeDouble> 
-    operator-(const std::complex<cl::TapeDouble>& lhs, double rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator-(const std::complex<cl::TapeDouble>& lhs, double rhs)
     { return lhs - cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::TapeDouble> 
-    operator*(const std::complex<cl::TapeDouble>& lhs, double rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator*(const std::complex<cl::TapeDouble>& lhs, double rhs)
     { return lhs * cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::TapeDouble> 
-    operator/(const std::complex<cl::TapeDouble>& lhs, double rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator/(const std::complex<cl::TapeDouble>& lhs, double rhs)
     { return lhs / cl::TapeDouble(rhs); }
 
-    inline std::complex<cl::TapeDouble> 
-    operator+(double lhs, const std::complex<cl::TapeDouble>& rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator+(double lhs, const std::complex<cl::TapeDouble>& rhs)
     { return cl::TapeDouble(lhs) + rhs; }
 
-    inline std::complex<cl::TapeDouble> 
-    operator-(double lhs, const std::complex<cl::TapeDouble>& rhs) 
+    inline std::complex<cl::TapeDouble>
+    operator-(double lhs, const std::complex<cl::TapeDouble>& rhs)
     { return cl::TapeDouble(lhs) - rhs; }
 
-    inline std::complex<cl::TapeDouble> 
+    inline std::complex<cl::TapeDouble>
     operator*(double lhs, const std::complex<cl::TapeDouble>& rhs)
     { return cl::TapeDouble(lhs) * rhs; }
 
     inline std::complex<cl::TapeDouble>
-    operator/(double lhs, const std::complex<cl::TapeDouble>& rhs) 
+    operator/(double lhs, const std::complex<cl::TapeDouble>& rhs)
     { return cl::TapeDouble(lhs) / rhs; }
 
 
@@ -860,7 +860,7 @@ namespace std
         return std::complex<cl::TapeDouble>(
             sin(lhs.complex_base_) / cos(lhs.complex_base_));
     }
-    
+
     inline std::complex<cl::TapeDouble> tanh(const std::complex<cl::TapeDouble>& lhs)
     {
         if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)

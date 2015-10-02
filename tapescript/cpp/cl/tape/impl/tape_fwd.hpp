@@ -50,7 +50,7 @@ namespace cl
     using ref_type = std::reference_wrapper<Type>;
 
     /// <summary>
-    ///   TapeDouble forward declaration 
+    ///   TapeDouble forward declaration
     /// </summary>
     template<typename Base>
     class tape_double;

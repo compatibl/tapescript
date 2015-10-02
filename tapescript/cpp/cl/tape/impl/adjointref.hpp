@@ -217,7 +217,7 @@ namespace cl
 
 namespace std
 {
-    /// <summary> 
+    /// <summary>
     ///   Implementation of std traits for algorithmic use.
     /// </summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
@@ -267,7 +267,7 @@ namespace cl
 #if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.begin(), this->refs_.begin());
 #else
-                return TapeIterator<>(); 
+                return TapeIterator<>();
 #endif
             }
 
@@ -617,7 +617,7 @@ namespace cl
             }
 
         private:
-            /// In CppAD std::remove_const<> didn't used 
+            /// In CppAD std::remove_const<> didn't used
             /// If it's const
             template <typename If_Need_Compile__>
             inline ret_value_type
@@ -764,7 +764,7 @@ namespace cl
         TapeFunction(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
             : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
         { }
-        
+
         void Dependent(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
         {
             TapeFunctionBase<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
@@ -772,7 +772,7 @@ namespace cl
     };
 
     template <>
-    class TapeFunction<std::complex<cl::TapeDouble > > 
+    class TapeFunction<std::complex<cl::TapeDouble > >
         : public cl::TapeFunctionBase<std::complex<double> >
     {
     public:

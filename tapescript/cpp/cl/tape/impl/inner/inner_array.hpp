@@ -52,7 +52,7 @@ namespace cl
         {}
 
         InnerArrayXd(const InnerArrayXd&) = default;
-        
+
         InnerArrayXd(const vector_type& v)
             : mode_(VectorMode)
             , scalar_value_()
@@ -203,7 +203,7 @@ namespace cl
     CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, / )
     CL_BIN_INNER_VECTOR_OPERATOR(InnerArrayXd, + )
 #undef CL_BIN_INNER_VECTOR_OPERATOR
-        
+
 #define CL_BOOL_INNER_VECTOR_OPERATOR(Op)                                   \
     inline bool operator##Op(const InnerArrayXd& x, const InnerArrayXd& y)    \
     {                                                                       \
@@ -286,7 +286,7 @@ namespace std
 
 
     // CLASS numeric_limits<cl::InnerArrayXd>
-    template<> 
+    template<>
     class numeric_limits<cl::InnerArrayXd>
     {
         typedef double base_type;
