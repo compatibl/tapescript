@@ -37,9 +37,10 @@ namespace cl
     typedef inner_array<std::valarray<double>> InnerValArray;
     typedef InnerValArray InnerArray;
 
+
+    /// <summary>Traits of array type for using it as inner_array template parameter.</summary>
     template <class Array>
     struct array_traits;
-
 
 #define CL_INNER_ARRAY_FUNCTION_TRAITS(Qualifier, Name)     \
     static inline array_type Name(const array_type& x)      \
@@ -54,6 +55,7 @@ namespace cl
         return x;                                                           \
     }
 
+    /// <summary>Array traits of std::valaray.</summary>
     template <class Scalar>
     struct array_traits<std::valarray<Scalar>>
     {
@@ -110,7 +112,7 @@ namespace cl
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tanh)
 
         template <class Ty1, class Ty2>
-        static inline array_type pow(const Ty1& x, const Ty2& y)  
+        static inline array_type pow(const Ty1& x, const Ty2& y)
         {
             return std::pow(x, y);
         }
@@ -126,7 +128,8 @@ namespace cl
             return result;
         }
     };
-    
+
+    /// <summary>Array traits of Eigen::Array.</summary>
     template <class Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
     struct array_traits<
         Eigen::Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols>
@@ -135,7 +138,7 @@ namespace cl
         typedef Scalar scalar_type;
         typedef Eigen::Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> array_type;
         typedef int size_type;
-        
+
         static inline array_type get_const(size_t count, scalar_type const& val)
         {
             return array_type::Constant(count, val);
@@ -198,7 +201,8 @@ namespace cl
     };
 
 
-    // Class that used as Base for CppAD::AD<Base>.
+    /// <summary>Class that aggregates a scalar value and an array value.
+    /// Used as Base tamplate parameter for CppAD::AD class.</summary>
     template <class Array>
     struct inner_array
     {
