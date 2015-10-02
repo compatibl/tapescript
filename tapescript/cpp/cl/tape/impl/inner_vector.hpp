@@ -1,3 +1,25 @@
+/*
+Copyright (C) 2003-2015 CompatibL
+
+This file is part of TapeScript, an open source library and tape encoding
+standard for adjoint algorithmic differentiation (AAD), available from
+
+http://github.com/compatibl/tapescript (source)
+http://tapescript.org (documentation)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 #pragma once
 
 #ifndef CL_INNER_VECTOR_INCLUDED
@@ -6,6 +28,7 @@
 #include <limits>
 #include <vector>
 #include <valarray>
+#include <iterator>
 
 namespace cl
 {
@@ -19,16 +42,30 @@ namespace cl
             , VectorMode
         };
 
-        InnerVector(double s = 0.)
+        InnerVector(double val = 0.)
             : mode_(ScalarMode)
-            , scalar_value_(s)
+            , scalar_value_(val)
             , vector_value_()
         {}
 
+        InnerVector(const InnerVector&) = default;
+        
         InnerVector(const vector_type& v)
             : mode_(VectorMode)
             , scalar_value_()
             , vector_value_(v)
+        {}
+
+        InnerVector(vector_type&& v)
+            : mode_(VectorMode)
+            , scalar_value_()
+            , vector_value_(std::move(v))
+        {}
+
+        InnerVector(double val, size_t n)
+            : mode_(VectorMode)
+            , scalar_value_()
+            , vector_value_(val, n)
         {}
 
         InnerVector(std::initializer_list<double> il)
@@ -47,7 +84,7 @@ namespace cl
             return !is_scalar();
         }
 
-        double to_double() const
+        double to_scalar() const
         {
             if (is_scalar())
             {
@@ -111,8 +148,8 @@ namespace cl
         vector_type vector_value_;
     };
 
-    template <class Ostream>
-    inline Ostream& operator<<(Ostream& os, const InnerVector& x)
+
+    inline std::ostream& operator<<(std::ostream& os, const InnerVector& x)
     {
         if (x.is_scalar())
         {
@@ -218,7 +255,7 @@ namespace std
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, tan)
     CL_INNER_VECTOR_FUNCTION(cl::InnerVector, tanh)
 #undef CL_INNER_VECTOR_FUNCTION
-    
+
     inline cl::InnerVector pow(const cl::InnerVector& left, const cl::InnerVector& right)
     {
         if (left.is_scalar() && right.is_scalar())
@@ -238,28 +275,29 @@ namespace std
             return pow(left.vector_value_, right.vector_value_);
         }
     }
-    
+
 
     // CLASS numeric_limits<cl::InnerVector>
     template<> 
     class numeric_limits<cl::InnerVector>
     {
+        typedef double base_type;
     public:
         typedef cl::InnerVector _Ty;
 
-        static _Ty(min)() _THROW0()
+        static _Ty min() _THROW0()
         {	// return minimum value
-            return (DBL_MIN);
+            return numeric_limits<base_type>::min();
         }
 
-        static _Ty(max)() _THROW0()
+        static _Ty max() _THROW0()
         {	// return maximum value
-            return (DBL_MAX);
+            return numeric_limits<base_type>::max();
         }
 
         static _Ty epsilon() _THROW0()
         {	// return smallest effective increment from 1.0
-            return (DBL_EPSILON);
+            return numeric_limits<base_type>::epsilon();
         }
     };
 }

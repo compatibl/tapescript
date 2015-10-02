@@ -1,31 +1,190 @@
+/*
+Copyright (C) 2003-2015 CompatibL
+
+This file is part of TapeScript, an open source library and tape encoding
+standard for adjoint algorithmic differentiation (AAD), available from
+
+http://github.com/compatibl/tapescript (source)
+http://tapescript.org (documentation)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 #pragma once
 
-# ifndef CL_BASE_INNER_VECTOR_INCLUDED
-# define CL_BASE_INNER_VECTOR_INCLUDED
+#ifndef CL_BASE_INNER_VECTOR_INCLUDED
+#define CL_BASE_INNER_VECTOR_INCLUDED
 
-# include <cppad/configure.hpp>
-# include <limits>
+#include <limits>
 
-namespace CppAD {
+#include <cppad/configure.hpp>
+//#include <cppad/local/ad.hpp>
+#include <cl/tape/impl/inner_vector.hpp>
+
+namespace CppAD
+{
+    inline cl::InnerVector CondExpOpEq(
+        const cl::InnerVector&       left,
+        const cl::InnerVector&       right,
+        const cl::InnerVector&       exp_if_true,
+        const cl::InnerVector&       exp_if_false)
+    {
+        if (left.is_scalar() && right.is_scalar())
+        {
+            return (left.scalar_value_ == right.scalar_value_)
+                ? exp_if_true : exp_if_false;
+        }
+
+        std::valarray<bool> mask;
+        size_t size;
+        if (left.is_scalar() && right.is_vector())
+        {
+            mask = left.scalar_value_ == right.vector_value_;
+            size = right.vector_value_.size();
+        }
+        else if (left.is_vector() && right.is_scalar())
+        {
+            mask = left.vector_value_ == right.scalar_value_;
+            size = left.vector_value_.size();
+        }
+        else /* (left.is_vector() && right.is_vector()) */
+        {
+            mask = left.vector_value_ == right.vector_value_;
+            size = left.vector_value_.size();
+        }
+
+        cl::InnerVector::vector_type result(size);
+        if (exp_if_true.is_scalar())
+        {
+            result[mask] = exp_if_true.scalar_value_;
+        }
+        else
+        {
+            result[mask] = exp_if_true.vector_value_[mask];
+        }
+        if (exp_if_false.is_scalar())
+        {
+            result[!mask] = exp_if_false.scalar_value_;
+        }
+        else
+        {
+            result[!mask] = exp_if_false.vector_value_[!mask];
+        }
+        
+        return result;
+    }
+
+    inline cl::InnerVector CondExpOpLt(
+        const cl::InnerVector&       left,
+        const cl::InnerVector&       right,
+        const cl::InnerVector&       exp_if_true,
+        const cl::InnerVector&       exp_if_false)
+    {
+        if (left.is_scalar() && right.is_scalar())
+        {
+            return (left.scalar_value_ < right.scalar_value_)
+                ? exp_if_true : exp_if_false;
+        }
+
+        std::valarray<bool> mask;
+        size_t size;
+        if (left.is_scalar() && right.is_vector())
+        {
+            mask = left.scalar_value_ < right.vector_value_;
+            size = right.vector_value_.size();
+        }
+        else if (left.is_vector() && right.is_scalar())
+        {
+            mask = left.vector_value_ < right.scalar_value_;
+            size = left.vector_value_.size();
+        }
+        else /* (left.is_vector() && right.is_vector()) */
+        {
+            mask = left.vector_value_ < right.vector_value_;
+            size = left.vector_value_.size();
+        }
+
+        cl::InnerVector::vector_type result(size);
+        if (exp_if_true.is_scalar())
+        {
+            result[mask] = exp_if_true.scalar_value_;
+        }
+        else
+        {
+            result[mask] = exp_if_true.vector_value_[mask];
+        }
+        if (exp_if_false.is_scalar())
+        {
+            result[!mask] = exp_if_false.scalar_value_;
+        }
+        else
+        {
+            result[!mask] = exp_if_false.vector_value_[!mask];
+        }
+
+        return result;
+    }
+    
 	inline cl::InnerVector CondExpOp( 
 		enum CompareOp               cop          ,
 		const cl::InnerVector&       left         ,
 		const cl::InnerVector&       right        , 
 		const cl::InnerVector&       exp_if_true  , 
 		const cl::InnerVector&       exp_if_false )
-	{	return CondExpTemplate(cop, left, right, exp_if_true, exp_if_false);
+	{
+        switch (cop)
+        {
+        case CompareLt:
+            return CondExpOpLt(left, right, exp_if_true, exp_if_false);
+    
+        case CompareLe:
+            return CondExpOpLt(right, left, exp_if_false, exp_if_true);
+    
+        case CompareGe:
+            return CondExpOpLt(left, right, exp_if_false, exp_if_true);
+    
+        case CompareGt:
+            return CondExpOpLt(right, left, exp_if_true, exp_if_false);
+    
+        case CompareEq:
+            return CondExpOpEq(left, right, exp_if_true, exp_if_false);
+    
+        default:
+            throw std::exception("Unknown compare operation.");
+        }
 	}
+
+    //template <>
+    //inline AD<cl::InnerVector> CondExpOp<cl::InnerVector>(
+    //    enum CompareOp                   cop,
+    //    const AD<cl::InnerVector>&       left,
+    //    const AD<cl::InnerVector>&       right,
+    //    const AD<cl::InnerVector>&       exp_if_true,
+    //    const AD<cl::InnerVector>&       exp_if_false)
+    //{
+    //    return CondExpOp(cop, left.value_, right.value_, exp_if_true.value_, exp_if_false.value_);
+    //}
 }
 
 namespace CppAD {
 	CPPAD_COND_EXP_REL(cl::InnerVector)
 }
 
-namespace CppAD {
-	inline bool EqualOpSeq(const cl::InnerVector& x, const cl::InnerVector& y)
-	{	return x == y; }
-}
-
+//namespace CppAD {
+//	inline bool EqualOpSeq(const cl::InnerVector& x, const cl::InnerVector& y)
+//	{	return x == y; }
+//}
+//
 namespace CppAD {
 	inline bool IdenticalPar(const cl::InnerVector& x)
 	{	return true; }
@@ -39,7 +198,7 @@ namespace CppAD {
 
 namespace CppAD {
 	inline int Integer(const cl::InnerVector& x)
-	{	return static_cast<int>(x.to_double()); }
+	{	return static_cast<int>(x.to_scalar()); }
 }
 
 namespace CppAD {
