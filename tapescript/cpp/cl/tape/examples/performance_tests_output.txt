@@ -1,0 +1,61 @@
+Arrays:
+Plus:
+
+Input vector: { { 1, 2 }, { 3, 4 } }
+Output vector: { { 4, 6 } }
+
+Ininial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 2 }, { -3, -1 } }...
+
+Op#  Res# Op       Operands#          Taylor coefficients
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1, 2 }            
+2    2    Init                        fz[0] = { 3, 4 }             fz[1] = { -3, -1 }          
+3    3    +        vl=1     vr=2      fz[0] = { 4, 6 }             fz[1] = { -2, 1 }           
+4         End                        
+
+Forward sweep result: { { -2, 1 } }
+
+Reverse(1, w) sweep for w = { { 1, 2 } }...
+Reverse sweep result: { { 1, 2 }, { 1, 2 } }
+
+
+Tape recording time:             2.1e-005
+Ininial Forward(0) sweep time:   1.3e-005
+Forward sweep calculations time: 1.53e-005
+Reverse sweep calculations time: 1.89e-005
+TapeFunction memory (B):         300
+
+
+Doubles:
+Plus:
+
+Input vector: { 1, 2, 3, 4 }
+Output vector: { 4, 6 }
+
+Ininial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { 1, 2, -3, -1 }...
+
+Op#  Res# Op       Operands#          Taylor coefficients
+1    1    Init                        fz[0] = 1                    fz[1] = 1                   
+2    2    Init                        fz[0] = 2                    fz[1] = 2                   
+3    3    Init                        fz[0] = 3                    fz[1] = -3                  
+4    4    Init                        fz[0] = 4                    fz[1] = -1                  
+5    5    +        vl=1     vr=3      fz[0] = 4                    fz[1] = -2                  
+6    6    +        vl=2     vr=4      fz[0] = 6                    fz[1] = 1                   
+7         End                        
+
+Forward sweep result: { -2, 1 }
+
+Reverse(1, w) sweep for w = { 1, 2 }...
+Reverse sweep result: { 1, 2, 1, 2 }
+
+
+Tape recording time:             1.5e-005
+Ininial Forward(0) sweep time:   4e-006
+Forward sweep calculations time: 7e-006
+Reverse sweep calculations time: 1.2e-005
+TapeFunction memory (B):         184
+
+
