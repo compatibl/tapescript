@@ -36,6 +36,11 @@ namespace cl
 #   define CPPAD_FORWARD1SWEEP_INCLUDED
 // Lock forward1sweep include
 #   define CPPAD_FORWARD0SWEEP_INCLUDED
+
+// lock player include
+#   define CPPAD_PLAYER_INCLUDED
+
+#   define CPPAD_AD_FUN_INCLUDED
 #endif
 
 // Lock undef include 
@@ -47,12 +52,29 @@ namespace cl
 #   if !defined TYPE_SERIALIZER
 #       define  TYPE_SERIALIZER CppAD::tape_serializer
 #   endif
+
 #   include <iostream>
+
 #   include <cl/tape/impl/tape_fwd.hpp>
 #   include <cl/tape/impl/ad/tape_forward0sweep.hpp>
 #   include <cl/tape/impl/ad/tape_forward1sweep.hpp>
+
 #   include <cl/tape/impl/ad/tape_serializer_fwd.hpp>
 #   include <cl/tape/impl/ad/tape_serializer_call.hpp>
+#   include <cl/tape/impl/reflection/mem_access.hpp>
+#   include <cl/tape/impl/ad/ad_fields.hpp>
+
+#   include <cl/tape/impl/tape_archive/tape_arhive.hpp>
+
+#   define private public
+#   undef CPPAD_PLAYER_INCLUDED
+
+#   undef CPPAD_AD_FUN_INCLUDED
+#   include <cppad/local/ad_fun.hpp>
+#   include <cppad/local/player.hpp>
+
+#   undef private
+
 #   if defined CL_BASE_SERIALIZER_OPEN
 #       include <cl/tape/impl/ad/tape_serializer.hpp>
 #   endif

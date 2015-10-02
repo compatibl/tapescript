@@ -753,20 +753,48 @@ namespace cl
     /// this should be suitable inside external framework.
     /// </summary>
     template <typename Base>
-    class TapeFunction : public TapeFunctionBase<Base>
+    class TapeFunction 
+        : public TapeFunctionBase<Base>
+        , tapescript::serialize_accessor<Base>
     {
     public:
+
+        typedef tapescript::serialize_accessor<Base> serializability;
+        typedef TapeFunctionBase<Base> base;
+
         TapeFunction()
             : TapeFunctionBase<Base>()
+            , serializability()
         { }
+
+        template <typename Serializer>
+        TapeFunction(Serializer& serializer)
+            : TapeFunctionBase<Base>()
+            , serializability()
+        {
+            serializer & *this;
+        }
+
+        /// <summary> </summary>
+        template <typename Inner, typename Serializer>
+        TapeFunction(std::vector<cl::tape_double<Inner>> const& x
+                , std::vector<cl::tape_double<Inner>> const& y
+                , Serializer& serializer)   
+                        : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
+                        , serializability(tapescript::adapt(x))
+        {
+            serializer & *this;
+        }
 
         TapeFunction(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
             : TapeFunctionBase<Base>(x.vec_, y.vec_)
+            , serializability(x.vec_)
         { }
 
         template <typename Inner>
         TapeFunction(std::vector<cl::tape_double<Inner>> const& x, std::vector<cl::tape_double<Inner>> const& y)
             : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
+            , serializability(tapescript::adapt(x))
         { }
 
         template <typename Inner>

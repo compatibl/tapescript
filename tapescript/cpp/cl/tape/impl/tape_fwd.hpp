@@ -23,6 +23,17 @@ limitations under the License.
 #ifndef cl_tape_fwd_doublecl_hpp
 #define cl_tape_fwd_doublecl_hpp
 
+namespace CppAD
+{
+    /// CppAd forward declaration few classes
+
+    template <typename Base>
+    class AD;
+
+    template <typename Base>
+    class ADFun;
+}
+
 /// <summary>
 ///    Adapter for types convertible to double.
 /// </summary>
@@ -70,6 +81,9 @@ namespace cl
 
     template <typename Ty_>
     struct solve_dummy { typedef dummy type; };
+
+    template <typename Base>
+    class TapeFunction;
 }
 
 namespace CppAD
@@ -91,6 +105,19 @@ namespace CppAD
     {
         typedef typename
             Ty_::impl impl_type;
+    };
+
+    /// Case when we don't have implement io_binary
+    template <typename Ty_, typename Ch_ = cl::dummy>
+    struct is_io_typed : std::false_type
+    {
+        typedef cl::dummy impl_type;
+    };
+
+    template <typename Ty_>
+    struct is_io_typed<Ty_, typename cl::solve_dummy<typename Ty_::io_typed>::type > : std::true_type
+    {
+        typedef typename Ty_::io_typed io_typed;
     };
 }
 

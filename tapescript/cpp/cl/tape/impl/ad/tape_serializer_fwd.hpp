@@ -27,8 +27,8 @@ namespace CppAD
         return false;
     }
 
-    template <typename Serializer, typename Stream, typename... Args>
-    inline void serialize__(std::false_type, Stream& stg, Args...)
+    template <typename Trait0, typename Serializer, typename Stream, typename... Args>
+    inline void serialize__(Trait0, Stream& stg, Args...)
     {
 # if defined CL_COMPILE_TIME_DEBUG_ENABLED
 #   pragma message ("Empty serializer in: " __FUNCSIG__)
@@ -54,6 +54,11 @@ namespace CppAD
 # endif
     }
 
+    enum serializer_type
+    {
+        no_info = 0, io_binary = 1 << 1, io_text = 1 << 2
+    };
+
     template <typename Base>
     struct serializer_traits
     {
@@ -67,6 +72,45 @@ namespace CppAD
             serializer_traits<Base>::type Serializer;
 
         serialize__<Serializer>(CppAD::is_implemented<Serializer>(), stg, args...);
+    }
+
+    namespace tapescript
+    {
+        template <typename Serializer, typename Stm>
+        inline unsigned int io_type__(Stm& stm, std::false_type)
+        {
+            return 0;
+        }
+
+        template <typename Serializer, typename Stm>
+        inline unsigned int io_type__(Stm& stm, std::true_type)
+        {
+            return static_cast<Serializer&>(stm).io_type();
+        }
+    }
+
+    template <typename Base, typename Stm>
+    inline bool is_io_binary(Stm& stm)
+    {
+        typedef typename
+            serializer_traits<Base>::type Serializer;
+
+        return tapescript::io_type__<Serializer>(stm
+            , std::integral_constant<bool, CppAD::is_implemented<Serializer>::value 
+                    && CppAD::is_io_typed<Serializer>::value>()) & serializer_type::io_binary;
+    }
+
+    template <typename Base, typename Stm>
+    inline bool is_io_text(Stm& stm)
+    {
+        typedef typename
+            serializer_traits<Base>::type Serializer;
+
+        auto v = tapescript::io_type__<Serializer>(stm
+                , std::integral_constant<bool, (bool)(CppAD::is_implemented<Serializer>::value 
+                && CppAD::is_io_typed<Serializer>::value)>());
+
+        return (v & serializer_type::io_text) != 0;
     }
 }
 

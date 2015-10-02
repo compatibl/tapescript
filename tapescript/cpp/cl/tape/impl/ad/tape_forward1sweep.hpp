@@ -188,13 +188,13 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         template <class Base>
         void forward1sweep(
             std::ostream&         s_out,
-            const bool            print,
-            const size_t          p,
-            const size_t          q,
-            const size_t          n,
-            const size_t          numvar,
+            /*const */bool            print,
+            /*const */size_t          p,
+            /*const */size_t          q,
+            /*const */size_t          n,
+            /*const */size_t          numvar,
             player<Base>*         play,
-            const size_t          J,
+            /*const */size_t          J,
             Base*                 taylor,
             bool*                 cskip_op,
             pod_vector<addr_t>&   var_by_load_op,
@@ -1027,10 +1027,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             }
             std::cout << std::endl;
 # else
-                //  typedef tape_serializer<Base> ser_type;
-
-                /// serialize tape
-                if (!is_cout(s_out))
+                // serialize tape
+                if (!is_cout(s_out) && is_io_text<Base>(s_out))
                     serialize<Base>(s_out
                         , user_iy
                         , play

@@ -10,6 +10,27 @@ Eclipse Public License Version 1.0.
 A copy of this license is included in the COPYING file of this distribution.
 Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 -------------------------------------------------------------------------- */
+__if_not_exists(CppAD::serializers_list)
+{
+    namespace boost {
+        namespace archive {
+            class binary_oarchive;
+            class binary_iarchive;
+        }
+    }
+
+    namespace CppAD
+    {
+        template <class... > struct serializers_list;
+
+        template <template <typename, typename> class Serializer, typename Archive>
+        struct ho_serializer2;
+
+        template <typename >
+        struct serializer_traits;
+    }
+}
+
 namespace CppAD
 {
     template <typename Ty_> struct remove_template
@@ -22,13 +43,145 @@ namespace CppAD
     struct remove_template<Template<Ty_> >
         : std::true_type{ typedef Ty_ base; };
 
+    template <typename Serializer, typename Stream, typename Base, typename... Args>
+    inline void serialize__
+        (std::true_type
+        , Stream                   &archiver
+        , /*const */bool            print
+        , /*const */size_t          p
+        , /*const */size_t          q
+        , /*const */size_t          n
+        , /*const */size_t          numvar
+        , player<Base>            *&play
+        , /*const */size_t          J
+        , Base                    *&taylor
+        , bool                    *&cskip_op
+        , pod_vector<addr_t>       &var_by_load_op          // result
+        , size_t                   &compare_change_count
+        , size_t                   &compare_change_number   // result
+        , size_t                   &compare_change_op_index // result
+        , Args&...                  args)
+    {
+#       pragma message ("Not implemented " __FUNCSIG__)
+    }
+
+
+    template <typename Serializer, typename Stream, typename Base, typename... Rest>
+    inline void io_ss__(Stream &archiver, bool&, size_t&, size_t&, size_t&, size_t&, player<Base>*&, size_t&
+        , Base*&, bool*&, pod_vector<addr_t>&, size_t&, size_t&, size_t&, CppAD::serializers_list<Rest...>)
+    {
+        cl::throw_("Not serializable.");
+    }
+
+    template <typename Serializer, typename Stream, typename Base, typename S, typename... Rest>
+    inline void io_ss__
+        (Stream                   &archiver
+        , /*const */bool           &print
+        , /*const */size_t         &p
+        , /*const */size_t         &q
+        , /*const */size_t         &n
+        , /*const */size_t         &numvar
+        , player<Base>            *&play
+        , /*const */size_t         &J
+        , Base                    *&taylor
+        , bool                    *&cskip_op
+        , pod_vector<addr_t>       &var_by_load_op          // result
+        , size_t                   &compare_change_count
+        , size_t                   &compare_change_number   // result
+        , size_t                   &compare_change_op_index // result
+        , CppAD::serializers_list<S, Rest...>)
+    {
+        typedef typename
+            S::template apply<Base>::type io_archive;
+
+        //Serializer& sa = static_cast<Serializer& >(archiver);
+        if (typeid(io_archive) == typeid(*&archiver))
+        {
+            io_archive& ar = static_cast<io_archive&>(archiver);
+                   ar & print
+                      & p
+                      & q
+                      & n
+                      & numvar
+                      & (*play)
+                      //& J
+                      //& taylor //TODO: make_array_archiver(taylor, J)
+                      & cskip_op
+                      & var_by_load_op
+                      & compare_change_count;
+            return ;
+        }
+
+        io_ss__<Serializer>(
+            archiver
+            , print
+            , p
+            , q
+            , n
+            , numvar
+            , play
+            , J
+            , taylor
+            , cskip_op
+            , var_by_load_op
+            , compare_change_count
+            , compare_change_number
+            , compare_change_op_index, CppAD::serializers_list<Rest...>());
+    }
+
+    template <typename Serializer, typename Stream, typename Base, typename... Args>
+    inline void serialize__
+        (std::true_type
+        , Stream                   &archiver
+        , /*const */bool           &print
+        , /*const */size_t         &p
+        , /*const */size_t         &q
+        , /*const */size_t         &n
+        , /*const */size_t         &numvar
+        , player<Base>            *&play
+        , /*const */size_t         &J
+        , Base                    *&taylor
+        , bool                    *&cskip_op
+        , pod_vector<addr_t>       &var_by_load_op          // result
+        , size_t                   &compare_change_count
+        , size_t                   &compare_change_number   // result
+        , size_t                   &compare_change_op_index // result
+        , typename
+                CppAD::serializer_traits<Base>::certain_archivers* ptr = 0
+        , Args&...                  args)
+    {
+        typedef typename
+            CppAD::serializer_traits<Base>::certain_archivers serializers_list;
+
+        // Find and make io operation from certain arhive
+        io_ss__<Serializer>(
+            archiver
+            , print
+            , p
+            , q
+            , n
+            , numvar
+            , play
+            , J
+            , taylor
+            , cskip_op
+            , var_by_load_op
+            , compare_change_count
+            , compare_change_number
+            , compare_change_op_index, serializers_list());
+
+#       pragma message ("recursive - " __FUNCSIG__)
+    }
+
+
+
     /// <summary> Implementation serialization call
     /// if we have implemented serializer </summary>
     template <typename Serializer, typename Stream, typename Base, typename... Args>
     inline void serialize__
         (std::true_type
         , Stream                             &s_out
-        , CppAD::vector<unsigned __int64>     user_iy
+        , CppAD::vector<unsigned __int64>    &user_iy
         , CppAD::player<Base>*                play
         , Base                               *taylor
         , enum CppAD::OpCode                  op
@@ -42,9 +195,6 @@ namespace CppAD
         , Args&...                            args)
     {
         CPPAD_ASSERT_UNKNOWN(&s_out != &std::cout);
-
-        typedef typename
-            remove_template<Serializer>::base _Base_type;
 
         enum { user_start, user_arg, user_ret, user_end, user_trace };
 
@@ -73,7 +223,6 @@ namespace CppAD
                     0,
                     (Base *)CPPAD_NULL
                     );
-                ss << std::endl;
             }
         }
 
@@ -102,5 +251,28 @@ namespace CppAD
         }
     }
 } // namespace CppAD
+
+namespace cl
+{
+    namespace tapescript
+    {
+        __if_not_exists(serialize_accessor)
+        {
+            template <class Base>
+            class serialize_accessor
+            {
+            public:
+                serialize_accessor()
+                {}
+
+                template <class Vector>
+                serialize_accessor(Vector& vc) //: acc_(vc)
+                {
+                }
+            };
+        }
+    } // namespace tapescript
+
+} // namespace cl
 
 # endif
