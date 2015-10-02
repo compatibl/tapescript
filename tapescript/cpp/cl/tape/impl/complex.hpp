@@ -56,7 +56,7 @@ namespace std
             {
                 real_base_ = real_based_type(real.value(), imag.value());
             }
-            if (mode_ == ComplBase)
+            else
             {
                 bool is_variable = ext::Variable(cl::tapescript::cvalue(real))
                     || ext::Variable(cl::tapescript::cvalue(imag));
@@ -73,7 +73,7 @@ namespace std
             }
         }
 
-        // This call whn resize vector
+        // This call when resize vector
         complex() 
             : real_base_()
             , complex_base_()
@@ -105,44 +105,26 @@ namespace std
 
         inline real_type real(real_type const& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_.real(right.value());
             }
-            if (mode_ == ComplBase)
+            else
             {
-                if (ext::Variable(right.value()))
-                {
-                    cl::CheckParameter(complex_base_);
-                    mode_ = RealBase;
-                    real_base_ = real_based_type(right.value(), ext::Value(complex_base_).imag());
-                }
-                else
-                {
-                    complex_base_ = complex<double>(ext::Value(right.value()), ext::Value(complex_base_).imag());
-                }
+                complex_base_ = complex_double(ext::Value(right.value()), ext::Value(complex_base_).imag());
             }
             return right;
         }
 
         inline real_type imag(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_.imag(right.value());
             }
-            if (mode_ == ComplBase)
+            else
             {
-                if (ext::Variable(right.value()))
-                {
-                    cl::CheckParameter(complex_base_);
-                    mode_ = RealBase;
-                    real_base_ = real_based_type(ext::Value(complex_base_).real(), right.value());
-                }
-                else
-                {
-                    complex_base_ = complex<double>(ext::Value(complex_base_).real(), ext::Value(right.value()));
-                }
+                complex_base_ = complex_double(ext::Value(complex_base_).real(), ext::Value(right.value()));
             }
             return right;
         }
@@ -167,46 +149,13 @@ namespace std
 
         inline complex_type& operator=(complex_type const& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
-                if (right.mode_ == RealBase)
-                {
-                    real_base_ = right.real_base_;
-                }
-                else
-                {
-                    if (ext::Variable(right.complex_base_))
-                    {
-                        cl::CheckParameter(real_base_.real());
-                        cl::CheckParameter(real_base_.imag());
-                        mode_ = ComplBase;
-                        complex_base_ = right.complex_base_;
-                    }
-                    else
-                    {
-                        real_base_ = real_based_type(right.real(), right.imag());
-                    }
-                }
+                real_base_ = right.to_real_base();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                if (right.mode_ == RealBase)
-                {
-                    if (ext::Variable(right.real_base_.real()) || ext::Variable(right.real_base_.imag()))
-                    {
-                        cl::CheckParameter(complex_base_);
-                        mode_ = RealBase;
-                        real_base_ = real_based_type(right.real(), right.imag());                        
-                    }
-                    else
-                    {
-                        complex_base_ = complex_double(ext::Value(right.real_base_.real()), ext::Value(right.real_base_.imag()));
-                    }
-                }
-                else
-                {
-                    complex_base_ = right.complex_base_;
-                }
+                complex_base_ = right.to_complex_base();
             }
 
             return *this;
@@ -227,184 +176,175 @@ namespace std
 
         inline complex_type& operator=(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_ = right.value();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                if (ext::Variable(right.value()))
-                {
-                    cl::CheckParameter(complex_base_);
-                    mode_ = RealBase;
-                    real_base_ = right.value();                    
-                }
-                else
-                {
-                    complex_base_ = complex<double>(ext::Value(right.value()), 0);
-                }
+                complex_base_ = ext::Value(right.value());
             }
-
             return (*this);
         }
 
         inline complex_type& operator+=(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_ += right.value();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                // !!!
-                cl::CheckParameter(right.value());
-                complex_base_ += complex<double>(ext::Value(right.value()), 0);
+                complex_base_ += ext::Value(right.value());
             }
             return (*this);
         }
 
         inline complex_type& operator-=(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_ -= right.value();
             }
-
-            if (mode_ == ComplBase)
+            else
             {
-                // !!!
-                cl::CheckParameter(right.value());
-                complex_base_ -= complex<double>(ext::Value(right.value()), 0);
+                complex_base_ -= ext::Value(right.value());
             }
-
             return (*this);
         }
 
         inline complex_type& operator*=(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_ *= right.value();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                // !!!
-                cl::CheckParameter(right.value());
-                complex_base_ *= complex<double>(ext::Value(right.value()), 0);
+                complex_base_ *= ext::Value(right.value());
             }
             return (*this);
         }
 
         inline complex_type& operator/=(const real_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
                 real_base_ /= right.value();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                // !!!
-                cl::CheckParameter(right.value());
-                complex_base_ /= complex<double>(ext::Value(right.value()), 0);
+                complex_base_ /= ext::Value(right.value());
             }
             return (*this);
         }
 
         inline complex_type& operator+=(const complex_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
-                if (right.mode_ == RealBase)
-                {
-                    real_base_ += right.real_base_;
-                }
-                else
-                {
-                    if (ext::Variable(right.complex_base_))
-                    {
-                        cl::CheckParameter(real_base_.real());
-                        cl::CheckParameter(real_base_.imag());
-                        mode_ = ComplBase;
-                        complex_base_ = complex_double(ext::Value(real_base_.real()), ext::Value(real_base_.imag())) + right.complex_base_;
-                    }
-                    else
-                    {
-                        real_base_ += real_based_type(right.real(), right.imag());
-                    }
-                }
+                real_base_ += right.to_real_base();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                if (right.mode_ == RealBase)
-                {
-                    if (ext::Variable(right.real_base_.real()) || ext::Variable(right.real_base_.imag()))
-                    {
-                        cl::CheckParameter(complex_base_);
-                        mode_ = RealBase;
-                        real_base_ = real_based_type(ext::Value(complex_base_).real(), ext::Value(complex_base_).imag()) + right.real_base_;
-                    }
-                    else
-                    {
-                        complex_base_ += complex_double(ext::Value(right.real_base_.real()), ext::Value(right.real_base_.imag()));
-                    }
-                }
-                else
-                {
-                    complex_base_ += right.complex_base_;
-                }
+                complex_base_ += right.to_complex_base();
             }
             return (*this);
         }
 
         inline complex_type& operator-=(const complex_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
-                real_base_ -= right.real_base_;
+                real_base_ -= right.to_real_base();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                complex_base_ -= right.complex_base_;
+                complex_base_ -= right.to_complex_base();
             }
             return (*this);
         }
 
         inline complex_type& operator*=(const complex_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
-                real_base_ *= right.real_base_;
+                real_base_ *= right.to_real_base();
             }
-            if (mode_ == ComplBase)
+            else
             {
-                complex_base_ *= right.complex_base_;
+                complex_base_ *= right.to_complex_base();
             }
             return (*this);
         }
 
         inline complex_type& operator/=(const complex_type& right)
         {
-            if (mode_ == RealBase)
+            if (deduce_mode(right) == RealBase)
             {
+#define CL_OPERATOR_DIV_EQ_FIXED_NOT
 #if defined CL_OPERATOR_DIV_EQ_FIXED
-                real_base_ /= right.real_base_;
+                real_base_ /= right.to_real_base();
 #else
+                real_based_type right_base = right.to_real_base();
                 cl::TapeInnerType<double> x1 = real_base_.real()
                     , y1 = real_base_.imag()
-                    , x2 = right.real_base_.real()
-                    , y2 = right.real_base_.imag()
+                    , x2 = right_base.real()
+                    , y2 = right_base.imag()
                     , norm2 = pow(x2, 2) + pow(y2, 2);
-                real_base_ = std::complex<cl::TapeInnerType<double> >(
+                real_base_ = real_based_type(
                     (x1 * x2 + y1 * y2) / norm2
                     , (y1 * x2 - x1 * y2) / norm2);
                 // cl::throw_("Can't use operator: " __FUNCSIG__);
 #endif
             }
-            if (mode_ == ComplBase)
+            else
             {
-                complex_base_ /= right.complex_base_;
+                complex_base_ /= right.to_complex_base();
             }
             return (*this);
+        }
+
+        // Deduce the mode that should be used for calculation and turn *this into it.
+        Complex_Mode deduce_mode(real_type const& right)
+        {
+            if (mode_ == RealBase)
+                return mode_;
+
+            if (ext::Variable(right.value()))
+            {
+                cl::CheckParameter(complex_base_);
+                real_base_ = real_based_type(ext::Value(complex_base_).real(), ext::Value(complex_base_).imag());
+                mode_ = RealBase;
+            }
+            return mode_;
+        }
+
+        // Deduce the mode that should be used for calculation and turn *this into it.
+        Complex_Mode deduce_mode(complex_type const& right)
+        {
+            if (mode_ == right.mode_)
+                return mode_;
+
+            if (mode_ == RealBase)
+            {
+                if (ext::Variable(right.complex_base_))
+                {
+                    cl::CheckParameter(real_base_.real());
+                    cl::CheckParameter(real_base_.imag());
+                    complex_base_ = complex_double(ext::Value(real_base_.real()), ext::Value(real_base_.imag()));
+                    mode_ = ComplBase;
+                }
+                return mode_;
+            }
+
+            if (ext::Variable(right.real_base_.real()) || ext::Variable(right.real_base_.imag()))
+            {
+                cl::CheckParameter(complex_base_);
+                real_base_ = real_based_type(ext::Value(complex_base_).real(), ext::Value(complex_base_).imag());
+                mode_ = RealBase;
+            }
+            return mode_;
         }
 
         complex_based_type& complex_base()
@@ -419,20 +359,30 @@ namespace std
             return complex_base_;
         }
 
+        complex_based_type to_complex_base() const
+        {
+            if (mode_ == RealBase)
+            {
+                return complex_double(ext::Value(real_base_.real()), ext::Value(real_base_.imag()));
+            }
+            return complex_base_;
+        }
+
+        real_based_type to_real_base() const
+        {
+            if (mode_ == RealBase)
+            {
+                return real_base_;
+            }
+            return real_based_type(real(), imag());
+        }
+
         // Used when tape is recording for real or image part of complex value.
         real_based_type real_base_;
         // Used when tape is recording for the complex value as one variable.
         complex_based_type complex_base_;
         Complex_Mode mode_;
     };
-
-    /*complex<cl::TapeDouble> inline
-    pow(complex<cl::TapeDouble> const & _Left, int _Right)
-    {
-        cl::throw_("Not implemented.");
-        return _Left;
-    }*/
-
 }
 
 #endif // cl_tape_impl_complex_hpp
