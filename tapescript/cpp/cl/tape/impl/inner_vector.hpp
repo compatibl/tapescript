@@ -35,7 +35,8 @@ namespace cl
 {
     struct InnerVector
     {
-        typedef std::valarray<double> vector_type;
+        typedef double scalar_type;
+        typedef std::valarray<scalar_type> vector_type;
 
         enum Mode
         {

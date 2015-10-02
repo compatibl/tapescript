@@ -29,10 +29,11 @@ limitations under the License.
 #include <cppad/local/atomic_base.hpp>
 #include <cppad/vector.hpp>
 #include <array>
+#include <numeric>
+#include <assert.h>
 
 namespace cl
 {
-    using CppAD::vector;
     struct ReverseImpl
     {
         static inline InnerVector reverse_vec(const InnerVector& x)
@@ -50,7 +51,7 @@ namespace cl
             template <class T> using vector = CppAD::vector<T>;
 
             atomic_reverse_vec()
-                : atomic_base("reverse_op")
+                : atomic_base("atomic_reverse_vec")
             {}
                         
 	        bool forward(
@@ -74,6 +75,10 @@ namespace cl
 		              vector<Base>&       px ,
 		        const vector<Base>&       py )
 	        {
+#ifndef NDEBUG
+                for (size_t i = 0; i < tx.size(); i++)
+                    assert(tx[i] == reverse_vec(ty[i]));
+#endif
                 for (size_t i = 0; i < py.size(); i++)
                     px[i] = reverse_vec(py[i]);
                 return true;
@@ -150,7 +155,6 @@ namespace cl
 
             const std::array<CppAD::AD<InnerVector>, 1> X = { x };
             std::array<CppAD::AD<InnerVector>, 1> Y;
-            //CppAD::AD<InnerVector> y;
             afun(X, Y);
             return Y[0];
         }
@@ -159,6 +163,146 @@ namespace cl
     inline CppAD::AD<InnerVector> reverse_vec(const CppAD::AD<InnerVector>& x)
     {
         return ReverseImpl::reverse_vec(x);
+    }
+
+
+    struct SumImpl
+    {
+        static inline InnerVector sum_vec(const InnerVector& x)
+        {
+            if (x.is_scalar())
+                return x;
+            return std::accumulate(begin(x.vector_value_), end(x.vector_value_), 0.0);
+        }
+
+        struct atomic_sum_vec : public CppAD::atomic_base<InnerVector>
+        {
+            typedef InnerVector Base;
+            template <class T> using vector = CppAD::vector<T>;
+
+            atomic_sum_vec()
+                : atomic_base("atomic_sum_vec")
+            {}
+
+            static inline InnerVector adjust_size(double val, const InnerVector& model)
+            {
+                // Uncomment next line for more efficiency.
+                // (vector/scalar state for Reverse return will be undefined)
+                return val;
+                if (model.is_scalar())
+                    return val;
+                return InnerVector(val, model.vector_value_.size());
+            }
+                        
+	        bool forward(
+		        size_t                    p ,
+		        size_t                    q ,
+		        const vector<bool>&      vx , 
+		              vector<bool>&      vy , 
+		        const vector<Base>&      tx ,
+		              vector<Base>&      ty )
+            {
+                vy = vx;
+                for (size_t i = p; i <= q; i++)
+                    ty[i] = sum_vec(tx[i]);
+                return true;
+            }
+            
+	        bool reverse(
+		        size_t                    q  ,
+		        const vector<Base>&       tx ,
+		        const vector<Base>&       ty ,
+		              vector<Base>&       px ,
+		        const vector<Base>&       py )
+            {
+#ifndef NDEBUG
+                for (size_t i = 0; i < tx.size(); i++)
+                    assert(ty[i] == sum_vec(tx[i]));
+#endif
+                for (size_t i = 0; i < py.size(); i++)
+                    px[i] = adjust_size(sum_vec(py[i]).scalar_value_, tx[0]);
+                return true;
+	        }
+
+            bool for_sparse_jac(
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       r  ,
+		              vector< std::set<size_t> >&       s  )
+	        {
+                s = r;
+                return true;
+	        }
+
+            bool for_sparse_jac(
+		        size_t                                  q  ,
+		        const vector<bool>&                     r  ,
+		              vector<bool>&                     s  )
+	        {
+                s = r;
+                return true;
+	        }
+                        
+	        bool rev_sparse_jac(
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       rt ,
+		              vector< std::set<size_t> >&       st )
+            {
+                st = rt;
+                return true;
+	        }
+            
+            bool rev_sparse_jac(
+		        size_t                                  q  ,
+		        const vector<bool>&                     rt ,
+		              vector<bool>&                     st )
+            {
+                st = rt;
+                return true;
+	        }
+
+	        bool rev_sparse_hes(
+		        const vector<bool>&                     vx ,
+		        const vector<bool>&                     s  ,
+		              vector<bool>&                     t  ,
+		        size_t                                  q  ,
+		        const vector< std::set<size_t> >&       r  ,
+		        const vector< std::set<size_t> >&       u  ,
+		              vector< std::set<size_t> >&       v  )
+            {
+                t = s;
+                v = u;
+                return true;
+	        }
+
+	        bool rev_sparse_hes(
+		        const vector<bool>&                     vx ,
+		        const vector<bool>&                     s  ,
+		              vector<bool>&                     t  ,
+		        size_t                                  q  ,
+		        const vector<bool>&                     r  ,
+		        const vector<bool>&                     u  ,
+		              vector<bool>&                     v  )
+            {
+                t = s;
+                v = u;
+                return true;
+	        }
+        };
+
+        static inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
+        {
+            static atomic_sum_vec afun;
+
+            const std::array<CppAD::AD<InnerVector>, 1> X = { x };
+            std::array<CppAD::AD<InnerVector>, 1> Y;
+            afun(X, Y);
+            return Y[0];
+        }
+    };
+
+    inline CppAD::AD<InnerVector> sum_vec(const CppAD::AD<InnerVector>& x)
+    {
+        return SumImpl::sum_vec(x);
     }
 }
 
