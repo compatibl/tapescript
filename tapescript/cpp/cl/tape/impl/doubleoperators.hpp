@@ -114,7 +114,87 @@ namespace cl
 
     /// <summary>Deserialize from stream.</summary>
     inline std::istream& operator>>(std::istream& input, TapeDouble& v) { input >> cl::tapescript::value(v); return input; }
+    
 
+    /// <summary>Returns the result of addition of two cl::tape_double<Base> objects.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator+(const cl::tape_double<Base>& lhs, const cl::tape_double<Base>& rhs) { return cl::tapescript::cvalue(lhs) + cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of subtraction of two cl::tape_double<Base> objects.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator-(const cl::tape_double<Base>& lhs, const cl::tape_double<Base>& rhs) { return cl::tapescript::cvalue(lhs) - cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of multiplication of two cl::tape_double<Base> objects.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator*(const cl::tape_double<Base>& lhs, const cl::tape_double<Base>& rhs) { return cl::tapescript::cvalue(lhs) * cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of division of two cl::tape_double<Base> objects.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator/(const cl::tape_double<Base>& lhs, const cl::tape_double<Base>& rhs) { return cl::tapescript::cvalue(lhs) / cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of addition of cl::tape_double<Base> and double.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator+(const cl::tape_double<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) + rhs; }
+
+    /// <summary>Returns the result of subtraction of cl::tape_double<Base> and double.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator-(const cl::tape_double<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) - rhs; }
+
+    /// <summary>Returns the result of multiplication of cl::tape_double<Base> and double.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator*(const cl::tape_double<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) * rhs; }
+
+    /// <summary>Returns the result of division of cl::tape_double<Base> and double.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator/(const cl::tape_double<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) / rhs; }
+
+    /// <summary>Returns the result of addition of double and cl::tape_double<Base>.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator+(double lhs, const cl::tape_double<Base>& rhs) { return lhs + cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of subtraction of double and cl::tape_double<Base>.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator-(double lhs, const cl::tape_double<Base>& rhs) { return lhs - cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of multiplication of double and cl::tape_double<Base>.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator*(double lhs, const cl::tape_double<Base>& rhs) { return lhs * cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns the result of division of double and cl::tape_double<Base>.</summary>
+    template <class Base>
+    inline cl::tape_double<Base> operator/(double lhs, const cl::tape_double<Base>& rhs) { return lhs / cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is equal to rhs.</summary>
+    template <class Base>
+    inline bool operator==(double lhs, const cl::tape_double<Base>& rhs) { return lhs == cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is not equal to rhs.</summary>
+    template <class Base>
+    inline bool operator!=(double lhs, const cl::tape_double<Base>& rhs) { return lhs != cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is less than rhs.</summary>
+    template <class Base>
+    inline bool operator<(double lhs, const cl::tape_double<Base>& rhs) { return lhs < cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is less than or equal to rhs.</summary>
+    template <class Base>
+    inline bool operator<=(double lhs, const cl::tape_double<Base>& rhs) { return lhs <= cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is more than rhs.</summary>
+    template <class Base>
+    inline bool operator>(double lhs, const cl::tape_double<Base>& rhs) { return lhs > cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Returns true if lhs is more than or equal to rhs.</summary>
+    template <class Base>
+    inline bool operator>=(double lhs, const cl::tape_double<Base>& rhs) { return lhs >= cl::tapescript::cvalue(rhs); }
+
+    /// <summary>Serialize to stream.</summary>
+    template <class Base>
+    inline std::ostream& operator<<(std::ostream& output, const cl::tape_double<Base>& v) { output << cl::tapescript::cvalue(v); return output; }
+
+    /// <summary>Deserialize from stream.</summary>
+    template <class Base>
+    inline std::istream& operator>>(std::istream& input, cl::tape_double<Base>& v) { input >> cl::tapescript::value(v); return input; }
 }
 
 //!! Supporting code for double operators, in progress

@@ -379,7 +379,7 @@ namespace std
 
 
 #elif CL_TAPE_ADOLC
-        cl::throw_("Not implemented");return x;
+        cl::throw_("Not implemented"); return x;
 #else
         return std::asinh(x.value());
 #endif
@@ -500,6 +500,35 @@ namespace std
 #else
         return std::max(x, y.value());
 #endif
+    }
+
+} // namespace std
+
+namespace cl
+{
+    // Helper struct to avoid ambiguity.
+    template <class Check, class Type = double>
+    struct enable_if_not_double
+    {
+        typedef Type type;
+    };
+
+    template <class Type>
+    struct enable_if_not_double<double, Type>{};
+}
+
+namespace std
+{
+    template <typename Base>
+    inline cl::tape_double<Base> max(cl::tape_double<Base> x, typename cl::enable_if_not_double<Base>::type y)
+    {
+        return std::max(x, Base(y));
+    }
+
+    template <typename Base>
+    inline cl::tape_double<Base> max(typename cl::enable_if_not_double<Base>::type x, cl::tape_double<Base> y)
+    {
+        return std::max(Base(x), y);
     }
 
     template <typename Base>
