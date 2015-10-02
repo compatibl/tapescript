@@ -40,7 +40,7 @@ limitations under the License.
 #include <cppad/local/epsilon.hpp> // deprecated
 
 // base cases
-#include <cl/tape/impl/base_inner_double.hpp>
+//#include <cl/tape/impl/base_inner_double.hpp>
 #include <cl/tape/impl/base_inner_vector.hpp>
 
 #endif
