@@ -22,14 +22,10 @@ namespace CppAD
 
         tape_serializer(std::ostream& os = std::cout)
             : std::ostream(os.rdbuf())
+            , first_call_(true)
         {}
 
         ~tape_serializer()  { std::ostream::clear(); }
-
-        void start()
-        {
-            *this << "\nOp#  Res# Op       Operands#          Taylor coefficients\n";
-        }
 
         static inline const char* OpName(OpCode op)
         {
@@ -95,6 +91,34 @@ namespace CppAD
             };
 
             return OpNameTable[op];            
+        }
+
+        static std::string header()
+        {
+            return "\nOp#  Res# Op       Operands#          Taylor coefficients\n";
+        }
+
+        static std::string footer()
+        {
+            return "\n";
+        }
+
+        void check_last_call(OpCode op)
+        {
+            if (op == BeginOp || op == EndOp)
+            {
+                *this << footer();
+                first_call_ = true;
+            }            
+        }
+
+        void check_first_call()
+        {
+            if (first_call_)
+            {
+                *this << header();
+                first_call_ = false;
+            }
         }
 
         template <class Type>
@@ -385,6 +409,8 @@ namespace CppAD
             OpCode                 op,
             const addr_t*          ind)
         {
+            check_first_call();
+
             std::stringstream ss;
             saveOp(
                 ss,
@@ -394,6 +420,8 @@ namespace CppAD
                 op,
                 ind);
             saveOpField("", ss.str(), 37);
+
+            check_last_call(op);
         }
 
         template <class Value>
@@ -418,6 +446,8 @@ namespace CppAD
                 buffer << prefix << "| rz[" << k << "] = " << std::setw(width) << rz[k];
             *this << buffer.str();
         }
+
+        bool first_call_;
     };
 }
 
