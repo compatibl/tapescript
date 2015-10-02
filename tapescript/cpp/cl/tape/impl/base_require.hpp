@@ -6,6 +6,7 @@
 
 // Bases definitions
 #include <cl/tape/impl/inner_double.hpp>
+#include <cl/tape/impl/inner_vector.hpp>
 
 // definitions that must come before base implementations
 # include <cppad/error_handler.hpp>
@@ -23,5 +24,6 @@
 
 // base cases
 #include <cl/tape/impl/base_inner_double.hpp>
+#include <cl/tape/impl/base_inner_vector.hpp>
 
 # endif
