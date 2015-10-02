@@ -148,7 +148,7 @@ namespace cl
     {
         typedef Scalar scalar_type;
         typedef Eigen::Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> array_type;
-        typedef int size_type;
+        typedef typename array_type::Index size_type;
 
         static inline array_type get_const(size_t count, scalar_type const& val)
         {
@@ -342,6 +342,28 @@ namespace cl
         CL_INNER_ARRAY_ASSIGN_OPERATOR(/)
 #undef CL_INNER_ARRAY_ASSIGN_OPERATOR
 
+        // Gives the element of an array by the index.
+        // If the object is array valued returns an element of the array value.
+        // Othervise returns scalar value.
+        // Use this method for element-wise operations.
+        const scalar_type& element_at(size_t index) const
+        {
+            if (is_scalar())
+            {
+                return scalar_value_;
+            }
+            return array_value_[(size_type)index];
+        }
+
+        // Returns size of array value.
+        size_t size() const
+        {
+            assert(is_array());
+            size_type temp = array_value_.size();
+            assert(temp >= 0);
+            return (size_t)temp;
+        }
+
         Mode mode_;
         scalar_type scalar_value_;
         array_type array_value_;
@@ -356,7 +378,7 @@ namespace cl
         {
             return os << x.scalar_value_;
         }
-        if (x.array_value_.size() == 0)
+        if (x.size() == 0)
         {
             return os << "{}";
         }
@@ -364,7 +386,7 @@ namespace cl
         std::stringstream ss;
         ss.precision(os.precision());
         ss << "{ " << x.array_value_[0];
-        for (typename inner_array<Array>::size_type i = 1; i < x.array_value_.size(); ++i)
+        for (size_t i = 1; i < x.size(); ++i)
         {
             ss << ", " << x.array_value_[i];
         }

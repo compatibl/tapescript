@@ -45,8 +45,17 @@ namespace CppAD
                 ? exp_if_true : exp_if_false;
         }
 
-        cl::throw_("Not implemented.");
-        return exp_if_true;
+        size_t size = left.is_array() ? left.size() : right.size();
+
+        typename cl::inner_array<Array>::array_type result(size);
+
+        for (size_t i = 0; i < size; i++)
+        {
+            result[i] = left.element_at(i) == right.element_at(i)
+                ? exp_if_true.element_at(i) : exp_if_false.element_at(i);
+        }
+
+        return result;
     }
 
     // Conditional less expression.
@@ -63,14 +72,23 @@ namespace CppAD
                 ? exp_if_true : exp_if_false;
         }
         
-        cl::throw_("Not implemented.");
-        return exp_if_true;
-    }
+        size_t size = left.is_array() ? left.size() : right.size();
 
+        typename cl::inner_array<Array>::array_type result(size);
+        
+        for (size_t i = 0; i < size; i++)
+        {
+            result[i] = left.element_at(i) < right.element_at(i)
+                ? exp_if_true.element_at(i) : exp_if_false.element_at(i);
+        }
+
+        return result;
+    }
+    
     // Conditional expression.
     template <class Array>
     inline cl::inner_array<Array> CondExpOp(
-        enum CompareOp               cop          ,
+        enum CompareOp                      cop          ,
         const cl::inner_array<Array>&       left         ,
         const cl::inner_array<Array>&       right        ,
         const cl::inner_array<Array>&       exp_if_true  ,
@@ -133,7 +151,7 @@ namespace CppAD
         }
         if (x.is_array() && y.is_array())
         {
-            return x.array_value_.size() == y.array_value_.size()
+            return x.size() == y.size()
                 && x == y;
         }
         return false;
