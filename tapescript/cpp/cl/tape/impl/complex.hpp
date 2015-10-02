@@ -175,15 +175,39 @@ namespace std
         {
             if (mode_ == RealBase)
             {
-                complex_ = real_based_type(right.real(), right.imag());
+                if (right.mode_ == RealBase)
+                {
+                    complex_ = real_based_type(right.real(), right.imag());
+                }
+                else
+                {
+                    if (ext::Variable(right.value_))
+                    {
+                        cl::CheckParameter(complex_.real());
+                        cl::CheckParameter(complex_.imag());
+                        mode_ = ComplBase;
+                        value_ = right.value_;
+                    }
+                    else
+                    {
+                        complex_ = real_based_type(right.real(), right.imag());
+                    }
+                }
             }
             if (mode_ == ComplBase)
             {
                 if (right.mode_ == RealBase)
                 {
-                    cl::CheckParameter(value_);
-                    mode_ = RealBase;
-                    complex_ = real_based_type(right.real(), right.imag());
+                    if (ext::Variable(right.complex_.real()) || ext::Variable(right.complex_.imag()))
+                    {
+                        cl::CheckParameter(value_);
+                        mode_ = RealBase;
+                        complex_ = real_based_type(right.real(), right.imag());                        
+                    }
+                    else
+                    {
+                        value_ = complex_double(ext::Value(right.complex_.real()), ext::Value(right.complex_.imag()));
+                    }
                 }
                 else
                 {
