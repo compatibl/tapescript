@@ -117,7 +117,7 @@ namespace cl
                 return func(scalar_value_);
             }
             vector_type result(vector_value_.size());
-            for (size_t i = 0; i < result.size(); i++)
+            for (size_t i = 0; i < (size_t) result.size(); i++)
             {
                 result(i) = func(vector_value_(i));
             }
@@ -169,7 +169,7 @@ namespace cl
         std::stringstream ss;
         ss.precision(os.precision());
         ss << "{ ";
-        for (size_t i = 0; i < x.vector_value_.size(); i++)
+        for (size_t i = 0; i < (size_t) x.vector_value_.size(); i++)
         {
             ss << x.vector_value_(i) << ", ";
         }
