@@ -105,7 +105,26 @@ namespace std
 
         static _Ty atan2(_Ty _Yval, _Ty _Xval)
         {	// return atan(_Yval / _Xval)
-            return (_CSTD CppAD::atan2(_Yval.value(), _Xval.value()));
+            typedef _Ty::ImplType ad_type;
+
+            ad_type y = _Yval.value();
+            ad_type x = _Xval.value();
+
+            ad_type zero = 0.;
+            ad_type pi = 3.1415926535897932384626433832795029L;
+
+            ad_type ax = abs(x);
+            ad_type ay = abs(y);
+
+            ad_type alpha = atan(ay / ax);
+            ad_type beta = pi / 2 - atan(ax / ay);
+            ad_type theta = CondExpGt(ax, ay, alpha, beta);
+
+            theta = CondExpLe(x, zero, pi - theta, theta);
+
+            theta = CondExpLt(y, zero, -theta, theta);
+
+            return theta;
         }
 
         static _Ty cos(_Ty _Left)
@@ -143,7 +162,7 @@ namespace std
 
         static _Ty pow(_Ty _Left, _Ty _Right)
         {	// return _Left ^ _Right
-            return (_CSTD CppAD::pow(_Left.value(), CppAD::Value(_Right.value())));
+            return (_CSTD CppAD::pow(_Left.value(), _Right.value()));
         }
 
         static _Ty sin(_Ty _Left)

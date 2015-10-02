@@ -611,45 +611,54 @@ namespace std
 
     // Arithmetics for std::complex<cl::TapeDouble> and cl::TapeDouble
 
-    inline std::complex<cl::TapeDouble> 
-        operator+(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
-        return complex<cl::TapeDouble>(lhs.real() + rhs, lhs.imag());
-    }
-
-    inline std::complex<cl::TapeDouble> 
-        operator-(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs){
-        return complex<cl::TapeDouble>(lhs.real() - rhs, lhs.imag());
-    }
-
-    inline std::complex<cl::TapeDouble> 
-        operator*(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
+    inline std::complex<cl::TapeDouble> operator+(
+        const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
     {
-        return complex<cl::TapeDouble>(lhs.real() *rhs, lhs.imag()*rhs);
+        complex<cl::TapeDouble> temp = lhs;
+        return temp += rhs;
     }
 
-    inline std::complex<cl::TapeDouble> 
-        operator/(const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
+    inline std::complex<cl::TapeDouble> operator-(
+        const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
     {
-        return complex<cl::TapeDouble>(lhs.real() / rhs, lhs.imag() / rhs);
+        complex<cl::TapeDouble> temp = lhs;
+        return temp -= rhs;
     }
 
-    inline std::complex<cl::TapeDouble> 
-        operator+(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
+    inline std::complex<cl::TapeDouble> operator*(
+        const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
     {
-        return complex<cl::TapeDouble>(lhs + rhs.real(), rhs.imag());
+        complex<cl::TapeDouble> temp = lhs;
+        return temp *= rhs;
     }
 
-    inline std::complex<cl::TapeDouble> 
-        operator-(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
+    inline std::complex<cl::TapeDouble> operator/(
+        const std::complex<cl::TapeDouble>& lhs, cl::TapeDouble rhs)
     {
-        return complex<cl::TapeDouble>(lhs - rhs.real(), -rhs.imag());
+        complex<cl::TapeDouble> temp = lhs;
+        return temp /= rhs;
+    }
+
+    inline std::complex<cl::TapeDouble> operator+(
+        cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
+    {
+        complex<cl::TapeDouble> temp = rhs;
+        return temp += lhs;
+    }
+
+    inline std::complex<cl::TapeDouble> operator-(
+        cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
+    {
+        complex<cl::TapeDouble> temp = lhs;
+        return temp -= rhs;
     }
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
     inline std::complex<cl::TapeDouble> 
     operator*(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
     {
-        return complex<cl::TapeDouble>(rhs.real() *lhs, rhs.imag()*lhs);
+        complex<cl::TapeDouble> temp = rhs;
+        return temp *= lhs;
     }
 
     inline cl::TapeDouble
@@ -666,8 +675,9 @@ namespace std
     inline std::complex<cl::TapeDouble> 
     operator/(cl::TapeDouble lhs, const std::complex<cl::TapeDouble>& rhs)
     {
-#if defined CL_TAPE_COMPLEX_ENABLED 
-        return std::complex<cl::TapeDouble>(lhs, 0.0, rhs.mode_) / rhs;
+#if defined CL_TAPE_COMPLEX_ENABLED
+        complex<cl::TapeDouble> temp = lhs;
+        return temp /= rhs;
 #else
         return std::complex<cl::TapeDouble>(lhs, 0.0) / rhs;
 #endif
@@ -675,10 +685,10 @@ namespace std
 
     // Arithmetics for std::complex<cl::TapeDouble> and double
 #if defined CL_TAPE_COMPLEX_ENABLED
-    template <typename Right>
-    complex<cl::TapeDouble> inline
-    pow_(complex<cl::TapeDouble> const &_Left
-        , complex<cl::TapeDouble> const &_First, Right _Right, bool _Even)
+    complex<cl::TapeDouble> inline pow_(
+        complex<cl::TapeDouble> const &_Left
+        , complex<cl::TapeDouble> const &_First
+        , int _Right, bool _Even)
     {
         if (_Right <= 1)
             return _Even ? _Left : _Left*_First;
@@ -695,22 +705,6 @@ namespace std
 
         return _Right == 1 ? _Left : pow_(_Left * _Left, _Left
             , _Right / 2, (_Right / 2) * 2 == _Right);
-    }
-
-    inline complex<cl::TapeDouble> 
-    pow(complex<cl::TapeDouble> const &_Left, cl::TapeDouble _Right)
-    {
-        if (_Right == 0)
-            return complex<cl::TapeDouble>(1.0);
-
-        return _Right == 1 ? _Left : pow_(_Left * _Left, _Left
-            , _Right / 2, (_Right / 2) * 2 == _Right);
-    }
-
-    inline complex<cl::TapeDouble>
-    pow(cl::TapeDouble const &_Left, complex<cl::TapeDouble> const &_Right)
-    {
-        return complex<cl::TapeDouble>();
     }
 
 #endif
@@ -791,6 +785,26 @@ namespace std
         return std::complex<cl::TapeDouble>(
             sinh(lhs.complex_base_) / cosh(lhs.complex_base_));
     }
+
+    inline complex<cl::TapeDouble> pow(
+        complex<cl::TapeDouble> const &_Left, cl::TapeDouble _Right)
+    {
+        return exp(_Right * log(_Left));
+    }
+
+    inline complex<cl::TapeDouble> pow(
+        cl::TapeDouble const &_Left, complex<cl::TapeDouble> const &_Right)
+    {
+        return exp(_Right * log(complex<cl::TapeDouble>(_Left)));
+    }
+
+    inline complex<cl::TapeDouble> pow(
+        complex<cl::TapeDouble> const &_Left
+        , complex<cl::TapeDouble> const &_Right)
+    {
+        return exp(_Right * log(_Left));
+    }
+
 
 #undef CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC
 

@@ -37,6 +37,7 @@ namespace std
     class complex<cl::TapeDouble>
     {
     public:
+        typedef cl::TapeDouble value_type;
         typedef cl::TapeDouble real_type;
         typedef complex<cl::TapeDouble> complex_type;
         typedef complex<double> complex_double;
@@ -45,9 +46,11 @@ namespace std
 
         enum Complex_Mode { None = 0 , RealBase = (1 << 1), ComplBase = (1 << 2) };
         
+        static const Complex_Mode default_mode = ComplBase;
+
         //  If we initialized by certain values this is real base type 
         // and type of valaue is 
-        complex(real_type const& real, real_type const& imag = 0.0, Complex_Mode mode = ComplBase)
+        complex(real_type const& real, real_type const& imag = 0.0, Complex_Mode mode = default_mode)
             : real_base_()
             , complex_base_()
             , mode_(mode)
@@ -77,7 +80,7 @@ namespace std
         complex() 
             : real_base_()
             , complex_base_()
-            , mode_(ComplBase)
+            , mode_(default_mode)
         {    }
 
         complex(complex const& other) 
@@ -87,7 +90,7 @@ namespace std
         {    }
 
         template<class Ty>
-        explicit complex(complex<Ty> const & other, Complex_Mode mode = ComplBase)
+        explicit complex(complex<Ty> const & other, Complex_Mode mode = default_mode)
             : complex(other.real(), other.imag(), mode)
         {	 }
 
@@ -101,6 +104,23 @@ namespace std
         {
             if (mode != mode_)
                 cl::throw_("Wrong tape mode.");
+        }
+
+        inline void set_mode(Complex_Mode mode)
+        {
+            if (mode == mode_)
+                return;
+            
+            if (mode == RealBase)
+            {
+                real_base_ = to_real_base();
+                mode_ = RealBase;
+            }
+            else
+            {
+                complex_base_ = to_complex_base();
+                mode_ = ComplBase;
+            }
         }
 
         inline real_type real(real_type const& right)
@@ -349,7 +369,7 @@ namespace std
 
         complex_based_type& complex_base()
         {
-            check_mode(ComplBase);
+            set_mode(ComplBase);
             return complex_base_;
         }
 
