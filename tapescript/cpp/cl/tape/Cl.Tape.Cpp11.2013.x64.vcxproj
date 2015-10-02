@@ -11,10 +11,41 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="**\*.cpp" Exclude="**\tests\*.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="**\*.hpp" Exclude="**\tests\*.hpp" />
+    <ClInclude Include="declare.hpp" />
+    <ClInclude Include="implement.hpp" />
+    <ClInclude Include="impl\adjointref.hpp" />
+    <ClInclude Include="impl\adjointrefoperator.hpp" />
+    <ClInclude Include="impl\ad\ad_fields.hpp" />
+    <ClInclude Include="impl\ad\tape_forward0sweep.hpp" />
+    <ClInclude Include="impl\ad\tape_forward1sweep.hpp" />
+    <ClInclude Include="impl\ad\tape_serializer.hpp" />
+    <ClInclude Include="impl\ad\tape_serializer_call.hpp" />
+    <ClInclude Include="impl\ad\tape_serializer_fwd.hpp" />
+    <ClInclude Include="impl\boost_connectors.hpp" />
+    <ClInclude Include="impl\complex.hpp" />
+    <ClInclude Include="impl\double.hpp" />
+    <ClInclude Include="impl\doubleconverter.hpp" />
+    <ClInclude Include="impl\doublelimits.hpp" />
+    <ClInclude Include="impl\doublemath.hpp" />
+    <ClInclude Include="impl\doubleoperatorcheck.hpp" />
+    <ClInclude Include="impl\doubleoperators.hpp" />
+    <ClInclude Include="impl\inner\base_inner_array.hpp" />
+    <ClInclude Include="impl\inner\inner_array.hpp" />
+    <ClInclude Include="impl\inner\inner_array_ops.hpp" />
+    <ClInclude Include="impl\ql\blackcalculator_t.hpp" />
+    <ClInclude Include="impl\ql\errorfunction_t.hpp" />
+    <ClInclude Include="impl\ql\normaldistribution_t.hpp" />
+    <ClInclude Include="impl\ql\payoffs_t.hpp" />
+    <ClInclude Include="impl\ql\payoff_t.hpp" />
+    <ClInclude Include="impl\reflection\mem_access.hpp" />
+    <ClInclude Include="impl\std_fwd.hpp" />
+    <ClInclude Include="impl\tape_archive\tape_arhive.hpp" />
+    <ClInclude Include="impl\tape_fwd.hpp" />
+    <ClInclude Include="impl\traits.hpp" />
+    <ClInclude Include="import.hpp" />
+    <ClInclude Include="tape.hpp" />
+    <ClInclude Include="util\testoutput.hpp" />
+    <ClInclude Include="util\testutil.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{27712514-1FE3-4409-AAF7-00D1D20FB522}</ProjectGuid>
@@ -46,7 +77,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\bin\vc120-x64-debug\</OutDir>
+    <OutDir>..\..\..\..\bin\vc120-x64-debug</OutDir>
+    <IntDir>.\build\$(qlCompilerTag)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
