@@ -30,16 +30,15 @@ namespace std
     template<typename Type>
     class _Ctraits;
 
-    typedef cl::TapeDouble adouble;
-
     // TEMPLATE CLASS _Ctraits
-    template<>
-    class _Ctraits<adouble>
+    template<typename Base>
+    class _Ctraits<cl::tape_double<Base> >
     {    // complex traits for _Ty
     public:
 
-        typedef adouble _Ty;
-        typedef _Ty::value_type value_type;
+        typedef cl::tape_double<Base> _Ty;
+        typedef typename 
+            _Ty::value_type value_type;
 
         static _Ty _Flt_eps()
         {    // get epsilon
