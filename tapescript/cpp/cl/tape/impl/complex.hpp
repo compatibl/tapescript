@@ -20,6 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#pragma once
+
 #ifndef cl_tape_impl_complex_hpp
 #define cl_tape_impl_complex_hpp
 
@@ -125,7 +127,7 @@ namespace std
 
         inline real_type real(real_type const& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_.real(right.value());
             }
@@ -138,7 +140,7 @@ namespace std
 
         inline real_type imag(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_.imag(right.value());
             }
@@ -169,7 +171,7 @@ namespace std
 
         inline complex_type& operator=(complex_type const& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ = right.to_real_base();
             }
@@ -196,7 +198,7 @@ namespace std
 
         inline complex_type& operator=(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ = right.value();
             }
@@ -209,7 +211,7 @@ namespace std
 
         inline complex_type& operator+=(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ += right.value();
             }
@@ -222,7 +224,7 @@ namespace std
 
         inline complex_type& operator-=(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ -= right.value();
             }
@@ -235,7 +237,7 @@ namespace std
 
         inline complex_type& operator*=(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ *= right.value();
             }
@@ -248,7 +250,7 @@ namespace std
 
         inline complex_type& operator/=(const real_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ /= right.value();
             }
@@ -261,7 +263,7 @@ namespace std
 
         inline complex_type& operator+=(const complex_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ += right.to_real_base();
             }
@@ -274,7 +276,7 @@ namespace std
 
         inline complex_type& operator-=(const complex_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ -= right.to_real_base();
             }
@@ -287,7 +289,7 @@ namespace std
 
         inline complex_type& operator*=(const complex_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
                 real_base_ *= right.to_real_base();
             }
@@ -300,7 +302,7 @@ namespace std
 
         inline complex_type& operator/=(const complex_type& right)
         {
-            if (deduce_mode(right) == RealBase)
+            if (adjust_mode(right) == RealBase)
             {
 #define CL_OPERATOR_DIV_EQ_FIXED_NOT
 #if defined CL_OPERATOR_DIV_EQ_FIXED
@@ -326,7 +328,7 @@ namespace std
         }
 
         // Deduce the mode that should be used for calculation and turn *this into it.
-        Complex_Mode deduce_mode(real_type const& right)
+        Complex_Mode adjust_mode(real_type const& right)
         {
             if (mode_ == RealBase)
                 return mode_;
@@ -341,7 +343,7 @@ namespace std
         }
 
         // Deduce the mode that should be used for calculation and turn *this into it.
-        Complex_Mode deduce_mode(complex_type const& right)
+        Complex_Mode adjust_mode(complex_type const& right)
         {
             if (mode_ == right.mode_)
                 return mode_;
