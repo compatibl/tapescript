@@ -29,35 +29,10 @@ limitations under the License.
 
 namespace cl
 {
-    /// <summary>Class that implement specific tape_double functionality
-    /// for given template parameters. Here is general case.</summary>
-    template <typename Inner>
-    class tape_double_base
-    {
-#if defined CL_TAPE_CPPAD
-        typedef CppAD::AD<Inner> value_type;
-
-        class fake_argument1{};
-        class fake_argument2{};
-
-    protected:
-        // We do not need extra constructors in general case.
-        typedef fake_argument1 constructor1_argument_type;
-        typedef fake_argument2 constructor2_argument_type;
-
-        template <class Arg>
-        static inline value_type convert_to_value_type(Arg arg)
-        {
-            return value_type();
-        }
-#endif
-    };
-
     /// <summary>Immutable double type with AD support designed
     /// to serve as a drop-in replacement to native double.</summary>
     template <typename Inner>
     class tape_double
-        : public tape_double_base<Inner>
     {
     public:
         typedef Inner base_type;
@@ -236,14 +211,6 @@ namespace cl
 //!!! Should this include other CL_TAPE_* options?
 #if defined CL_TAPE_CPPAD
         inline tape_type(const Inner& rhs) : value_(rhs) {}
-
-        inline tape_type(constructor1_argument_type rhs)
-            : value_(convert_to_value_type(rhs))
-        {}
-
-        inline tape_type(constructor2_argument_type rhs)
-            : value_(convert_to_value_type(rhs))
-        {}
 #endif
 
     public: // OPERATORS

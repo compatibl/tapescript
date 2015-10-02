@@ -55,10 +55,6 @@ namespace cl
     template<typename Base>
     class tape_double;
 
-#if defined CL_TAPE_INNER_ARRAY_ENABLED
-    template <class Array> struct inner_array;
-#endif
-
 #if defined CL_TAPE_GEN_ENABLED
     ///<summary> codegeneration based type </summary>
     typedef CppAD::cg::CG<double> CgBaseType;
