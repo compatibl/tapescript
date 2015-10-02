@@ -20,11 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#pragma once
-
-#ifndef CL_INNER_VECTOR_OPS_INCLUDED
-#define CL_INNER_VECTOR_OPS_INCLUDED
-
+#ifndef cl_tape_impl_inner_inner_array_ops_hpp
+#define cl_tape_impl_inner_inner_array_ops_hpp
 
 //#include <cppad/local/atomic_base.hpp>
 //#include <cppad/vector.hpp>
@@ -768,4 +765,4 @@ namespace cl
     }    
 }
 
-#endif
+#endif // cl_tape_impl_inner_inner_array_ops_hpp

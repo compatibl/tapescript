@@ -20,10 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef CL_INNER_ARRAY_HPP_INCLUDED
-#define CL_INNER_ARRAY_HPP_INCLUDED
-
-#pragma once
+#ifndef cl_tape_impl_inner_inner_array_hpp
+#define cl_tape_impl_inner_inner_array_hpp
 
 #include <limits>
 #include <valarray>
@@ -471,4 +469,4 @@ namespace std
     };
 }
 
-#endif
+#endif // cl_tape_impl_inner_inner_array_hpp
