@@ -28,7 +28,7 @@ limitations under the License.
 #include <limits>
 
 #include <cppad/configure.hpp>
-//#include <cppad/local/ad.hpp>
+#include <cppad/local/ad.hpp>
 #include <cl/tape/impl/inner_vector.hpp>
 
 namespace CppAD
@@ -164,16 +164,47 @@ namespace CppAD
         }
 	}
 
-    //template <>
-    //inline AD<cl::InnerVector> CondExpOp<cl::InnerVector>(
-    //    enum CompareOp                   cop,
-    //    const AD<cl::InnerVector>&       left,
-    //    const AD<cl::InnerVector>&       right,
-    //    const AD<cl::InnerVector>&       exp_if_true,
-    //    const AD<cl::InnerVector>&       exp_if_false)
-    //{
-    //    return CondExpOp(cop, left.value_, right.value_, exp_if_true.value_, exp_if_false.value_);
-    //}
+    // We are hacking into CppAD::AD friend function.
+    template <>
+    inline AD<cl::InnerVector> CondExpOp<cl::InnerVector>(
+        enum CompareOp                   cop,
+        const AD<cl::InnerVector>&       left,
+        const AD<cl::InnerVector>&       right,
+        const AD<cl::InnerVector>&       if_true,
+        const AD<cl::InnerVector>&       if_false)
+    {
+        typedef cl::InnerVector Base;
+        AD<Base> returnValue;
+        CPPAD_ASSERT_UNKNOWN(Parameter(returnValue));
+    
+    
+        // must use CondExp incase Base is an AD type and recording
+        returnValue.value_ = CondExpOp(cop,
+            left.value_, right.value_, if_true.value_, if_false.value_);
+    
+        // check first case where do not need to tape
+        if (IdenticalPar(left) & IdenticalPar(right))
+        {
+            return returnValue;
+        }
+    
+        ADTape<Base> *tape = CPPAD_NULL;
+        if (Variable(left))
+            tape = left.tape_this();
+        if (Variable(right))
+            tape = right.tape_this();
+        if (Variable(if_true))
+            tape = if_true.tape_this();
+        if (Variable(if_false))
+            tape = if_false.tape_this();
+    
+        // add this operation to the tape
+        if (tape != CPPAD_NULL)
+            tape->RecordCondExp(cop,
+            returnValue, left, right, if_true, if_false);
+    
+        return returnValue;
+    }
 }
 
 namespace CppAD {
