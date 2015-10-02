@@ -33,6 +33,7 @@ namespace cl
 #include <cl/tape/impl/base_require.hpp>
 #include <cppad/cppad.h>
 #include <cppad/local/ad.hpp>
+#include <cl/tape/impl/inner_vector_ops.hpp>
 
 namespace ext = CppAD;
 
