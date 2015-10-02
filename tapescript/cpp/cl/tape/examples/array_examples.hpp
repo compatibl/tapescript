@@ -37,19 +37,6 @@ inline void print_sizeofs()
 }
 
 
-inline void print_sizeofs_all()
-{
-    std::cout << "Sizeofs:" << std::endl;
-
-    /*
-    print_sizeofs<Eigen::ArrayXd>();
-    print_sizeofs<Eigen::Array2d>();
-    print_sizeofs<Eigen::Array4d>();
-    print_sizeofs<std::valarray<double>>();
-    */
-}
-
-
 template <class Ty>
 std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
 {
@@ -559,7 +546,7 @@ inline void linear_regression_example(std::ostream& out_str = std::cout)
     out_str << "Reverse sweep result: " << rev << "\n\n\n";
 }
 
-inline void examples()
+inline void array_examples()
 {
     std::ofstream of("output.txt");
     CppAD::tape_serializer<cl::InnerArray> serializer(of);

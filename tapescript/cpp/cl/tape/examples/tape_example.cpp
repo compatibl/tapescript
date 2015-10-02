@@ -32,8 +32,7 @@ limitations under the License.
 
 int main()
 {
-    examples();
-    print_sizeofs_all();
+    array_examples();
 
     system("pause");
     return 0;
