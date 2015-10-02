@@ -57,7 +57,7 @@ namespace std
 
         static _Ty _Exp(_Ty *_Pleft, _Ty _Right, short _Exponent)
         {	// compute exp(*_Pleft) * _Right * 2 ^ _Exponent
-            *_Pleft = std::exp((*_Pleft).value())* _Right * pow(2, _Exponent);
+            *_Pleft = CppAD::exp((*_Pleft).value())* _Right * pow(2, _Exponent);
             return *_Pleft;
         }
 
