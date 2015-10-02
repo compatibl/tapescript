@@ -622,7 +622,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
 
                 atomic_make_vec()
-                    : atomic_base("Construction")
+                    : atomic_base("Construction(val, n)")
                 {}
 
                 bool forward(

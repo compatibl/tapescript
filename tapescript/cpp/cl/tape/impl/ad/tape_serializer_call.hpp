@@ -223,6 +223,7 @@ namespace CppAD
                     0,
                     (Base *)CPPAD_NULL
                     );
+                ss << std::endl;
             }
         }
 
