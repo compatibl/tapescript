@@ -91,6 +91,12 @@ namespace std
             : complex(other.real(), other.imag(), mode)
         {	 }
 
+        explicit complex(const complex_based_type & other)
+            : real_base_()
+            , complex_base_(other)
+            , mode_(ComplBase)
+        {    }
+
         inline void check_mode(Complex_Mode mode) const
         {
             if (mode != mode_)

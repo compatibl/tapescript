@@ -747,6 +747,22 @@ namespace std
     operator/(double lhs, const std::complex<cl::TapeDouble>& rhs) 
     { return cl::TapeDouble(lhs) / rhs; }
 
+#define CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(name)                                           \
+    inline std::complex<cl::TapeDouble> name(const std::complex<cl::TapeDouble>& lhs)   \
+    {                                                                                   \
+        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)                        \
+        {                                                                               \
+            return std::name<cl::TapeDouble>(lhs);                                      \
+        }                                                                               \
+        return std::complex<cl::TapeDouble>(name(lhs.complex_base_));                   \
+    }
+
+    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(sqrt)
+    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(exp)
+    CL_TAPE_DOUBLE_COMPLEX_STL_FUNC(log)
+
+#undef CL_TAPE_DOUBLE_COMPLEX_STL_FUNC
+
     //!! Providing implementation causes compilation error due to NaN not being defined for Real, to be resolved
 }
 
