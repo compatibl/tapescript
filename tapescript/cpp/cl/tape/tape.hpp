@@ -105,7 +105,7 @@ namespace ext
 #endif
 
 #if defined CL_TAPE_INNER_ARRAY_ENABLED
-#   include <cl/tape/impl/inner/base_inner_array.hpp>
+#   include <cl/tape/impl/inner/tape_array.hpp>
 #endif
 //#include <cl/tape/impl/inner/inner_vector_ops.hpp>
 
