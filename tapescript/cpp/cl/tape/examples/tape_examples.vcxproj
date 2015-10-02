@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB483C66-6EC1-48C0-A36F-12F6AE01A209}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tape_examples</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\..\..\bin\vc120-x64-debug</OutDir>
+    <IntDir>..\..\..\..\..\build\$(qlCompilerTag)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\vc120-x64-release\</OutDir>
+    <IntDir>.\build\$(qlCompilerTag)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>CL_TAPE_INNER_ARRAY_ENABLED;CL_TAPE_CPPAD;CL_TAPE_COMPLEX_ENABLED;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../../cpp;../../../../../dependencies/cpp;.</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>../../../../../bin/vc120-x64-$(Configuration)/libboost_unit_test_framework-vc120-mt-gd-1_57.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>CL_TAPE_CPPAD;CL_TAPE_COMPLEX_ENABLED;CL_ENABLE_BOOST_TEST_ADAPTER;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../QuantLib;../tapescript/cpp;../dependencies/cpp;.</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>../bin/vc120-x64-$(Configuration)/libboost_unit_test_framework-vc120-mt-1_57.lib;../bin/vc120-x64-release/QuantLib-vc120-x64-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="array_examples.hpp" />
+    <ClInclude Include="cppad\cg\abstract_atomic_fun.hpp" />
+    <ClInclude Include="cppad\cg\argument.hpp" />
+    <ClInclude Include="cppad\cg\arithmetic.hpp" />
+    <ClInclude Include="cppad\cg\arithmetic_assign.hpp" />
+    <ClInclude Include="cppad\cg\array_id_compresser.hpp" />
+    <ClInclude Include="cppad\cg\atomic_dependency_locator.hpp" />
+    <ClInclude Include="cppad\cg\atomic_fun.hpp" />
+    <ClInclude Include="cppad\cg\atomic_fun_bridge.hpp" />
+    <ClInclude Include="cppad\cg\base_abstract_atomic_fun.hpp" />
+    <ClInclude Include="cppad\cg\base_double.hpp" />
+    <ClInclude Include="cppad\cg\base_float.hpp" />
+    <ClInclude Include="cppad\cg\cg.hpp" />
+    <ClInclude Include="cppad\cg\code_handler.hpp" />
+    <ClInclude Include="cppad\cg\code_handler_loops.hpp" />
+    <ClInclude Include="cppad\cg\compare.hpp" />
+    <ClInclude Include="cppad\cg\cond_exp_op.hpp" />
+    <ClInclude Include="cppad\cg\cppadcg.hpp" />
+    <ClInclude Include="cppad\cg\cppadcg_assert.hpp" />
+    <ClInclude Include="cppad\cg\custom_position.hpp" />
+    <ClInclude Include="cppad\cg\c\language_c.hpp" />
+    <ClInclude Include="cppad\cg\c\language_c_arrays.hpp" />
+    <ClInclude Include="cppad\cg\c\language_c_double.hpp" />
+    <ClInclude Include="cppad\cg\c\language_c_float.hpp" />
+    <ClInclude Include="cppad\cg\c\language_c_index_patterns.hpp" />
+    <ClInclude Include="cppad\cg\c\lang_c_atomic_fun.hpp" />
+    <ClInclude Include="cppad\cg\c\lang_c_custom_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\c\lang_c_default_hessian_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\c\lang_c_default_reverse2_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\c\lang_c_default_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\bipartite.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_equation_info.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_index_reduction.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\dae_var_info.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\dummy_deriv.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\pantelides.hpp" />
+    <ClInclude Include="cppad\cg\dae_index_reduction\time_diff.hpp" />
+    <ClInclude Include="cppad\cg\debug.hpp" />
+    <ClInclude Include="cppad\cg\declare_cg.hpp" />
+    <ClInclude Include="cppad\cg\declare_cg_loops.hpp" />
+    <ClInclude Include="cppad\cg\default.hpp" />
+    <ClInclude Include="cppad\cg\evaluator.hpp" />
+    <ClInclude Include="cppad\cg\evaluator_adolc.hpp" />
+    <ClInclude Include="cppad\cg\exception.hpp" />
+    <ClInclude Include="cppad\cg\graph_mod.hpp" />
+    <ClInclude Include="cppad\cg\identical.hpp" />
+    <ClInclude Include="cppad\cg\job_timer.hpp" />
+    <ClInclude Include="cppad\cg\language.hpp" />
+    <ClInclude Include="cppad\cg\latex\language_latex.hpp" />
+    <ClInclude Include="cppad\cg\latex\language_latex_arrays.hpp" />
+    <ClInclude Include="cppad\cg\latex\language_latex_index_patterns.hpp" />
+    <ClInclude Include="cppad\cg\latex\lang_latex_custom_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\latex\lang_latex_default_var_name_gen.hpp" />
+    <ClInclude Include="cppad\cg\latex\latex.hpp" />
+    <ClInclude Include="cppad\cg\math.hpp" />
+    <ClInclude Include="cppad\cg\math_other.hpp" />
+    <ClInclude Include="cppad\cg\model\atomic_external_function_wrapper.hpp" />
+    <ClInclude Include="cppad\cg\model\atomic_generic_model.hpp" />
+    <ClInclude Include="cppad\cg\model\compiler\abstract_c_compiler.hpp" />
+    <ClInclude Include="cppad\cg\model\compiler\clang_compiler.hpp" />
+    <ClInclude Include="cppad\cg\model\compiler\c_compiler.hpp" />
+    <ClInclude Include="cppad\cg\model\compiler\gcc_compiler.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\archiver.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\ar_archiver.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamiclib.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\dynamic_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamiclib_model.hpp" />
+    <ClInclude Include="cppad\cg\model\dynamic_lib\linux\linux_dynamic_model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\external_function_wrapper.hpp" />
+    <ClInclude Include="cppad\cg\model\functor_generic_model.hpp" />
+    <ClInclude Include="cppad\cg\model\functor_model_library.hpp" />
+    <ClInclude Include="cppad\cg\model\generic_model.hpp" />
+    <ClInclude Include="cppad\cg\model\generic_model_external_function_wrapper.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\llvm.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\llvm_model.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\llvm_model_library.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm3_2.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_3_2.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_2\llvm_model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm3_4.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_3_4.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_4\llvm_model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm3_6.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_3_6.hpp" />
+    <ClInclude Include="cppad\cg\model\llvm\v3_6\llvm_model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_for0.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_for1.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_hes.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_impl.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_jac.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev1.hpp" />
+    <ClInclude Include="cppad\cg\model\model_c_source_gen_rev2.hpp" />
+    <ClInclude Include="cppad\cg\model\model_library.hpp" />
+    <ClInclude Include="cppad\cg\model\model_library_c_source_gen.hpp" />
+    <ClInclude Include="cppad\cg\model\model_library_c_source_gen_impl.hpp" />
+    <ClInclude Include="cppad\cg\model\model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\hessian_with_loops_info.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for0.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_for1.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_hess_r2.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_jac_fr1.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev1.hpp" />
+    <ClInclude Include="cppad\cg\model\patterns\model_c_source_gen_loops_rev2.hpp" />
+    <ClInclude Include="cppad\cg\model\save_files_model_library_processor.hpp" />
+    <ClInclude Include="cppad\cg\model\system\linux_system.hpp" />
+    <ClInclude Include="cppad\cg\model\system\system.hpp" />
+    <ClInclude Include="cppad\cg\nan.hpp" />
+    <ClInclude Include="cppad\cg\nodes\index_assign_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\nodes\index_dclr_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\nodes\index_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\nodes\loop_end_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\nodes\loop_start_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\nodes\print_operation_node.hpp" />
+    <ClInclude Include="cppad\cg\operation.hpp" />
+    <ClInclude Include="cppad\cg\operation_node.hpp" />
+    <ClInclude Include="cppad\cg\operation_path.hpp" />
+    <ClInclude Include="cppad\cg\ordered.hpp" />
+    <ClInclude Include="cppad\cg\ostream_config_restore.hpp" />
+    <ClInclude Include="cppad\cg\patterns\dependent_pattern_matcher.hpp" />
+    <ClInclude Include="cppad\cg\patterns\equation_group.hpp" />
+    <ClInclude Include="cppad\cg\patterns\equation_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\independent_node_sorter.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\index_pattern_impl.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\linear_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\plane_2d_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\random_1d_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\random_2d_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\random_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\index\sectioned_index_pattern.hpp" />
+    <ClInclude Include="cppad\cg\patterns\iter_equation_group.hpp" />
+    <ClInclude Include="cppad\cg\patterns\loop.hpp" />
+    <ClInclude Include="cppad\cg\patterns\loop_free_model.hpp" />
+    <ClInclude Include="cppad\cg\patterns\loop_model.hpp" />
+    <ClInclude Include="cppad\cg\patterns\loop_position.hpp" />
+    <ClInclude Include="cppad\cg\range.hpp" />
+    <ClInclude Include="cppad\cg\scope_path_element.hpp" />
+    <ClInclude Include="cppad\cg\smart_containers.hpp" />
+    <ClInclude Include="cppad\cg\solver.hpp" />
+    <ClInclude Include="cppad\cg\unary.hpp" />
+    <ClInclude Include="cppad\cg\util.hpp" />
+    <ClInclude Include="cppad\cg\variable.hpp" />
+    <ClInclude Include="cppad\cg\variable_name_generator.hpp" />
+    <ClInclude Include="cppad\extra\declare_extra.hpp" />
+    <ClInclude Include="cppad\extra\extra.hpp" />
+    <ClInclude Include="cppad\extra\sparse_forjac_hessian.hpp" />
+    <ClInclude Include="cppad\extra\sparsity.hpp" />
+    <ClInclude Include="cppad\local\abort_recording.hpp" />
+    <ClInclude Include="cppad\local\abs.hpp" />
+    <ClInclude Include="cppad\local\abs_op.hpp" />
+    <ClInclude Include="cppad\local\acos_op.hpp" />
+    <ClInclude Include="cppad\local\ad.hpp" />
+    <ClInclude Include="cppad\local\add.hpp" />
+    <ClInclude Include="cppad\local\add_eq.hpp" />
+    <ClInclude Include="cppad\local\add_op.hpp" />
+    <ClInclude Include="cppad\local\ad_assign.hpp" />
+    <ClInclude Include="cppad\local\ad_binary.hpp" />
+    <ClInclude Include="cppad\local\ad_ctor.hpp" />
+    <ClInclude Include="cppad\local\ad_fun.hpp" />
+    <ClInclude Include="cppad\local\ad_io.hpp" />
+    <ClInclude Include="cppad\local\ad_tape.hpp" />
+    <ClInclude Include="cppad\local\ad_valued.hpp" />
+    <ClInclude Include="cppad\local\arithmetic.hpp" />
+    <ClInclude Include="cppad\local\asin_op.hpp" />
+    <ClInclude Include="cppad\local\atan2.hpp" />
+    <ClInclude Include="cppad\local\atan_op.hpp" />
+    <ClInclude Include="cppad\local\atomic_base.hpp" />
+    <ClInclude Include="cppad\local\base_complex.hpp" />
+    <ClInclude Include="cppad\local\base_cond_exp.hpp" />
+    <ClInclude Include="cppad\local\base_double.hpp" />
+    <ClInclude Include="cppad\local\base_float.hpp" />
+    <ClInclude Include="cppad\local\base_std_math.hpp" />
+    <ClInclude Include="cppad\local\bender_quad.hpp" />
+    <ClInclude Include="cppad\local\bool_fun.hpp" />
+    <ClInclude Include="cppad\local\bool_valued.hpp" />
+    <ClInclude Include="cppad\local\capacity_order.hpp" />
+    <ClInclude Include="cppad\local\checkpoint.hpp" />
+    <ClInclude Include="cppad\local\color_general.hpp" />
+    <ClInclude Include="cppad\local\color_symmetric.hpp" />
+    <ClInclude Include="cppad\local\compare.hpp" />
+    <ClInclude Include="cppad\local\compute_assign.hpp" />
+    <ClInclude Include="cppad\local\comp_op.hpp" />
+    <ClInclude Include="cppad\local\cond_exp.hpp" />
+    <ClInclude Include="cppad\local\cond_op.hpp" />
+    <ClInclude Include="cppad\local\convert.hpp" />
+    <ClInclude Include="cppad\local\cosh_op.hpp" />
+    <ClInclude Include="cppad\local\cos_op.hpp" />
+    <ClInclude Include="cppad\local\cppad_assert.hpp" />
+    <ClInclude Include="cppad\local\cppad_colpack.hpp" />
+    <ClInclude Include="cppad\local\cskip_op.hpp" />
+    <ClInclude Include="cppad\local\csum_op.hpp" />
+    <ClInclude Include="cppad\local\declare_ad.hpp" />
+    <ClInclude Include="cppad\local\define.hpp" />
+    <ClInclude Include="cppad\local\dependent.hpp" />
+    <ClInclude Include="cppad\local\discrete.hpp" />
+    <ClInclude Include="cppad\local\discrete_op.hpp" />
+    <ClInclude Include="cppad\local\div.hpp" />
+    <ClInclude Include="cppad\local\div_eq.hpp" />
+    <ClInclude Include="cppad\local\div_op.hpp" />
+    <ClInclude Include="cppad\local\drivers.hpp" />
+    <ClInclude Include="cppad\local\epsilon.hpp" />
+    <ClInclude Include="cppad\local\equal_op_seq.hpp" />
+    <ClInclude Include="cppad\local\erf.hpp" />
+    <ClInclude Include="cppad\local\erf_op.hpp" />
+    <ClInclude Include="cppad\local\exp_op.hpp" />
+    <ClInclude Include="cppad\local\forward.hpp" />
+    <ClInclude Include="cppad\local\forward0sweep.hpp" />
+    <ClInclude Include="cppad\local\forward1sweep.hpp" />
+    <ClInclude Include="cppad\local\forward2sweep.hpp" />
+    <ClInclude Include="cppad\local\for_jac_sweep.hpp" />
+    <ClInclude Include="cppad\local\for_one.hpp" />
+    <ClInclude Include="cppad\local\for_sparse_jac.hpp" />
+    <ClInclude Include="cppad\local\for_two.hpp" />
+    <ClInclude Include="cppad\local\fun_check.hpp" />
+    <ClInclude Include="cppad\local\fun_construct.hpp" />
+    <ClInclude Include="cppad\local\fun_eval.hpp" />
+    <ClInclude Include="cppad\local\hash_code.hpp" />
+    <ClInclude Include="cppad\local\hessian.hpp" />
+    <ClInclude Include="cppad\local\identical.hpp" />
+    <ClInclude Include="cppad\local\independent.hpp" />
+    <ClInclude Include="cppad\local\integer.hpp" />
+    <ClInclude Include="cppad\local\jacobian.hpp" />
+    <ClInclude Include="cppad\local\limits.hpp" />
+    <ClInclude Include="cppad\local\load_op.hpp" />
+    <ClInclude Include="cppad\local\log_op.hpp" />
+    <ClInclude Include="cppad\local\lu_ratio.hpp" />
+    <ClInclude Include="cppad\local\math_other.hpp" />
+    <ClInclude Include="cppad\local\mul.hpp" />
+    <ClInclude Include="cppad\local\mul_eq.hpp" />
+    <ClInclude Include="cppad\local\mul_op.hpp" />
+    <ClInclude Include="cppad\local\near_equal_ext.hpp" />
+    <ClInclude Include="cppad\local\num_skip.hpp" />
+    <ClInclude Include="cppad\local\old_atomic.hpp" />
+    <ClInclude Include="cppad\local\omp_max_thread.hpp" />
+    <ClInclude Include="cppad\local\op.hpp" />
+    <ClInclude Include="cppad\local\optimize.hpp" />
+    <ClInclude Include="cppad\local\opt_val_hes.hpp" />
+    <ClInclude Include="cppad\local\op_code.hpp" />
+    <ClInclude Include="cppad\local\ordered.hpp" />
+    <ClInclude Include="cppad\local\parallel_ad.hpp" />
+    <ClInclude Include="cppad\local\parameter_op.hpp" />
+    <ClInclude Include="cppad\local\par_var.hpp" />
+    <ClInclude Include="cppad\local\player.hpp" />
+    <ClInclude Include="cppad\local\pod_vector.hpp" />
+    <ClInclude Include="cppad\local\pow.hpp" />
+    <ClInclude Include="cppad\local\pow_op.hpp" />
+    <ClInclude Include="cppad\local\print_for.hpp" />
+    <ClInclude Include="cppad\local\print_op.hpp" />
+    <ClInclude Include="cppad\local\prototype_op.hpp" />
+    <ClInclude Include="cppad\local\recorder.hpp" />
+    <ClInclude Include="cppad\local\reverse.hpp" />
+    <ClInclude Include="cppad\local\reverse_sweep.hpp" />
+    <ClInclude Include="cppad\local\rev_hes_sweep.hpp" />
+    <ClInclude Include="cppad\local\rev_jac_sweep.hpp" />
+    <ClInclude Include="cppad\local\rev_one.hpp" />
+    <ClInclude Include="cppad\local\rev_sparse_hes.hpp" />
+    <ClInclude Include="cppad\local\rev_sparse_jac.hpp" />
+    <ClInclude Include="cppad\local\rev_two.hpp" />
+    <ClInclude Include="cppad\local\sign.hpp" />
+    <ClInclude Include="cppad\local\sign_op.hpp" />
+    <ClInclude Include="cppad\local\sinh_op.hpp" />
+    <ClInclude Include="cppad\local\sin_op.hpp" />
+    <ClInclude Include="cppad\local\sparse.hpp" />
+    <ClInclude Include="cppad\local\sparse_binary_op.hpp" />
+    <ClInclude Include="cppad\local\sparse_hessian.hpp" />
+    <ClInclude Include="cppad\local\sparse_jacobian.hpp" />
+    <ClInclude Include="cppad\local\sparse_list.hpp" />
+    <ClInclude Include="cppad\local\sparse_pack.hpp" />
+    <ClInclude Include="cppad\local\sparse_pattern.hpp" />
+    <ClInclude Include="cppad\local\sparse_set.hpp" />
+    <ClInclude Include="cppad\local\sparse_unary_op.hpp" />
+    <ClInclude Include="cppad\local\sqrt_op.hpp" />
+    <ClInclude Include="cppad\local\std_math_ad.hpp" />
+    <ClInclude Include="cppad\local\std_set.hpp" />
+    <ClInclude Include="cppad\local\store_op.hpp" />
+    <ClInclude Include="cppad\local\sub.hpp" />
+    <ClInclude Include="cppad\local\sub_eq.hpp" />
+    <ClInclude Include="cppad\local\sub_op.hpp" />
+    <ClInclude Include="cppad\local\tanh_op.hpp" />
+    <ClInclude Include="cppad\local\tan_op.hpp" />
+    <ClInclude Include="cppad\local\tape_link.hpp" />
+    <ClInclude Include="cppad\local\testvector.hpp" />
+    <ClInclude Include="cppad\local\test_vector.hpp" />
+    <ClInclude Include="cppad\local\unary_minus.hpp" />
+    <ClInclude Include="cppad\local\unary_plus.hpp" />
+    <ClInclude Include="cppad\local\undef.hpp" />
+    <ClInclude Include="cppad\local\user_ad.hpp" />
+    <ClInclude Include="cppad\local\value.hpp" />
+    <ClInclude Include="cppad\local\var2par.hpp" />
+    <ClInclude Include="cppad\local\vec_ad.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tape_vector_example.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
