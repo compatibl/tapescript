@@ -586,6 +586,178 @@ namespace cl
         {
             return conc_vec(x.value(), y.value());
         }
+
+
+        template <class Array>
+        struct MakeImpl
+        {
+            typedef inner_array<Array> inner_type;
+
+            static inline inner_type sum_vec(const inner_type& x)
+            {
+                if (x.is_scalar())
+                    return x;
+                return std::accumulate(begin(x.array_value_), end(x.array_value_), 0.0);
+            }
+
+            static inline size_t size(const inner_type& x)
+            {
+                if (x.is_scalar())
+                {
+                    return 1;
+                }
+                return x.array_value_.size();
+            }
+
+            struct atomic_make_vec : public CppAD::atomic_base<inner_type>
+            {
+                typedef inner_type Base;
+                template <class T> using vector = CppAD::vector<T>;
+
+                atomic_make_vec()
+                    : atomic_base("atomic_make_vec")
+                {}
+
+                bool forward(
+                    size_t                    p,
+                    size_t                    q,
+                    const vector<bool>&      vx,
+                    vector<bool>&            vy,
+                    const vector<Base>&      tx,
+                    vector<Base>&            ty)
+                {
+                    if (vx.size() > 0)
+                    {
+                        vy[0] = vx[0];
+                        assert(vx[1] == false);
+                    }
+                    for (size_t i = p; i <= q; i++)
+                    {
+                        auto& left = tx[i];
+                        auto& right = tx[q + 1];
+                        assert(left.is_scalar());
+                        ty[i] = inner_type(left.scalar_value_, CppAD::Integer(right));
+                    }
+                    return true;
+                }
+
+                bool reverse(
+                    size_t                    q,
+                    const vector<Base>&       tx,
+                    const vector<Base>&       ty,
+                    vector<Base>&             px,
+                    const vector<Base>&       py)
+                {
+                    assert(py.size() == q + 1);
+
+                    size_t res_size = CppAD::Integer(tx[q + 1]);
+                    for (size_t i = 0; i <= q; i++)
+                    {
+                        assert(tx[i].is_scalar());
+                        if (py[i].is_scalar())
+                        {
+                            px[i] = py[i] * res_size;
+                        }
+                        else
+                        {
+                            assert(size(py[i]) == res_size);
+
+                            px[i] = sum_vec(py[i]);
+                        }
+                    }
+                    return true;
+                }
+                
+                bool for_sparse_jac(
+                    size_t                                  q  ,
+                    const vector< std::set<size_t> >&       r  ,
+                          vector< std::set<size_t> >&       s  )
+                {
+                    s[0] = r[0];
+                    return true;
+                }
+    
+                bool for_sparse_jac(
+                    size_t                                  q  ,
+                    const vector<bool>&                     r  ,
+                          vector<bool>&                     s  )
+                {
+                    s[0] = r[0];
+                    return true;
+                }
+    
+                bool rev_sparse_jac(
+                    size_t                                  q  ,
+                    const vector< std::set<size_t> >&       rt ,
+                          vector< std::set<size_t> >&       st )
+                {
+                    st[0] = rt[0];
+                    return true;
+                }
+    
+                bool rev_sparse_jac(
+                    size_t                                  q  ,
+                    const vector<bool>&                     rt ,
+                          vector<bool>&                     st )
+                {
+                    st[0] = rt[0];
+                    return true;
+                }
+    
+                bool rev_sparse_hes(
+                    const vector<bool>&                     vx ,
+                    const vector<bool>&                     s  ,
+                          vector<bool>&                     t  ,
+                    size_t                                  q  ,
+                    const vector< std::set<size_t> >&       r  ,
+                    const vector< std::set<size_t> >&       u  ,
+                          vector< std::set<size_t> >&       v  )
+                {
+                    t[0] = s[0];
+                    v[0] = u[0];
+                    return true;
+                }
+    
+                bool rev_sparse_hes(
+                    const vector<bool>&                     vx ,
+                    const vector<bool>&                     s  ,
+                          vector<bool>&                     t  ,
+                    size_t                                  q  ,
+                    const vector<bool>&                     r  ,
+                    const vector<bool>&                     u  ,
+                          vector<bool>&                     v  )
+                {
+                    t[0] = s[0];
+                    v[0] = u[0];
+                    return true;
+                }
+            };
+
+            static inline CppAD::AD<inner_type> make_vec(const CppAD::AD<inner_type>& x, size_t count)
+            {
+                typedef std::vector<CppAD::AD<inner_type>> ADVector;
+                static atomic_make_vec afun;
+
+                const ADVector X = { x, CppAD::AD<inner_type>(count) };
+                ADVector Y(1);
+                afun(X, Y);
+                return Y[0];
+            }
+        };
+
+        // Concatenation of two vectors.
+        template <class Array>
+        inline CppAD::AD<inner_array<Array>> make_vec(const CppAD::AD<inner_array<Array>>& x, size_t count)
+        {
+            return MakeImpl<Array>::make_vec(x, count);
+        }
+
+        // Concatenation of two vectors.
+        template <class Array>
+        inline tape_double<inner_array<Array>> make_vec(const tape_double<inner_array<Array>>& x, size_t count)
+        {
+            return make_vec(x.value(), count);
+        }
     }    
 }
 
