@@ -405,6 +405,26 @@ namespace std
         complex_based_type complex_base_;
         Complex_Mode mode_;
     };
+
+    // for Bessel adjoint differentiation
+    // returns true iff the absolute value of lhs is greater than or equal rhs
+    inline bool abs_geq(const complex<cl::TapeDouble>& lhs, const double& rhs)
+    {
+        if (lhs.mode_ == complex<cl::TapeDouble>::RealBase)
+        {
+            return std::abs(lhs) >= rhs;
+        }
+        else
+        {
+            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType< complex<double> >(rhs));
+        }
+    }
+
+    // for Bessel adjoint differentiation
+    inline complex<cl::TapeDouble> operator - (const complex<cl::TapeDouble>& right)
+    {
+        return complex<cl::TapeDouble>(0.0) - right;
+    }
 }
 
 #endif // cl_tape_impl_complex_hpp
