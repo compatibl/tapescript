@@ -45,43 +45,6 @@ namespace CppAD
                 ? exp_if_true : exp_if_false;
         }
 
-        //std::valarray<bool> mask;
-        //size_t size;
-        //if (left.is_scalar() && right.is_array())
-        //{
-        //    mask = left.scalar_value_ == right.array_value_;
-        //    size = right.array_value_.size();
-        //}
-        //else if (left.is_array() && right.is_scalar())
-        //{
-        //    mask = left.array_value_ == right.scalar_value_;
-        //    size = left.array_value_.size();
-        //}
-        //else /* (left.is_array() && right.is_array()) */
-        //{
-        //    mask = left.array_value_ == right.array_value_;
-        //    size = left.array_value_.size();
-        //}
-        //
-        //cl::inner_array<Array>::array_type result(size);
-        //if (exp_if_true.is_scalar())
-        //{
-        //    result[mask] = exp_if_true.scalar_value_;
-        //}
-        //else
-        //{
-        //    result[mask] = exp_if_true.array_value_[mask];
-        //}
-        //if (exp_if_false.is_scalar())
-        //{
-        //    result[!mask] = exp_if_false.scalar_value_;
-        //}
-        //else
-        //{
-        //    result[!mask] = exp_if_false.array_value_[!mask];
-        //}
-        //
-        //return result;
         cl::throw_("Not implemented.");
         return exp_if_true;
     }
@@ -99,44 +62,7 @@ namespace CppAD
             return (left.scalar_value_ < right.scalar_value_)
                 ? exp_if_true : exp_if_false;
         }
-
-        //std::valarray<bool> mask;
-        //size_t size;
-        //if (left.is_scalar() && right.is_array())
-        //{
-        //    mask = left.scalar_value_ < right.array_value_;
-        //    size = right.array_value_.size();
-        //}
-        //else if (left.is_array() && right.is_scalar())
-        //{
-        //    mask = left.array_value_ < right.scalar_value_;
-        //    size = left.array_value_.size();
-        //}
-        //else /* (left.is_array() && right.is_array()) */
-        //{
-        //    mask = left.array_value_ < right.array_value_;
-        //    size = left.array_value_.size();
-        //}
-        //
-        //cl::inner_array<Array>::array_type result(size);
-        //if (exp_if_true.is_scalar())
-        //{
-        //    result[mask] = exp_if_true.scalar_value_;
-        //}
-        //else
-        //{
-        //    result[mask] = exp_if_true.array_value_[mask];
-        //}
-        //if (exp_if_false.is_scalar())
-        //{
-        //    result[!mask] = exp_if_false.scalar_value_;
-        //}
-        //else
-        //{
-        //    result[!mask] = exp_if_false.array_value_[!mask];
-        //}
-        //
-        //return result;
+        
         cl::throw_("Not implemented.");
         return exp_if_true;
     }
