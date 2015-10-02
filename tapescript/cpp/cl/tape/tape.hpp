@@ -44,11 +44,23 @@ namespace cl
 #include <cppad/cppad.h>
 
 #if !defined CL_USE_NATIVE_FORWARD
+#   if !defined TYPE_SERIALIZER
+#       define  TYPE_SERIALIZER CppAD::tape_serializer
+#   endif
 #   include <iostream>
+#   include <cl/tape/impl/tape_fwd.hpp>
 #   include <cl/tape/impl/ad/tape_forward0sweep.hpp>
 #   include <cl/tape/impl/ad/tape_forward1sweep.hpp>
+#   include <cl/tape/impl/ad/tape_serializer_fwd.hpp>
+#   include <cl/tape/impl/ad/tape_serializer_call.hpp>
+#   if defined CL_BASE_SERIALIZER_OPEN
+#       include <cl/tape/impl/ad/tape_serializer.hpp>
+#   endif
 #endif
 
+#if defined CL_TAPE_GEN_ENABLED
+#   include <cppad/cg/cppadcg.hpp>
+#endif
 
 namespace ext = CppAD;
 

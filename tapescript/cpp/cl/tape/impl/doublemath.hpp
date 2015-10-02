@@ -828,13 +828,14 @@ namespace std
 #if defined CL_TAPE_COMPLEX_ENABLED
 
 #define CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(FUN)                                        \
-    inline std::complex<cl::TapeDouble> FUN(const std::complex<cl::TapeDouble>& lhs)    \
+    template<typename Inner>                                                                            \
+    inline std::complex<cl::tape_double<Inner>> FUN(const std::complex<cl::tape_double<Inner>>& lhs)    \
     {                                                                                   \
-        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)                        \
+        if (lhs.mode_ == std::complex<cl::tape_double<Inner>>::RealBase)                                \
         {                                                                               \
-            return std::FUN<cl::TapeDouble>(lhs);                                       \
+            return std::FUN<cl::tape_double<Inner>>(lhs);                                               \
         }                                                                               \
-        return std::complex<cl::TapeDouble>(FUN(lhs.complex_base_));                    \
+        return std::complex<cl::tape_double<Inner>>(FUN(lhs.complex_base_));                            \
     }
 
     CL_TAPE_DOUBLE_COMPLEX_GENERIC_FUNC(sqrt)

@@ -26,7 +26,7 @@ limitations under the License.
 #define cl_tape_impl_complex_hpp
 
 #include <complex>
-
+#include <cl/tape/impl/tape_fwd.hpp>
 
 namespace ext = CppAD;
 
@@ -35,16 +35,24 @@ namespace std
     /// <summary>
     ///    The complex type based on tape double.
     /// </summary>
-    template<>
-    class complex<cl::TapeDouble>
+    template<typename Inner>
+    class complex<cl::tape_double<Inner>>
     {
     public:
-        typedef cl::TapeDouble value_type;
-        typedef cl::TapeDouble real_type;
-        typedef complex<cl::TapeDouble> complex_type;
-        typedef complex<double> complex_double;
+
+        // The type holder type
+        typedef cl::tape_double<Inner> tape_type;
+
+        // parse ad base
+        typedef typename 
+            cl::remove_ad<typename tape_type::value_type>::type ad_base_type;
+
+        typedef tape_type value_type;
+        typedef tape_type real_type;
+        typedef complex<tape_type> complex_type;
+        typedef complex<ad_base_type> complex_double;
         typedef cl::TapeInnerType<complex_double > complex_based_type;
-        typedef std::complex<cl::TapeInnerType<double> > real_based_type;
+        typedef std::complex<cl::TapeInnerType<ad_base_type> > real_based_type;
 
         enum Complex_Mode { None = 0, RealBase = (1 << 1), ComplBase = (1 << 2) };
 
@@ -308,7 +316,7 @@ namespace std
                 real_base_ /= right.to_real_base();
 #else
                 real_based_type right_base = right.to_real_base();
-                cl::TapeInnerType<double> x1 = real_base_.real()
+                cl::TapeInnerType<ad_base_type> x1 = real_base_.real()
                     , y1 = real_base_.imag()
                     , x2 = right_base.real()
                     , y2 = right_base.imag()
@@ -398,9 +406,9 @@ namespace std
             return real_based_type(real(), imag());
         }
 
-        inline complex<cl::TapeDouble> operator - () const
+        inline complex<tape_type> operator - () const
         {
-            return complex<cl::TapeDouble>(0.0) - *this;
+            return complex<tape_type>(0.0) - *this;
         }
 
         // Used when tape is recording for real or image part of complex value.
@@ -414,15 +422,19 @@ namespace std
 namespace cl
 {
     // returns true iff the absolute value of lhs is greater than or equal rhs
-    inline bool abs_geq(const std::complex<cl::TapeDouble>& lhs, const double& rhs)
+    template <typename Inner>
+    inline bool abs_geq(const std::complex<tape_double<Inner>>& lhs, const double& rhs)
     {
-        if (lhs.mode_ == std::complex<cl::TapeDouble>::RealBase)
+        typedef typename
+            cl::remove_ad<typename tape_double<Inner>::value_type>::type inner_base_type;
+        if (lhs.mode_ 
+            == std::complex<tape_double<Inner>>::RealBase)
         {
             return std::abs(lhs) >= rhs;
         }
         else
         {
-            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType< std::complex<double> >(rhs));
+            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType<std::complex<inner_base_type>>(rhs));
         }
     }
 }

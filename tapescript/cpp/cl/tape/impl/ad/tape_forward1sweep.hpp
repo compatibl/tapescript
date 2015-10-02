@@ -10,9 +10,6 @@ Eclipse Public License Version 1.0.
 A copy of this license is included in the COPYING file of this distribution.
 Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 -------------------------------------------------------------------------- */
-
-# include <cl/tape/impl/ad/tape_serializer.hpp>
-
 namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         /*!
         \file forward1sweep.hpp
@@ -45,7 +42,11 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         Zero is the normal operational value.
         If it is one, a trace of every forward1sweep computation is printed.
         */
-# define CPPAD_FORWARD1SWEEP_TRACE 0
+# if defined  CL_FORWARD1SWEEP_TRACE
+#   define CPPAD_FORWARD1SWEEP_TRACE 1
+# else
+#   define CPPAD_FORWARD1SWEEP_TRACE 0
+# endif
 
         /*!
         Compute arbitrary order forward mode Taylor coefficients.
@@ -928,7 +929,6 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     if (user_j == user_n)
                         user_state = user_ret;
                     break;
-
                 case UsravOp:
                     // variable argument in an atomic operation sequence
                     CPPAD_ASSERT_UNKNOWN(user_state == user_arg);
@@ -1027,59 +1027,23 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             }
             std::cout << std::endl;
 # else
-                typedef tape_serializer<Base> ser_type;
+                //  typedef tape_serializer<Base> ser_type;
 
-                /// Check is this standard
-                if (&s_out != &std::cout)
-                {
-                    ser_type& ss = static_cast<ser_type&>(s_out);
-                    if (user_state == user_start && op == UserOp)
-                    {
-                        CPPAD_ASSERT_UNKNOWN(op == UserOp);
-                        CPPAD_ASSERT_UNKNOWN(NumArg(UsrrvOp) == 0);
-                        for (i = 0; i < user_m; i++) if (user_iy[i] > 0)
-                        {
-                            size_t i_tmp = (i_op + i) - user_m;
-                            ss.saveOp(                                
-                                play,
-                                i_tmp,
-                                user_iy[i],
-                                UsrrvOp,
-                                CPPAD_NULL
-                                );
-                            Base* Z_tmp = taylor + user_iy[i] * J;
-                            ss.saveOpResult(
-                                q + 1,
-                                Z_tmp,
-                                0,
-                                (Base *)CPPAD_NULL
-                                );
-                        }
-                    }
-
-                    Base*           Z_tmp = taylor + J * i_var;
-                    const addr_t*   arg_tmp = arg;
-                    if (op == CSumOp)
-                        arg_tmp = arg - arg[-1] - 4;
-                    if (op == CSkipOp)
-                        arg_tmp = arg - arg[-1] - 7;
-                    if (op != UsrrvOp)
-                    {
-                        ss.saveOp(
-                            play,
-                            i_op,
-                            i_var,
-                            op,
-                            arg_tmp
-                            );
-                        if (NumRes(op) > 0) ss.saveOpResult(
-                            q + 1,
-                            Z_tmp,
-                            0,
-                            (Base *)CPPAD_NULL
-                            );
-                    }
-                }
+                /// serialize tape
+                if (!is_cout(s_out))
+                    serialize<Base>(s_out
+                        , user_iy
+                        , play
+                        , taylor
+                        , op
+                        , user_state
+                        , i_op
+                        , q
+                        , user_m
+                        , J
+                        , arg
+                        , i_var
+                    );
             }
 # endif
             CPPAD_ASSERT_UNKNOWN(user_state == user_start);

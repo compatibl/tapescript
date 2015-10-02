@@ -31,16 +31,16 @@ namespace cl
 {
     /// <summary>Immutable double type with AD support designed
     /// to serve as a drop-in replacement to native double.</summary>
-    template <typename Base>
+    template <typename Inner>
     class tape_double
     {
     public:
-        typedef Base base_type;
-        typedef tape_double<Base> tape_type;
+        typedef Inner base_type;
+        typedef tape_double<Inner> tape_type;
 
         /// <summary>AD implementation type, typedef according to this library's naming conventions.</summary>
 #ifdef CL_TAPE_CPPAD
-        typedef CppAD::AD<Base> ImplType;
+        typedef CppAD::AD<Inner> ImplType;
 #elif defined CL_TAPE_ADOLC
         typedef adouble ImplType;
 #else
@@ -66,8 +66,11 @@ namespace cl
 #endif
         //  Friend functions
         // in which we should get double directly
-        friend tape_double<double> std::ceil(tape_double<double> x);
-        friend tape_double<double> std::floor(tape_double<double> x);
+        template <typename Inner>
+        friend cl::tape_double<Inner> std::ceil(cl::tape_double<Inner> x);
+
+        template <typename Inner>
+        friend cl::tape_double<Inner> std::floor(cl::tape_double<Inner> x);
 
     public: // TYPEDEFS
 
@@ -306,8 +309,6 @@ namespace cl
         inline static ImplType
         Value(Type const& obj, std::false_type) { return static_cast<ImplType>(obj); }
     };
-
-    typedef tape_double<double> TapeDouble;
 }
 
 #endif  // cl_tape_impl_double_hpp

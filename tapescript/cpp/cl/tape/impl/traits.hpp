@@ -24,7 +24,7 @@ limitations under the License.
 
 #ifndef cl_tape_impl_traits_hpp
 #define cl_tape_impl_traits_hpp
-
+# include <C:\projects\quantlib\tapescript\cpp\cl\tape\impl\doublemath.hpp>
 namespace std
 {
     template<typename Type>
@@ -39,6 +39,7 @@ namespace std
     public:
 
         typedef adouble _Ty;
+        typedef _Ty::value_type value_type;
 
         static _Ty _Flt_eps()
         {    // get epsilon
@@ -63,7 +64,7 @@ namespace std
 
         static _Ty _Infv(_Ty)
         {    // return infinity
-            return (_CSTD CppAD::AD<double>(_Inf._Double));
+            return value_type(_Inf._Double);
         }
 
         static bool _Isinf(_Ty _Left)
@@ -80,7 +81,7 @@ namespace std
 
         static _Ty _Nanv(_Ty)
         {    // return NaN
-            return (_CSTD CppAD::AD<double>(_Nan._Double));
+            return value_type(_Nan._Double);
         }
 
         static _Ty _Sinh(_Ty _Left, _Ty _Right)

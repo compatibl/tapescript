@@ -55,9 +55,43 @@ namespace cl
     template<typename Base>
     class tape_double;
 
-    typedef tape_double<double> TapeDouble;
+#if defined CL_TAPE_GEN_ENABLED
+    ///<summary> codegeneration based type </summary>
+    typedef CppAD::cg::CG<double> CgBaseType;
 
-    typedef cl::TapeDouble t_double;
+    /// <summary> TapeDouble fwd declaration </summary>
+    typedef tape_double<CgBaseType> TapeDouble;
+#else
+    typedef tape_double<double> TapeDouble;
+#endif
+
+    ///<summary> Architeht </summary>
+    struct dummy;
+
+    template <typename Ty_>
+    struct solve_dummy { typedef dummy type; };
+}
+
+namespace CppAD
+{
+    /// Forward declaration about serialization
+    template <typename T>
+    struct tape_serializer;
+
+    /// Case when we don't have implement tag
+    template <typename Ty_, typename Ch_ = cl::dummy>
+    struct is_implemented : std::false_type
+    {
+        typedef cl::dummy impl_type;
+    };
+
+    /// Case when we have impl tag
+    template <typename Ty_>
+    struct is_implemented<Ty_, typename cl::solve_dummy<typename Ty_::impl>::type> : std::true_type
+    {
+        typedef typename
+            Ty_::impl impl_type;
+    };
 }
 
 #endif

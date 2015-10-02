@@ -130,10 +130,10 @@ namespace cl
                 return *this;
             }
 
-            operator t_double () const
+            operator TapeRef<Base>() const
             {
                 assert(ptr_);
-                return t_double(*ptr_);
+                return TapeRef<Base>(*ptr_);
             }
 
             inner_type_ptr ptr_;
@@ -764,11 +764,13 @@ namespace cl
             : TapeFunctionBase<Base>(x.vec_, y.vec_)
         { }
 
-        TapeFunction(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
+        template <typename Inner>
+        TapeFunction(std::vector<cl::tape_double<Inner>> const& x, std::vector<cl::tape_double<Inner>> const& y)
             : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
         { }
 
-        void Dependent(std::vector<cl::tape_double<Base>> const& x, std::vector<cl::tape_double<Base>> const& y)
+        template <typename Inner>
+        void Dependent(std::vector<cl::tape_double<Inner>> const& x, std::vector<cl::tape_double<Inner>> const& y)
         {
             TapeFunctionBase<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
         }
@@ -776,28 +778,28 @@ namespace cl
 
     template <typename Inner>
     class TapeFunction<std::complex<cl::tape_double<Inner> > >
-        : public cl::TapeFunctionBase<std::complex<double> >
+        : public cl::TapeFunctionBase<std::complex<Inner> >
     {
     public:
-        typedef cl::TapeFunctionBase<std::complex<double> > fun_base;
+        typedef cl::TapeFunctionBase<std::complex<Inner> > fun_base;
         template <typename VectorType>
         TapeFunction(VectorType& x, VectorType& y)
             : fun_base(
-                cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x)
-                , cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(y))
+                cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(x)
+                , cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(y))
         {   }
     };
 
-    template <class Base>
+    template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_double<Base>>& v_tape, std::size_t abort_index)
+        Independent(std::vector<cl::tape_double<Inner>>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
-    template <class Base>
+    template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_double<Base>>& v_tape)
+        Independent(std::vector<cl::tape_double<Inner>>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }
@@ -820,7 +822,7 @@ namespace cl
     Independent(std::vector<std::complex<cl::TapeDouble>> &x)
     {
 #if defined CL_COMPILE_TIME_DEBUG
-        print_type<decltype(adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
+        print_type<decltype(cl::tapescript::adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
 #endif
 #if defined CL_TAPE_COMPLEX_ENABLED
         ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x));

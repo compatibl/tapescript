@@ -1,26 +1,35 @@
 
 # ifndef TAPE_SERIALIZER_INCLUDED
 #define TAPE_SERIALIZER_INCLUDED
+/* --------------------------------------------------------------------------
+CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
+
+CppAD is distributed under multiple licenses. This distribution is under
+the terms of the
+Eclipse Public License Version 1.0.
+
+A copy of this license is included in the COPYING file of this distribution.
+Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
+-------------------------------------------------------------------------- */
 
 namespace CppAD
 {
     template <typename T>
     struct tape_serializer : std::ostream
     {
-        tape_serializer() : std::ostream(std::_Uninitialized(), false)
+        tape_serializer(std::ostream& os = std::cout) 
+            : std::ostream(0)
+            , os_(os)
         {}
 
-        template<class _Elem,
-        class _Traits,
-        class _Arg> inline
-        tape_serializer<T>& operator<<(/*std::basic_ostream<_Elem, _Traits>& _Ostr, */const std::_Smanip<_Arg>& _Manip)
-        {	// insert by calling function with output stream and argument
-            return *this;
-        }
+        ~tape_serializer()  { std::ostream::clear(); }
+
+        struct impl {};
 
         template <typename Ty_>
         inline tape_serializer& operator << (Ty_ const& v)
         {
+            os_ << v;
             return *this;
         }
 
@@ -348,6 +357,23 @@ namespace CppAD
                 *this << "| fz[" << k << "]=" << fz[k];
             for (k = 0; k < nrz; k++)
                 *this << "| rz[" << k << "]=" << rz[k];
+        }
+
+        std::ostream& os_;
+
+        // this is the type of std::cout
+        typedef std::basic_ostream<char, std::char_traits<char> > standard_cout;
+
+        // this is the function signature of std::endl
+        typedef standard_cout& (*endl_type_standard)(standard_cout&);
+
+        // define an operator<< to take in std::endl
+        tape_serializer<T>& 
+        operator<<(endl_type_standard f_ptr)
+        {
+            // call the function, but we cannot return it's value
+            os_ << f_ptr;
+            return *this;
         }
     };
 }
