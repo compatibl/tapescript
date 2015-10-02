@@ -125,7 +125,7 @@ namespace cl
         };
     }
 
-    // This approach to calculate is has type static const or enum ::value field
+    // This approach to calculate has type static const or enum ::value field
     template <typename Type, typename Dummy = cl::tapescript::dummy>
     struct has_value {
         enum { value = 0, solved_value = 0 };

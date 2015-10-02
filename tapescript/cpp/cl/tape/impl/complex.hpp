@@ -50,8 +50,7 @@ namespace std
 
         static const Complex_Mode default_mode = ComplBase;
 
-        //  If we initialized by certain values this is real base type 
-        // and type of valaue is 
+        //  If type is initialized by certain values this is real base type 
         complex(real_type const& real, real_type const& imag = 0.0, Complex_Mode mode = default_mode)
             : real_base_()
             , complex_base_()
@@ -78,7 +77,7 @@ namespace std
             }
         }
 
-        // This call when resize vector
+        // This will be called if vector is resized
         complex()
             : real_base_()
             , complex_base_()

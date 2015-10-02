@@ -53,7 +53,7 @@ namespace cl
         template <typename, typename, typename, typename, typename, typename, typename, typename >
         friend struct cl::TapeDoubleConvert;
 
-//!! Should we have this, can break AD when misused; or it could stop recording when invoked
+//!! This can break AD if it is misused; or stop recording if it is invoked
 #ifdef CL_TAPE_CAN_GET_VALUE
         template <typename TapeType>
         friend inline typename TapeType::value_type const&  cl::tapescript::cvalue(TapeType const& tapetype);
@@ -84,7 +84,7 @@ namespace cl
             return *this;
         }
 
-//!! Should we have this, can break AD when misused; or it could stop recording when invoked
+//!!  This can break AD if it is misused; or stop recording if it is invoked
 #ifdef CL_TAPE_CAN_GET_VALUE
         inline value_type value() const
         {
@@ -94,7 +94,7 @@ namespace cl
 
     private: // PRIVATE
 
-        /// <summary>Return cast value is it's arithmetic.</summary>
+        /// <summary>Return cast value if it's arithmetic.</summary>
         template <typename Type>
         inline Type get__(std::true_type, std::false_type) const
         {
@@ -113,7 +113,7 @@ namespace cl
             return static_cast<Type>(this->value_);
         }
 
-        /// <summary>Return cast value. Try to create instance Typed.</summary>
+        /// <summary>Return cast value. Try to create instance type.</summary>
         template <typename Type>
         inline Type get__(std::false_type, std::false_type) const
         {
@@ -176,7 +176,7 @@ namespace cl
             typedef std::integral_constant<bool, is_sm || is_constructible_from_value > is_value_type;
             typedef std::integral_constant<bool, is_arithmetic_or_contructible > is_arithm_or_contrictible;
 
-            //  We should show message currenlty in cases when we can create
+            //  We should show message if we can create
             // class from double type but not from QlDouble
             to<Type>(std::integral_constant<bool, is_arithmetic_or_contructible
                 && !std::is_arithmetic<Type>::value >());

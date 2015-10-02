@@ -107,7 +107,7 @@ namespace std
     inline cl::TapeDouble floor(cl::TapeDouble x)
     {
         // Conversion from TapeDouble to native double is permitted
-        // only when tape pointer is null, otherwise exception is thrown
+        // only if tape pointer is null, otherwise exception is thrown
 #ifdef CL_TAPE_CPPAD
         CL_CHECK((double)cl::TapeDouble(std::floor((double)x))
             == std::floor((double)x));
@@ -124,7 +124,7 @@ namespace std
     {
 #ifdef CL_TAPE_CPPAD
         // Conversion from TapeDouble to native double is permitted
-        // only when tape pointer is null, otherwise exception is thrown
+        // only if tape pointer is null, otherwise exception is thrown
         CL_CHECK((double)cl::TapeDouble(std::ceil((double)x)) 
             == std::ceil((double)x));
 

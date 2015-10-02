@@ -124,7 +124,7 @@ namespace cl
                     title.erase(std::remove_if(title.begin(), title.end()
                         , [](char c) { return c == '/' || c == '\\'; }), title.end());
 
-                    // If exixts we try to remove previous versions
+                    // If it already exists we try to remove previous versions
                     if (fs::exists(testout))
                     {
                         if (!not_clear)
@@ -330,7 +330,7 @@ namespace cl
             return log_;
         }
 
-        // method write generate plt graphics
+        // method writes generated plt graphics
         // args:
         // return:
         inline void write_graphics()

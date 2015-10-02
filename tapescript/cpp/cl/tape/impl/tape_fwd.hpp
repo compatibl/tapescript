@@ -43,7 +43,7 @@ namespace cl
 #endif
     /// <summary>
     ///    Alias on std reference wrapper type
-    /// it used for prevented native type specification
+    /// it used for preventing native type specification
     /// for adapted types.
     /// </summary>
     template <typename Type>
