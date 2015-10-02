@@ -81,7 +81,8 @@ namespace CppAD
         //}
         //
         //return result;
-        cl::throw_("Not a scalar.");
+        throw std::exception("Not implemented.");
+        //cl::throw_("Not implemented.");
         return exp_if_true;
     }
 
@@ -136,6 +137,7 @@ namespace CppAD
         //
         //return result;
         throw std::exception("Not implemented.");
+        //cl::throw_("Not implemented.");
     }
 
     // Conditional expression.
@@ -165,6 +167,7 @@ namespace CppAD
 
         default:
             throw std::exception("Unknown compare operation.");
+            //cl::throw_("Unknown compare operation.");
         }
     }
 

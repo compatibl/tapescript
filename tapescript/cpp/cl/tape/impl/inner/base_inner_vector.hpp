@@ -170,6 +170,7 @@ namespace CppAD
 
         default:
             throw std::exception("Unknown compare operation.");
+            //cl::throw_("Unknown compare operation.");
         }
     }
 

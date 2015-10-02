@@ -31,7 +31,6 @@ limitations under the License.
 #include <iterator>
 #include <sstream>
 #include <Eigen/Dense>
-#include <cl/tape/impl/doubleoperatorcheck.hpp>
 
 namespace cl
 {
@@ -102,7 +101,8 @@ namespace cl
         {
             if (is_vector())
             {
-                cl::throw_("Not a scalar.");
+                throw std::exception("Not a scalar.");
+                //cl::throw_("Not a scalar.");
             }
             return scalar_value_;
         }
