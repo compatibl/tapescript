@@ -106,7 +106,6 @@ namespace cl
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sinh)
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, exp)
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log)
-        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log10)
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tan)
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tanh)
 
@@ -179,7 +178,6 @@ namespace cl
         CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sin)
         CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, exp)
         CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log)
-        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log10)
         CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, tan)
 
         CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", atan)
@@ -527,7 +525,6 @@ namespace cl
         CL_INNER_ARRAY_FUNCTION(sinh)
         CL_INNER_ARRAY_FUNCTION(exp)
         CL_INNER_ARRAY_FUNCTION(log)
-        CL_INNER_ARRAY_FUNCTION(log10)
         CL_INNER_ARRAY_FUNCTION(tan)
         CL_INNER_ARRAY_FUNCTION(tanh)
 #undef CL_INNER_ARRAY_FUNCTION
