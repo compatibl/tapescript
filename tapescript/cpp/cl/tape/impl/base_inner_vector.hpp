@@ -29,6 +29,7 @@ limitations under the License.
 
 #include <cppad/configure.hpp>
 #include <cppad/local/ad.hpp>
+#include <cppad/local/hash_code.hpp>
 #include <cl/tape/impl/inner_vector.hpp>
 
 namespace CppAD
@@ -217,15 +218,24 @@ namespace CppAD
 	}
 	inline bool IdenticalZero(const cl::InnerVector& x)
 	{
-	    return x == 0.0;
+	    return x.is_scalar() && x == 0.0;
 	}
 	inline bool IdenticalOne(const cl::InnerVector& x)
 	{
-	    return x == 1.0;
+	    return x.is_scalar() && x == 1.0;
 	}
 	inline bool IdenticalEqualPar(const cl::InnerVector& x, const cl::InnerVector& y)
 	{
-	    return (x == y);
+        if (x.is_scalar() && y.is_scalar())
+        {
+	        return x == y;
+        }
+        if (x.is_vector() && y.is_vector())
+        {
+            return x.vector_value_.size() == y.vector_value_.size()
+                && x == y;
+        }
+        return false;
 	}
 
 	inline int Integer(const cl::InnerVector& x)
@@ -311,6 +321,17 @@ namespace CppAD
 	inline cl::InnerVector epsilon<cl::InnerVector>(void)
 	{
         return numeric_limits<cl::InnerVector>::epsilon();
+    }
+
+
+    template <>
+    inline unsigned short hash_code<cl::InnerVector>(const cl::InnerVector& value)
+    {
+        if (value.is_scalar())
+        {
+            return hash_code(value.scalar_value_);
+        }
+        return hash_code(value.vector_value_[0]);
     }
 }
 
