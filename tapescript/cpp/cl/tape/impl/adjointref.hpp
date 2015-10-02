@@ -481,6 +481,7 @@ namespace cl
             }
         };
 
+#if defined CL_TAPE_COMPLEX_ENABLED
         //  Adapted type calculation inside AdaptVector
         // we should provide convert from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
         // it can help to configure behaviour of adjoint logic with
@@ -565,6 +566,7 @@ namespace cl
             }
 
         };
+#endif
 
             /// <summary>Class which is functionality
             /// about adaptation </summary>
