@@ -187,7 +187,7 @@ namespace cl
     struct adjoint_task
     {
         typedef Inner inner_type;
-        typedef tape_double<Inner> tape_type;
+        typedef tape_object<Inner> tape_type;
 
         // Input size (used for plot imformation only).
         size_t size_;

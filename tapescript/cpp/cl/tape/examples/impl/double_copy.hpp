@@ -34,11 +34,11 @@ namespace cl
     /// <summary>Immutable double type with AD support designed
     /// to serve as a drop-in replacement to native double.</summary>
     template <typename Inner>
-    class tape_double
+    class tape_object
     {
     public:
         typedef Inner base_type;
-        typedef tape_double<Inner> tape_type;
+        typedef tape_object<Inner> tape_type;
 
         typedef double ImplType;
 

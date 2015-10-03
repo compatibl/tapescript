@@ -36,7 +36,7 @@ namespace cl
         std::cout << sizeof(Array) << "\t";
         std::cout << sizeof(cl::inner_array<Array>) << "\t";
         std::cout << sizeof(CppAD::AD<cl::inner_array<Array>>) << "\t";
-        std::cout << sizeof(cl::tape_double<cl::inner_array<Array>>) << std::endl;
+        std::cout << sizeof(cl::tape_object<cl::inner_array<Array>>) << std::endl;
     }
 
 

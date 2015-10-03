@@ -64,16 +64,16 @@ namespace cl
     /// TapeDouble forward declaration
     /// </summary>
     template<typename Base>
-    class tape_double;
+    class tape_object;
 
 #if defined CL_TAPE_GEN_ENABLED
     ///<summary> codegeneration based type </summary>
     typedef CppAD::cg::CG<double> tape_cg_base_type;
 
     /// <summary> TapeDouble fwd declaration </summary>
-    typedef tape_double<tape_cg_base_type> TapeDouble;
+    typedef tape_object<tape_cg_base_type> TapeDouble;
 #else
-    typedef tape_double<double> TapeDouble;
+    typedef tape_object<double> TapeDouble;
 #endif
 
     ///<summary> Architeht </summary>

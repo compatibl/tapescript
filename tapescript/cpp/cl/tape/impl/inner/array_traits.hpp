@@ -39,9 +39,9 @@ namespace cl
 {
     template <class Array> struct inner_array;
     typedef inner_array<std::valarray<double>> InnerValArray;
-    typedef tape_double<InnerValArray> TapeValArray;
+    typedef tape_object<InnerValArray> TapeValArray;
     typedef InnerValArray InnerArray;
-    typedef tape_double<InnerArray> TapeArray;
+    typedef tape_object<InnerArray> TapeArray;
 
 #if defined CL_EIGEN_ENABLED
     typedef inner_array<Eigen::ArrayXd> InnerArrayXd;

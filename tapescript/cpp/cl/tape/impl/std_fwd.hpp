@@ -26,10 +26,10 @@ limitations under the License.
 namespace std
 {
     template <typename Inner>
-    inline cl::tape_double<Inner> ceil(cl::tape_double<Inner> x);
+    inline cl::tape_object<Inner> ceil(cl::tape_object<Inner> x);
 
     template <typename Inner>
-    inline cl::tape_double<Inner> floor(cl::tape_double<Inner> x);
+    inline cl::tape_object<Inner> floor(cl::tape_object<Inner> x);
 }
 
 #endif // cl_tape_impl_std_fwd_hpp

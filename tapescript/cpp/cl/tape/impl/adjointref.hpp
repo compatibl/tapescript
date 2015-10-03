@@ -480,11 +480,11 @@ namespace cl
         // we should provide convertion from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
         // it can help to configure behaviour of adjoint logic
         template <typename Inner, typename Value>
-        struct adapt_type_convention <std::vector<std::complex<cl::tape_double<Inner>>
-                , std::allocator<std::complex<cl::tape_double<Inner>>>>, Value>
+        struct adapt_type_convention <std::vector<std::complex<cl::tape_object<Inner>>
+                , std::allocator<std::complex<cl::tape_object<Inner>>>>, Value>
         {
             // Type of tape holder
-            typedef cl::tape_double<Inner> tape_type;
+            typedef cl::tape_object<Inner> tape_type;
 
             // Vector type
             typedef std::vector<std::complex<tape_type> > Vector;
@@ -777,8 +777,8 @@ namespace cl
 
         /// <summary> </summary>
         template <typename Inner, typename Serializer>
-        TapeFunction(std::vector<cl::tape_double<Inner>> const& x
-                , std::vector<cl::tape_double<Inner>> const& y
+        TapeFunction(std::vector<cl::tape_object<Inner>> const& x
+                , std::vector<cl::tape_object<Inner>> const& y
                 , Serializer& serializer)   
                         : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
                         , serializability(tapescript::adapt(x))
@@ -792,20 +792,20 @@ namespace cl
         { }
 
         template <typename Inner>
-        TapeFunction(std::vector<cl::tape_double<Inner>> const& x, std::vector<cl::tape_double<Inner>> const& y)
+        TapeFunction(std::vector<cl::tape_object<Inner>> const& x, std::vector<cl::tape_object<Inner>> const& y)
             : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
             , serializability(tapescript::adapt(x))
         { }
 
         template <typename Inner>
-        void Dependent(std::vector<cl::tape_double<Inner>> const& x, std::vector<cl::tape_double<Inner>> const& y)
+        void Dependent(std::vector<cl::tape_object<Inner>> const& x, std::vector<cl::tape_object<Inner>> const& y)
         {
             TapeFunctionBase<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
         }
     };
 
     template <typename Inner>
-    class TapeFunction<std::complex<cl::tape_double<Inner> > >
+    class TapeFunction<std::complex<cl::tape_object<Inner> > >
         : public cl::TapeFunctionBase<std::complex<Inner> >
     {
     public:
@@ -820,14 +820,14 @@ namespace cl
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_double<Inner>>& v_tape, std::size_t abort_index)
+        Independent(std::vector<cl::tape_object<Inner>>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_double<Inner>>& v_tape)
+        Independent(std::vector<cl::tape_object<Inner>>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }

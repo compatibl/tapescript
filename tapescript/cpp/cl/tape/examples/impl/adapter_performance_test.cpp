@@ -50,12 +50,12 @@ namespace cl
         }
 
         // Returns dot product of two vectors.
-        inline void dotProduct(std::vector<tape_double<double>> const& lhs, std::vector<tape_double<double>> const& rhs, tape_double<double> & result)
+        inline void dotProduct(std::vector<tape_object<double>> const& lhs, std::vector<tape_object<double>> const& rhs, tape_object<double> & result)
         {
             result = 0;
-            std::vector<tape_double<double>>::const_iterator begin = rhs.begin();
+            std::vector<tape_object<double>>::const_iterator begin = rhs.begin();
 
-            for (tape_double<double> const& lh : lhs)
+            for (tape_object<double> const& lh : lhs)
             {
                 result += lh * (*begin);
                 ++begin;
@@ -65,14 +65,14 @@ namespace cl
         void dot_product_test(std::ostream& out = std::cout)
         {
             int n = 100000000;
-            out << std::endl << "Test performance of tape_double adapter using dot product calculation" << std::endl;
+            out << std::endl << "Test performance of tape_object adapter using dot product calculation" << std::endl;
             out << "Dot product of two vectors (size " << n << " ) is being calculated" << std::endl;
 
             std::vector<double> leftNative(n);
             std::vector<double> rightNative(n);
 
-            std::vector<tape_double<double>> leftTapeDouble(n);
-            std::vector<tape_double<double>> rightTapeDouble(n);
+            std::vector<tape_object<double>> leftTapeDouble(n);
+            std::vector<tape_object<double>> rightTapeDouble(n);
 
             srand((unsigned int)time(nullptr));
             for (int i = 0; i < n; ++i)
@@ -82,7 +82,7 @@ namespace cl
             }
 
             double nativeResult = 1;
-            tape_double<double> tapeDoubleResult = 1;
+            tape_object<double> tapeDoubleResult = 1;
 
             int repeats = 100;
 
@@ -102,7 +102,7 @@ namespace cl
                 out << "Results are not the same" << std::endl;
 
             out << "Calculation end" << std::endl;
-            out << "\tTime for tape_double<double> " << int(_1 - _0) << " ticks" << std::endl;
+            out << "\tTime for tape_object<double> " << int(_1 - _0) << " ticks" << std::endl;
             out << "\tTime for double " << int(_2 - _1) << " ticks" << std::endl;
             out << "\tThe relative difference  " << 1.0 * std::abs(int((_1 - _0) - (_2 - _1))) / std::max(_1 - _0, _2 - _1)
                 << std::endl << std::endl;
@@ -112,11 +112,11 @@ namespace cl
         {
             int n = 100000000;
             
-            out << std::endl << "Test performance of tape_double adapter using math functions" << std::endl;
+            out << std::endl << "Test performance of tape_object adapter using math functions" << std::endl;
             out << "Calcilation start" << std::endl;
 
             std::vector<double> vecNative(n);
-            std::vector<tape_double<double>> vecTapeDouble(n);
+            std::vector<tape_object<double>> vecTapeDouble(n);
 
             srand((unsigned int)time(nullptr));
             for (int i = 0; i < n; ++i)
@@ -125,11 +125,11 @@ namespace cl
             }
 
             double nativeResult = 1;
-            tape_double<double> tapeDoubleResult = 1;
+            tape_object<double> tapeDoubleResult = 1;
 
             long _0 = GetTickCount();
             
-            std::for_each(vecTapeDouble.begin(), vecTapeDouble.end(), [&tapeDoubleResult](tape_double<double> item)
+            std::for_each(vecTapeDouble.begin(), vecTapeDouble.end(), [&tapeDoubleResult](tape_object<double> item)
                 {
                 tapeDoubleResult += std::sin(item * std::pow(tapeDoubleResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(tapeDoubleResult * std::tan(item)))))); 
                 });
@@ -147,7 +147,7 @@ namespace cl
                 out << "Results are not the same" << std::endl;
 
             out << "Calculation end" << std::endl;
-            out << "\tTime for tape_double<double> " << int(_1 - _0) << " ticks" << std::endl;
+            out << "\tTime for tape_object<double> " << int(_1 - _0) << " ticks" << std::endl;
             out << "\tTime for double " << int(_2 - _1) << " ticks" << std::endl;
             out << "\tThe relative difference  " << 1.0 * std::abs(int((_1 - _0) - (_2 - _1))) / std::max(_1 - _0, _2 - _1)
                 << std::endl << std::endl;
