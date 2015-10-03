@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_taple_examples_impl_linear_regression_hpp
-#define cl_taple_examples_impl_linear_regression_hpp
+#ifndef cl_tape_examples_impl_linear_regression_hpp
+#define cl_tape_examples_impl_linear_regression_hpp
 
 #include <cmath>
 #include <valarray>
@@ -294,4 +294,4 @@ namespace cl
     };
 }
 
-#endif // cl_taple_examples_impl_linear_regression_hpp
+#endif // cl_tape_examples_impl_linear_regression_hpp

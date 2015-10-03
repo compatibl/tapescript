@@ -76,7 +76,7 @@ namespace cl
     typedef tape_object<double> tape_double;
 #endif
 
-    ///<summary> Architeht </summary>
+    ///<summary>Empty structure.</summary>
     struct dummy;
 
     template <typename Ty_>
