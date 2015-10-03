@@ -25,19 +25,19 @@ limitations under the License.
 
 #define OPERATOR_TRAITS_ADJOINTREF_DECL(oper)                                                                                           \
     template <typename Base, typename FrameworkType, typename LeftConst, typename RightConst>                                           \
-    struct operator_traits<cl::tapescript::TapeRef<Base>, FrameworkType, struct oper                                                    \
-                , LeftConst, RightConst, TapeRefOperators>                                                                              \
-                : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                             \
+    struct operator_traits<cl::tapescript::tape_ref<Base>, FrameworkType, struct oper                                                    \
+                , LeftConst, RightConst, tape_ref_operators>                                                                              \
+                : operator_ref_<typename cl::tapescript::tape_ref<Base>::inner_type, oper, std::false_type >                             \
     {};                                                                                                                                 \
                                                                                                                                         \
     template <typename FrameworkType, typename Base, typename LeftConst, typename RightConst>                                           \
-    struct operator_traits<FrameworkType, cl::tapescript::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators>                 \
-        : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                                     \
+    struct operator_traits<FrameworkType, cl::tapescript::tape_ref<Base>, oper, LeftConst, RightConst, tape_ref_operators>                 \
+        : operator_ref_<typename cl::tapescript::tape_ref<Base>::inner_type, oper, std::false_type >                                     \
     {};                                                                                                                                 \
                                                                                                                                         \
     template <typename Base, typename LeftConst, typename RightConst>                                                                   \
-    struct operator_traits<cl::tapescript::TapeRef<Base>, cl::tapescript::TapeRef<Base>, oper, LeftConst, RightConst, TapeRefOperators> \
-        : operator_ref_<typename cl::tapescript::TapeRef<Base>::inner_type, oper, std::false_type >                                     \
+    struct operator_traits<cl::tapescript::tape_ref<Base>, cl::tapescript::tape_ref<Base>, oper, LeftConst, RightConst, tape_ref_operators> \
+        : operator_ref_<typename cl::tapescript::tape_ref<Base>::inner_type, oper, std::false_type >                                     \
     {};                                                                                                                                 \
 
 #define ADJOINT_REF_OPERATOR_IMPL(oper, oper_i)                                                                                         \
