@@ -142,7 +142,7 @@ namespace std
     inline cl::tape_object<Base> sqrt(cl::tape_object<Base> x)
     {
 #ifdef CL_TAPE_CPPAD
-        //  Conversion from tape_double to double is able when
+        // Conversion from tape_double to double is able when
         // tape is null, otherwise exception happens
         CL_CHECK(std::sqrt(v_(x))
             == (cl::tape_object<Base>)CppAD::sqrt(x.value()));
@@ -747,7 +747,7 @@ namespace std
     inline cl::tape_double
     pow(cl::tape_double const &_Left, int _Right)
     {
-        //   The error can happen here
+        // The error can happen here
         // if we use _Right as argument of pow
         CL_CHECK(_Pow_int(_Left, _Right)
             == std::pow(v_(_Left), _Right));

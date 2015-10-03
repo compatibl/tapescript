@@ -170,7 +170,7 @@ namespace cl
             typedef std::integral_constant<bool, is_sm || is_constructible_from_value > is_value_type;
             typedef std::integral_constant<bool, is_arithmetic_or_contructible > is_arithm_or_contrictible;
 
-            //  We should show message if we can create
+            // We should show message if we can create
             // class from double type but not from QlDouble
             to<Type>(std::integral_constant<bool, is_arithmetic_or_contructible
                 && !std::is_arithmetic<Type>::value >());

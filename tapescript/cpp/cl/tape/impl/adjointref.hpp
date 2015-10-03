@@ -394,7 +394,7 @@ namespace cl
             typedef typename
                 Vector::value_type Type;
 
-            //  If requested value not equals to vector::value_type
+            // If requested value not equals to vector::value_type
             // it can happen inside Jacobian
             enum { is_convertible_value = !std::is_same<Type, Value>::value };
 
@@ -465,7 +465,7 @@ namespace cl
                 return v;
             }
 
-            //  Interface method for retrieving value from
+            // Interface method for retrieving value from
             // const value
             template <typename Type, typename Branch>
             static converted_value_type const&
@@ -476,7 +476,7 @@ namespace cl
         };
 
 #if defined CL_TAPE_COMPLEX_ENABLED
-        //  Adapted type convertion inside AdaptVector
+        // Adapted type convertion inside AdaptVector
         // we should provide convertion from complex<tape_inner_type<Base> > to tape_inner_type<complex<Base>>
         // it can help to configure behaviour of adjoint logic
         template <typename Inner, typename Value>
@@ -493,7 +493,7 @@ namespace cl
             typedef typename
                 Vector::value_type Type;
 
-            //  If a requested value not equals to vector::value_type
+            // If a requested value not equals to vector::value_type
             // it can happen inside Jacobian
             enum { is_convertible_value = !std::is_same<Type, Value>::value };
 

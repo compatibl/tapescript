@@ -78,7 +78,7 @@ namespace cl
 
         template <typename > struct solve { typedef dummy type; };
 
-        //  Default colors and additional settings calculation about
+        // Default colors and additional settings calculation about
         // the users can performs custom model
         template <typename Type, typename D = dummy>
         struct is_has_colors
@@ -123,7 +123,7 @@ namespace cl
 #if defined CL_GRAPH_GEN
         // Path maker
         // args: path_out - ouput path
-        //       , not_clear - if true the folder will not clean before output
+        //     , not_clear - if true the folder will not clean before output
         // return: path and title pair
         inline std::pair<std::string, std::string>
             make_test_path(std::string const& path_out, bool not_clear = false)
@@ -187,7 +187,7 @@ namespace cl
 #endif
             shell_execute(file_path + ".plt");
 
-            //  Copy pdf files from output directory
+            // Copy pdf files from output directory
             // perhaps it is in a current directory
             std::string result_pdf_path = fs::current_path().string() + std::string("//") + filename;
             if (fs::exists(result_pdf_path))
@@ -212,8 +212,8 @@ namespace cl
 
         // Methods return certain setting
         // args: stt - map of settings
-        //       , n - name of setting
-        //       , defualt_v - default value if setting isn't present
+        //     , n - name of setting
+        //     , defualt_v - default value if setting isn't present
         // return: setting value
         static std::string setting(settings_type &stt, std::string const& n, std::string const& default_v)
         {

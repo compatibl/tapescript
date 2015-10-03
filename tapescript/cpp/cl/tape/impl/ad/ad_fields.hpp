@@ -43,7 +43,7 @@ namespace cl
             , decl_mem(CppAD::player<Base>::op_)
             , decl_mem(CppAD::player<Base>::op_index_)
 #           if CL_USE_OP_ARG
-                //  Excludefrom serialization
+                // Excludefrom serialization
                 // this field initialize when call forward-start
                 , decl_mem(CppAD::player<Base>::op_arg_)
 #           endif
@@ -71,7 +71,7 @@ namespace cl
             , decl_mem(CppAD::ADFun<Base>::cskip_op_)
             , decl_mem(CppAD::ADFun<Base>::load_op_)
             , decl_mem(CppAD::ADFun<Base>::play_)
-            //   Currenlty exclude from serialization
+            // Currenlty exclude from serialization
             // after call dependent this fields is empty, perhaps
             // we can work without it
 #           if defined CL_USE_SPARSE_PACK_            

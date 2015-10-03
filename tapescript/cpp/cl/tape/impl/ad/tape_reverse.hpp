@@ -52,7 +52,7 @@ namespace CppAD
         return std::get<I>(v);
     }
 
-    //  This class is a helper for make result pair and not
+    // This class is a helper for make result pair and not
     // we nned optimize copying in nex steps
     template <typename VectorType>
     struct make_result
@@ -81,7 +81,7 @@ namespace CppAD
     {   // constants
         const Base zero(0);
 
-        //  Calculation cases when we have 
+        // Calculation cases when we have 
         // stream and certain vector
         auto w = getarg<0>(arg);
         auto stream = getarg<1>(arg);

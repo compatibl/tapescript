@@ -144,7 +144,7 @@ namespace ext
 namespace cl
 {
 #if defined CL_TAPE && defined CL_TAPE_CPPAD
-    //   The scope of fwd implementation
+    // The scope of fwd implementation
     // which is not need to base functionality
     // but need to derived
 #elif defined CL_TAPE_ADOLC

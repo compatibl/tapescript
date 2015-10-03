@@ -72,7 +72,7 @@ namespace cl
         /* Overload this function to debug member IO */
     }
 
-    //  This class is fields list
+    // This class is fields list
     // we use this for iterable fields
     template <typename... Ty_>
     struct fields
