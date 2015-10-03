@@ -61,7 +61,7 @@ namespace cl
     using ref_type = std::reference_wrapper<Type>;
 
     /// <summary>
-    /// TapeDouble forward declaration
+    /// tape_double forward declaration
     /// </summary>
     template<typename Base>
     class tape_object;
@@ -70,10 +70,10 @@ namespace cl
     ///<summary> codegeneration based type </summary>
     typedef CppAD::cg::CG<double> tape_cg_base_type;
 
-    /// <summary> TapeDouble fwd declaration </summary>
-    typedef tape_object<tape_cg_base_type> TapeDouble;
+    /// <summary> tape_double fwd declaration </summary>
+    typedef tape_object<tape_cg_base_type> tape_double;
 #else
-    typedef tape_object<double> TapeDouble;
+    typedef tape_object<double> tape_double;
 #endif
 
     ///<summary> Architeht </summary>

@@ -61,11 +61,11 @@ namespace cl
             double_task.dx_ = gen_vector<std::vector<double>>(2 * n, gen);
             double_task.w_ = gen_vector<std::vector<double>>(n, gen);
             double_task.repeat_ = repeat / n + 1;
-            double_task.func_ = [n](std::vector<TapeDouble> const& v)
+            double_task.func_ = [n](std::vector<tape_double> const& v)
             {
                 auto middle = v.begin() + n;
-                std::vector<TapeDouble> result(n);
-                std::transform(v.begin(), middle, middle, result.begin(), std::plus<TapeDouble>());
+                std::vector<tape_double> result(n);
+                std::transform(v.begin(), middle, middle, result.begin(), std::plus<tape_double>());
                 return result;
             };
             return double_task;

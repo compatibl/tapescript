@@ -55,65 +55,65 @@ namespace cl
         }
     }
 
-    /// <summary>Returns the result of addition of two TapeDouble objects.</summary>
-    inline TapeDouble operator+(const TapeDouble& lhs, const TapeDouble& rhs) { return cl::tapescript::cvalue(lhs) + cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of addition of two tape_double objects.</summary>
+    inline tape_double operator+(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) + cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of subtraction of two TapeDouble objects.</summary>
-    inline TapeDouble operator-(const TapeDouble& lhs, const TapeDouble& rhs) { return cl::tapescript::cvalue(lhs) - cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of subtraction of two tape_double objects.</summary>
+    inline tape_double operator-(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) - cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of multiplication of two TapeDouble objects.</summary>
-    inline TapeDouble operator*(const TapeDouble& lhs, const TapeDouble& rhs) { return cl::tapescript::cvalue(lhs) * cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of multiplication of two tape_double objects.</summary>
+    inline tape_double operator*(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) * cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of division of two TapeDouble objects.</summary>
-    inline TapeDouble operator/(const TapeDouble& lhs, const TapeDouble& rhs) { return cl::tapescript::cvalue(lhs) / cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of division of two tape_double objects.</summary>
+    inline tape_double operator/(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) / cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of addition of TapeDouble and double.</summary>
-    inline TapeDouble operator+(const TapeDouble& lhs, double rhs) { return cl::tapescript::cvalue(lhs) + rhs; }
+    /// <summary>Returns the result of addition of tape_double and double.</summary>
+    inline tape_double operator+(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) + rhs; }
 
-    /// <summary>Returns the result of subtraction of TapeDouble and double.</summary>
-    inline TapeDouble operator-(const TapeDouble& lhs, double rhs) { return cl::tapescript::cvalue(lhs) - rhs; }
+    /// <summary>Returns the result of subtraction of tape_double and double.</summary>
+    inline tape_double operator-(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) - rhs; }
 
-    /// <summary>Returns the result of multiplication of TapeDouble and double.</summary>
-    inline TapeDouble operator*(const TapeDouble& lhs, double rhs) { return cl::tapescript::cvalue(lhs) * rhs; }
+    /// <summary>Returns the result of multiplication of tape_double and double.</summary>
+    inline tape_double operator*(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) * rhs; }
 
-    /// <summary>Returns the result of division of TapeDouble and double.</summary>
-    inline TapeDouble operator/(const TapeDouble& lhs, double rhs) { return cl::tapescript::cvalue(lhs) / rhs; }
+    /// <summary>Returns the result of division of tape_double and double.</summary>
+    inline tape_double operator/(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) / rhs; }
 
-    /// <summary>Returns the result of addition of double and TapeDouble.</summary>
-    inline TapeDouble operator+(double lhs, const TapeDouble& rhs) { return lhs + cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of addition of double and tape_double.</summary>
+    inline tape_double operator+(double lhs, const tape_double& rhs) { return lhs + cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of subtraction of double and TapeDouble.</summary>
-    inline TapeDouble operator-(double lhs, const TapeDouble& rhs) { return lhs - cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of subtraction of double and tape_double.</summary>
+    inline tape_double operator-(double lhs, const tape_double& rhs) { return lhs - cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of multiplication of double and TapeDouble.</summary>
-    inline TapeDouble operator*(double lhs, const TapeDouble& rhs) { return lhs * cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of multiplication of double and tape_double.</summary>
+    inline tape_double operator*(double lhs, const tape_double& rhs) { return lhs * cl::tapescript::cvalue(rhs); }
 
-    /// <summary>Returns the result of division of double and TapeDouble.</summary>
-    inline TapeDouble operator/(double lhs, const TapeDouble& rhs) { return lhs / cl::tapescript::cvalue(rhs); }
+    /// <summary>Returns the result of division of double and tape_double.</summary>
+    inline tape_double operator/(double lhs, const tape_double& rhs) { return lhs / cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is equal to rhs.</summary>
-    inline bool operator==(double lhs, const TapeDouble& rhs) { return lhs == cl::tapescript::cvalue(rhs); }
+    inline bool operator==(double lhs, const tape_double& rhs) { return lhs == cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is not equal to rhs.</summary>
-    inline bool operator!=(double lhs, const TapeDouble& rhs) { return lhs != cl::tapescript::cvalue(rhs); }
+    inline bool operator!=(double lhs, const tape_double& rhs) { return lhs != cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is less than rhs.</summary>
-    inline bool operator<(double lhs, const TapeDouble& rhs) { return lhs < cl::tapescript::cvalue(rhs); }
+    inline bool operator<(double lhs, const tape_double& rhs) { return lhs < cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is less than or equal to rhs.</summary>
-    inline bool operator<=(double lhs, const TapeDouble& rhs) { return lhs <= cl::tapescript::cvalue(rhs); }
+    inline bool operator<=(double lhs, const tape_double& rhs) { return lhs <= cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is more than rhs.</summary>
-    inline bool operator>(double lhs, const TapeDouble& rhs) { return lhs > cl::tapescript::cvalue(rhs); }
+    inline bool operator>(double lhs, const tape_double& rhs) { return lhs > cl::tapescript::cvalue(rhs); }
 
     /// <summary>Returns true if lhs is more than or equal to rhs.</summary>
-    inline bool operator>=(double lhs, const TapeDouble& rhs) { return lhs >= cl::tapescript::cvalue(rhs); }
+    inline bool operator>=(double lhs, const tape_double& rhs) { return lhs >= cl::tapescript::cvalue(rhs); }
 
     /// <summary>Serialize to stream.</summary>
-    inline std::ostream& operator<<(std::ostream& output, const TapeDouble& v) { output << cl::tapescript::cvalue(v); return output; }
+    inline std::ostream& operator<<(std::ostream& output, const tape_double& v) { output << cl::tapescript::cvalue(v); return output; }
 
     /// <summary>Deserialize from stream.</summary>
-    inline std::istream& operator>>(std::istream& input, TapeDouble& v) { input >> cl::tapescript::value(v); return input; }
+    inline std::istream& operator>>(std::istream& input, tape_double& v) { input >> cl::tapescript::value(v); return input; }
 
 
     /// <summary>Returns the result of addition of two cl::tape_object<Base> objects.</summary>
@@ -228,7 +228,7 @@ namespace cl_ext
     struct operator_traits<Left, Right, struct oper_plus, std::true_type, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -248,7 +248,7 @@ namespace cl_ext
     struct operator_traits<Left, Right, struct oper_minus, std::true_type, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -265,10 +265,10 @@ namespace cl_ext
 
     /// Operator + for class which has conversion to double for right hand side argument
     template <typename Left, typename RC>
-    struct operator_traits<Left, cl::TapeDouble, struct oper_plus, std::true_type, RC, basic_operators>
+    struct operator_traits<Left, cl::tape_double, struct oper_plus, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -285,10 +285,10 @@ namespace cl_ext
 
     /// Operator + for class which has conversion to double for right hand side argument
     template <typename Right, typename LC>
-    struct operator_traits<cl::TapeDouble, Right, struct oper_plus, LC, std::true_type, basic_operators>
+    struct operator_traits<cl::tape_double, Right, struct oper_plus, LC, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -305,10 +305,10 @@ namespace cl_ext
 
     /// Operator - for class which has conversion to double for left hand side argument
     template <typename Left, typename RC>
-    struct operator_traits<Left, cl::TapeDouble, struct oper_minus, std::true_type, RC, basic_operators>
+    struct operator_traits<Left, cl::tape_double, struct oper_minus, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -325,10 +325,10 @@ namespace cl_ext
 
     /// Operator - for class which has conversion to double for right hand side argument
     template <typename Right, typename LC>
-    struct operator_traits<cl::TapeDouble, Right, struct oper_minus, LC, std::true_type, basic_operators>
+    struct operator_traits<cl::tape_double, Right, struct oper_minus, LC, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -380,7 +380,7 @@ namespace cl_ext
     struct operator_traits<Left, Right, struct oper_div, std::true_type, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -396,10 +396,10 @@ namespace cl_ext
     };
 
     template <typename Left, typename RC>
-    struct operator_traits<Left, cl::TapeDouble, struct oper_div, std::true_type, RC, basic_operators>
+    struct operator_traits<Left, cl::tape_double, struct oper_div, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -415,10 +415,10 @@ namespace cl_ext
     };
 
     template <typename Right, typename LC>
-    struct operator_traits<cl::TapeDouble, Right, struct oper_div, LC, std::true_type, basic_operators>
+    struct operator_traits<cl::tape_double, Right, struct oper_div, LC, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -454,7 +454,7 @@ namespace cl_ext
     struct operator_traits<Left, Right, struct oper_mult, std::true_type, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -470,10 +470,10 @@ namespace cl_ext
     };
 
     template <typename Left, typename RC>
-    struct operator_traits<Left, cl::TapeDouble, struct oper_mult, std::true_type, RC, basic_operators>
+    struct operator_traits<Left, cl::tape_double, struct oper_mult, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -489,10 +489,10 @@ namespace cl_ext
     };
 
     template <typename Right, typename LC>
-    struct operator_traits<cl::TapeDouble, Right, struct oper_mult, LC, std::true_type, basic_operators>
+    struct operator_traits<cl::tape_double, Right, struct oper_mult, LC, std::true_type, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
-        typedef cl::TapeDouble type;
+        typedef cl::tape_double type;
 
         template <typename Left, typename Right>
         inline type operator()(Left const& left, Right const& right)
@@ -529,13 +529,13 @@ namespace std
     struct plus;
 
     template<>
-    struct plus<cl::TapeDouble >
-        : public binary_function<cl::TapeDouble, cl::TapeDouble, cl::TapeDouble >
+    struct plus<cl::tape_double >
+        : public binary_function<cl::tape_double, cl::tape_double, cl::tape_double >
     {   // functor for operator+
         template<class _Ty1, class _Ty2>
-        cl::TapeDouble operator()(_Ty1&& _Left, _Ty2&& _Right) const
+        cl::tape_double operator()(_Ty1&& _Left, _Ty2&& _Right) const
         {   // transparently apply operator+ to operands
-            typedef decltype(cl::get_instance<cl::TapeDouble>() + cl::get_instance<cl::TapeDouble>()) real_type;
+            typedef decltype(cl::get_instance<cl::tape_double>() + cl::get_instance<cl::tape_double>()) real_type;
             return _Left + _Right;
         }
     };
@@ -543,16 +543,16 @@ namespace std
     template <typename > struct multiplies;
 
     template <>
-    struct multiplies<cl::TapeDouble >
-        : public binary_function<cl::TapeDouble, cl::TapeDouble, typename cl::TapeDouble::value_type>
+    struct multiplies<cl::tape_double >
+        : public binary_function<cl::tape_double, cl::tape_double, typename cl::tape_double::value_type>
     {
         template <typename Left, typename Right>
-        typename cl::TapeDouble::value_type operator () (Left const& left, Right const& right) const
+        typename cl::tape_double::value_type operator () (Left const& left, Right const& right) const
         {
 #if defined CL_TAPE_CPPAD
             return (left * right).value();
 #else
-            return (cl::TapeDouble::value_type)(left * right);
+            return (cl::tape_double::value_type)(left * right);
 #endif
         }
     };
@@ -602,12 +602,12 @@ namespace boost { namespace lambda { namespace detail
 
     //!! Translates to native type (currently may cause a runtime error, to be fixed)
     template <>
-    struct promote_code<cl::TapeDouble >
+    struct promote_code<cl::tape_double >
     {
         static const int value = cl::take_value<
                                         boost::lambda::detail::promote_code
                                         <
-                                            typename cl::remove_ad<typename cl::TapeDouble::value_type>::type
+                                            typename cl::remove_ad<typename cl::tape_double::value_type>::type
                                         >
                                         , 600 //!!! See boost promote_code for double, avoid hardcode
                                    >::value;
@@ -621,9 +621,9 @@ namespace boost {  namespace detail
     template<class> class return_type_deduction_failure;
 
     template<>
-    struct return_type_2_arithmetic_phase_3 <cl::TapeDouble >
+    struct return_type_2_arithmetic_phase_3 <cl::tape_double >
     {
-        typedef cl::TapeDouble ad_type;
+        typedef cl::tape_double ad_type;
         typedef ad_type A;
 
         return_type_2_arithmetic_phase_3(ad_type const& ad_v) {   }
@@ -644,12 +644,12 @@ namespace boost { namespace numeric { namespace ublas
     namespace detail {
 
     template <typename Left>
-    inline bool operator < (Left const& left, cl::TapeDouble const& right)
+    inline bool operator < (Left const& left, cl::tape_double const& right)
     {
 #if defined CL_COMPILE_TIME_DEBUG
 #pragma message ("overload operator < : " __FUNCSIG__)
 #endif
-        return (cl::TapeDouble)left < right;
+        return (cl::tape_double)left < right;
     }
 
     // This is hooked operator <
@@ -660,48 +660,48 @@ namespace boost { namespace numeric { namespace ublas
                     boost::numeric::ublas::matrix_matrix_binary<
                         boost::numeric::ublas::triangular_adaptor<
                             boost::numeric::ublas::matrix<
-                                cl::TapeDouble
+                                cl::tape_double
                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
                                 , boost::numeric::ublas::unbounded_array<
                                         DoubleType
-                                        , std::allocator<cl::TapeDouble>
+                                        , std::allocator<cl::tape_double>
                                   >
                             >
                             , boost::numeric::ublas::basic_unit_lower<unsigned int>
                         >
                         , boost::numeric::ublas::triangular_adaptor<
                              boost::numeric::ublas::matrix<
-                                cl::TapeDouble
+                                cl::tape_double
                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
                                 , boost::numeric::ublas::unbounded_array<
-                                      cl::TapeDouble
-                                      , std::allocator<cl::TapeDouble>
+                                      cl::tape_double
+                                      , std::allocator<cl::tape_double>
                                   > >, struct boost::numeric::ublas::basic_upper<unsigned int>
                           >
                         , boost::numeric::ublas::matrix_matrix_prod<
                                 boost::numeric::ublas::triangular_adaptor<
                                     boost::numeric::ublas::matrix<
-                                        cl::TapeDouble
+                                        cl::tape_double
                                         , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
                                     >
                                     , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                 >
                                 , boost::numeric::ublas::triangular_adaptor<
                                     class boost::numeric::ublas::matrix<
-                                        cl::TapeDouble
+                                        cl::tape_double
                                         , struct boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
                                     >, struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
-                                , cl::TapeDouble
+                                , cl::tape_double
                             >
                     >
                     , boost::numeric::ublas::matrix<
-                        cl::TapeDouble, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<cl::TapeDouble, class std::allocator<cl::TapeDouble> >
+                        cl::tape_double, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
                       >
                     , boost::numeric::ublas::scalar_minus<
-                            cl::TapeDouble, cl::TapeDouble
+                            cl::tape_double, cl::tape_double
                         >
                 >
                 , boost::numeric::ublas::matrix_norm_inf<
@@ -709,55 +709,55 @@ namespace boost { namespace numeric { namespace ublas
                             boost::numeric::ublas::matrix_matrix_binary<
                                 boost::numeric::ublas::triangular_adaptor<
                                         boost::numeric::ublas::matrix<
-                                            cl::TapeDouble
+                                            cl::tape_double
                                             , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                            , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
+                                            , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
                                         >
                                     , struct boost::numeric::ublas::basic_unit_lower<unsigned int>
                                 >
                                 , boost::numeric::ublas::triangular_adaptor<
                                         boost::numeric::ublas::matrix<
-                                            cl::TapeDouble
+                                            cl::tape_double
                                             , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                            , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
+                                            , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
                                         >
                                         , struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
                                   , boost::numeric::ublas::matrix_matrix_prod<
                                         boost::numeric::ublas::triangular_adaptor<
                                             boost::numeric::ublas::matrix<
-                                                cl::TapeDouble
+                                                cl::tape_double
                                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                                , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
+                                                , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
                                             >
                                             , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                         >
                                         , boost::numeric::ublas::triangular_adaptor<
                                             boost::numeric::ublas::matrix<
-                                                cl::TapeDouble
+                                                cl::tape_double
                                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                                , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
+                                                , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
                                             >
                                             , boost::numeric::ublas::basic_upper<unsigned int>
                                         >
-                                        , cl::TapeDouble
+                                        , cl::tape_double
                                   >
                             >
                             , boost::numeric::ublas::matrix<
-                                    cl::TapeDouble
+                                    cl::tape_double
                                     , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                    , boost::numeric::ublas::unbounded_array<cl::TapeDouble, std::allocator<cl::TapeDouble> >
+                                    , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
                               >
-                            , boost::numeric::ublas::scalar_minus<cl::TapeDouble, cl::TapeDouble>
+                            , boost::numeric::ublas::scalar_minus<cl::tape_double, cl::tape_double>
                         >
                 >
            > const& left
-        , cl::TapeDouble const& right)
+        , cl::tape_double const& right)
     {
 #if defined CL_COMPILE_TIME_DEBUG
 #pragma message ("overload operator < : " __FUNCSIG__)
 #endif
-        return (cl::TapeDouble)left < right;
+        return (cl::tape_double)left < right;
     }
 }
 }}}
@@ -768,9 +768,9 @@ namespace boost
         template <typename Type> struct is_arithmetic_impl;
 
         template< >
-        struct is_arithmetic_impl<cl::TapeDouble>
+        struct is_arithmetic_impl<cl::tape_double>
         {
-            typedef cl::remove_ad<cl::TapeDouble::value_type>::type value_type;
+            typedef cl::remove_ad<cl::tape_double::value_type>::type value_type;
 #if defined BOOST_STATIC_CONSTANT
             BOOST_STATIC_CONSTANT(bool, value =
                 (::boost::type_traits::ice_or<

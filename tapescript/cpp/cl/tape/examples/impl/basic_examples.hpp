@@ -30,16 +30,16 @@ namespace cl
 {
     inline void add_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for addition of two TapeDoubles." << std::endl;
+        out_str << "Testing tape contents for addition of two tape_doubles." << std::endl;
         
         // Input values initialization.
-        TapeDoubleVector X(2, 3.0);
+        tape_doubleVector X(2, 3.0);
         
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
         
         // Output calculations.
-        TapeDoubleVector Y(1);
+        tape_doubleVector Y(1);
 
         Y[0] = 2 * X[0] + X[1];
 
@@ -81,10 +81,10 @@ namespace cl
 
     inline void mult_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for multiplying of two TapeDoubles." << std::endl;
+        out_str << "Testing tape contents for multiplying of two tape_doubles." << std::endl;
 
         // Input values initialization.
-        TapeDoubleVector X(2);
+        tape_doubleVector X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -92,7 +92,7 @@ namespace cl
         Independent(X);
 
         // Output calculations.
-        TapeDoubleVector Y(1);
+        tape_doubleVector Y(1);
 
         Y[0] = X[0] * X[1];
 
@@ -134,16 +134,16 @@ namespace cl
 
     inline void pow_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for pow of TapeDouble." << std::endl;
+        out_str << "Testing tape contents for pow of tape_double." << std::endl;
         
         // Input values initialization.
-        TapeDoubleVector X(1, 3.0);
+        tape_doubleVector X(1, 3.0);
         
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
         
         // Output calculations.
-        TapeDoubleVector Y(1);
+        tape_doubleVector Y(1);
 
         Y[0] = std::pow(X[0], 4);
 
@@ -172,16 +172,16 @@ namespace cl
 
     inline void exponent_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for exponent of TapeDouble." << std::endl;
+        out_str << "Testing tape contents for exponent of tape_double." << std::endl;
 
         // Input values initialization.
-        TapeDoubleVector X(1, 3.0);
+        tape_doubleVector X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
 
         // Output calculations.
-        TapeDoubleVector Y(1);
+        tape_doubleVector Y(1);
 
         Y[0] = std::exp(-2.0 * X[0]);
 
@@ -211,10 +211,10 @@ namespace cl
 
     inline void cos_sin_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for addition of cos and sin of TapeDouble." << std::endl;
+        out_str << "Testing tape contents for addition of cos and sin of tape_double." << std::endl;
 
         // Input values initialization.
-        TapeDoubleVector X(2);
+        tape_doubleVector X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -222,7 +222,7 @@ namespace cl
         Independent(X);
 
         // Output calculations.
-        TapeDoubleVector Y(1);
+        tape_doubleVector Y(1);
 
         Y[0] = std::cos(X[0]) + std::sin(X[1]);
 
@@ -264,7 +264,7 @@ namespace cl
     inline void basic_examples()
     {
         std::ofstream output("basic_examples_output.txt");
-        CppAD::tape_serializer<TapeDouble> serializer(output);
+        CppAD::tape_serializer<tape_double> serializer(output);
 
         add_example(serializer);
         mult_example(serializer);

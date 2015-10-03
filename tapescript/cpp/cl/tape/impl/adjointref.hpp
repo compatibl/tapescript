@@ -36,7 +36,7 @@ namespace cl
         /// Need for referenced values
         ///</summary>
         template <typename Base
-            = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
+            = typename cl::remove_ad<cl::tape_double::value_type >::type >
         struct TapeRef;
     }
 
@@ -63,7 +63,7 @@ namespace cl
 
     namespace tapescript
     {
-        /// This template is an adapter of cl::TapeDouble functionality to adjoint functionality
+        /// This template is an adapter of cl::tape_double functionality to adjoint functionality
         /// The Base class can be different
         template <typename Base>
         struct TapeRef
@@ -103,7 +103,7 @@ namespace cl
             }
 
             /// conversion operator
-            TapeRef<Base>& operator = (cl::TapeDouble const& tv)
+            TapeRef<Base>& operator = (cl::tape_double const& tv)
             {
                 if (!ptr_)
                 {
@@ -149,7 +149,7 @@ namespace cl
         /// Iterator over tape double accessors,
         /// used for the algorithmic adjoint.
         /// </summary>
-        template <typename Vector = std::vector<cl::TapeDouble> >
+        template <typename Vector = std::vector<cl::tape_double> >
         struct TapeIterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
             , std::random_access_iterator_tag
@@ -244,7 +244,7 @@ namespace cl
             template <typename Base>
             friend class TapeFunction;
 
-            typedef std::vector<cl::TapeDouble::value_type> TapeDoubleValueVector;
+            typedef std::vector<cl::tape_double::value_type> tape_doubleValueVector;
         public:
             typedef TapeIterator<> iterator;
             typedef TapeIterator<> const_iterator;
@@ -254,7 +254,7 @@ namespace cl
             inline bool
                 check_equals_elements_() const
             {
-                TapeDoubleValueVector::const_iterator begin = vec_.begin();
+                tape_doubleValueVector::const_iterator begin = vec_.begin();
                 bool result = refs_.size() ? false : true;
                 std::for_each(refs_.begin(), refs_.end()
                     , [&result, &begin](TapeRef<> const& aa)
@@ -356,7 +356,7 @@ namespace cl
             std::vector<tapescript::TapeRef<> > refs_;
 
         private:
-            TapeDoubleValueVector vec_;
+            tape_doubleValueVector vec_;
         };
 
         /// The pointer adapter
@@ -746,7 +746,7 @@ namespace cl
     /// Currently we use this approach for adaptation of
     /// the extern type vectors to inner TapeInnerType.
     /// </summary>
-    typedef std::vector<cl::TapeDouble> TapeDoubleVector;
+    typedef std::vector<cl::tape_double> tape_doubleVector;
 
     /// <summary>
     /// Tape function is a compatible external functional implementation
@@ -833,7 +833,7 @@ namespace cl
     }
 
     inline void
-    Independent(std::vector<std::complex<cl::TapeDouble>> &x, std::size_t abort_index)
+    Independent(std::vector<std::complex<cl::tape_double>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
         ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x), abort_index);
@@ -847,7 +847,7 @@ namespace cl
     }
 
     inline void
-    Independent(std::vector<std::complex<cl::TapeDouble>> &x)
+    Independent(std::vector<std::complex<cl::tape_double>> &x)
     {
 #if defined CL_COMPILE_TIME_DEBUG
         print_type<decltype(cl::tapescript::adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();

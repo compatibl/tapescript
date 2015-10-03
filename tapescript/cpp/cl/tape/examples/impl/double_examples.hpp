@@ -35,15 +35,15 @@ namespace cl
         out_str << "Plus operation:\n" << std::endl;
 
         // Input values initialization.       
-        std::vector<cl::TapeDouble> X = { 1, 2, 0, 1 };
+        std::vector<cl::tape_double> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> sum = { X[0] + X[2], X[1] + X[3] };
-        std::vector<cl::TapeDouble> Y = sum;
+        std::vector<cl::tape_double> sum = { X[0] + X[2], X[1] + X[3] };
+        std::vector<cl::tape_double> Y = sum;
         out_str << "Output vector: " << Y << "\n\n";
        
         // Declare a tape function and stop the tape recording.
@@ -67,15 +67,15 @@ namespace cl
         out_str << "Minus operation:\n\n";
 
         // Input values initialization.
-        std::vector<cl::TapeDouble> X = { 1, 2, 0, 1 };
+        std::vector<cl::tape_double> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> diff = { X[0] - X[2], X[1] - X[3] };
-        std::vector<cl::TapeDouble> Y = diff;
+        std::vector<cl::tape_double> diff = { X[0] - X[2], X[1] - X[3] };
+        std::vector<cl::tape_double> Y = diff;
         out_str << "Output vector: " << Y << "\n\n";
 
         // Declare a tape function and stop the tape recording.
@@ -99,15 +99,15 @@ namespace cl
         out_str << "Exponent function:\n\n";
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 0, 1 };
+        std::vector<cl::tape_double> X = { 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> exp = { std::exp(X[0]), std::exp(X[1]) }; 
-        std::vector<cl::TapeDouble> Y = exp;
+        std::vector<cl::tape_double> exp = { std::exp(X[0]), std::exp(X[1]) }; 
+        std::vector<cl::tape_double> Y = exp;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -132,15 +132,15 @@ namespace cl
         out_str << "Cosine function:\n\n";
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 1, 3.14159265359 / 2 };
+        std::vector<cl::tape_double> X = { 1, 3.14159265359 / 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> cos = { std::cos(X[0]), std::cos(X[1]) };
-        std::vector<cl::TapeDouble> Y = cos;
+        std::vector<cl::tape_double> cos = { std::cos(X[0]), std::cos(X[1]) };
+        std::vector<cl::tape_double> Y = cos;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -165,10 +165,10 @@ namespace cl
         out_str << "Discount calculations:\n\n";
 
         // Input values initialization.
-        std::vector<cl::TapeDouble>  spot = { 100, 110 };
-        std::vector<cl::TapeDouble>  rate = { 0.05, 0.04 };
-        std::vector<cl::TapeDouble>  time = { 1, 2 };
-        std::vector<cl::TapeDouble> X = { spot[0], spot[1], rate[0], rate[1], time[0], time[1] };
+        std::vector<cl::tape_double>  spot = { 100, 110 };
+        std::vector<cl::tape_double>  rate = { 0.05, 0.04 };
+        std::vector<cl::tape_double>  time = { 1, 2 };
+        std::vector<cl::tape_double> X = { spot[0], spot[1], rate[0], rate[1], time[0], time[1] };
         out_str << "Spot: " << spot << "\n";
         out_str << "Rate: " << rate << "\n";
         out_str << "Time: " << time << "\n";
@@ -178,9 +178,9 @@ namespace cl
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> discount_factor = { std::exp(-X[2] * X[4]), std::exp(-X[3] * X[5]) };
-        std::vector<cl::TapeDouble> discounted_price = { X[0] * discount_factor[0], X[1] * discount_factor[1] };
-        std::vector<cl::TapeDouble> Y = { discounted_price[0], discounted_price[1], discount_factor[0], discount_factor[1] };
+        std::vector<cl::tape_double> discount_factor = { std::exp(-X[2] * X[4]), std::exp(-X[3] * X[5]) };
+        std::vector<cl::tape_double> discounted_price = { X[0] * discount_factor[0], X[1] * discount_factor[1] };
+        std::vector<cl::tape_double> Y = { discounted_price[0], discounted_price[1], discount_factor[0], discount_factor[1] };
         out_str << "Discounted price: " << discounted_price << "\n";
         out_str << "Discount factor: " << discount_factor << "\n";
         out_str << "Output vector: " << Y << "\n\n";
@@ -215,16 +215,16 @@ namespace cl
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 1, 2, -1.2 };
+        std::vector<cl::tape_double> X = { 1, 2, -1.2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> y0 = { std::sin(X[0]) / std::cos(X[2]) + X[2] / X[0], std::sin(X[1]) / std::cos(X[2]) + X[2] / X[1] };
-        std::vector<cl::TapeDouble> y1 = { y0[0] + X[0] * std::pow(X[2], 3) - 0.5, y0[1] + X[1] * std::pow(X[2], 3) - 0.5 };
-        std::vector<cl::TapeDouble> Y = { y0[0], y0[1], y1[0], y1[1] };
+        std::vector<cl::tape_double> y0 = { std::sin(X[0]) / std::cos(X[2]) + X[2] / X[0], std::sin(X[1]) / std::cos(X[2]) + X[2] / X[1] };
+        std::vector<cl::tape_double> y1 = { y0[0] + X[0] * std::pow(X[2], 3) - 0.5, y0[1] + X[1] * std::pow(X[2], 3) - 0.5 };
+        std::vector<cl::tape_double> Y = { y0[0], y0[1], y1[0], y1[1] };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -249,15 +249,15 @@ namespace cl
         out_str << "Sum of an array:\n\n";
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 1, 2 };
+        std::vector<cl::tape_double> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        cl::TapeDouble y0 = X[0] + X[1];
-        std::vector<cl::TapeDouble> Y = { y0 };
+        cl::tape_double y0 = X[0] + X[1];
+        std::vector<cl::tape_double> Y = { y0 };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -282,15 +282,15 @@ namespace cl
         out_str << "Reversing of an array:\n\n";
 
         // Input values initialization.
-        std::vector<cl::TapeDouble> X = { 1, 2 };
+        std::vector<cl::tape_double> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> y0 = { X[1], X[0] };
-        std::vector<cl::TapeDouble > Y =  y0;
+        std::vector<cl::tape_double> y0 = { X[1], X[0] };
+        std::vector<cl::tape_double > Y =  y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -315,14 +315,14 @@ namespace cl
         out_str << "Array concatenation:\n" << std::endl;
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 1, 2, 7, 0, 5 };
+        std::vector<cl::tape_double> X = { 1, 2, 7, 0, 5 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.        
-        std::vector<cl::TapeDouble> Y = X;
+        std::vector<cl::tape_double> Y = X;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -347,15 +347,15 @@ namespace cl
         out_str << "Array construction from scalar:\n" << std::endl;
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 7 };
+        std::vector<cl::tape_double> X = { 7 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> y0 = { X[0], X[0] };
-        std::vector<cl::TapeDouble> Y = y0;
+        std::vector<cl::tape_double> y0 = { X[0], X[0] };
+        std::vector<cl::tape_double> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -380,15 +380,15 @@ namespace cl
         out_str << "Maximum of two arrays:\n" << std::endl;
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { -1, 0, 1, 1, 0, -1 };
+        std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, -1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> y0 = { std::max(X[0], X[3]), std::max(X[1], X[4]), std::max(X[2], X[5]) };
-        std::vector<cl::TapeDouble> Y = y0;
+        std::vector<cl::tape_double> y0 = { std::max(X[0], X[3]), std::max(X[1], X[4]), std::max(X[2], X[5]) };
+        std::vector<cl::tape_double> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -413,16 +413,16 @@ namespace cl
         out_str << "L2 norm of an array:\n" << std::endl;
 
         // Input values initialization.        
-        std::vector<cl::TapeDouble> X = { 3 };
+        std::vector<cl::tape_double> X = { 3 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> array = { X[0], X[0] };
-        cl::TapeDouble norm = std::sqrt(std::pow(array[0], 2) + std::pow(array[1], 2));
-        std::vector<cl::TapeDouble> Y = { norm };
+        std::vector<cl::tape_double> array = { X[0], X[0] };
+        cl::tape_double norm = std::sqrt(std::pow(array[0], 2) + std::pow(array[1], 2));
+        std::vector<cl::tape_double> Y = { norm };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
@@ -448,25 +448,25 @@ namespace cl
 
         // Input values initialization.
         size_t n = 3;        
-        std::vector<cl::TapeDouble> X = { -1, 0, 1, 1, 0, 3 };
+        std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, 3 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::Independent(X);
 
         // Output calculations.
-        std::vector<cl::TapeDouble> x = { X[0], X[1], X[2] };
-        std::vector<cl::TapeDouble> y = { X[3], X[4], X[5] };
-        cl::TapeDouble x_mean = 1.0 / n * (x[0] + x[1] + x[2]);
-        cl::TapeDouble y_mean = 1.0 / n * (y[0] + y[1] + y[2]);
+        std::vector<cl::tape_double> x = { X[0], X[1], X[2] };
+        std::vector<cl::tape_double> y = { X[3], X[4], X[5] };
+        cl::tape_double x_mean = 1.0 / n * (x[0] + x[1] + x[2]);
+        cl::tape_double y_mean = 1.0 / n * (y[0] + y[1] + y[2]);
         // Variance times n: n * Var[x]
-        cl::TapeDouble var_x_n = std::pow(x[0] - x_mean, 2) + std::pow(x[1] - x_mean, 2) + std::pow(x[2] - x_mean, 2);
+        cl::tape_double var_x_n = std::pow(x[0] - x_mean, 2) + std::pow(x[1] - x_mean, 2) + std::pow(x[2] - x_mean, 2);
         // Covariance times n: n * Cov[x, y]
-        cl::TapeDouble cov_xy_n = (x[0] - x_mean) * (y[0] - y_mean) + (x[1] - x_mean) * (y[1] - y_mean) + (x[2] - x_mean) * (y[2] - y_mean);
-        cl::TapeDouble beta = cov_xy_n / var_x_n;
-        cl::TapeDouble alpha = y_mean - beta * x_mean;
-        std::vector<cl::TapeDouble> y_estimate = { alpha + beta * x[0], alpha + beta * x[1], alpha + beta * x[2] };
-        std::vector<cl::TapeDouble> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
+        cl::tape_double cov_xy_n = (x[0] - x_mean) * (y[0] - y_mean) + (x[1] - x_mean) * (y[1] - y_mean) + (x[2] - x_mean) * (y[2] - y_mean);
+        cl::tape_double beta = cov_xy_n / var_x_n;
+        cl::tape_double alpha = y_mean - beta * x_mean;
+        std::vector<cl::tape_double> y_estimate = { alpha + beta * x[0], alpha + beta * x[1], alpha + beta * x[2] };
+        std::vector<cl::tape_double> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";

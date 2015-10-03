@@ -71,14 +71,14 @@ namespace cl
             std::vector<double> leftNative(n);
             std::vector<double> rightNative(n);
 
-            std::vector<tape_object<double>> leftTapeDouble(n);
-            std::vector<tape_object<double>> rightTapeDouble(n);
+            std::vector<tape_object<double>> lefttape_double(n);
+            std::vector<tape_object<double>> righttape_double(n);
 
             srand((unsigned int)time(nullptr));
             for (int i = 0; i < n; ++i)
             {
-                leftTapeDouble[i] = leftNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
-                rightTapeDouble[i] = rightNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
+                lefttape_double[i] = leftNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
+                righttape_double[i] = rightNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
             }
 
             double nativeResult = 1;
@@ -89,7 +89,7 @@ namespace cl
             long _0 = GetTickCount();
 
             for (int i = 0; i < repeats; ++i)
-                dotProduct(leftTapeDouble, rightTapeDouble, tapeDoubleResult);
+                dotProduct(lefttape_double, righttape_double, tapeDoubleResult);
             
             long _1 = GetTickCount();
 
@@ -116,12 +116,12 @@ namespace cl
             out << "Calcilation start" << std::endl;
 
             std::vector<double> vecNative(n);
-            std::vector<tape_object<double>> vecTapeDouble(n);
+            std::vector<tape_object<double>> vectape_double(n);
 
             srand((unsigned int)time(nullptr));
             for (int i = 0; i < n; ++i)
             {
-                vecTapeDouble[i] = vecNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
+                vectape_double[i] = vecNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
             }
 
             double nativeResult = 1;
@@ -129,7 +129,7 @@ namespace cl
 
             long _0 = GetTickCount();
             
-            std::for_each(vecTapeDouble.begin(), vecTapeDouble.end(), [&tapeDoubleResult](tape_object<double> item)
+            std::for_each(vectape_double.begin(), vectape_double.end(), [&tapeDoubleResult](tape_object<double> item)
                 {
                 tapeDoubleResult += std::sin(item * std::pow(tapeDoubleResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(tapeDoubleResult * std::tan(item)))))); 
                 });

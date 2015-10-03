@@ -28,8 +28,8 @@ limitations under the License.
 
 namespace std
 {
-    /// <summary>Provides numeric limits for TapeDouble.</summary>
-    template<> class numeric_limits<cl::TapeDouble>
+    /// <summary>Provides numeric limits for tape_double.</summary>
+    template<> class numeric_limits<cl::tape_double>
     {
     public:
         static const bool is_specialized = true;

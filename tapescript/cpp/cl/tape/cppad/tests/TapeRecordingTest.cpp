@@ -50,22 +50,22 @@ double ADTapePerformance(std::ofstream & log)
     return time;
 }
 
-// Return time of tape recording for TapeDouble.
-double TapeDoubleTapePerformance(std::ofstream & log)
+// Return time of tape recording for tape_double.
+double tape_doubleTapePerformance(std::ofstream & log)
 {
-    std::vector<cl::TapeDouble> CppVec = vectorCast<cl::TapeDouble>(getRandomVector(dimension));
+    std::vector<cl::tape_double> CppVec = vectorCast<cl::tape_double>(getRandomVector(dimension));
 
-    cl::TapeDouble CppResult = 0;
+    cl::tape_double CppResult = 0;
 
     cl::Independent(CppVec);
     log << "Start of tape recording : " << currentTime() << std::endl;
     boost::timer timer;
 
-    for (cl::TapeDouble item : CppVec)
+    for (cl::tape_double item : CppVec)
     {
         CppResult += std::sin(item * std::pow(CppResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(CppResult * std::tan(item))))));
     }
-    cl::TapeFunction<double> f(CppVec, std::vector<cl::TapeDouble>({ CppResult }));
+    cl::TapeFunction<double> f(CppVec, std::vector<cl::tape_double>({ CppResult }));
     double time = timer.elapsed();
     log << "End of tape recording" << std::endl;
     return time;
@@ -79,9 +79,9 @@ BOOST_AUTO_TEST_SUITE(TapeRecordingTest)
             std::ofstream::out | std::ofstream::app);
         out << std::endl << "Independent variable vectors size " << dimension << std::endl;
         double ADtime = ADTapePerformance(out);
-        double CppTime = TapeDoubleTapePerformance(out);
+        double CppTime = tape_doubleTapePerformance(out);
         out << "\tTime for AD<double> " << ADtime << " s" << std::endl;
-        out << "\tTime for TapeDouble " << CppTime << " s" << std::endl;
+        out << "\tTime for tape_double " << CppTime << " s" << std::endl;
         out << "\tThe relative difference  " << 1.0 * std::abs(CppTime - ADtime) / std::max(CppTime, ADtime)
             << std::endl ;
 }

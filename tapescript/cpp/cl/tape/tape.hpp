@@ -150,7 +150,7 @@ namespace cl
 #elif defined CL_TAPE_ADOLC
     template <typename Type>
     using TapeFunctionBase = empty_template<Type>;
-    typedef std::vector<cl::TapeDouble::value_type > AdjVectorBase;
+    typedef std::vector<cl::tape_double::value_type > AdjVectorBase;
 
     inline void Independent(AdjVectorBase& v)
     {
@@ -163,7 +163,7 @@ namespace cl
     template <typename Type>
     using AdjFun = empty_template<Type>;
 
-    typedef std::vector<cl::TapeDouble> AdjVectorBase;
+    typedef std::vector<cl::tape_double> AdjVectorBase;
 
     inline void Independent(AdjVectorBase& v)
     {

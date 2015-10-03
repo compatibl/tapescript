@@ -37,10 +37,10 @@ BOOST_AUTO_TEST_SUITE(DerivativesTest)
 
 BOOST_AUTO_TEST_CASE(AddDerivativesTest)
 {
-    TapeDoubleVector X(2, 3.0);
+    tape_doubleVector X(2, 3.0);
 
     Independent(X);
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = 2 * X[0] + X[1];
     output  << "\nFunction Y =  2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1]<<std::endl;
     TapeFunction<double> f(X, Y);
@@ -68,10 +68,10 @@ BOOST_AUTO_TEST_CASE(AddDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(MultDerivativesTest)
 {
-    TapeDoubleVector X(2, 3.0);
+    tape_doubleVector X(2, 3.0);
 
     Independent(X);
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = X[0]*X[1];
     output  << "\nFunction Y =  X[0] * X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
     TapeFunction<double> f(X, Y);
@@ -99,10 +99,10 @@ BOOST_AUTO_TEST_CASE(MultDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(PowDerivativesTest)
 {
-    TapeDoubleVector X(1, 3.0);
+    tape_doubleVector X(1, 3.0);
 
     Independent(X);
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = std::pow(X[0], 4);
     output  << "\nFunction Y =  X[0]^4 is being tested at X[0] = " << X[0] << std::endl;
     TapeFunction<double> f(X, Y);
@@ -122,10 +122,10 @@ BOOST_AUTO_TEST_CASE(PowDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(ExpDerivativesTest)
 {
-    TapeDoubleVector X(1, 3.0);
+    tape_doubleVector X(1, 3.0);
     Independent(X);
 
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = std::exp(-2.0 * X[0]);
     output  << "\nFunction Y =  exp(-2.0 * X[0]) is being tested at X[0] = " << X[0] << std::endl;
     TapeFunction<double> f(X, Y);
@@ -145,10 +145,10 @@ BOOST_AUTO_TEST_CASE(ExpDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(CosSinDerivativesTest)
 {
-    TapeDoubleVector X(2, 3.0);
+    tape_doubleVector X(2, 3.0);
     Independent(X);
 
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = std::cos(X[0]) + std::sin(X[1]);
     output  << "\nFunction Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
@@ -176,10 +176,10 @@ BOOST_AUTO_TEST_CASE(CosSinDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
 {
-    TapeDoubleVector X(1, 3.0);
+    tape_doubleVector X(1, 3.0);
     Independent(X);
 
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = std::max(X[0]*X[0], 2 - X[0]);
     output  << "\nFunction Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
@@ -239,10 +239,10 @@ BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
 
 BOOST_AUTO_TEST_CASE(MinDerivativesTest)
 {
-    TapeDoubleVector X(1, 3.0);
+    tape_doubleVector X(1, 3.0);
     Independent(X);
 
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
     output  << "\nFunction Y = min(X[0]*X[0], 2 - X[0]) is tested at X[0] = " << X[0] << std::endl;
 
@@ -303,11 +303,11 @@ BOOST_AUTO_TEST_CASE(MinDerivativesTest)
 BOOST_AUTO_TEST_CASE(MaxLimitsDerivativesTest)
 {
     output << "The test is devoted to the function std::max for the limit values of doubles " << std::endl;
-    double epsilon = ((std::numeric_limits<cl::TapeDouble>::epsilon)());
-    double maxDouble = ((std::numeric_limits<cl::TapeDouble>::max)());
+    double epsilon = ((std::numeric_limits<cl::tape_double>::epsilon)());
+    double maxDouble = ((std::numeric_limits<cl::tape_double>::max)());
 
-    TapeDoubleVector Y(1);
-    TapeDoubleVector X(1, epsilon);
+    tape_doubleVector Y(1);
+    tape_doubleVector X(1, epsilon);
     Independent(X);
 
     Y[0] = std::max(5 - X[0] * X[0], 2);
@@ -354,10 +354,10 @@ BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
     double b = 1;
     double H = pow(10, 6);
 
-    TapeDoubleVector X(1, 0.0);
+    tape_doubleVector X(1, 0.0);
     Independent(X);
 
-    TapeDoubleVector Y(1);
+    tape_doubleVector Y(1);
 
     Y[0] = std::min(-std::log(b - X[0]), H);
     output  << "\nFunction Y = min(-log(b - X[0]), H), b = "<< b <<", H = "<< H << " is being tested at X[0] = " << X[0] << std::endl;

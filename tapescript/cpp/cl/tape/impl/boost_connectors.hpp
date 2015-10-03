@@ -35,12 +35,12 @@ namespace boost
             struct select_uniform_01;
 
             template<>
-            struct select_uniform_01<cl::TapeDouble>
+            struct select_uniform_01<cl::tape_double>
             {
                 template<class RealType>
                 struct apply
                 {
-                    typedef new_uniform_01<cl::TapeDouble> type;
+                    typedef new_uniform_01<cl::tape_double> type;
                 };
             };
         }
