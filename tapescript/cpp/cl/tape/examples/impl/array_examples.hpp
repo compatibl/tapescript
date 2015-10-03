@@ -60,7 +60,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -104,7 +105,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -138,7 +140,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -172,7 +175,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -218,7 +222,8 @@ namespace cl
         out_str << "Calculation of sensitivity of discount factor.\n";
         std::vector<cl::InnerArray> w = { 0, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[1] << "\n";
@@ -258,7 +263,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { -2, 1 }, { 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -292,7 +298,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -326,7 +333,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -363,7 +371,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 1, 2, 3, 4, 5 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -397,7 +406,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -432,7 +442,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { { 1, 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -467,7 +478,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -515,7 +527,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::InnerArray> w = { 0, 1, 0 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<cl::InnerArray> rev = f.Reverse(1, w);
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
+        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 

@@ -20,30 +20,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+#include "impl/adapter_performance_test.hpp"
 #include <stdlib.h>
-#include <iostream>
-
-# define CL_BASE_SERIALIZER_OPEN
-
-#include <cl/tape/tape.hpp>
-
-
-#include <boost/timer.hpp>
-
-#include "impl/array_examples.hpp"
-#include "impl/basic_examples.hpp"
-#include "impl/double_examples.hpp"
-#include "impl/performance_tests.hpp"
-#include "impl/regression_examples.hpp"
 
 int main()
 {
-    cl::basic_examples();
-    cl::array_examples();
-    cl::non_optimized_array_examples();
-    cl::performance_tests();
-    cl::regression_examples();
-
+    cl::adapter_performance_test();
+        
     system("pause");
     return 0;
 }

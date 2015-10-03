@@ -43,8 +43,9 @@ namespace cl
 
         enum Mode
         {
-            ScalarMode
-            , ArrayMode
+            ScalarMode = 1 << 0
+            , IntrusiveScalar = 1 << 1
+            , ArrayMode = 1 << 2
         };
 
         // Default and scalar_type constructor.
@@ -83,16 +84,38 @@ namespace cl
             , array_value_(traits::get_from_init_list(il))
         {}
 
-        // Returns true if scalar mode used.
+        // Returns true if scalar mode used (ordinary or intrusive).
         bool is_scalar() const
         {
-            return mode_ == ScalarMode;
+            return mode_ & (ScalarMode | IntrusiveScalar);
         }
 
         // Returns true if array mode used.
         bool is_array() const
         {
             return !is_scalar();
+        }
+
+        // Returns true if intrusive scalar mode used.
+        bool is_intrusive() const
+        {
+            return mode_ == IntrusiveScalar;
+        }
+
+        void set_intrusive()
+        {
+            if (mode_ == ScalarMode)
+            {
+                mode_ = IntrusiveScalar;
+            }
+        }
+
+        void set_not_intrusive()
+        {
+            if (mode_ == IntrusiveScalar)
+            {
+                mode_ = ScalarMode;
+            }
         }
 
         // Converts to scalar value.
@@ -132,27 +155,31 @@ namespace cl
         }
 
         // Assign operations.
-#define CL_INNER_ARRAY_ASSIGN_OPERATOR(Op)                              \
-        inline inner_array& operator Op ## = (const inner_array& right) \
-        {                                                               \
-            if (is_scalar() && right.is_scalar())                       \
-            {                                                           \
-                scalar_value_ Op##= right.scalar_value_;                \
-            }                                                           \
-            else if (is_array() && right.is_scalar())                  \
-            {                                                           \
-                array_value_ Op##= right.scalar_value_;                 \
-            }                                                           \
-            else if (is_scalar() && right.is_array())                  \
-            {                                                           \
-                array_value_ = scalar_value_ Op right.array_value_;     \
-                mode_ = ArrayMode;                                      \
-            }                                                           \
-            else if (is_array() && right.is_array())                  \
-            {                                                           \
-                array_value_ Op##= right.array_value_;                  \
-            }                                                           \
-            return *this;                                               \
+#define CL_INNER_ARRAY_ASSIGN_OPERATOR(Op)                                                      \
+        inline inner_array& operator Op ## = (const inner_array& right)                         \
+        {                                                                                       \
+            if (is_intrusive())                                                                 \
+            {                                                                                   \
+                scalar_value_ Op##= right.sum();                                                \
+            }                                                                                   \
+            else if (is_scalar() && right.is_scalar())                                          \
+            {                                                                                   \
+                scalar_value_ Op##= right.scalar_value_;                                        \
+            }                                                                                   \
+            else if (is_array() && right.is_scalar())                                           \
+            {                                                                                   \
+                array_value_ Op##= right.scalar_value_;                                         \
+            }                                                                                   \
+            else if (is_scalar() && right.is_array())                                           \
+            {                                                                                   \
+                array_value_ = scalar_value_ Op right.array_value_;                             \
+                mode_ = ArrayMode;                                                              \
+            }                                                                                   \
+            else if (is_array() && right.is_array())                                            \
+            {                                                                                   \
+                array_value_ Op##= right.array_value_;                                          \
+            }                                                                                   \
+            return *this;                                                                       \
         }
         CL_INNER_ARRAY_ASSIGN_OPERATOR(+)
         CL_INNER_ARRAY_ASSIGN_OPERATOR(-)
@@ -173,6 +200,20 @@ namespace cl
             return array_value_[(size_type)index];
         }
 
+        scalar_type sum() const
+        {
+            if (is_scalar())
+            {
+                return scalar_value_;
+            }
+            scalar_type result = 0.0;
+            for (size_t i = 0; i < size(); i++)
+            {
+                result += array_value_[i];
+            }
+            return result;            
+        }
+
         // Returns size of array value.
         size_t size() const
         {
@@ -180,6 +221,48 @@ namespace cl
             size_type temp = array_value_.size();
             assert(temp >= 0);
             return (size_t)temp;
+        }
+
+        void resize(size_t size)
+        {
+            mode_ = ArrayMode;
+            array_value_.resize(size);
+        }
+
+        scalar_type* begin()
+        {
+            assert(is_array());
+            return &array_value_[0];
+        }
+
+        scalar_type const* begin() const
+        {
+            assert(is_array());
+            return &array_value_[0];
+        }
+
+        scalar_type* end()
+        {
+            assert(is_array());
+            return &array_value_[0] + size();
+        }
+
+        scalar_type const* end() const
+        {
+            assert(is_array());
+            return &array_value_[0] + size();
+        }
+
+        scalar_type& operator[](size_t index)
+        {
+            assert(is_array());
+            return array_value_[index];
+        }
+
+        scalar_type const& operator[](size_t index) const
+        {
+            assert(is_array());
+            return array_value_[index];
         }
 
         Mode mode_;
@@ -360,15 +443,15 @@ namespace cl
     namespace tapescript
     {
         // Standart math functions.
-#define CL_INNER_ARRAY_FUNCTION(Name)                                                       \
-        template <class Array>                                                              \
-        inline cl::inner_array<Array> Name(const cl::inner_array<Array>& x)                 \
-        {                                                                                   \
-            if (x.is_scalar())                                                              \
-            {                                                                               \
-                return std::Name(x.scalar_value_);                                          \
-            }                                                                               \
-            return cl::inner_array<Array>::traits::Name(x.array_value_);                    \
+#define CL_INNER_ARRAY_FUNCTION(Name)                                                           \
+        template <class Array>                                                                  \
+        inline cl::inner_array<Array> Name(const cl::inner_array<Array>& x)                     \
+        {                                                                                       \
+            if (x.is_scalar())                                                                  \
+            {                                                                                   \
+                return std::Name(x.scalar_value_);                                              \
+            }                                                                                   \
+            return cl::inner_array<Array>::traits::Name(x.array_value_);                        \
         }
         CL_INNER_ARRAY_FUNCTION(abs)
         CL_INNER_ARRAY_FUNCTION(acos)
@@ -438,6 +521,26 @@ namespace cl
             return traits::pow(left, right.array_value_);
         }
 
+        template <class T>
+        void set_intrusive(T& val, const T& model = T()){}
+
+        template <class Array>
+        void set_intrusive(inner_array<Array>& val, const inner_array<Array>& model = inner_array<Array>())
+        {
+            if (model.is_scalar())
+            {
+                val.set_intrusive();
+            }
+        }
+
+        template <class T>
+        void set_not_intrusive(T& val){}
+
+        template <class Array>
+        void set_not_intrusive(inner_array<Array>& val)
+        {
+            val.set_not_intrusive();
+        }
     } // namespace tapescript
 } // namespace cl
 

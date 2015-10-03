@@ -35,6 +35,11 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 
 namespace CppAD
 {
+    struct empty_result {
+        template <typename Ty_>
+        empty_result(Ty_ const&) {} empty_result& operator *(){ return *this; }
+    };
+
     template <typename T>
     struct tape_serializer;
 
@@ -43,7 +48,7 @@ namespace CppAD
     {
         __if_exists(std::cout)
         {
-            return (&std::cout == &stg);
+            return (&std::cout == reinterpret_cast<std::ostream*>(&stg));
         }
 
         return false;
@@ -99,16 +104,32 @@ namespace CppAD
     namespace tapescript
     {
         template <typename Serializer, typename Stm>
-        inline unsigned int io_type__(Stm& stm, std::false_type)
+        inline size_t io_type__(Stm& stm, std::false_type)
         {
             return 0;
         }
 
+        template <typename Ty_>
+        inline Ty_* get_ptr(Ty_& v) { return &v; }
+
+        template <typename Ty_>
+        inline Ty_* get_ptr(Ty_* v) { return v; }
+
         template <typename Serializer, typename Stm>
-        inline unsigned int io_type__(Stm& stm, std::true_type)
+        inline size_t io_type__(Stm& stm, std::true_type)
         {
-            return static_cast<Serializer&>(stm).io_type();
+            typedef typename
+                std::remove_pointer<Stm>::type type_non_pointer;
+            return static_cast<Serializer*>(get_ptr(stm))->io_type();
+            
         }
+
+        template <typename Serializer>
+        inline size_t io_type__(CppAD::empty_result& stm, std::true_type)
+        {
+            return 0;
+        }
+
     }
 
     template <typename Base, typename Stm>
@@ -133,6 +154,21 @@ namespace CppAD
                 && CppAD::is_io_typed<Serializer>::value)>());
 
         return (v & serializer_type::io_text) != 0;
+    }
+
+    template <typename Se_, typename In_>
+    inline Se_& cast(In_& s_out)
+    {
+        return static_cast<Se_&>(s_out);
+    }
+
+    template <typename Se_>
+    inline Se_& cast(CppAD::empty_result& s_out)
+    {
+        typename 
+            std::remove_reference<Se_ >::type *ptr = 0;
+
+        return *ptr;
     }
 }
 
