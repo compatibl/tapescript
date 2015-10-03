@@ -68,7 +68,7 @@ namespace cl
         template <typename Base>
         struct TapeRef
         {
-            typedef TapeInnerType<Base> inner_type;
+            typedef tape_inner_type<Base> inner_type;
             typedef inner_type* inner_type_ptr;
 
             /// Default constructor
@@ -334,7 +334,7 @@ namespace cl
             }
 
             template <typename Base>
-            void push_back(TapeInnerType<Base> const& adj)
+            void push_back(tape_inner_type<Base> const& adj)
             {
                 vec_.push_back(adj);
                 refs_.push_back(vec_.back());
@@ -477,7 +477,7 @@ namespace cl
 
 #if defined CL_TAPE_COMPLEX_ENABLED
         //  Adapted type convertion inside AdaptVector
-        // we should provide convertion from complex<TapeInnerType<Base> > to TapeInnerType<complex<Base>>
+        // we should provide convertion from complex<tape_inner_type<Base> > to tape_inner_type<complex<Base>>
         // it can help to configure behaviour of adjoint logic
         template <typename Inner, typename Value>
         struct adapt_type_convention <std::vector<std::complex<cl::tape_object<Inner>>
@@ -744,7 +744,7 @@ namespace cl
 
     /// <summary>
     /// Currently we use this approach for adaptation of
-    /// the extern type vectors to inner TapeInnerType.
+    /// the extern type vectors to inner tape_inner_type.
     /// </summary>
     typedef std::vector<cl::tape_double> tape_doubleVector;
 
@@ -813,8 +813,8 @@ namespace cl
         template <typename VectorType>
         tape_function(VectorType& x, VectorType& y)
             : fun_base(
-                cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(x)
-                , cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(y))
+                cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<Inner> > >(x)
+                , cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<Inner> > >(y))
         {   }
     };
 
@@ -836,7 +836,7 @@ namespace cl
     Independent(std::vector<std::complex<cl::tape_double>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x), abort_index);
+        ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x), abort_index);
 #endif
     }
 
@@ -850,10 +850,10 @@ namespace cl
     Independent(std::vector<std::complex<cl::tape_double>> &x)
     {
 #if defined CL_COMPILE_TIME_DEBUG
-        print_type<decltype(cl::tapescript::adapt_typed<TapeInnerType<std::complex<double> > >(x)[0])>();
+        print_type<decltype(cl::tapescript::adapt_typed<tape_inner_type<std::complex<double> > >(x)[0])>();
 #endif
 #if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<double> > >(x));
+        ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x));
 #endif
     }
 

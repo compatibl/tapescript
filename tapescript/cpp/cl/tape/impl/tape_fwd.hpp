@@ -41,16 +41,16 @@ namespace cl
 {
 #if defined CL_TAPE_CPPAD
     template <typename Base>
-    using TapeInnerType = CppAD::AD<Base>;
+    using tape_inner_type = CppAD::AD<Base>;
 
     template <typename Base>
     using tape_function_base = CppAD::ADFun<Base>;
 #elif CL_TAPE_ADOLC
     template <typename Base>
-    using TapeInnerType = Adolc::DoubleAdapter<Base>;
+    using tape_inner_type = Adolc::DoubleAdapter<Base>;
 #else
     template <typename Base>
-    struct TapeInnerType {    };
+    struct tape_inner_type {    };
 #endif
     /// <summary>
     /// Alias on std reference wrapper type

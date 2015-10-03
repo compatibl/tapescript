@@ -51,8 +51,8 @@ namespace std
         typedef tape_type real_type;
         typedef complex<tape_type> complex_type;
         typedef complex<ad_base_type> complex_double;
-        typedef cl::TapeInnerType<complex_double > complex_based_type;
-        typedef std::complex<cl::TapeInnerType<ad_base_type> > real_based_type;
+        typedef cl::tape_inner_type<complex_double > complex_based_type;
+        typedef std::complex<cl::tape_inner_type<ad_base_type> > real_based_type;
 
         enum Complex_Mode { None = 0, RealBase = (1 << 1), ComplBase = (1 << 2) };
 
@@ -316,7 +316,7 @@ namespace std
                 real_base_ /= right.to_real_base();
 #else
                 real_based_type right_base = right.to_real_base();
-                cl::TapeInnerType<ad_base_type> x1 = real_base_.real()
+                cl::tape_inner_type<ad_base_type> x1 = real_base_.real()
                     , y1 = real_base_.imag()
                     , x2 = right_base.real()
                     , y2 = right_base.imag()
@@ -434,7 +434,7 @@ namespace cl
         }
         else
         {
-            return ext::abs_geq(lhs.complex_base_, cl::TapeInnerType<std::complex<inner_base_type>>(rhs));
+            return ext::abs_geq(lhs.complex_base_, cl::tape_inner_type<std::complex<inner_base_type>>(rhs));
         }
     }
 }
