@@ -144,7 +144,7 @@ Op#  Res# Op       Operands#          Taylor coefficients
 Forward sweep result: { { -7.26, -11.1 }, { -0.343, 7.95 } }
 
 Reverse(1, w) sweep for w = { { -2, 1 }, { 2, 3 } }...
-Reverse sweep result: { { -3.46, -8.58 }, { 8.64, 2.1 } }
+Reverse sweep result: { { -3.46, -8.58 }, 10.7 }
 
 
 Sum of an array:

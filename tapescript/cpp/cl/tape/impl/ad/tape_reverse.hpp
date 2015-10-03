@@ -137,10 +137,15 @@ namespace CppAD
             "Reverse mode for Forward(q, r, xq) with more than one direction"
             "\n(r > 1) is not yet supported for q > 1."
             );
-        // initialize entire Partial matrix to zero
+	    // initialize entire Partial matrix to zero
         for (i = 0; i < num_var_tape_; i++)
-        for (j = 0; j < q; j++)
-            Partial[i * q + j] = zero;
+        {
+		    for (j = 0; j < q; j++)
+            {
+			    Partial[i * q + j] = zero;
+                cl::tapescript::set_intrusive(Partial[i * q + j], taylor_[i * cap_order_taylor_]);
+            }
+        }
 
         // set the dependent variable direction
         // (use += because two dependent variables can point to same location)
@@ -204,6 +209,10 @@ namespace CppAD
             "but none of its Taylor coefficents are nan."
             );
 
+        for (size_t i = 0; i < value.size(); i++)
+        {
+            cl::tapescript::set_not_intrusive(value[i]);
+        }
         return make_result<VectorBaseType>(value).get();
     }
 }

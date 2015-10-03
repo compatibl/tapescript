@@ -246,7 +246,10 @@ namespace cl
                     const vector<Base>&       py )
                 {
                     for (size_t i = 0; i < py.size(); i++)
-                        px[i] = adjust_size(sum_vec(py[i]).scalar_value_, tx[0]);
+                    {
+                        assert(py[i].is_scalar());
+                        px[i] = py[i].scalar_value_;
+                    }
                     return true;
                 }
     
