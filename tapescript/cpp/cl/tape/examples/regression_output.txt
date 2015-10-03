@@ -1,0 +1,32 @@
+Linear regression with parameters (optimised tape):
+
+Input vector size: n = 2000
+Tape memory (bytes): 1308
+Tape creation took (ms): 1
+Forward calculation took (ms): 0
+All derivatives calculated successfully.
+
+Linear regression with parameters (non-optimised tape):
+
+Input vector size: n = 2000
+Tape memory (bytes): 688864
+Tape creation took (ms): 2
+Forward calculation took (ms): 1
+All derivatives calculated successfully.
+
+Linear regression with points (optimised tape):
+
+Input vector size: n = 2000
+Tape memory (bytes): 1308
+Tape creation took (ms): 0
+Forward calculation took (ms): 362
+All derivatives calculated successfully.
+
+Linear regression with points (non-optimised tape):
+
+Input vector size: n = 2000
+Tape memory (bytes): 720060
+Tape creation took (ms): 2
+Forward calculation took (ms): 1.42e+003
+All derivatives calculated successfully.
+

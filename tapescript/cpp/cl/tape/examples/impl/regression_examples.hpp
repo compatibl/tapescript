@@ -30,24 +30,42 @@ limitations under the License.
 
 namespace cl
 {
-    // Control production of tape output to serializer.
-    bool flag_serializer = false;
+    struct initial_data
+    {
+        // Control production of tape output to serializer.
+        bool flag_serializer = false;
 
-    // Input linear regression parameters.
-    // n: number of points {x_i, y_i}.
-    // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
-    // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
-    size_t n = 500;
-    double a = 1.0;
-    double b = 2.0;
-    double c = 3.0;
+        // Input linear regression parameters.
+        // n: number of points {x_i, y_i}.
+        // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
+        // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+        size_t n = 2000;
+        double a = 1.0;
+        double b = 2.0;
+        double c = 3.0;
 
-    // Tolerance for analytical vs. adjoint derivative check.
-    double eps = 1e-10;
+        // Tolerance for analytical vs. adjoint derivative check.
+        double eps = 1e-10;
+    };
 
     // Example of linear regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void linear_regression_with_params_optimized_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_with_params_optimized_example(const initial_data& data, std::ostream& out_str = std::cout)
     {
+        // Control production of tape output to serializer.
+        bool flag_serializer = data.flag_serializer;
+
+        // Input linear regression parameters.
+        // n: number of points {x_i, y_i}.
+        // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
+        // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+        size_t n = data.n;
+        double a = data.a;
+        double b = data.b;
+        double c = data.c;
+
+        // Tolerance for analytical vs. adjoint derivative check.
+        double eps = data.eps;
+
         out_str << "Linear regression with parameters (optimised tape):\n" << std::endl;
 
         // Input values initialization.
@@ -150,8 +168,23 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to parameters of input distribution using non-optimized tape.
-    inline void linear_regression_with_params_nonoptimized_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_with_params_nonoptimized_example(const initial_data& data, std::ostream& out_str = std::cout)
     {
+        // Control production of tape output to serializer.
+        bool flag_serializer = data.flag_serializer;
+
+        // Input linear regression parameters.
+        // n: number of points {x_i, y_i}.
+        // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
+        // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+        size_t n = data.n;
+        double a = data.a;
+        double b = data.b;
+        double c = data.c;
+
+        // Tolerance for analytical vs. adjoint derivative check.
+        double eps = data.eps;
+
         out_str << "Linear regression with parameters (non-optimised tape):\n" << std::endl;
 
         // Input values initialization.
@@ -272,8 +305,23 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to input points using optimized tape.
-    inline void linear_regression_with_points_optimized_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_with_points_optimized_example(const initial_data& data, std::ostream& out_str = std::cout)
     {
+        // Control production of tape output to serializer.
+        bool flag_serializer = data.flag_serializer;
+
+        // Input linear regression parameters.
+        // n: number of points {x_i, y_i}.
+        // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
+        // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+        size_t n = data.n;
+        double a = data.a;
+        double b = data.b;
+        double c = data.c;
+
+        // Tolerance for analytical vs. adjoint derivative check.
+        double eps = data.eps;
+
         out_str << "Linear regression with points (optimised tape):\n" << std::endl;
 
         // Input values initialization.
@@ -381,8 +429,23 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to input points using non-optimized tape.
-    inline void linear_regression_with_points_nonoptimized_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_with_points_nonoptimized_example(const initial_data& data, std::ostream& out_str = std::cout)
     {
+        // Control production of tape output to serializer.
+        bool flag_serializer = data.flag_serializer;
+
+        // Input linear regression parameters.
+        // n: number of points {x_i, y_i}.
+        // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
+        // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+        size_t n = data.n;
+        double a = data.a;
+        double b = data.b;
+        double c = data.c;
+
+        // Tolerance for analytical vs. adjoint derivative check.
+        double eps = data.eps;
+
         out_str << "Linear regression with points (non-optimised tape):\n" << std::endl;
 
         // Input values initialization.
@@ -437,7 +500,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Output vector: " << Y << "\n\n";
 
-        if (flag_serializer)
+        if (data.flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::TapeFunction<double> f(X, Y);
@@ -500,10 +563,13 @@ namespace cl
         CppAD::tape_serializer<cl::InnerArray> serializer(of);
         serializer.precision(3);
 
-        linear_regression_with_params_optimized_example(serializer);
-        linear_regression_with_params_nonoptimized_example(serializer);
-        linear_regression_with_points_optimized_example(serializer);
-        linear_regression_with_points_nonoptimized_example(serializer);
+        // Input data parameters.
+        initial_data data;
+
+        linear_regression_with_params_optimized_example(data, serializer);
+        linear_regression_with_params_nonoptimized_example(data, serializer);
+        linear_regression_with_points_optimized_example(data, serializer);
+        linear_regression_with_points_nonoptimized_example(data, serializer);
     }
 }
 
