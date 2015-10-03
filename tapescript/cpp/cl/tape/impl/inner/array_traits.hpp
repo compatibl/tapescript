@@ -41,7 +41,7 @@ namespace cl
     typedef inner_array<std::valarray<double>> InnerValArray;
     typedef tape_object<InnerValArray> TapeValArray;
     typedef InnerValArray InnerArray;
-    typedef tape_object<InnerArray> TapeArray;
+    typedef tape_object<InnerArray> tape_array;
 
 #if defined CL_EIGEN_ENABLED
     typedef inner_array<Eigen::ArrayXd> InnerArrayXd;

@@ -79,7 +79,7 @@ namespace cl
         cl::InnerArray a_ref = a;
         cl::InnerArray b_ref = b;
         cl::InnerArray c_ref = c;
-        std::vector<cl::TapeArray> X = { a_ref, b_ref, c_ref };
+        std::vector<cl::tape_array> X = { a_ref, b_ref, c_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -88,27 +88,27 @@ namespace cl
         cl::Independent(X);
 
         // Output calculations.
-        cl::TapeArray& par_a = X[0];
-        cl::TapeArray& par_b = X[1];
-        cl::TapeArray& par_c = X[2];
+        cl::tape_array& par_a = X[0];
+        cl::tape_array& par_b = X[1];
+        cl::tape_array& par_c = X[2];
         // Obtain x_i values.
-        cl::TapeArray x = lin_regr.GetInputX();
+        cl::tape_array x = lin_regr.GetInputX();
         // Calculate corresponding y_i values.
-        cl::TapeArray y = par_a + x * par_b + exp(-1 * par_c * x);
+        cl::tape_array y = par_a + x * par_b + exp(-1 * par_c * x);
         // Start linear regression calculation: calculate mean values.
-        cl::TapeArray x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
-        cl::TapeArray y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+        cl::tape_array x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
+        cl::tape_array y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
         // Variance times n: n * Var[x]
-        cl::TapeArray var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+        cl::tape_array var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
         // Covariance times n: n * Cov[x, y]
-        cl::TapeArray cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+        cl::tape_array cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
         // Linear regression coefficients.
-        cl::TapeArray beta = cov_xy_n / var_x_n;
-        cl::TapeArray alpha = y_mean - beta * x_mean;
+        cl::tape_array beta = cov_xy_n / var_x_n;
+        cl::tape_array alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::TapeArray y_estimate = alpha + beta * x;
+        cl::tape_array y_estimate = alpha + beta * x;
         // Output vector.
-        std::vector<cl::TapeArray> Y = { alpha, beta, y_estimate };
+        std::vector<cl::tape_array> Y = { alpha, beta, y_estimate };
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
@@ -335,7 +335,7 @@ namespace cl
         std::valarray<double> x_ref_array = lin_regr.GetInputX();
         std::valarray<double> y_ref_array = lin_regr.GetInputY();
         cl::InnerArray x_ref(x_ref_array), y_ref(y_ref_array);
-        std::vector<cl::TapeArray> X = { x_ref, y_ref };
+        std::vector<cl::tape_array> X = { x_ref, y_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -344,22 +344,22 @@ namespace cl
         cl::Independent(X);
 
         // Output calculations.
-        cl::TapeArray& x = X[0];
-        cl::TapeArray& y = X[1];
+        cl::tape_array& x = X[0];
+        cl::tape_array& y = X[1];
         // Start linear regression calculation: calculate mean values.
-        cl::TapeArray x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
-        cl::TapeArray y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+        cl::tape_array x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
+        cl::tape_array y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
         // Variance times n: n * Var[x]
-        cl::TapeArray var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+        cl::tape_array var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
         // Covariance times n: n * Cov[x, y]
-        cl::TapeArray cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+        cl::tape_array cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
         // Linear regression coefficients.
-        cl::TapeArray beta = cov_xy_n / var_x_n;
-        cl::TapeArray alpha = y_mean - beta * x_mean;
+        cl::tape_array beta = cov_xy_n / var_x_n;
+        cl::tape_array alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::TapeArray y_estimate = alpha + beta * x;
+        cl::tape_array y_estimate = alpha + beta * x;
         // Output vector.
-        std::vector<cl::TapeArray> Y = { alpha, beta, y_estimate };
+        std::vector<cl::tape_array> Y = { alpha, beta, y_estimate };
         if (flag_serializer)
             out_str << "Output vector: " << Y << "\n\n";
 

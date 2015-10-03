@@ -44,9 +44,9 @@ namespace cl
             array_task.dx_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
             array_task.w_ = { gen_vector<InnerArray>(n, gen) };
             array_task.repeat_ = repeat / n + 1;
-            array_task.func_ = [](std::vector<TapeArray> const& v)
+            array_task.func_ = [](std::vector<tape_array> const& v)
             {
-                return std::vector<TapeArray>{ v[0] + v[1] };
+                return std::vector<tape_array>{ v[0] + v[1] };
             };
             return array_task;
         }
