@@ -62,11 +62,7 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::InnerArray> rev = f.Reverse(1, w);
 
-        std::ofstream of("output_reverse.txt");
-        CppAD::tape_serializer<cl::InnerArray> serializer(of);
-        serializer.precision(3);
-
-
+        CppAD::tape_serializer<cl::InnerArray>& serializer(static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str));
         std::vector<cl::InnerArray> const& rev_ = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
