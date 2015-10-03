@@ -75,9 +75,9 @@ namespace cl
 
 #   undef private
 
-#   if defined CL_BASE_SERIALIZER_OPEN
+//#   if defined CL_BASE_SERIALIZER_OPEN
 #       include <cl/tape/impl/ad/tape_serializer.hpp>
-#   endif
+//#   endif
 #endif
 
 #if defined CL_TAPE_GEN_ENABLED
