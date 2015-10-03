@@ -47,7 +47,7 @@ namespace cl
 
     private:
 
-        /// <summary> The friend class to conversations </summary>
+        /// <summary>The friend class to conversations.</summary>
         template <typename, typename, typename, typename, typename, typename, typename, typename >
         friend struct cl::tape_doubleConvert;
 

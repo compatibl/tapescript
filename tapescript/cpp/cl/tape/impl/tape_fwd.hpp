@@ -67,7 +67,7 @@ namespace cl
     class tape_object;
 
 #if defined CL_TAPE_GEN_ENABLED
-    ///<summary> codegeneration based type </summary>
+    /// <summary>Code generation base type.</summary>
     typedef CppAD::cg::CG<double> tape_cg_base_type;
 
     /// <summary> tape_double fwd declaration </summary>
@@ -76,7 +76,7 @@ namespace cl
     typedef tape_object<double> tape_double;
 #endif
 
-    ///<summary>Empty structure.</summary>
+    /// <summary>Empty structure.</summary>
     struct dummy;
 
     template <typename Ty_>

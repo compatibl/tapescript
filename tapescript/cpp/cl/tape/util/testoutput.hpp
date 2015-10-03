@@ -477,7 +477,7 @@ namespace cl
             this->write_graphics();
         }
 
-        /// <summary> setting field can be provided by user </summary>
+        /// <summary>Setting field can be provided by user.</summary>
         settings_type settings_;
 
         std::pair<std::string, std::string> path_;

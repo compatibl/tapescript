@@ -32,9 +32,9 @@ namespace cl
 {
     namespace tapescript
     {
-        ///<summary>
+        /// <summary>
         /// Need for referenced values
-        ///</summary>
+        /// </summary>
         template <typename Base
             = typename cl::remove_ad<cl::tape_double::value_type >::type >
         struct tape_ref;
@@ -611,7 +611,7 @@ namespace cl
                 , ref_(ptr_.get())
             {    }
 
-            /// <summary> Const operator [] </summary>
+            /// <summary>Const operator []</summary>
             inline converted_value_type const&
                 operator[](size_type ix) const
             {
@@ -775,7 +775,6 @@ namespace cl
             serializer & *this;
         }
 
-        /// <summary> </summary>
         template <typename Inner, typename Serializer>
         tape_function(std::vector<cl::tape_object<Inner>> const& x
                 , std::vector<cl::tape_object<Inner>> const& y

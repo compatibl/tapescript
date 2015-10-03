@@ -198,8 +198,8 @@ namespace CppAD
 
 
 
-    /// <summary> Implementation serialization call
-    /// if we have implemented serializer </summary>
+    /// <summary>Implementation serialization call
+    /// if we have implemented serializer.</summary>
     template <typename Serializer, typename Stream, typename Base, typename... Args>
     inline void serialize__
         (std::true_type
