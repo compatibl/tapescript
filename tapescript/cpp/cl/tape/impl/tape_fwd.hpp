@@ -35,7 +35,7 @@ namespace CppAD
 }
 
 /// <summary>
-///    Adapter for types convertible to double.
+/// Adapter for types convertible to double.
 /// </summary>
 namespace cl
 {
@@ -53,7 +53,7 @@ namespace cl
     struct TapeInnerType {    };
 #endif
     /// <summary>
-    ///    Alias on std reference wrapper type
+    /// Alias on std reference wrapper type
     /// it used for preventing native type specification
     /// for adapted types.
     /// </summary>
@@ -61,7 +61,7 @@ namespace cl
     using ref_type = std::reference_wrapper<Type>;
 
     /// <summary>
-    ///   TapeDouble forward declaration
+    /// TapeDouble forward declaration
     /// </summary>
     template<typename Base>
     class tape_double;

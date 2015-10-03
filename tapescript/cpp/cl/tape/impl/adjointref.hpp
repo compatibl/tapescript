@@ -26,14 +26,14 @@ limitations under the License.
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
 /// <summary>
-///    Adapter for types convertible to double.
+/// Adapter for types convertible to double.
 /// </summary>
 namespace cl
 {
     namespace tapescript
     {
         ///<summary>
-        ///    Need for referenced values
+        /// Need for referenced values
         ///</summary>
         template <typename Base
             = typename cl::remove_ad<cl::TapeDouble::value_type >::type >
@@ -48,7 +48,7 @@ namespace cl
     }
 
     /// <summary>
-    ///   Declaration of dereference for adjoint reference class.
+    /// Declaration of dereference for adjoint reference class.
     /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
@@ -63,7 +63,7 @@ namespace cl
 
     namespace tapescript
     {
-        ///  This template is an adapter of cl::TapeDouble functionality to adjoint functionality
+        /// This template is an adapter of cl::TapeDouble functionality to adjoint functionality
         /// The Base class can be different
         template <typename Base>
         struct TapeRef
@@ -146,7 +146,7 @@ namespace cl
         };
 
         /// <summary>
-        ///  Iterator over tape double accessors,
+        /// Iterator over tape double accessors,
         /// used for the algorithmic adjoint.
         /// </summary>
         template <typename Vector = std::vector<cl::TapeDouble> >
@@ -194,7 +194,7 @@ namespace cl
     }
 
     /// <summary>
-    ///  Dereference implementation.
+    /// Dereference implementation.
     /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type >::inner_type&
@@ -204,7 +204,7 @@ namespace cl
     }
 
     /// <summary>
-    ///  Dereference implementation.
+    /// Dereference implementation.
     /// </summary>
     template <typename Type>
     inline typename tapescript::TapeRef<Type>::inner_type&
@@ -218,7 +218,7 @@ namespace cl
 namespace std
 {
     /// <summary>
-    ///   Implementation of std traits for algorithmic use.
+    /// Implementation of std traits for algorithmic use.
     /// </summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
         : std::true_type{};
@@ -587,13 +587,13 @@ namespace cl
             typedef typename
                 Vector::size_type size_type;
 
-            ///  Constructor
+            /// Constructor
             /// Pointer can initialize AdapterVector, but shared_ptr couldn't
             AdapterVector(adapt_type<Vector> vc_ref)
                 : ref_(vc_ref), ptr_()
             {   }
 
-            ///  Constructor
+            /// Constructor
             /// we should create the instance and value will be putted to ref
             AdapterVector(size_type size) : ptr_(new orig_vector(size))
                 , ref_(ptr_.get())
@@ -743,13 +743,13 @@ namespace cl
     }
 
     /// <summary>
-    ///    Currently we use this approach for adaptation of
-    /// the extern type vectors to innner TapeInnerType.
+    /// Currently we use this approach for adaptation of
+    /// the extern type vectors to inner TapeInnerType.
     /// </summary>
     typedef std::vector<cl::TapeDouble> TapeDoubleVector;
 
     /// <summary>
-    ///   Tape function is a compatible external functional implementation
+    /// Tape function is a compatible external functional implementation
     /// this should be suitable inside external framework.
     /// </summary>
     template <typename Base>

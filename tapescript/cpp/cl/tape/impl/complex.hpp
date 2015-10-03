@@ -33,7 +33,7 @@ namespace ext = CppAD;
 namespace std
 {
     /// <summary>
-    ///    The complex type based on tape double.
+    /// The complex type based on tape double.
     /// </summary>
     template<typename Inner>
     class complex<cl::tape_double<Inner>>
