@@ -65,7 +65,7 @@ double tape_doubleTapePerformance(std::ofstream & log)
     {
         CppResult += std::sin(item * std::pow(CppResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(CppResult * std::tan(item))))));
     }
-    cl::TapeFunction<double> f(CppVec, std::vector<cl::tape_double>({ CppResult }));
+    cl::tape_function<double> f(CppVec, std::vector<cl::tape_double>({ CppResult }));
     double time = timer.elapsed();
     log << "End of tape recording" << std::endl;
     return time;

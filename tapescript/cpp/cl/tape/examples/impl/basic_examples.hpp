@@ -46,7 +46,7 @@ namespace cl
         out_str << "\nFunction Y = 2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);
@@ -99,7 +99,7 @@ namespace cl
         out_str << "\nFunction Y = X[0] * X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);
@@ -150,7 +150,7 @@ namespace cl
         out_str << "\nFunction Y =  X[0]^4 is being tested at X[0] = " << X[0] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate derivative in Forward mode.
         std::vector<double> sy, sx(1, 1.0);
@@ -188,7 +188,7 @@ namespace cl
         out_str << "\nFunction Y = exp(-2.0 * X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate derivative in Forward mode.
         std::vector<double> sy, sx(1, 1.0);
@@ -229,7 +229,7 @@ namespace cl
         out_str << "\nFunction Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);

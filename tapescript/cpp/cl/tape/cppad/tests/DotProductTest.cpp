@@ -111,7 +111,7 @@ void performanceTestWithTape()
 
     timer.restart();
     tape_doubleResult = dotProduct<cl::tape_double >(lefttape_double, righttape_double);
-    cl::TapeFunction<double> fcl(lefttape_double, std::vector<cl::tape_double>({ tape_doubleResult }));
+    cl::tape_function<double> fcl(lefttape_double, std::vector<cl::tape_double>({ tape_doubleResult }));
     double CppTime = timer.elapsed();
     out << "End of calculating" << std::endl;
     out << "\tTime for AD<double> " << ADtime << " s" << std::endl;

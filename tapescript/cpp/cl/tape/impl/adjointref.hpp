@@ -242,7 +242,7 @@ namespace cl
             friend inline void Independent(TapeRefVector& v);
             friend inline void Independent(TapeRefVector& v, std::size_t abort_index);
             template <typename Base>
-            friend class TapeFunction;
+            friend class tape_function;
 
             typedef std::vector<cl::tape_double::value_type> tape_doubleValueVector;
         public:
@@ -753,23 +753,23 @@ namespace cl
     /// this should be suitable inside external framework.
     /// </summary>
     template <typename Base>
-    class TapeFunction 
-        : public TapeFunctionBase<Base>
+    class tape_function 
+        : public tape_function_base<Base>
         , tapescript::serialize_accessor<Base>
     {
     public:
 
         typedef tapescript::serialize_accessor<Base> serializability;
-        typedef TapeFunctionBase<Base> base;
+        typedef tape_function_base<Base> base;
 
-        TapeFunction()
-            : TapeFunctionBase<Base>()
+        tape_function()
+            : tape_function_base<Base>()
             , serializability()
         { }
 
         template <typename Serializer>
-        TapeFunction(Serializer& serializer)
-            : TapeFunctionBase<Base>()
+        tape_function(Serializer& serializer)
+            : tape_function_base<Base>()
             , serializability()
         {
             serializer & *this;
@@ -777,41 +777,41 @@ namespace cl
 
         /// <summary> </summary>
         template <typename Inner, typename Serializer>
-        TapeFunction(std::vector<cl::tape_object<Inner>> const& x
+        tape_function(std::vector<cl::tape_object<Inner>> const& x
                 , std::vector<cl::tape_object<Inner>> const& y
                 , Serializer& serializer)   
-                        : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
+                        : tape_function_base<Base>(tapescript::adapt(x), tapescript::adapt(y))
                         , serializability(tapescript::adapt(x))
         {
             serializer & *this;
         }
 
-        TapeFunction(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
-            : TapeFunctionBase<Base>(x.vec_, y.vec_)
+        tape_function(tapescript::TapeRefVector const& x, tapescript::TapeRefVector const& y)
+            : tape_function_base<Base>(x.vec_, y.vec_)
             , serializability(x.vec_)
         { }
 
         template <typename Inner>
-        TapeFunction(std::vector<cl::tape_object<Inner>> const& x, std::vector<cl::tape_object<Inner>> const& y)
-            : TapeFunctionBase<Base>(tapescript::adapt(x), tapescript::adapt(y))
+        tape_function(std::vector<cl::tape_object<Inner>> const& x, std::vector<cl::tape_object<Inner>> const& y)
+            : tape_function_base<Base>(tapescript::adapt(x), tapescript::adapt(y))
             , serializability(tapescript::adapt(x))
         { }
 
         template <typename Inner>
         void Dependent(std::vector<cl::tape_object<Inner>> const& x, std::vector<cl::tape_object<Inner>> const& y)
         {
-            TapeFunctionBase<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
+            tape_function_base<Base>::Dependent(tapescript::adapt(x), tapescript::adapt(y));
         }
     };
 
     template <typename Inner>
-    class TapeFunction<std::complex<cl::tape_object<Inner> > >
-        : public cl::TapeFunctionBase<std::complex<Inner> >
+    class tape_function<std::complex<cl::tape_object<Inner> > >
+        : public cl::tape_function_base<std::complex<Inner> >
     {
     public:
-        typedef cl::TapeFunctionBase<std::complex<Inner> > fun_base;
+        typedef cl::tape_function_base<std::complex<Inner> > fun_base;
         template <typename VectorType>
-        TapeFunction(VectorType& x, VectorType& y)
+        tape_function(VectorType& x, VectorType& y)
             : fun_base(
                 cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(x)
                 , cl::tapescript::adapt_typed<cl::TapeInnerType<std::complex<Inner> > >(y))

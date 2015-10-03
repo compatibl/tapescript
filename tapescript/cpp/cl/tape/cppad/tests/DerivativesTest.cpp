@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(AddDerivativesTest)
     tape_doubleVector Y(1);
     Y[0] = 2 * X[0] + X[1];
     output  << "\nFunction Y =  2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1]<<std::endl;
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     // Calculate derivative of Y on X[0] in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(MultDerivativesTest)
     tape_doubleVector Y(1);
     Y[0] = X[0]*X[1];
     output  << "\nFunction Y =  X[0] * X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     // Calculate derivative of Y on X[0] in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(PowDerivativesTest)
     tape_doubleVector Y(1);
     Y[0] = std::pow(X[0], 4);
     output  << "\nFunction Y =  X[0]^4 is being tested at X[0] = " << X[0] << std::endl;
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     // Calculate derivative in Forward mode.
     std::vector<double> sy, sx(1, 1.0);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(ExpDerivativesTest)
     tape_doubleVector Y(1);
     Y[0] = std::exp(-2.0 * X[0]);
     output  << "\nFunction Y =  exp(-2.0 * X[0]) is being tested at X[0] = " << X[0] << std::endl;
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     // Calculate derivative in Forward mode.
     std::vector<double> sy, sx(1, 1.0);
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE(CosSinDerivativesTest)
     Y[0] = std::cos(X[0]) + std::sin(X[1]);
     output  << "\nFunction Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
     // Calculate derivative of Y on X[0] in Forward mode.
     std::vector<double> sy, sx(2, 0.0);
     sx[0] = 1;
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE(MaxDerivativesTest)
     Y[0] = std::max(X[0]*X[0], 2 - X[0]);
     output  << "\nFunction Y = max(X[0]*X[0], 2 - X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
     output  <<  "Y = max(X[0]*X[0], 2 - X[0]) =  X[0]*X[0]\n"  <<
         "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
 
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE(MinDerivativesTest)
     Y[0] = std::min(X[0] * X[0], 2 - X[0]);
     output  << "\nFunction Y = min(X[0]*X[0], 2 - X[0]) is tested at X[0] = " << X[0] << std::endl;
 
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
     output  << "Y = min(X[0]*X[0], 2 - X[0]) =  2 - X[0]\n" <<
         "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
 
@@ -313,7 +313,7 @@ BOOST_AUTO_TEST_CASE(MaxLimitsDerivativesTest)
     Y[0] = std::max(5 - X[0] * X[0], 2);
     output << "\nFunction Y = max(5 - X[0]*X[0], 2 ) is tested at X[0] = " << X[0] << std::endl;
 
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
     output << "Y = max(5 - X[0]*X[0], 2 ) = 5 - X[0]*X[0], " <<
         "because X[0]*X[0] > 2 - X[0] at X[0] = " << X[0] << std::endl;
     // Derivatives in x = epsilon are correct.
@@ -361,7 +361,7 @@ BOOST_AUTO_TEST_CASE(LogBarrierDerivativesTest)
 
     Y[0] = std::min(-std::log(b - X[0]), H);
     output  << "\nFunction Y = min(-log(b - X[0]), H), b = "<< b <<", H = "<< H << " is being tested at X[0] = " << X[0] << std::endl;
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     output  << "Sequence of operations in a tape is fixed according to the value of X[0].\n" <<
         "Y = min(-log(b - X[0]), H) =  -log(b - X[0]),\n" <<

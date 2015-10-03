@@ -66,7 +66,7 @@ void arithmeticPerformanceTest()
     {
         vector<cl::tape_double> x(4), y(4);
         cl::Independent(x);
-        cl::TapeFunction<double> f(x, y);
+        cl::tape_function<double> f(x, y);
     }
     double clStartStopTime = timer.elapsed() / iterNum;
 
@@ -88,7 +88,7 @@ void arithmeticPerformanceTest()
         vector<cl::tape_double> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::TapeFunction<double> f(x, y);
+        cl::tape_function<double> f(x, y);
     }
     double clTapeTime = timer.elapsed() / iterNum;
 
@@ -112,7 +112,7 @@ void arithmeticPerformanceTest()
         vector<cl::tape_double> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::TapeFunction<double> f(x, y);
+        cl::tape_function<double> f(x, y);
         vector<double> dx(4, 1.0), dy;
         dy = f.Forward(1, dx);
     }
@@ -138,7 +138,7 @@ void arithmeticPerformanceTest()
         vector<cl::tape_double> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         cl::Independent(x);
         func(x, y);
-        cl::TapeFunction<double> f(x, y);
+        cl::tape_function<double> f(x, y);
         vector<double> dv(4, 1.0), du;
         du = f.Reverse(1, dv);
     }
@@ -164,7 +164,7 @@ void arithmeticPerformanceTest()
         vector<cl::tape_double> x = { 1.0, 2.0, 3.0, 4.0 }, y(4);
         CppAD::Independent(x);
         func(x, y);
-        cl::TapeFunction<double> f(x, y);
+        cl::tape_function<double> f(x, y);
         vector<double> x0(4, 1.0), y0;
         y0 = f.Jacobian(x0);
     }

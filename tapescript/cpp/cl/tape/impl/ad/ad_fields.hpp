@@ -82,7 +82,7 @@ namespace cl
     };
 
     template <template <class > class Ho_, class Base>
-    struct class_fields<Ho_<cl::TapeFunction<Base>>> 
+    struct class_fields<Ho_<cl::tape_function<Base>>> 
         : class_fields<Ho_<CppAD::ADFun<Base>>>
     {};
 

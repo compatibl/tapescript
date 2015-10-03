@@ -44,7 +44,7 @@ namespace cl
     using TapeInnerType = CppAD::AD<Base>;
 
     template <typename Base>
-    using TapeFunctionBase = CppAD::ADFun<Base>;
+    using tape_function_base = CppAD::ADFun<Base>;
 #elif CL_TAPE_ADOLC
     template <typename Base>
     using TapeInnerType = Adolc::DoubleAdapter<Base>;
@@ -83,7 +83,7 @@ namespace cl
     struct solve_dummy { typedef dummy type; };
 
     template <typename Base>
-    class TapeFunction;
+    class tape_function;
 }
 
 namespace CppAD

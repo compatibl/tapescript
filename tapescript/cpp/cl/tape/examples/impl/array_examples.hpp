@@ -49,7 +49,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 2, 5 }, { 1, -1 } };
@@ -90,10 +90,10 @@ namespace cl
         tapewriter ss("c:\\ooo.bin");
 
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y, ss);
+        cl::tape_function<cl::InnerArray> f(X, Y, ss);
 #   else
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 #   endif
 
         // Forward sweep calculations.
@@ -129,7 +129,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 2, -1 } };
@@ -164,7 +164,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1, 1 } };
@@ -207,7 +207,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
@@ -252,7 +252,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1, -1 }, 2 };
@@ -287,7 +287,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1.5, -1 } };
@@ -322,7 +322,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1.5, -1 } };
@@ -360,7 +360,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 2, 5 }, 12, { 1, -1 } };
@@ -395,7 +395,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { 1 };
@@ -431,7 +431,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1, 1, 1 }, { 2, 2, 2 } };
@@ -467,7 +467,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { 1 };
@@ -516,7 +516,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<cl::InnerArray> dx = { { 1, 0, 0 }, { 0, 0, 0 } };

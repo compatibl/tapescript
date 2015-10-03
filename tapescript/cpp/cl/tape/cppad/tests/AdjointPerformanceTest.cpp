@@ -77,7 +77,7 @@ void adjointPerformanceTest()
         Y[0] = calculate<tape_double>(X);
 
         // End of tape recording. Declare vector Y as dependent variable.
-        TapeFunction<double> f(X, Y);
+        tape_function<double> f(X, Y);
 
         // Calculate time for tape recording.
         double tapeRecordingTime = timer.elapsed();
@@ -248,7 +248,7 @@ void jacobianPerformanceTest()
     }
 
     // End of tape recording. Declare vector Y as dependent variable.
-    TapeFunction<double> f(X, Y);
+    tape_function<double> f(X, Y);
 
     double temp_t = timer.elapsed();
     std::cout << "\tTime for tape recording : " << temp_t << " s" << std::endl;

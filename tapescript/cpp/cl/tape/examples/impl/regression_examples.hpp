@@ -114,7 +114,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
@@ -252,7 +252,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<double> f(X, Y);
+        cl::tape_function<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
@@ -366,7 +366,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::InnerArray> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -507,7 +507,7 @@ namespace cl
         if (data.flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::TapeFunction<double> f(X, Y);
+        cl::tape_function<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';

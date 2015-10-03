@@ -47,7 +47,7 @@ namespace cl
     struct inner_array;
 
     template <typename Base>
-    class TapeFunction;
+    class tape_function;
 
     template <typename Branch = struct tapearchive_tag_branch>
     struct traits { typedef struct {} type; };
