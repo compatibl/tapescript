@@ -150,7 +150,7 @@ namespace cl
         /// used for the algorithmic adjoint.
         /// </summary>
         template <typename Vector = std::vector<cl::tape_double> >
-        struct TapeIterator : std::pair<typename Vector::iterator
+        struct tape_iterator : std::pair<typename Vector::iterator
             , typename std::vector<TapeRef<> >::iterator >
             , std::random_access_iterator_tag
         {
@@ -159,34 +159,34 @@ namespace cl
 
             typedef std::random_access_iterator_tag iterator_category;
 
-            TapeIterator() : base()
+            tape_iterator() : base()
             {   }
 
             template <typename First, typename Second>
-            TapeIterator(First const& f, Second const& s) : base(f, s)
+            tape_iterator(First const& f, Second const& s) : base(f, s)
             {   }
 
             template <typename First, typename Second>
-            TapeIterator(std::pair<First, Second > const& p) : base(p)
+            tape_iterator(std::pair<First, Second > const& p) : base(p)
             {   }
 
-            inline TapeIterator<Vector>& operator ++()
+            inline tape_iterator<Vector>& operator ++()
             {
                 ++first; ++second; return *this;
             }
 
-            inline TapeIterator<Vector>
+            inline tape_iterator<Vector>
                 operator ++(int)
             {
                 return std::make_pair(first++; second++);
             }
 
-            inline TapeIterator<Vector> operator + (std::size_t size)
+            inline tape_iterator<Vector> operator + (std::size_t size)
             {
                 return std::make_pair(first + size, second + size);
             }
 
-            inline TapeIterator<Vector> operator - (std::size_t size)
+            inline tape_iterator<Vector> operator - (std::size_t size)
             {
                 return std::make_pair(first - size, second - size);
             }
@@ -220,7 +220,7 @@ namespace std
     /// <summary>
     /// Implementation of std traits for algorithmic use.
     /// </summary>
-    template <typename Vector> struct _Is_iterator<cl::tapescript::TapeIterator<Vector> >
+    template <typename Vector> struct _Is_iterator<cl::tapescript::tape_iterator<Vector> >
         : std::true_type{};
 }
 
@@ -246,8 +246,8 @@ namespace cl
 
             typedef std::vector<cl::tape_double::value_type> tape_doubleValueVector;
         public:
-            typedef TapeIterator<> iterator;
-            typedef TapeIterator<> const_iterator;
+            typedef tape_iterator<> iterator;
+            typedef tape_iterator<> const_iterator;
             typedef std::size_t size_type;
 
 #if defined DEBUG
@@ -262,21 +262,21 @@ namespace cl
                 return result;
             }
 #endif
-            inline TapeIterator<> begin()
+            inline tape_iterator<> begin()
             {
 #if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.begin(), this->refs_.begin());
 #else
-                return TapeIterator<>();
+                return tape_iterator<>();
 #endif
             }
 
-            inline TapeIterator<> end()
+            inline tape_iterator<> end()
             {
 #if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.end(), this->refs_.end());
 #else
-                return TapeIterator<>();
+                return tape_iterator<>();
 #endif
 
             }
