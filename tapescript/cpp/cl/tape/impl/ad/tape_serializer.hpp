@@ -35,13 +35,12 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 
 namespace CppAD
 {
-    template <class Base>
-    struct tape_serializer : std::ostream
+    struct tape_serializer_base : std::ostream
     {
         struct impl {};
         struct io_typed {};
 
-        tape_serializer(std::ostream& os = std::cout)
+        tape_serializer_base(std::ostream& os = std::cout)
             : std::ostream(os.rdbuf())
             , first_call_(true)
         {}
@@ -51,7 +50,7 @@ namespace CppAD
             return CppAD::serializer_type::io_text;
         }
 
-        ~tape_serializer()  { std::ostream::clear(); }
+        ~tape_serializer_base()  { std::ostream::clear(); }
 
         static inline const char* OpName(OpCode op)
         {
@@ -471,6 +470,15 @@ namespace CppAD
         }
 
         bool first_call_;
+    };
+    
+    template <class Base>
+    struct tape_serializer
+        : tape_serializer_base
+    {
+        tape_serializer(std::ostream& os = std::cout)
+            : tape_serializer_base(os)
+        {}
     };
 }
 
