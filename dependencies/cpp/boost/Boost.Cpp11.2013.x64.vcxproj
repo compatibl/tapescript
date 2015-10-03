@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system\src\*.cpp" />
+    <ClCompile Include="archive\impl\src\*.cpp" />
     <ClCompile Include="filesystem\src\*.cpp" />
     <ClCompile Include="test\impl\**\*.ipp" />
   </ItemGroup>
@@ -80,6 +81,7 @@
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
