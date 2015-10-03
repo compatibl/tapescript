@@ -184,6 +184,48 @@ namespace cl
             return (size_t)temp;
         }
 
+        void resize(size_t size)
+        {
+            mode_ = ArrayMode;
+            array_value_.resize(size);
+        }
+
+        scalar_type* begin()
+        {
+            assert(is_array());
+            return &array_value_[0];
+        }
+
+        scalar_type const* begin() const
+        {
+            assert(is_array());
+            return &array_value_[0];
+        }
+
+        scalar_type* end()
+        {
+            assert(is_array());
+            return &array_value_[0] + size();
+        }
+
+        scalar_type const* end() const
+        {
+            assert(is_array());
+            return &array_value_[0] + size();
+        }
+
+        scalar_type& operator[](size_t index)
+        {
+            assert(is_array());
+            return array_value_[index];
+        }
+
+        scalar_type const& operator[](size_t index) const
+        {
+            assert(is_array());
+            return array_value_[index];
+        }
+
         Mode mode_;
         scalar_type scalar_value_;
         array_type array_value_;
