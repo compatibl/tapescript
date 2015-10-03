@@ -445,7 +445,7 @@ namespace CppAD
             for (k = 1; k < nfz; k++)
                 buffer << prefix << " fz[" << k << "] = " << std::setw(width) << fz[k];
             for (k = 0; k < nrz; k++)
-                buffer << prefix << "| rz[" << k << "] = " << std::setw(width) << rz[k];
+                buffer << prefix << " rz[" << k << "] = " << std::setw(width) << rz[k];
             *this << buffer.str();
         }
 
