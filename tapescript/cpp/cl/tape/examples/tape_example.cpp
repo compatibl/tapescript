@@ -23,8 +23,10 @@ limitations under the License.
 #include <stdlib.h>
 #include <iostream>
 
-#define CL_BASE_SERIALIZER_OPEN
+# define CL_BASE_SERIALIZER_OPEN
+
 #include <cl/tape/tape.hpp>
+
 
 #include <boost/timer.hpp>
 
