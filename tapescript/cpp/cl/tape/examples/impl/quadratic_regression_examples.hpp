@@ -33,7 +33,7 @@ namespace cl
         // Control production of tape output to serializer.
         bool flag_serializer = false;
 
-        // Input linear regression parameters.
+        // Input quadratic regression parameters.
         // n: number of points {x_i, y_i}.
         // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
         // y_i are y_i = a + b * x_i + c * x_i * x_i + exp(-1 * d * x_i).
@@ -213,7 +213,7 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Quadratic regression with parameters (optimised tape):\n" << std::endl;
+        out_str << "Quadratic regression with parameters (non-optimised tape):\n" << std::endl;
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
