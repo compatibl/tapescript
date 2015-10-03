@@ -34,6 +34,7 @@ limitations under the License.
 #include "impl/basic_examples.hpp"
 #include "impl/double_examples.hpp"
 #include "impl/performance_tests.hpp"
+#include "impl/regression_examples.hpp"
 
 int main()
 {
@@ -41,7 +42,8 @@ int main()
     cl::array_examples();
     cl::non_optimized_array_examples();
     cl::performance_tests();
-    
+    cl::regression_examples();
+
     system("pause");
     return 0;
 }
