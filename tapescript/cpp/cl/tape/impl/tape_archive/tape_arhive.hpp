@@ -212,7 +212,7 @@ namespace cl
             template <typename Ty_>
             serialize__& io_v(CppAD::pod_vector<Ty_> const& v, std::true_type)
             {
-                int ix = v.size();
+                size_t ix = v.size();
                 this->io(ix);
 
                 for (; --ix >= 0;)
@@ -224,7 +224,7 @@ namespace cl
             template <typename Ty_>
             serialize__& io_v(CppAD::pod_vector<Ty_>& v, std::false_type)
             {
-                int ix = 0;
+                size_t ix = 0;
                 this->io(ix);
                 if (ix > 0)
                 {
@@ -240,7 +240,7 @@ namespace cl
             template <typename Ty_>
             serialize__& io_v(CppAD::vector<Ty_> const& v, std::true_type)
             {
-                int ix = v.size();
+                size_t ix = v.size();
                 this->io(ix);
 
                 for (; --ix >= 0;)
