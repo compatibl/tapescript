@@ -77,13 +77,13 @@ namespace CppAD
     namespace tapescript
     {
         template <typename Serializer, typename Stm>
-        inline unsigned int io_type__(Stm& stm, std::false_type)
+        inline size_t io_type__(Stm& stm, std::false_type)
         {
             return 0;
         }
 
         template <typename Serializer, typename Stm>
-        inline unsigned int io_type__(Stm& stm, std::true_type)
+        inline size_t io_type__(Stm& stm, std::true_type)
         {
             return static_cast<Serializer&>(stm).io_type();
         }
