@@ -30,7 +30,7 @@ namespace cl
     struct plus_task_factory
     {
 #if defined NDEBUG
-        enum { repeat = 5000000 };
+        enum { repeat = 1000000 };
 #else
         enum { repeat = 100 };
 #endif

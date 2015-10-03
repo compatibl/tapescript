@@ -354,7 +354,8 @@ namespace cl
         
         compare_performance(factory, 10, out_str);
 
-        for (size_t i = 1; i <= 100; i++)
+#if defined CL_GRAPH_GEN
+        for (size_t i = 1; i <= 50; i++)
         {
             auto array_task = factory.get_array_task(i);
             auto double_task = factory.get_double_task(i);
@@ -363,6 +364,7 @@ namespace cl
             plot_struct<mem_columns> memory(array_stat, double_stat);
             outMemory << memory;
         }
+#endif
     }
 
 }
