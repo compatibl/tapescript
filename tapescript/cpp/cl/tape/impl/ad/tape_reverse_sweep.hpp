@@ -258,17 +258,6 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         CPPAD_ASSERT_UNKNOWN(op == EndOp);
 # if CPPAD_REVERSE_SWEEP_TRACE
         std::cout << std::endl;
-# else
-        typedef typename
-            serializer_traits<Base>::type Serializer;
-
-        // serialize tape
-        if (!is_cout(*s_out) 
-            && is_io_text<Base>(*s_out) 
-            && typeid(Serializer) == typeid(*s_out))
-        {
-            cast<Serializer&>(*s_out) << std::endl;
-        }
 # endif
         bool more_operators = true;
         while (more_operators)
@@ -833,17 +822,6 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         }
 # if CPPAD_REVERSE_SWEEP_TRACE
         std::cout << std::endl;
-# else
-        typedef typename
-        serializer_traits<Base>::type Serializer;
-
-        // serialize tape
-        if (!is_cout(*s_out)
-            && is_io_text<Base>(*s_out)
-            && typeid(Serializer) == typeid(*s_out))
-        {
-            cast<Serializer&>(*s_out) << std::endl;
-        }
 # endif
         // values corresponding to BeginOp
         CPPAD_ASSERT_UNKNOWN(i_op == 0);
