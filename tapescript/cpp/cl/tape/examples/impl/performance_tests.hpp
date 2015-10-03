@@ -30,6 +30,7 @@ limitations under the License.
 
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
+#include <cl/tape/util/testoutput.hpp>
 
 #include "impl/utils.hpp"
 
@@ -71,7 +72,7 @@ namespace cl
         os << "Forward sweep calculations time: " << perf_time.forw_ << std::endl;
         os << "Reverse sweep calculations time: " << perf_time.rev_  << std::endl;
         os << "Total time for derivatives calculation: "
-            << perf_time.rec_ + perf_time.init_ + std::min(perf_time.forw_, perf_time.rev_) << std::endl;
+            << perf_time.rec_ + perf_time.init_ + perf_time.forw_ + perf_time.rev_ << std::endl;
         os << "TapeFunction memory (B): " << perf_time.mem_  << std::endl;
         return os;
     }
@@ -281,43 +282,58 @@ namespace cl
         return vec;
     }
 
-    inline void plus_performance(size_t n, std::ostream& out_str = fake_stream())
+    struct plus_task_factory
     {
-        size_t repeat = 5000000 / n;
-#ifndef NDEBUG
-        repeat /= 100;
+#if defined NDEBUG
+        enum { repeat = 5000000 };
+#else
+        enum { repeat = 50000 };
 #endif
-        std::mt19937 gen;
-
-        adjoint_task<InnerArray> array_task;
-        adjoint_task<double> double_task;
-
-        gen.seed(0);
-        array_task.title_ = "Plus";
-        array_task.size_ = n;
-        array_task.X_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
-        array_task.dx_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
-        array_task.w_ = { gen_vector<InnerArray>(n, gen) };
-        array_task.repeat_ = repeat;
-        array_task.func_ = [](std::vector<TapeArray> const& v)
+        inline adjoint_task<InnerArray> get_array_task(size_t n)
         {
-            return std::vector<TapeArray>{ v[0] + v[1] };
-        };
+            std::mt19937 gen;
+            gen.seed(0);
+            adjoint_task<InnerArray> array_task;
+            array_task.title_ = "Plus";
+            array_task.size_ = n;
+            array_task.X_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
+            array_task.dx_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
+            array_task.w_ = { gen_vector<InnerArray>(n, gen) };
+            array_task.repeat_ = repeat / n;
+            array_task.func_ = [](std::vector<TapeArray> const& v)
+            {
+                return std::vector<TapeArray>{ v[0] + v[1] };
+            };
+            return array_task;
+        }
 
-        gen.seed(0);
-        double_task.title_ = "Plus";
-        double_task.size_ = n;
-        double_task.X_ = gen_vector<std::vector<double>>(2 * n, gen);
-        double_task.dx_ = gen_vector<std::vector<double>>(2 * n, gen);
-        double_task.w_ = gen_vector<std::vector<double>>(n, gen);
-        double_task.repeat_ = repeat;
-        double_task.func_ = [n](std::vector<TapeDouble> const& v)
+        inline adjoint_task<double> get_double_task(size_t n)
         {
-            auto middle = v.begin() + n;
-            std::vector<TapeDouble> result(n);
-            std::transform(v.begin(), middle, middle, result.begin(), std::plus<TapeDouble>());
-            return result;
-        };
+            std::mt19937 gen;
+            gen.seed(0);
+            adjoint_task<double> double_task;
+            double_task.title_ = "Plus";
+            double_task.size_ = n;
+            double_task.X_ = gen_vector<std::vector<double>>(2 * n, gen);
+            double_task.dx_ = gen_vector<std::vector<double>>(2 * n, gen);
+            double_task.w_ = gen_vector<std::vector<double>>(n, gen);
+            double_task.repeat_ = repeat / n;
+            double_task.func_ = [n](std::vector<TapeDouble> const& v)
+            {
+                auto middle = v.begin() + n;
+                std::vector<TapeDouble> result(n);
+                std::transform(v.begin(), middle, middle, result.begin(), std::plus<TapeDouble>());
+                return result;
+            };
+            return double_task;            
+        }
+    };
+
+    template <class TaskFactory>
+    inline void compare_performance(TaskFactory factory, size_t n, std::ostream& out_str = fake_stream())
+    {
+        auto array_task = factory.get_array_task(n);
+        auto double_task = factory.get_double_task(n);
 
         out_str << "Arrays:\n";
         performance_time array_perf = adjoint_performance(array_task, out_str);
@@ -326,6 +342,11 @@ namespace cl
         out_str << "Doubles:\n";
         performance_time double_perf = adjoint_performance(double_task, out_str);
         out_str << double_perf << "\n\n";
+    }
+
+    inline void plus_performance(size_t n, std::ostream& out_str = fake_stream())
+    {
+        compare_performance(plus_task_factory(), n, out_str);        
     }
 
     inline void performance_tests()
