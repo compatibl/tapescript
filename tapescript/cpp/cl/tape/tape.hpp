@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_doublecl_hpp
-#define cl_tape_doublecl_hpp
+#ifndef cl_tape_tape_hpp
+#define cl_tape_tape_hpp
 
 namespace cl
 {
@@ -171,4 +171,4 @@ namespace cl
 # undef CPPAD_UNDEF_INCLUDED
 # include <cppad/local/undef.hpp>
 
-#endif // cl_tape_doublecl_hpp
+#endif // cl_tape_tape_hpp
