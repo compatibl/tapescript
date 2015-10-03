@@ -68,10 +68,10 @@ namespace cl
 
 #if defined CL_TAPE_GEN_ENABLED
     ///<summary> codegeneration based type </summary>
-    typedef CppAD::cg::CG<double> CgBaseType;
+    typedef CppAD::cg::CG<double> tape_cg_base_type;
 
     /// <summary> TapeDouble fwd declaration </summary>
-    typedef tape_double<CgBaseType> TapeDouble;
+    typedef tape_double<tape_cg_base_type> TapeDouble;
 #else
     typedef tape_double<double> TapeDouble;
 #endif
