@@ -12,6 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declare.hpp" />
+    <ClInclude Include="examples\impl\array_examples.hpp" />
+    <ClInclude Include="examples\impl\basic_examples.hpp" />
+    <ClInclude Include="examples\impl\double_examples.hpp" />
+    <ClInclude Include="examples\impl\linear_regression.hpp" />
+    <ClInclude Include="examples\impl\performance_tests.hpp" />
+    <ClInclude Include="examples\impl\regression_examples.hpp" />
+    <ClInclude Include="examples\impl\regression_examples_impl.hpp" />
+    <ClInclude Include="examples\impl\utils.hpp" />
     <ClInclude Include="implement.hpp" />
     <ClInclude Include="impl\adjointref.hpp" />
     <ClInclude Include="impl\adjointrefoperator.hpp" />
@@ -116,7 +124,7 @@
       <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4800;4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
