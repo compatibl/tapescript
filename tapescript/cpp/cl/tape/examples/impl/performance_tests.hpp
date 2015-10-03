@@ -25,6 +25,7 @@ limitations under the License.
 #pragma once
 
 #include <assert.h>
+#include <random>
 #include <boost/timer.hpp>
 
 #define CL_BASE_SERIALIZER_OPEN
@@ -69,7 +70,9 @@ namespace cl
         os << "Ininial Forward(0) sweep time:   " << perf_time.init_ << std::endl;
         os << "Forward sweep calculations time: " << perf_time.forw_ << std::endl;
         os << "Reverse sweep calculations time: " << perf_time.rev_  << std::endl;
-        os << "TapeFunction memory (B):         " << perf_time.mem_  << std::endl;
+        os << "Total time for derivatives calculation: "
+            << perf_time.rec_ + perf_time.init_ + std::min(perf_time.forw_, perf_time.rev_) << std::endl;
+        os << "TapeFunction memory (B): " << perf_time.mem_  << std::endl;
         return os;
     }
 
@@ -265,34 +268,53 @@ namespace cl
     };
     */
 
-    inline void plus_performance_compare(std::ostream& out_str = fake_stream())
+    template <class Vector>
+    inline Vector gen_vector(size_t n, std::mt19937& gen)
     {
-        enum { size = 2, repeat = 10000 };
+        std::uniform_real_distribution<> dis(-10, 10);
+        Vector vec;
+        vec.resize(n);
+        for (auto& x : vec)
+        {
+            x = dis(gen);
+        }
+        return vec;
+    }
+
+    inline void plus_performance(size_t n, std::ostream& out_str = fake_stream())
+    {
+        size_t repeat = 5000000 / n;
+#ifndef NDEBUG
+        repeat /= 100;
+#endif
+        std::mt19937 gen;
 
         adjoint_task<InnerArray> array_task;
         adjoint_task<double> double_task;
 
+        gen.seed(0);
         array_task.title_ = "Plus";
-        array_task.size_ = size;
-        array_task.X_ = { { 1, 2 }, { 3, 4 } };
-        array_task.dx_ = { { 1, 2 }, { -3, -1 } };
-        array_task.w_ = { { 1, 2 } };
+        array_task.size_ = n;
+        array_task.X_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
+        array_task.dx_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
+        array_task.w_ = { gen_vector<InnerArray>(n, gen) };
         array_task.repeat_ = repeat;
         array_task.func_ = [](std::vector<TapeArray> const& v)
         {
             return std::vector<TapeArray>{ v[0] + v[1] };
         };
-        
+
+        gen.seed(0);
         double_task.title_ = "Plus";
-        double_task.size_ = size;
-        double_task.X_ = { 1, 2, 3, 4 };
-        double_task.dx_ = { 1, 2, -3, -1 };
-        double_task.w_ = { 1, 2 };
+        double_task.size_ = n;
+        double_task.X_ = gen_vector<std::vector<double>>(2 * n, gen);
+        double_task.dx_ = gen_vector<std::vector<double>>(2 * n, gen);
+        double_task.w_ = gen_vector<std::vector<double>>(n, gen);
         double_task.repeat_ = repeat;
-        double_task.func_ = [](std::vector<TapeDouble> const& v)
+        double_task.func_ = [n](std::vector<TapeDouble> const& v)
         {
-            auto middle = v.begin() + size;
-            std::vector<TapeDouble> result(size);
+            auto middle = v.begin() + n;
+            std::vector<TapeDouble> result(n);
             std::transform(v.begin(), middle, middle, result.begin(), std::plus<TapeDouble>());
             return result;
         };
@@ -310,7 +332,9 @@ namespace cl
     {
         std::ofstream of("performance_tests_output.txt");
         CppAD::tape_serializer<cl::InnerArray> serializer(of);
-        plus_performance_compare(serializer);
+        serializer.precision(3);
+
+        plus_performance(10, serializer);
     }
 }
 
