@@ -39,7 +39,11 @@ namespace cl
         // n: number of points {x_i, y_i}.
         // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
         // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
+#if defined NDEBUG
+        size_t n = 5000;
+#else
         size_t n = 2000;
+#endif
         double a = 1.0;
         double b = 2.0;
         double c = 3.0;
@@ -66,7 +70,7 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with parameters (optimised tape):\n" << std::endl;
+        out_str << "Linear regression with parameters (optimized tape):\n" << std::endl;
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
@@ -185,7 +189,7 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with parameters (non-optimised tape):\n" << std::endl;
+        out_str << "Linear regression with parameters (non-optimized tape):\n" << std::endl;
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
@@ -322,7 +326,7 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with points (optimised tape):\n" << std::endl;
+        out_str << "Linear regression with points (optimized tape):\n" << std::endl;
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
@@ -446,7 +450,7 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with points (non-optimised tape):\n" << std::endl;
+        out_str << "Linear regression with points (non-optimized tape):\n" << std::endl;
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
