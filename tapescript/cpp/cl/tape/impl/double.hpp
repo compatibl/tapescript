@@ -54,7 +54,7 @@ namespace cl
 
         /// <summary>Friend class to conversions.</summary>
         template <typename, typename, typename, typename, typename, typename, typename, typename >
-        friend struct cl::tape_doubleConvert;
+        friend struct cl::tape_double_convert;
 
 //!! This can break AD if it is misused; or stop recording if it is invoked
 #ifdef CL_TAPE_CAN_GET_VALUE
@@ -79,14 +79,14 @@ namespace cl
         explicit tape_type(Type const& rhs)
             : value_()
         {
-            cl::tape_doubleConvert<Type, value_type>::convert(*this, rhs);
+            cl::tape_double_convert<Type, value_type>::convert(*this, rhs);
         }
 
         /// <summary>Assignment from other type.</summary>
         template <typename Type>
         inline tape_type& operator=(Type const& rhs)
         {
-            cl::tape_doubleConvert<Type, value_type>::convert(*this, rhs);
+            cl::tape_double_convert<Type, value_type>::convert(*this, rhs);
             return *this;
         }
 

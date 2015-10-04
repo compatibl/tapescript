@@ -50,7 +50,7 @@ namespace cl
             , typename IsConvertible = typename std::is_convertible<Type, ValueType>::type
             , typename IsHasOperator = typename cl::tapescript::is_has_operator_real<NativeType>::type
             , typename IsEnum = typename std::is_enum<NativeType>::type  >
-    struct tape_doubleConvert
+    struct tape_double_convert
     {
         typedef ValueType type;
     };
@@ -60,7 +60,7 @@ namespace cl
             , typename IsSame //[ std::true_type] typename IsAriphm, [std::true_type] typename IsConv
             , typename IsHasOper //, [std::false_type] typename IsEnum
         >
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , IsSame, std::true_type, std::true_type, IsHasOper, std::false_type>
     {
         typedef ValueType type;
@@ -78,7 +78,7 @@ namespace cl
         , typename IsSame // [std::false_type] typename IsAriphm, [std::true_type] typename IsConv
         , typename IsHasOper // [std::false_type] typename IsEnum
     >
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , IsSame, std::false_type, std::true_type, IsHasOper, std::false_type>
     {
         typedef ValueType type;
@@ -94,7 +94,7 @@ namespace cl
     /// <summary>This template and its specializations provide conversion to tape_double value_type.</summary>
     template <typename Type, typename ValueType, typename NativeType
                 , typename IsAriphm, typename IsConv, typename IsHasOper, typename IsEnum>
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , std::true_type, IsAriphm, IsConv, IsHasOper, IsEnum>
     {
         typedef ValueType type;
@@ -109,7 +109,7 @@ namespace cl
     /// <summary>This template and its specializations provide conversion to tape_double value_type.</summary>
     template <typename Type, typename ValueType, typename NativeType
         , typename IsSame, /*typename IsConv,*/ typename IsHasOper, typename IsEnum>
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , IsSame, std::true_type, std::false_type, IsHasOper, IsEnum>
     {
         typedef ValueType type;
@@ -125,7 +125,7 @@ namespace cl
     /// <summary>This template and its specializations provide conversion to tape_double value_type.</summary>
     template <typename Type, typename ValueType, typename NativeType
         , typename IsSame, typename IsConv, typename IsAriphm, typename IsEnum>
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , IsSame, IsAriphm, IsConv, std::true_type, IsEnum>
     {
         typedef ValueType type;
@@ -156,7 +156,7 @@ namespace cl
     /// <summary>This template and its specializations provide conversion to tape_double value_type.</summary>
     template <typename Type, typename ValueType, typename NativeType
         , typename IsSame, typename IsConv, typename IsAriphm, typename IsHasOper>
-    struct tape_doubleConvert<Type, ValueType, NativeType
+    struct tape_double_convert<Type, ValueType, NativeType
         , IsSame, IsAriphm, IsConv, IsHasOper, std::true_type>
     {
         typedef ValueType type;
