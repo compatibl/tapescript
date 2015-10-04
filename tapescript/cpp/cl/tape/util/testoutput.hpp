@@ -205,7 +205,7 @@ namespace cl
 #if defined CL_GRAPH_GEN
     // Stream of output
     template <typename stream_type = std::ofstream>
-    struct adjoint_test_out
+    struct tape_test_output
     {
         // Settings type
         typedef std::map<std::string, std::string> settings_type;
@@ -226,7 +226,7 @@ namespace cl
         }
 
         // default ctor
-        adjoint_test_out(std::string const& outpath, settings_type const& settings = settings_type())
+        tape_test_output(std::string const& outpath, settings_type const& settings = settings_type())
             : settings_(settings)
             , path_(tapescript::make_test_path(tapescript::config().root_ouput_path_ + "//" + outpath, !settings_["not_clear"].empty()))
             , file_path_(path_.first + setting(settings_, "filename", "AdjointPerformance"))
@@ -240,7 +240,7 @@ namespace cl
         { }
 
         // default destructor
-        ~adjoint_test_out()
+        ~tape_test_output()
         {   }
     private:
         inline void save_pdf()
@@ -389,7 +389,7 @@ namespace cl
         }
 
         template <typename Type>
-        adjoint_test_out& operator << (Type const& v)
+        tape_test_output& operator << (Type const& v)
         {
             of_ << v;
             if (struct_start_ >= 0 && is_delimiter(v))
@@ -419,7 +419,7 @@ namespace cl
         typedef cout_manip_type& (*standard_manipulator)(cout_manip_type&);
 
         // define an operator<< to take in std::endl
-        adjoint_test_out& operator<<(standard_manipulator mnp)
+        tape_test_output& operator<<(standard_manipulator mnp)
         {
             of_ << mnp;
 
@@ -494,7 +494,7 @@ namespace cl
     };
 
     //#if defined CL_GRAPH_GEN
-    typedef adjoint_test_out<> AdjointTestOutput;
+    typedef tape_test_output<> AdjointTestOutput;
 #else
     struct fake_stream
     {
