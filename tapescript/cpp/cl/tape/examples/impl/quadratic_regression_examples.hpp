@@ -78,7 +78,7 @@ namespace cl
         cl::tape_value b_ref = b;
         cl::tape_value c_ref = c;
         cl::tape_value d_ref = d;
-        std::vector<cl::tape_array> X = { a_ref, b_ref, c_ref, d_ref };
+        std::vector<cl::tape_object> X = { a_ref, b_ref, c_ref, d_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -87,47 +87,47 @@ namespace cl
         cl::Independent(X);
 
         // Output calculations.
-        cl::tape_array& par_a = X[0];
-        cl::tape_array& par_b = X[1];
-        cl::tape_array& par_c = X[2];
-        cl::tape_array& par_d = X[3];
+        cl::tape_object& par_a = X[0];
+        cl::tape_object& par_b = X[1];
+        cl::tape_object& par_c = X[2];
+        cl::tape_object& par_d = X[3];
         // Obtain x_i values.
         std::valarray<double> x_ref(n);
         for (int i = 0; i < n; i++)
             x_ref[i] = i;
-        cl::tape_array x = x_ref;
-        cl::tape_array x2 = x * x;
+        cl::tape_object x = x_ref;
+        cl::tape_object x2 = x * x;
         // Calculate corresponding y_i values.
-        cl::tape_array y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
+        cl::tape_object y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tape_array sum_x = cl::tapescript::sum_vec(x);
-        cl::tape_array sum_y = cl::tapescript::sum_vec(y);
-        cl::tape_array sum_x2 = cl::tapescript::sum_vec(x2);
-        cl::tape_array y2 = y * y;
-        cl::tape_array sum_y2 = cl::tapescript::sum_vec(y2);
-        cl::tape_array xy = x * y;
-        cl::tape_array sum_xy = cl::tapescript::sum_vec(xy);
-        cl::tape_array x3 = x2 * x;
-        cl::tape_array sum_x3 = cl::tapescript::sum_vec(x3);
-        cl::tape_array x2y = x2 * y;
-        cl::tape_array sum_x2y = cl::tapescript::sum_vec(x2y);
-        cl::tape_array x4 = x3 * x;
-        cl::tape_array sum_x4 = cl::tapescript::sum_vec(x4);
+        cl::tape_object sum_x = cl::tapescript::sum_vec(x);
+        cl::tape_object sum_y = cl::tapescript::sum_vec(y);
+        cl::tape_object sum_x2 = cl::tapescript::sum_vec(x2);
+        cl::tape_object y2 = y * y;
+        cl::tape_object sum_y2 = cl::tapescript::sum_vec(y2);
+        cl::tape_object xy = x * y;
+        cl::tape_object sum_xy = cl::tapescript::sum_vec(xy);
+        cl::tape_object x3 = x2 * x;
+        cl::tape_object sum_x3 = cl::tapescript::sum_vec(x3);
+        cl::tape_object x2y = x2 * y;
+        cl::tape_object sum_x2y = cl::tapescript::sum_vec(x2y);
+        cl::tape_object x4 = x3 * x;
+        cl::tape_object sum_x4 = cl::tapescript::sum_vec(x4);
         // Calculate covariances.
-        cl::tape_array S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tape_array S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tape_array S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tape_array S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tape_array S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        cl::tape_object S_xx = sum_x2 - sum_x * sum_x / n;
+        cl::tape_object S_xy = sum_xy - sum_x * sum_y / n;
+        cl::tape_object S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        cl::tape_object S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        cl::tape_object S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tape_array denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
-        cl::tape_array gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tape_array beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tape_array alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        cl::tape_object denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
+        cl::tape_object gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        cl::tape_object beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        cl::tape_object alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
-        cl::tape_array y_estimate = alpha + beta * x + gamma * x2;
+        cl::tape_object y_estimate = alpha + beta * x + gamma * x2;
         // Output vector.
-        std::vector<cl::tape_array> Y = { alpha, beta, gamma, y_estimate };
+        std::vector<cl::tape_object> Y = { alpha, beta, gamma, y_estimate };
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
