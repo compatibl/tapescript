@@ -30,7 +30,7 @@ limitations under the License.
 namespace cl
 {
     // Check derivatives with respect to a.
-    void check_derivatives_dA(cl::LinearRegression& lin_regr, std::vector<cl::InnerArray>& forw, double eps)
+    void check_derivatives_dA(cl::LinearRegression& lin_regr, std::vector<cl::tape_value>& forw, double eps)
     {
         int n = lin_regr.GetN();
 
@@ -68,7 +68,7 @@ namespace cl
     }
 
     // Check derivatives with respect to b.
-    void check_derivatives_dB(cl::LinearRegression& lin_regr, std::vector<cl::InnerArray>& forw, double eps)
+    void check_derivatives_dB(cl::LinearRegression& lin_regr, std::vector<cl::tape_value>& forw, double eps)
     {
         int n = lin_regr.GetN();
 
@@ -106,7 +106,7 @@ namespace cl
     }
 
     // Check derivatives with respect to c.
-    void check_derivatives_dC(cl::LinearRegression& lin_regr, std::vector<cl::InnerArray>& forw, double eps)
+    void check_derivatives_dC(cl::LinearRegression& lin_regr, std::vector<cl::tape_value>& forw, double eps)
     {
         int n = lin_regr.GetN();
 
@@ -144,7 +144,7 @@ namespace cl
     }
 
     // Check derivatives with respect to x_i.
-    void check_derivatives_dX(cl::LinearRegression& lin_regr, std::vector<cl::InnerArray>& forw, int i, double eps)
+    void check_derivatives_dX(cl::LinearRegression& lin_regr, std::vector<cl::tape_value>& forw, int i, double eps)
     {
         int n = lin_regr.GetN();
 
@@ -182,7 +182,7 @@ namespace cl
     }
 
     // Check derivatives with respect to y_i.
-    void check_derivatives_dY(cl::LinearRegression& lin_regr, std::vector<cl::InnerArray>& forw, int i, double eps)
+    void check_derivatives_dY(cl::LinearRegression& lin_regr, std::vector<cl::tape_value>& forw, int i, double eps)
     {
         int n = lin_regr.GetN();
 

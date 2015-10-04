@@ -76,9 +76,9 @@ namespace cl
         out_str << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
-        cl::InnerArray a_ref = a;
-        cl::InnerArray b_ref = b;
-        cl::InnerArray c_ref = c;
+        cl::tape_value a_ref = a;
+        cl::tape_value b_ref = b;
+        cl::tape_value c_ref = c;
         std::vector<cl::tape_array> X = { a_ref, b_ref, c_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
@@ -114,7 +114,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
@@ -127,11 +127,11 @@ namespace cl
         std::clock_t calc_time = 0;
 
         // Derivatives with respect to a.
-        std::vector<cl::InnerArray> dx = { 1, 0, 0 };
+        std::vector<cl::tape_value> dx = { 1, 0, 0 };
         if (flag_serializer)
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
-        std::vector<cl::InnerArray> forw;
+        std::vector<cl::tape_value> forw;
         if (flag_serializer)
             forw = f.Forward(1, dx, out_str);
         else
@@ -334,7 +334,7 @@ namespace cl
         lin_regr.Calculate();
         std::valarray<double> x_ref_array = lin_regr.GetInputX();
         std::valarray<double> y_ref_array = lin_regr.GetInputY();
-        cl::InnerArray x_ref(x_ref_array), y_ref(y_ref_array);
+        cl::tape_value x_ref(x_ref_array), y_ref(y_ref_array);
         std::vector<cl::tape_array> X = { x_ref, y_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
@@ -366,7 +366,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -388,12 +388,12 @@ namespace cl
                 dx_ref_array[j] = 0;
             dx_ref_array[i] = 1;
 
-            cl::InnerArray dx_ref(dx_ref_array), dy_ref(dy_ref_array);
-            std::vector<cl::InnerArray> dx = { dx_ref, dy_ref };
+            cl::tape_value dx_ref(dx_ref_array), dy_ref(dy_ref_array);
+            std::vector<cl::tape_value> dx = { dx_ref, dy_ref };
             if (flag_serializer)
                 out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
-            std::vector<cl::InnerArray> forw;
+            std::vector<cl::tape_value> forw;
             if (flag_serializer)
                 forw = f.Forward(1, dx, out_str);
             else
@@ -412,12 +412,12 @@ namespace cl
                 dy_ref_array[j] = 0;
             dy_ref_array[i] = 1;
 
-            cl::InnerArray dx_ref(dx_ref_array), dy_ref(dy_ref_array);
-            std::vector<cl::InnerArray> dx = { dx_ref, dy_ref };
+            cl::tape_value dx_ref(dx_ref_array), dy_ref(dy_ref_array);
+            std::vector<cl::tape_value> dx = { dx_ref, dy_ref };
             if (flag_serializer)
                 out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
-            std::vector<cl::InnerArray> forw;
+            std::vector<cl::tape_value> forw;
             if (flag_serializer)
                 forw = f.Forward(1, dx, out_str);
             else
@@ -564,7 +564,7 @@ namespace cl
     inline void regression_examples()
     {
         std::ofstream of("regression_output.txt");
-        CppAD::tape_serializer<cl::InnerArray> serializer(of);
+        CppAD::tape_serializer<cl::tape_value> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.

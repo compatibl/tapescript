@@ -483,7 +483,7 @@ namespace cl
     inline void non_optimized_array_examples()
     {
         std::ofstream of("output_non_optimized_array.txt");
-        CppAD::tape_serializer<cl::InnerArray> serializer(of);
+        CppAD::tape_serializer<cl::tape_value> serializer(of);
         serializer.precision(3);
 
         plus_double_example(serializer);

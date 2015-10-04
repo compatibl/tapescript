@@ -34,8 +34,8 @@ namespace cl
         out_str << "Plus operation:\n" << std::endl;
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
-        cl::InnerArray x1 = { 0, 1 };
+        cl::tape_value x0 = { 1, 2 };
+        cl::tape_value x1 = { 0, 1 };
         std::vector<cl::tape_array> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -49,19 +49,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 2, 5 }, { 1, -1 } };
+        std::vector<cl::tape_value> dx = { { 2, 5 }, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 3, 7 } };
+        std::vector<cl::tape_value> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -70,8 +70,8 @@ namespace cl
         out_str << "Minus operation:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
-        cl::InnerArray x1 = { 0, 1 };
+        cl::tape_value x0 = { 1, 2 };
+        cl::tape_value x1 = { 0, 1 };
         std::vector<cl::tape_array> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -90,23 +90,23 @@ namespace cl
         tapewriter ss("c:\\ooo.bin");
 
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y, ss);
+        cl::tape_function<cl::tape_value> f(X, Y, ss);
 #   else
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 #   endif
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 2, 5 }, { 1, -1 } };
+        std::vector<cl::tape_value> dx = { { 2, 5 }, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 3, 7 } };
+        std::vector<cl::tape_value> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -115,7 +115,7 @@ namespace cl
         out_str << "Exponent function:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 0, 1 };
+        cl::tape_value x0 = { 0, 1 };
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -129,19 +129,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 2, -1 } };
+        std::vector<cl::tape_value> dx = { { 2, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 1, -1 } };
+        std::vector<cl::tape_value> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -150,7 +150,7 @@ namespace cl
         out_str << "Cosine function:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 3.14159265359 / 2 };
+        cl::tape_value x0 = { 1, 3.14159265359 / 2 };
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -164,19 +164,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1, 1 } };
+        std::vector<cl::tape_value> dx = { { 1, 1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { -2, 1 } };
+        std::vector<cl::tape_value> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -185,9 +185,9 @@ namespace cl
         out_str << "Discount calculations:\n\n";
 
         // Input values initialization.
-        cl::InnerArray spot = { 100, 110 };
-        cl::InnerArray rate = { 0.05, 0.04 };
-        cl::InnerArray time = { 1, 2 };
+        cl::tape_value spot = { 100, 110 };
+        cl::tape_value rate = { 0.05, 0.04 };
+        cl::tape_value time = { 1, 2 };
         std::vector<cl::tape_array> X = { spot, rate, time };
         out_str << "Spot: " << spot << "\n";
         out_str << "Rate: " << rate << "\n";
@@ -207,23 +207,23 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
-        std::vector<cl::InnerArray> dx = { 0, 0.01, 0 };
+        std::vector<cl::tape_value> dx = { 0, 0.01, 0 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n";
         out_str << "Sensitivity of discounted price: " << forw[0] << "\n";
         out_str << "Sensitivity of discount factor:  " << forw[1] << "\n\n";
 
         // Reverse sweep calculations.
         out_str << "Calculation of sensitivity of discount factor.\n";
-        std::vector<cl::InnerArray> w = { 0, 1 };
+        std::vector<cl::tape_value> w = { 0, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[1] << "\n";
@@ -236,8 +236,8 @@ namespace cl
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
-        cl::InnerArray x1 = -1.2;
+        cl::tape_value x0 = { 1, 2 };
+        cl::tape_value x1 = -1.2;
         std::vector<cl::tape_array> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -252,19 +252,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1, -1 }, 2 };
+        std::vector<cl::tape_value> dx = { { 1, -1 }, 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { -2, 1 }, { 2, 3 } };
+        std::vector<cl::tape_value> w = { { -2, 1 }, { 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -273,7 +273,7 @@ namespace cl
         out_str << "Sum of an array:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
+        cl::tape_value x0 = { 1, 2 };
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -287,19 +287,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1.5, -1 } };
+        std::vector<cl::tape_value> dx = { { 1.5, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { 4 };
+        std::vector<cl::tape_value> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -308,7 +308,7 @@ namespace cl
         out_str << "Reversing of an array:\n\n";
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
+        cl::tape_value x0 = { 1, 2 };
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -322,19 +322,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1.5, -1 } };
+        std::vector<cl::tape_value> dx = { { 1.5, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { 4 };
+        std::vector<cl::tape_value> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -343,9 +343,9 @@ namespace cl
         out_str << "Array concatenation:\n" << std::endl;
 
         // Input values initialization.
-        cl::InnerArray x0 = { 1, 2 };
-        cl::InnerArray x1 = 7;
-        cl::InnerArray x2 = { 0, 5 };
+        cl::tape_value x0 = { 1, 2 };
+        cl::tape_value x1 = 7;
+        cl::tape_value x2 = { 0, 5 };
         std::vector<cl::tape_array> X = { x0, x1, x2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -360,19 +360,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 2, 5 }, 12, { 1, -1 } };
+        std::vector<cl::tape_value> dx = { { 2, 5 }, 12, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 1, 2, 3, 4, 5 } };
+        std::vector<cl::tape_value> w = { { 1, 2, 3, 4, 5 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -381,7 +381,7 @@ namespace cl
         out_str << "Array construction from scalar:\n" << std::endl;
 
         // Input values initialization.
-        cl::InnerArray x0 = 7;
+        cl::tape_value x0 = 7;
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -395,19 +395,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { 1 };
+        std::vector<cl::tape_value> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 1, 2 } };
+        std::vector<cl::tape_value> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -416,8 +416,8 @@ namespace cl
         out_str << "Maximum of two arrays:\n" << std::endl;
 
         // Input values initialization.
-        cl::InnerArray x0 = { -1, 0, 1 };
-        cl::InnerArray x1 = { 1, 0, -1 };
+        cl::tape_value x0 = { -1, 0, 1 };
+        cl::tape_value x1 = { 1, 0, -1 };
         std::vector<cl::tape_array> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -431,19 +431,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1, 1, 1 }, { 2, 2, 2 } };
+        std::vector<cl::tape_value> dx = { { 1, 1, 1 }, { 2, 2, 2 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { { 1, 2, 3 } };
+        std::vector<cl::tape_value> w = { { 1, 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -452,7 +452,7 @@ namespace cl
         out_str << "L2 norm of an array:\n" << std::endl;
 
         // Input values initialization.
-        cl::InnerArray x0 = 3;
+        cl::tape_value x0 = 3;
         std::vector<cl::tape_array> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
@@ -467,19 +467,19 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { 1 };
+        std::vector<cl::tape_value> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { 1 };
+        std::vector<cl::tape_value> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -489,8 +489,8 @@ namespace cl
 
         // Input values initialization.
         size_t n = 3;
-        cl::InnerArray x_ref = { -1, 0, 1 };
-        cl::InnerArray y_ref = { 1, 0, 3 };
+        cl::tape_value x_ref = { -1, 0, 1 };
+        cl::tape_value y_ref = { 1, 0, 3 };
         std::vector<cl::tape_array> X = { x_ref, y_ref };
         out_str << "Input vector: " << X << "\n";
 
@@ -516,26 +516,26 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::InnerArray> f(X, Y);
+        cl::tape_function<cl::tape_value> f(X, Y);
 
         // Forward sweep calculations.
-        std::vector<cl::InnerArray> dx = { { 1, 0, 0 }, { 0, 0, 0 } };
+        std::vector<cl::tape_value> dx = { { 1, 0, 0 }, { 0, 0, 0 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::InnerArray> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tape_value> forw = f.Forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
-        std::vector<cl::InnerArray> w = { 0, 1, 0 };
+        std::vector<cl::tape_value> w = { 0, 1, 0 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::InnerArray>&>(out_str);
-        std::vector<cl::InnerArray> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
     inline void array_examples()
     {
         std::ofstream of("output.txt");
-        CppAD::tape_serializer<cl::InnerArray> serializer(of);
+        CppAD::tape_serializer<cl::tape_value> serializer(of);
         serializer.precision(3);
 
         plus_example(serializer);

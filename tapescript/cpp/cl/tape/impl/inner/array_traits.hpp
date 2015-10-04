@@ -36,13 +36,13 @@ limitations under the License.
 namespace cl
 {
     template <class Array> struct inner_array;
-    typedef inner_array<std::valarray<double>> InnerValArray;
-    typedef tape_object<InnerValArray> TapeValArray;
-    typedef InnerValArray InnerArray;
-    typedef tape_object<InnerArray> tape_array;
+    typedef inner_array<std::valarray<double>> tape_value;
+    typedef tape_object<tape_value> TapeValArray;
+    typedef tape_value tape_value;
+    typedef tape_object<tape_value> tape_array;
 
 #if defined CL_EIGEN_ENABLED
-    typedef inner_array<Eigen::ArrayXd> InnerArrayXd;
+    typedef inner_array<Eigen::ArrayXd> tape_valueXd;
 #endif
 
 

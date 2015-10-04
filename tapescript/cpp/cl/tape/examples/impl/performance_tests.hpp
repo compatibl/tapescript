@@ -34,15 +34,15 @@ namespace cl
 #else
         enum { repeat = 100 };
 #endif
-        inline adjoint_task<InnerArray> get_array_task(size_t n)
+        inline adjoint_task<tape_value> get_array_task(size_t n)
         {
             std::mt19937 gen;
             gen.seed(0);
-            adjoint_task<InnerArray> array_task;
+            adjoint_task<tape_value> array_task;
             array_task.size_ = n;
-            array_task.X_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
-            array_task.dx_ = { gen_vector<InnerArray>(n, gen), gen_vector<InnerArray>(n, gen) };
-            array_task.w_ = { gen_vector<InnerArray>(n, gen) };
+            array_task.X_ = { gen_vector<tape_value>(n, gen), gen_vector<tape_value>(n, gen) };
+            array_task.dx_ = { gen_vector<tape_value>(n, gen), gen_vector<tape_value>(n, gen) };
+            array_task.w_ = { gen_vector<tape_value>(n, gen) };
             array_task.repeat_ = repeat / n + 1;
             array_task.func_ = [](std::vector<tape_array> const& v)
             {
@@ -83,7 +83,7 @@ namespace cl
     inline void performance_tests()
     {
         std::ofstream of("performance_tests_output.txt");
-        CppAD::tape_serializer<InnerArray> serializer(of);
+        CppAD::tape_serializer<tape_value> serializer(of);
         serializer.precision(3);
 
         plus_performance(serializer);

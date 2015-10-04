@@ -281,21 +281,21 @@ namespace cl
             double_task_.size_ = size;
         }
 
-        void set_input(std::vector<InnerArray> const& x)
+        void set_input(std::vector<tape_value> const& x)
         {
             array_task_.X_ = x;
 
             double_task_.X_ = arrays_to_doubles(x);
         }
 
-        adjoint_task<InnerArray> array_task_;
+        adjoint_task<tape_value> array_task_;
         adjoint_task<double> double_task_;
 
     private:
-        static std::vector<double> arrays_to_doubles(std::vector<InnerArray> const& v)
+        static std::vector<double> arrays_to_doubles(std::vector<tape_value> const& v)
         {
             std::vector<double> result;
-            for (const InnerArray& a : v)
+            for (const tape_value& a : v)
             {
                 if (a.is_scalar())
                 {
