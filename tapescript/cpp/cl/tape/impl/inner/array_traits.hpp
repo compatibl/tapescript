@@ -37,14 +37,11 @@ namespace cl
 {
     template <class Array> struct inner_array;
     typedef inner_array<std::valarray<double>> tape_value;
-    typedef tape_object<tape_value> TapeValArray;
-    typedef tape_value tape_value;
     typedef tape_object<tape_value> tape_array;
 
 #if defined CL_EIGEN_ENABLED
     typedef inner_array<Eigen::ArrayXd> tape_valueXd;
 #endif
-
 
     /// <summary>Traits of array type for using it as inner_array template parameter.</summary>
     template <class Array>
