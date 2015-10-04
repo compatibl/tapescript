@@ -345,7 +345,7 @@ namespace cl
     template <class TaskFactory>
     inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_str = fake_stream())
     {
-        cl::AdjointTestOutput outMemory(folder_name, {
+        cl::tape_empty_test_output outMemory(folder_name, {
             { "title", "Tape size dependence on number of variables" }
             , { "filename", "TapeSize" }
             , { "not_clear", "Not" }

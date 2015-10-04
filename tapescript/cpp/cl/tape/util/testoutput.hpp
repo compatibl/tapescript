@@ -494,7 +494,7 @@ namespace cl
     };
 
     //#if defined CL_GRAPH_GEN
-    typedef tape_test_output<> AdjointTestOutput;
+    typedef tape_test_output<> tape_empty_test_output;
 #else
     struct fake_stream
     {
@@ -524,7 +524,7 @@ namespace cl
         fake_stream& log() { return *this; }
     };
 
-    typedef fake_stream AdjointTestOutput;
+    typedef fake_stream tape_empty_test_output;
 #endif
 
     struct logger_traceout
