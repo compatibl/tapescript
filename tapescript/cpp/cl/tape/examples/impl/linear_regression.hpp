@@ -37,16 +37,16 @@ namespace cl
         // Parameters for generated y input values: y_i = a + b * x_i + exp(-c * x_i).
         const double a_, b_, c_;
         // Arrays of generated input data.
-        std::valarray<double> x_input_, y_input_;
+        tape_array x_input_, y_input_;
         // Estimation values for y.
-        std::valarray<double> y_estim_;
+        tape_array y_estim_;
         // Derivatives w.r.t to input x, y arrays.
-        std::valarray<double> d_alpha_d_x_input_;
-        std::valarray<double> d_alpha_d_y_input_;
-        std::valarray<double> d_beta_d_x_input_;
-        std::valarray<double> d_beta_d_y_input_;
-        std::valarray<std::valarray<double>> d_y_estim_d_x_input_;
-        std::valarray<std::valarray<double>> d_y_estim_d_y_input_;
+        tape_array d_alpha_d_x_input_;
+        tape_array d_alpha_d_y_input_;
+        tape_array d_beta_d_x_input_;
+        tape_array d_beta_d_y_input_;
+        std::valarray<tape_array> d_y_estim_d_x_input_;
+        std::valarray<tape_array> d_y_estim_d_y_input_;
         // Derivatives w.r.t to a, b, c parameters.
         double d_alpha_d_a_;
         double d_alpha_d_b_;
@@ -54,9 +54,9 @@ namespace cl
         double d_beta_d_a_;
         double d_beta_d_b_;
         double d_beta_d_c_;
-        std::valarray<double> d_y_estim_d_a_;
-        std::valarray<double> d_y_estim_d_b_;
-        std::valarray<double> d_y_estim_d_c_;
+        tape_array d_y_estim_d_a_;
+        tape_array d_y_estim_d_b_;
+        tape_array d_y_estim_d_c_;
 
     public:
         LinearRegression(int n, double a, double b, double c) : n_(n), a_(a), b_(b), c_(c)
@@ -70,12 +70,12 @@ namespace cl
             }
         }
 
-        std::valarray<double> GetInputX()
+        tape_array GetInputX()
         {
             return x_input_;
         }
 
-        std::valarray<double> GetInputY()
+        tape_array GetInputY()
         {
             return y_input_;
         }
@@ -272,7 +272,7 @@ namespace cl
 
     private:
         // Calculate mean of values in array x.
-        static double Mean(const std::valarray<double>& x)
+        static double Mean(const tape_array& x)
         {
             double mean = 0.0;
             for (int i = 0; i < x.size(); i++)
@@ -282,7 +282,7 @@ namespace cl
         }
 
         // Calculate covariance cov(x, y).
-        static double Covariance(const std::valarray<double>& x, const std::valarray<double>& y)
+        static double Covariance(const tape_array& x, const tape_array& y)
         {
             double mean_x = Mean(x);
             double mean_y = Mean(y);

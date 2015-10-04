@@ -120,7 +120,7 @@ namespace cl
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Forward sweep calculations.
-        std::valarray<double> d_ref_array;
+        cl::tape_array d_ref_array;
         d_ref_array.resize(3);
 
         // Derivative calculation time.
@@ -206,7 +206,7 @@ namespace cl
         // Output calculations.
         cl::tape_double_vector x(n);
         // Obtain x_i values.
-        std::valarray<double> x_ref = lin_regr.GetInputX();
+        cl::tape_array x_ref = lin_regr.GetInputX();
         for (int i = 0; i < n; i++)
             x[i] = x_ref[i];
         // Calculate corresponding y_i values.
@@ -332,8 +332,8 @@ namespace cl
         out_str << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
-        std::valarray<double> x_ref_array = lin_regr.GetInputX();
-        std::valarray<double> y_ref_array = lin_regr.GetInputY();
+        cl::tape_array x_ref_array = lin_regr.GetInputX();
+        cl::tape_array y_ref_array = lin_regr.GetInputY();
         cl::tape_value x_ref(x_ref_array), y_ref(y_ref_array);
         std::vector<cl::tape_object> X = { x_ref, y_ref };
         if (flag_serializer)
@@ -372,7 +372,7 @@ namespace cl
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
-        std::valarray<double> dx_ref_array, dy_ref_array;
+        cl::tape_array dx_ref_array, dy_ref_array;
         dx_ref_array.resize(n);
         dy_ref_array.resize(n);
 
@@ -456,8 +456,8 @@ namespace cl
         out_str << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
-        std::valarray<double> x_ref_array = lin_regr.GetInputX();
-        std::valarray<double> y_ref_array = lin_regr.GetInputY();
+        cl::tape_array x_ref_array = lin_regr.GetInputX();
+        cl::tape_array y_ref_array = lin_regr.GetInputY();
         cl::tape_double_vector X(2 * n);
         for (int i = 0; i < n; i++)
             X[i] = x_ref_array[i];
