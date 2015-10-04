@@ -44,7 +44,7 @@ limitations under the License.
 namespace cl
 {
     template <typename >
-    struct inner_array;
+    struct tape_inner;
 
     template <typename Base>
     class tape_function;
@@ -266,14 +266,14 @@ namespace cl
             }
 
             template <typename Ty_>
-            serialize__& operator ()(CppAD::pod_vector<cl::inner_array<Ty_> >& v)
+            serialize__& operator ()(CppAD::pod_vector<cl::tape_inner<Ty_> >& v)
             {
                 extern_io(ta_->ss_, v);
                 return *this;
             }
 
             template <typename Ty_>
-            serialize__& operator ()(CppAD::pod_vector<cl::inner_array<Ty_> > const& v)
+            serialize__& operator ()(CppAD::pod_vector<cl::tape_inner<Ty_> > const& v)
             {
                 extern_io(ta_->ss_, v);
                 return *this;

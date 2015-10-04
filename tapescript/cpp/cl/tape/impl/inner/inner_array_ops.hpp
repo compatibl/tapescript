@@ -20,15 +20,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_impl_inner_inner_array_ops_hpp
-#define cl_tape_impl_inner_inner_array_ops_hpp
+#ifndef cl_tape_impl_inner_tape_inner_ops_hpp
+#define cl_tape_impl_inner_tape_inner_ops_hpp
 
 //#include <cppad/local/atomic_base.hpp>
 //#include <cppad/vector.hpp>
 #include <array>
 #include <numeric>
 #include <assert.h>
-#include <cl/tape/impl/inner/base_inner_array.hpp>
+#include <cl/tape/impl/inner/base_tape_inner.hpp>
 
 namespace cl
 {
@@ -37,7 +37,7 @@ namespace cl
         template <class Array>
         struct ReverseImpl
         {
-            typedef inner_array<Array> inner_type;
+            typedef tape_inner<Array> inner_type;
 
             static inline inner_type reverse_vec(const inner_type& x)
             {
@@ -166,14 +166,14 @@ namespace cl
     
         // Returns reversed vector.
         template <class Array>
-        inline CppAD::AD<inner_array<Array>> reverse_vec(const CppAD::AD<inner_array<Array>>& x)
+        inline CppAD::AD<tape_inner<Array>> reverse_vec(const CppAD::AD<tape_inner<Array>>& x)
         {
             return ReverseImpl<Array>::reverse_vec(x);
         }
 
         // Returns reversed vector.
         template <class Array>
-        inline tape_wrapper<inner_array<Array>> reverse_vec(const tape_wrapper<inner_array<Array>>& x)
+        inline tape_wrapper<tape_inner<Array>> reverse_vec(const tape_wrapper<tape_inner<Array>>& x)
         {
             return reverse_vec(x.value());
         }
@@ -182,7 +182,7 @@ namespace cl
         template <class Array>
         struct SumImpl
         {
-            typedef inner_array<Array> inner_type;
+            typedef tape_inner<Array> inner_type;
 
             static inline inner_type sum_vec(const inner_type& x)
             {
@@ -329,14 +329,14 @@ namespace cl
 
         // Returns sum of vector elements.
         template <class Array>
-        inline CppAD::AD<inner_array<Array>> sum_vec(const CppAD::AD<inner_array<Array>>& x)
+        inline CppAD::AD<tape_inner<Array>> sum_vec(const CppAD::AD<tape_inner<Array>>& x)
         {
             return SumImpl<Array>::sum_vec(x);
         }
 
         // Returns sum of vector elements.
         template <class Array>
-        inline tape_wrapper<inner_array<Array>> sum_vec(const tape_wrapper<inner_array<Array>>& x)
+        inline tape_wrapper<tape_inner<Array>> sum_vec(const tape_wrapper<tape_inner<Array>>& x)
         {
             return sum_vec(x.value());
         }
@@ -345,7 +345,7 @@ namespace cl
         template <class Array>
         struct ConcImpl
         {
-            typedef inner_array<Array> inner_type;
+            typedef tape_inner<Array> inner_type;
 
             static inline size_t size(const inner_type& x)
             {
@@ -583,13 +583,13 @@ namespace cl
 
         // Concatenation of two vectors.
         template <class Array>
-        inline CppAD::AD<inner_array<Array>> conc_vec(const CppAD::AD<inner_array<Array>>& x, const CppAD::AD<inner_array<Array>>& y)
+        inline CppAD::AD<tape_inner<Array>> conc_vec(const CppAD::AD<tape_inner<Array>>& x, const CppAD::AD<tape_inner<Array>>& y)
         {
             return ConcImpl<Array>::conc_vec(x, y);
         }
         // Concatenation of two vectors.
         template <class Array>
-        inline tape_wrapper<inner_array<Array>> conc_vec(const tape_wrapper<inner_array<Array>>& x, const tape_wrapper<inner_array<Array>>& y)
+        inline tape_wrapper<tape_inner<Array>> conc_vec(const tape_wrapper<tape_inner<Array>>& x, const tape_wrapper<tape_inner<Array>>& y)
         {
             return conc_vec(x.value(), y.value());
         }
@@ -598,7 +598,7 @@ namespace cl
         template <class Array>
         struct MakeImpl
         {
-            typedef inner_array<Array> inner_type;
+            typedef tape_inner<Array> inner_type;
 
             static inline inner_type sum_vec(const inner_type& x)
             {
@@ -754,18 +754,18 @@ namespace cl
 
         // Concatenation of two vectors.
         template <class Array>
-        inline CppAD::AD<inner_array<Array>> make_vec(const CppAD::AD<inner_array<Array>>& x, size_t count)
+        inline CppAD::AD<tape_inner<Array>> make_vec(const CppAD::AD<tape_inner<Array>>& x, size_t count)
         {
             return MakeImpl<Array>::make_vec(x, count);
         }
 
         // Concatenation of two vectors.
         template <class Array>
-        inline tape_wrapper<inner_array<Array>> make_vec(const tape_wrapper<inner_array<Array>>& x, size_t count)
+        inline tape_wrapper<tape_inner<Array>> make_vec(const tape_wrapper<tape_inner<Array>>& x, size_t count)
         {
             return make_vec(x.value(), count);
         }
     }    
 }
 
-#endif // cl_tape_impl_inner_inner_array_ops_hpp
+#endif // cl_tape_impl_inner_tape_inner_ops_hpp

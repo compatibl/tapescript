@@ -20,21 +20,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_impl_inner_base_inner_array_hpp
-#define cl_tape_impl_inner_base_inner_array_hpp
+#ifndef cl_tape_impl_inner_base_tape_inner_hpp
+#define cl_tape_impl_inner_base_tape_inner_hpp
 
 #include <limits>
-#include <cl/tape/impl/inner/inner_array.hpp>
+#include <cl/tape/impl/inner/tape_inner.hpp>
 
 namespace CppAD
 {
     // Conditional equal expression.
     template <class Array>
-    inline cl::inner_array<Array> CondExpOpEq(
-        const cl::inner_array<Array>&       left,
-        const cl::inner_array<Array>&       right,
-        const cl::inner_array<Array>&       exp_if_true,
-        const cl::inner_array<Array>&       exp_if_false)
+    inline cl::tape_inner<Array> CondExpOpEq(
+        const cl::tape_inner<Array>&       left,
+        const cl::tape_inner<Array>&       right,
+        const cl::tape_inner<Array>&       exp_if_true,
+        const cl::tape_inner<Array>&       exp_if_false)
     {
         if (left.is_scalar() && right.is_scalar())
         {
@@ -44,7 +44,7 @@ namespace CppAD
 
         size_t size = left.is_array() ? left.size() : right.size();
 
-        typename cl::inner_array<Array>::array_type result(size);
+        typename cl::tape_inner<Array>::array_type result(size);
 
         for (size_t i = 0; i < size; i++)
         {
@@ -57,11 +57,11 @@ namespace CppAD
 
     // Conditional less expression.
     template <class Array>
-    inline cl::inner_array<Array> CondExpOpLt(
-        const cl::inner_array<Array>&       left,
-        const cl::inner_array<Array>&       right,
-        const cl::inner_array<Array>&       exp_if_true,
-        const cl::inner_array<Array>&       exp_if_false)
+    inline cl::tape_inner<Array> CondExpOpLt(
+        const cl::tape_inner<Array>&       left,
+        const cl::tape_inner<Array>&       right,
+        const cl::tape_inner<Array>&       exp_if_true,
+        const cl::tape_inner<Array>&       exp_if_false)
     {
         if (left.is_scalar() && right.is_scalar())
         {
@@ -71,7 +71,7 @@ namespace CppAD
         
         size_t size = left.is_array() ? left.size() : right.size();
 
-        typename cl::inner_array<Array>::array_type result(size);
+        typename cl::tape_inner<Array>::array_type result(size);
         
         for (size_t i = 0; i < size; i++)
         {
@@ -84,12 +84,12 @@ namespace CppAD
     
     // Conditional expression.
     template <class Array>
-    inline cl::inner_array<Array> CondExpOp(
+    inline cl::tape_inner<Array> CondExpOp(
         enum CompareOp                      cop          ,
-        const cl::inner_array<Array>&       left         ,
-        const cl::inner_array<Array>&       right        ,
-        const cl::inner_array<Array>&       exp_if_true  ,
-        const cl::inner_array<Array>&       exp_if_false )
+        const cl::tape_inner<Array>&       left         ,
+        const cl::tape_inner<Array>&       right        ,
+        const cl::tape_inner<Array>&       exp_if_true  ,
+        const cl::tape_inner<Array>&       exp_if_false )
     {
         switch (cop)
         {
@@ -114,33 +114,33 @@ namespace CppAD
         }
     }
 
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Lt, CompareLt)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Le, CompareLe)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Eq, CompareEq)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Ge, CompareGe)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::inner_array<Array>, Gt, CompareGt)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Lt, CompareLt)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Le, CompareLe)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Eq, CompareEq)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Ge, CompareGe)
+	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Gt, CompareGt)
 
 
     template <class Array>
-    inline bool IdenticalPar(const cl::inner_array<Array>& x)
+    inline bool IdenticalPar(const cl::tape_inner<Array>& x)
     {
         return false;
     }
 
     template <class Array>
-    inline bool IdenticalZero(const cl::inner_array<Array>& x)
+    inline bool IdenticalZero(const cl::tape_inner<Array>& x)
     {
         return x.is_scalar() && x == 0.0;
     }
 
     template <class Array>
-    inline bool IdenticalOne(const cl::inner_array<Array>& x)
+    inline bool IdenticalOne(const cl::tape_inner<Array>& x)
     {
         return x.is_scalar() && x == 1.0;
     }
 
     template <class Array>
-    inline bool IdenticalEqualPar(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
+    inline bool IdenticalEqualPar(const cl::tape_inner<Array>& x, const cl::tape_inner<Array>& y)
     {
         if (x.is_scalar() && y.is_scalar())
         {
@@ -155,45 +155,45 @@ namespace CppAD
     }
 
     template <class Array>
-    inline int Integer(const cl::inner_array<Array>& x)
+    inline int Integer(const cl::tape_inner<Array>& x)
     {
         return static_cast<int>(x.to_scalar());
     }
 
     template <class Array>
-    inline bool GreaterThanZero(const cl::inner_array<Array>& x)
+    inline bool GreaterThanZero(const cl::tape_inner<Array>& x)
     {
         return x > 0.;
     }
 
     template <class Array>
-    inline bool GreaterThanOrZero(const cl::inner_array<Array>& x)
+    inline bool GreaterThanOrZero(const cl::tape_inner<Array>& x)
     {
         return x >= 0.;
     }
 
     template <class Array>
-    inline bool LessThanZero(const cl::inner_array<Array>& x)
+    inline bool LessThanZero(const cl::tape_inner<Array>& x)
     {
         return x < 0.;
     }
 
     template <class Array>
-    inline bool LessThanOrZero(const cl::inner_array<Array>& x)
+    inline bool LessThanOrZero(const cl::tape_inner<Array>& x)
     {
         return x <= 0.;
     }
 
     template <class Array>
-    inline bool abs_geq(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
+    inline bool abs_geq(const cl::tape_inner<Array>& x, const cl::tape_inner<Array>& y)
     {
         return std::abs(x) >= std::abs(y);
     }
 
 #define CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(Fun) \
     template <class Array>                      \
-    inline cl::inner_array<Array> Fun(          \
-        const cl::inner_array<Array>& x)        \
+    inline cl::tape_inner<Array> Fun(          \
+        const cl::tape_inner<Array>& x)        \
     {	return cl::tapescript::Fun(x); }
 
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(acos)
@@ -216,13 +216,13 @@ namespace CppAD
 # endif
 
     template <class Array>
-    inline cl::inner_array<Array> fabs(const cl::inner_array<Array>& x)
+    inline cl::tape_inner<Array> fabs(const cl::tape_inner<Array>& x)
     {
         return cl::tapescript::abs(x);
     }
 
     template <class Array>
-    inline cl::inner_array<Array> sign(const cl::inner_array<Array>& x)
+    inline cl::tape_inner<Array> sign(const cl::tape_inner<Array>& x)
     {
         auto sign_func = [](double v)
         {
@@ -237,34 +237,34 @@ namespace CppAD
     }
 
     template <class Array>
-    inline cl::inner_array<Array> pow(const cl::inner_array<Array>& x, const cl::inner_array<Array>& y)
+    inline cl::tape_inner<Array> pow(const cl::tape_inner<Array>& x, const cl::tape_inner<Array>& y)
     {
         return cl::tapescript::pow(x, y);
     }
 
     template <class Array>
-    class numeric_limits<cl::inner_array<Array>>
+    class numeric_limits<cl::tape_inner<Array>>
     {
     public:
         // machine epsilon
-        static cl::inner_array<Array> epsilon(void)
+        static cl::tape_inner<Array> epsilon(void)
         {
-            return std::numeric_limits<cl::inner_array<Array>>::epsilon();
+            return std::numeric_limits<cl::tape_inner<Array>>::epsilon();
         }
         // minimum positive normalized value
-        static cl::inner_array<Array> min(void)
+        static cl::tape_inner<Array> min(void)
         {
-            return std::numeric_limits<cl::inner_array<Array>>::min();
+            return std::numeric_limits<cl::tape_inner<Array>>::min();
         }
         // maximum finite value
-        static cl::inner_array<Array> max(void)
+        static cl::tape_inner<Array> max(void)
         {
-            return std::numeric_limits<cl::inner_array<Array>>::max();
+            return std::numeric_limits<cl::tape_inner<Array>>::max();
         }
     };
 
     template <class Array>
-    inline unsigned short hash_code(const cl::inner_array<Array>& value)
+    inline unsigned short hash_code(const cl::tape_inner<Array>& value)
     {
         if (value.is_scalar())
         {
@@ -274,4 +274,4 @@ namespace CppAD
     }
 }
 
-# endif // cl_tape_impl_inner_base_inner_array_hpp
+# endif // cl_tape_impl_inner_base_tape_inner_hpp

@@ -20,8 +20,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_impl_inner_array_traits_hpp
-#define cl_tape_impl_inner_array_traits_hpp
+#ifndef cl_tape_impl_tape_inner_traits_hpp
+#define cl_tape_impl_tape_inner_traits_hpp
 
 #include <limits>
 #include <valarray>
@@ -35,15 +35,15 @@ limitations under the License.
 
 namespace cl
 {
-    template <class Array> struct inner_array;
-    typedef inner_array<std::valarray<double>> tape_value;
+    template <class Array> struct tape_inner;
+    typedef tape_inner<std::valarray<double>> tape_value;
     typedef tape_wrapper<tape_value> tape_array;
 
 #if defined CL_EIGEN_ENABLED
-    typedef inner_array<Eigen::ArrayXd> tape_valueXd;
+    typedef tape_inner<Eigen::ArrayXd> tape_valueXd;
 #endif
 
-    /// <summary>Traits of array type for using it as inner_array template parameter.</summary>
+    /// <summary>Traits of array type for using it as tape_inner template parameter.</summary>
     template <class Array>
     struct array_traits;
 
@@ -209,4 +209,4 @@ namespace cl
 #endif // CL_EIGEN_ENABLED
 }
 
-#endif // cl_tape_impl_inner_array_traits_hpp
+#endif // cl_tape_impl_tape_inner_traits_hpp

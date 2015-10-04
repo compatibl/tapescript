@@ -32,9 +32,9 @@ namespace cl
     {
         std::cout << std::setw(40) << typeid(Array).name() << ": \t";
         std::cout << sizeof(Array) << "\t";
-        std::cout << sizeof(cl::inner_array<Array>) << "\t";
-        std::cout << sizeof(CppAD::AD<cl::inner_array<Array>>) << "\t";
-        std::cout << sizeof(cl::tape_wrapper<cl::inner_array<Array>>) << std::endl;
+        std::cout << sizeof(cl::tape_inner<Array>) << "\t";
+        std::cout << sizeof(CppAD::AD<cl::tape_inner<Array>>) << "\t";
+        std::cout << sizeof(cl::tape_wrapper<cl::tape_inner<Array>>) << std::endl;
     }
 
 
