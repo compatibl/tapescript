@@ -25,16 +25,12 @@ limitations under the License.
 
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
-/// <summary>
-/// Adapter for types convertible to double.
-/// </summary>
+/// <summary>Adapter for types convertible to double.</summary>
 namespace cl
 {
     namespace tapescript
     {
-        /// <summary>
-        /// Need for referenced values
-        /// </summary>
+        /// <summary>Need for referenced values</summary>
         template <typename Base
             = typename cl::remove_ad<cl::tape_double::value_type >::type >
         struct tape_ref;
@@ -47,16 +43,12 @@ namespace cl
         return v.get();
     }
 
-    /// <summary>
-    /// Declaration of dereference for adjoint reference class.
-    /// </summary>
+    /// <summary>Declaration of dereference for adjoint reference class.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> > v);
 
-    /// <summary>
-    /// Declaration of dereference for adjoint reference const class.
-    /// </summary>
+    /// <summary>Declaration of dereference for adjoint reference const class.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> const> v);
@@ -145,10 +137,8 @@ namespace cl
             }
         };
 
-        /// <summary>
-        /// Iterator over tape double accessors,
-        /// used for the algorithmic adjoint.
-        /// </summary>
+        /// <summary>Iterator over tape double accessors,
+        /// used for the algorithmic adjoint.</summary>
         template <typename Vector = std::vector<cl::tape_double> >
         struct tape_iterator : std::pair<typename Vector::iterator
             , typename std::vector<tape_ref<> >::iterator >
@@ -193,9 +183,7 @@ namespace cl
         };
     }
 
-    /// <summary>
-    /// Dereference implementation.
-    /// </summary>
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type >::inner_type&
     deref(ref_type<tapescript::tape_ref<Type > > v)
@@ -203,9 +191,7 @@ namespace cl
         return *(v.get().ptr_);
     }
 
-    /// <summary>
-    /// Dereference implementation.
-    /// </summary>
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> const> v)
@@ -217,9 +203,7 @@ namespace cl
 
 namespace std
 {
-    /// <summary>
-    /// Implementation of std traits for algorithmic use.
-    /// </summary>
+    /// <summary>Implementation of std traits for algorithmic use.</summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::tape_iterator<Vector> >
         : std::true_type{};
 }
@@ -742,16 +726,12 @@ namespace cl
         }
     }
 
-    /// <summary>
-    /// Currently we use this approach for adaptation of
-    /// the extern type vectors to inner tape_inner_type.
-    /// </summary>
+    /// <summary>Currently we use this approach for adaptation of
+    /// the extern type vectors to inner tape_inner_type.</summary>
     typedef std::vector<cl::tape_double> tape_double_vector;
 
-    /// <summary>
-    /// Tape function is a compatible external functional implementation
-    /// this should be suitable inside external framework.
-    /// </summary>
+    /// <summary>Tape function is a compatible external functional implementation
+    /// this should be suitable inside external framework.</summary>
     template <typename Base>
     class tape_function 
         : public tape_function_base<Base>
@@ -868,6 +848,19 @@ namespace cl
         ext::Independent(tapescript::adapt(v_tape));
     }
 
+    template <class Inner>
+    inline void
+        independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
+    {
+        ext::Independent(tapescript::adapt(v_tape), abort_index);
+    }
+
+    template <class Inner>
+    inline void
+        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
+    {
+        ext::Independent(tapescript::adapt(v_tape));
+    }
     inline void
     Independent(std::vector<std::complex<cl::tape_double>> &x, std::size_t abort_index)
     {

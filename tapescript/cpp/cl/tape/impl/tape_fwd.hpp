@@ -36,9 +36,7 @@ namespace CppAD
     class ADFun;
 }
 
-/// <summary>
-/// Adapter for types convertible to double.
-/// </summary>
+/// <summary>Adapter for types convertible to double.</summary>
 namespace cl
 {
 #if defined CL_TAPE_CPPAD
@@ -54,17 +52,13 @@ namespace cl
     template <typename Base>
     struct tape_inner_type {    };
 #endif
-    /// <summary>
-    /// Alias on std reference wrapper type
+    /// <summary>Alias on std reference wrapper type
     /// it used for preventing native type specification
-    /// for adapted types.
-    /// </summary>
+    /// for adapted types.</summary>
     template <typename Type>
     using ref_type = std::reference_wrapper<Type>;
 
-    /// <summary>
-    /// tape_double forward declaration
-    /// </summary>
+    /// <summary>tape_double forward declaration</summary>
     template<typename Base>
     class tape_wrapper;
 
