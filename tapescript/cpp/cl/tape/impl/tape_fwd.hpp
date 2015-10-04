@@ -23,6 +23,8 @@ limitations under the License.
 #ifndef cl_tape_fwd_doublecl_hpp
 #define cl_tape_fwd_doublecl_hpp
 
+# include <valarray>
+
 namespace CppAD
 {
     /// CppAd forward declaration few classes
@@ -84,6 +86,11 @@ namespace cl
 
     template <typename Base>
     class tape_function;
+
+    template <class Array> struct tape_inner;
+    typedef std::valarray<double> tape_array;
+    typedef tape_inner<tape_array> tape_value;
+    typedef tape_wrapper<tape_value> tape_object;
 }
 
 namespace cl
@@ -119,6 +126,14 @@ namespace cl
     {
         typedef typename Ty_::io_typed io_typed;
     };
+}
+
+///<summary>Short type alias for tape based classes</summary>
+namespace cl
+{
+    typedef cl::tape_double tdouble;
+    typedef cl::tape_value tvalue;
+
 }
 
 #endif
