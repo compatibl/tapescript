@@ -20,8 +20,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#pragma once
-
 #ifndef cl_tape_impl_complex_hpp
 #define cl_tape_impl_complex_hpp
 

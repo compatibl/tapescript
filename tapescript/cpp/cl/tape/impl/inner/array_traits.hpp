@@ -23,8 +23,6 @@ limitations under the License.
 #ifndef cl_tape_impl_inner_array_traits_hpp
 #define cl_tape_impl_inner_array_traits_hpp
 
-#pragma once
-
 #include <limits>
 #include <valarray>
 #include <sstream>

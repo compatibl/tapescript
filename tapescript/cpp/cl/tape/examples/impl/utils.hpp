@@ -22,8 +22,6 @@ limitations under the License.
 
 #ifndef cl_tape_examples_impl_utils_hpp
 #define cl_tape_examples_impl_utils_hpp
-#pragma once
-
 
 #include <cl/tape/tape.hpp>
 
