@@ -161,7 +161,7 @@ namespace cl
     }
 #else
     template <typename Type>
-    using AdjFun = empty_template<Type>;
+    using tape_empty_function = empty_template<Type>;
 
     typedef std::vector<cl::tape_double> tape_double_vector;
 
