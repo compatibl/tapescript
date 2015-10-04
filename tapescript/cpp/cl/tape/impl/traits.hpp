@@ -30,11 +30,11 @@ namespace std
 
     // TEMPLATE CLASS _Ctraits
     template<typename Base>
-    class _Ctraits<cl::tape_object<Base> >
+    class _Ctraits<cl::tape_wrapper<Base> >
     {    // complex traits for _Ty
     public:
 
-        typedef cl::tape_object<Base> _Ty;
+        typedef cl::tape_wrapper<Base> _Ty;
         typedef typename 
             _Ty::value_type value_type;
 

@@ -32,11 +32,11 @@ namespace cl
     /// <summary>Immutable double type with AD support designed
     /// to serve as a drop-in replacement to native double.</summary>
     template <typename Inner>
-    class tape_object
+    class tape_wrapper
     {
     public:
         typedef Inner base_type;
-        typedef tape_object<Inner> tape_type;
+        typedef tape_wrapper<Inner> tape_type;
 
         /// <summary>AD implementation type, typedef according to this library's naming conventions.</summary>
 #ifdef CL_TAPE_CPPAD
@@ -67,10 +67,10 @@ namespace cl
         // Friend functions
         // in which we should get double directly
         template <typename Inner>
-        friend cl::tape_object<Inner> std::ceil(cl::tape_object<Inner> x);
+        friend cl::tape_wrapper<Inner> std::ceil(cl::tape_wrapper<Inner> x);
 
         template <typename Inner>
-        friend cl::tape_object<Inner> std::floor(cl::tape_object<Inner> x);
+        friend cl::tape_wrapper<Inner> std::floor(cl::tape_wrapper<Inner> x);
 
     public: // TYPEDEFS
 

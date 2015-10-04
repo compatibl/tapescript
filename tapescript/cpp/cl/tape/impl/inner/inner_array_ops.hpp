@@ -173,7 +173,7 @@ namespace cl
 
         // Returns reversed vector.
         template <class Array>
-        inline tape_object<inner_array<Array>> reverse_vec(const tape_object<inner_array<Array>>& x)
+        inline tape_wrapper<inner_array<Array>> reverse_vec(const tape_wrapper<inner_array<Array>>& x)
         {
             return reverse_vec(x.value());
         }
@@ -336,7 +336,7 @@ namespace cl
 
         // Returns sum of vector elements.
         template <class Array>
-        inline tape_object<inner_array<Array>> sum_vec(const tape_object<inner_array<Array>>& x)
+        inline tape_wrapper<inner_array<Array>> sum_vec(const tape_wrapper<inner_array<Array>>& x)
         {
             return sum_vec(x.value());
         }
@@ -589,7 +589,7 @@ namespace cl
         }
         // Concatenation of two vectors.
         template <class Array>
-        inline tape_object<inner_array<Array>> conc_vec(const tape_object<inner_array<Array>>& x, const tape_object<inner_array<Array>>& y)
+        inline tape_wrapper<inner_array<Array>> conc_vec(const tape_wrapper<inner_array<Array>>& x, const tape_wrapper<inner_array<Array>>& y)
         {
             return conc_vec(x.value(), y.value());
         }
@@ -761,7 +761,7 @@ namespace cl
 
         // Concatenation of two vectors.
         template <class Array>
-        inline tape_object<inner_array<Array>> make_vec(const tape_object<inner_array<Array>>& x, size_t count)
+        inline tape_wrapper<inner_array<Array>> make_vec(const tape_wrapper<inner_array<Array>>& x, size_t count)
         {
             return make_vec(x.value(), count);
         }

@@ -64,16 +64,16 @@ namespace cl
     /// tape_double forward declaration
     /// </summary>
     template<typename Base>
-    class tape_object;
+    class tape_wrapper;
 
 #if defined CL_TAPE_GEN_ENABLED
     /// <summary>Code generation base type.</summary>
     typedef CppAD::cg::CG<double> tape_cg_base_type;
 
     /// <summary> tape_double fwd declaration </summary>
-    typedef tape_object<tape_cg_base_type> tape_double;
+    typedef tape_wrapper<tape_cg_base_type> tape_double;
 #else
-    typedef tape_object<double> tape_double;
+    typedef tape_wrapper<double> tape_double;
 #endif
 
     /// <summary>Empty structure.</summary>

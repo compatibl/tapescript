@@ -34,12 +34,12 @@ namespace std
     /// The complex type based on tape double.
     /// </summary>
     template<typename Inner>
-    class complex<cl::tape_object<Inner>>
+    class complex<cl::tape_wrapper<Inner>>
     {
     public:
 
         // The type holder type
-        typedef cl::tape_object<Inner> tape_type;
+        typedef cl::tape_wrapper<Inner> tape_type;
 
         // parse ad base
         typedef typename 
@@ -421,12 +421,12 @@ namespace cl
 {
     // returns true iff the absolute value of lhs is greater than or equal rhs
     template <typename Inner>
-    inline bool abs_geq(const std::complex<tape_object<Inner>>& lhs, const double& rhs)
+    inline bool abs_geq(const std::complex<tape_wrapper<Inner>>& lhs, const double& rhs)
     {
         typedef typename
-            cl::remove_ad<typename tape_object<Inner>::value_type>::type inner_base_type;
+            cl::remove_ad<typename tape_wrapper<Inner>::value_type>::type inner_base_type;
         if (lhs.mode_ 
-            == std::complex<tape_object<Inner>>::RealBase)
+            == std::complex<tape_wrapper<Inner>>::RealBase)
         {
             return std::abs(lhs) >= rhs;
         }
