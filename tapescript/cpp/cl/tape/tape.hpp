@@ -54,7 +54,7 @@ namespace cl
 
 #if !defined CL_USE_NATIVE_FORWARD
 #   if !defined TYPE_SERIALIZER
-#       define  TYPE_SERIALIZER CppAD::tape_serializer
+#       define  TYPE_SERIALIZER cl::tape_serializer
 #   endif
 
 #   include <iostream>

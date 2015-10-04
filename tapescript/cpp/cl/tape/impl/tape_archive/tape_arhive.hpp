@@ -77,7 +77,7 @@ namespace cl
 
     template <class Base>
     struct serializer : std::ostream
-       , std::conditional < CppAD::is_implemented<traits<>::type>::value
+       , std::conditional < cl::is_implemented<traits<>::type>::value
                 , typename traits<>::type
                 , empty_text_tape_archive >::type
     {
@@ -148,9 +148,9 @@ namespace cl
     struct tape_archive : serializer<Base>
     {
         enum {
-            io_type_value = CppAD::serializer_type::io_binary
-            | CppAD::serializer_type::io_text
-            , io_binary = CppAD::serializer_type::io_binary
+            io_type_value = cl::serializer_type::io_binary
+            | cl::serializer_type::io_text
+            , io_binary = cl::serializer_type::io_binary
         };
 
         template <typename... Args>

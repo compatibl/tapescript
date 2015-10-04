@@ -60,8 +60,8 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
-        std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tape_value> rev = f.reverse(1, w, out_str);
+        
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -105,7 +105,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -140,7 +140,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -175,7 +175,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -222,7 +222,7 @@ namespace cl
         out_str << "Calculation of sensitivity of discount factor.\n";
         std::vector<cl::tape_value> w = { 0, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << "\n";
@@ -263,7 +263,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { -2, 1 }, { 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -298,7 +298,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -333,7 +333,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -371,7 +371,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 1, 2, 3, 4, 5 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -406,7 +406,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -442,7 +442,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { { 1, 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -478,7 +478,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -527,7 +527,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tape_value> w = { 0, 1, 0 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<CppAD::tape_serializer<cl::tape_value>&>(out_str);
+        auto& serializer = static_cast<cl::tape_serializer<cl::tape_value>&>(out_str);
         std::vector<cl::tape_value> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
@@ -535,7 +535,7 @@ namespace cl
     inline void array_examples()
     {
         std::ofstream of("output.txt");
-        CppAD::tape_serializer<cl::tape_value> serializer(of);
+        cl::tape_serializer<cl::tape_value> serializer(of);
         serializer.precision(3);
 
         plus_example(serializer);

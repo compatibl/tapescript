@@ -179,7 +179,7 @@ namespace cl
     inline std::ostream& fake_stream()
     {
         static std::ostream stream(nullptr);
-        static CppAD::tape_serializer_base fake(stream);
+        static cl::tape_serializer_base fake(stream);
         return fake;
     }
 

@@ -1051,8 +1051,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             std::cout << std::endl;
 # else
                 // serialize tape
-                if (!is_cout(s_out) && is_io_text<Base>(s_out))
-                    serialize<Base>(s_out
+                if (!cl::is_cout(s_out) && cl::is_io_text<Base>(s_out))
+                    cl::serialize<Base>(s_out
                         , user_iy
                         , play
                         , taylor

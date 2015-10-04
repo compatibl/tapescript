@@ -21,12 +21,12 @@ Reverse(1, w) sweep for w = { { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.5
 Reverse sweep result: { { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 }, { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 } }
 
 
-Tape recording time:             5.4e-007
-Ininial Forward(0) sweep time:   2.8e-007
-Forward sweep calculations time: 2.2e-007
-Reverse sweep calculations time: 4.2e-007
-Total time for derivatives calculation: 1.46e-006
-TapeFunction memory (B): 300
+Tape recording time:                     0
+Ininial Forward(0) sweep time:           0
+Forward sweep calculations time:         0
+Reverse sweep calculations time:         0
+Total time for derivatives calculation:  0
+tape_function memory (B): 300
 
 
 Doubles:
@@ -77,11 +77,11 @@ Reverse(1, w) sweep for w = { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58,
 Reverse sweep result: { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41, 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 }
 
 
-Tape recording time:             5.6e-007
-Ininial Forward(0) sweep time:   2.2e-007
-Forward sweep calculations time: 3e-007
-Reverse sweep calculations time: 3.2e-007
-Total time for derivatives calculation: 1.4e-006
-TapeFunction memory (B): 792
+Tape recording time:                     9.09e-005
+Ininial Forward(0) sweep time:           0
+Forward sweep calculations time:         9.09e-005
+Reverse sweep calculations time:         0
+Total time for derivatives calculation:  0.000182
+tape_function memory (B): 792
 
 

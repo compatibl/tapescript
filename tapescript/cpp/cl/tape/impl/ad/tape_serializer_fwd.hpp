@@ -33,7 +33,7 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 #ifndef cl_tape_impl_ad_tape_serializer_fwd_hpp
 #define cl_tape_impl_ad_tape_serializer_fwd_hpp
 
-namespace CppAD
+namespace cl
 {
     struct empty_result {
         template <typename Ty_>
@@ -98,7 +98,7 @@ namespace CppAD
         typedef typename
             serializer_traits<Base>::type Serializer;
 
-        serialize__<Serializer>(CppAD::is_implemented<Serializer>(), stg, args...);
+        serialize__<Serializer>(cl::is_implemented<Serializer>(), stg, args...);
     }
 
     namespace tapescript
@@ -125,7 +125,7 @@ namespace CppAD
         }
 
         template <typename Serializer>
-        inline size_t io_type__(CppAD::empty_result& stm, std::true_type)
+        inline size_t io_type__(cl::empty_result& stm, std::true_type)
         {
             return 0;
         }
@@ -139,8 +139,8 @@ namespace CppAD
             serializer_traits<Base>::type Serializer;
 
         return tapescript::io_type__<Serializer>(stm
-            , std::integral_constant<bool, CppAD::is_implemented<Serializer>::value 
-                    && CppAD::is_io_typed<Serializer>::value>()) & serializer_type::io_binary;
+            , std::integral_constant<bool, cl::is_implemented<Serializer>::value 
+                    && cl::is_io_typed<Serializer>::value>()) & serializer_type::io_binary;
     }
 
     template <typename Base, typename Stm>
@@ -150,8 +150,8 @@ namespace CppAD
             serializer_traits<Base>::type Serializer;
 
         auto v = tapescript::io_type__<Serializer>(stm
-                , std::integral_constant<bool, (bool)(CppAD::is_implemented<Serializer>::value 
-                && CppAD::is_io_typed<Serializer>::value)>());
+                , std::integral_constant<bool, (bool)(cl::is_implemented<Serializer>::value 
+                && cl::is_io_typed<Serializer>::value)>());
 
         return (v & serializer_type::io_text) != 0;
     }
@@ -163,7 +163,7 @@ namespace CppAD
     }
 
     template <typename Se_>
-    inline Se_& cast(CppAD::empty_result& s_out)
+    inline Se_& cast(cl::empty_result& s_out)
     {
         typename 
             std::remove_reference<Se_ >::type *ptr = 0;

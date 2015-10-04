@@ -314,10 +314,10 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             std::cout << std::endl;
 # else
             typedef typename
-                serializer_traits<Base>::type Serializer;
+                cl::serializer_traits<Base>::type Serializer;
 
             // serialize tape
-            if (!is_cout(*s_out) && is_io_text<Base>(*s_out))
+            if (!cl::is_cout(*s_out) && cl::is_io_text<Base>(*s_out))
             {
                 if (op == CSumOp)
                 {	// CSumOp has a variable number of arguments
@@ -334,7 +334,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
 
                 if (typeid(Serializer) == typeid(*s_out))
                 {
-                    Serializer& ss = cast<Serializer&>(*s_out);
+                    Serializer& ss = cl::cast<Serializer&>(*s_out);
 
                     ss.saveOp(play
                             , i_op
@@ -415,7 +415,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // forward_next thinks it one has one argument.
                 // we must inform reverse_next of this special case.
 # if ! CPPAD_REVERSE_SWEEP_TRACE
-                if (is_cout(s_out) || !is_io_text<Base>(s_out))
+                if (cl::is_cout(s_out) || !cl::is_io_text<Base>(s_out))
                     play->reverse_cskip(op, arg, i_op, i_var);
 # endif
                 break;
@@ -426,7 +426,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // reverse_next thinks it one has one argument.
                 // We must inform reverse_next of this special case.
 # if ! CPPAD_REVERSE_SWEEP_TRACE
-                if (is_cout(s_out) || !is_io_text<Base>(s_out))
+                if (cl::is_cout(s_out) || !cl::is_io_text<Base>(s_out))
                     play->reverse_csum(op, arg, i_op, i_var);
 # endif
                 reverse_csum_op(

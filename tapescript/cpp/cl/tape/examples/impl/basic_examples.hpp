@@ -264,7 +264,7 @@ namespace cl
     inline void basic_examples()
     {
         std::ofstream output("basic_examples_output.txt");
-        CppAD::tape_serializer<tape_double> serializer(output);
+        cl::tape_serializer<tape_double> serializer(output);
 
         add_example(serializer);
         mult_example(serializer);

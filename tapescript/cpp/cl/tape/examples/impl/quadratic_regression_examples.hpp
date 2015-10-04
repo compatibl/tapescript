@@ -378,7 +378,7 @@ namespace cl
     inline void quadratic_regression_examples()
     {
         std::ofstream of("quadratic_regression_output.txt");
-        CppAD::tape_serializer<cl::tape_value> serializer(of);
+        cl::tape_serializer<cl::tape_value> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.

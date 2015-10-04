@@ -796,6 +796,43 @@ namespace cl
             , serializability(tapescript::adapt(x))
         { }
 
+        template<typename Vector, typename Serializer>
+        inline Vector
+        reverse(size_t q, Vector const& v, Serializer& s)
+        {
+            return this->Reverse(q, std::make_pair(v, &s)).first;
+        }
+
+        template<typename Vector, typename Serializer>
+        inline Vector
+        reverse(size_t q, Vector const& v)
+        {
+            return this->Reverse(q, v);
+        }
+
+        /// assign a new operation sequence
+        template <typename ADvector>
+        void dependent(const ADvector &x, const ADvector &y)
+        {
+            this->Dependent(x,y);
+        }
+
+        /// forward mode user API, one order multiple directions.
+        template <typename VectorBase>
+        VectorBase forward(size_t q, size_t r, const VectorBase& x)
+        {
+            return this->Forward(q,r,x);
+        }
+
+        /// forward mode user API, multiple directions one order.
+        template <typename VectorBase>
+        VectorBase forward(size_t q,
+            const VectorBase& x, std::ostream& s = std::cout)
+        {
+            this->Forward(q,x,s);
+        }
+
+
         template <typename Inner>
         void Dependent(std::vector<cl::tape_wrapper<Inner>> const& x, std::vector<cl::tape_wrapper<Inner>> const& y)
         {

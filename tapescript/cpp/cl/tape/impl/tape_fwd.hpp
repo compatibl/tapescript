@@ -86,7 +86,7 @@ namespace cl
     class tape_function;
 }
 
-namespace CppAD
+namespace cl
 {
     /// Forward declaration about serialization
     template <typename T>

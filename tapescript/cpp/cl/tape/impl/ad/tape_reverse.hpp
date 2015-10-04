@@ -40,7 +40,7 @@ namespace CppAD
 {
     template <int I, typename Arg>
     inline typename std::conditional<I == 0, Arg const&
-        , empty_result>::type getarg(Arg const& v)
+        , cl::empty_result>::type getarg(Arg const& v)
     {
         return v;
     }
