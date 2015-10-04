@@ -150,26 +150,26 @@ namespace cl
 #elif defined CL_TAPE_ADOLC
     template <typename Type>
     using tape_function_base = empty_template<Type>;
-    typedef std::vector<cl::tape_double::value_type > AdjVectorBase;
+    typedef std::vector<cl::tape_double::value_type > tape_double_vector;
 
-    inline void Independent(AdjVectorBase& v)
+    inline void Independent(tape_double_vector& v)
     {
     }
 
-    inline void Independent(AdjVectorBase& v, std::size_t abort_index)
+    inline void Independent(tape_double_vector& v, std::size_t abort_index)
     {
     }
 #else
     template <typename Type>
     using AdjFun = empty_template<Type>;
 
-    typedef std::vector<cl::tape_double> AdjVectorBase;
+    typedef std::vector<cl::tape_double> tape_double_vector;
 
-    inline void Independent(AdjVectorBase& v)
+    inline void Independent(tape_double_vector& v)
     {
     }
 
-    inline void Independent(AdjVectorBase& v, std::size_t abort_index)
+    inline void Independent(tape_double_vector& v, std::size_t abort_index)
     {
     }
 #endif
