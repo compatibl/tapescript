@@ -244,7 +244,7 @@ namespace cl
             template <typename Base>
             friend class tape_function;
 
-            typedef std::vector<cl::tape_double::value_type> tape_doubleValueVector;
+            typedef std::vector<cl::tape_double::value_type> tape_double_value_vector;
         public:
             typedef tape_iterator<> iterator;
             typedef tape_iterator<> const_iterator;
@@ -254,7 +254,7 @@ namespace cl
             inline bool
                 check_equals_elements_() const
             {
-                tape_doubleValueVector::const_iterator begin = vec_.begin();
+                tape_double_value_vector::const_iterator begin = vec_.begin();
                 bool result = refs_.size() ? false : true;
                 std::for_each(refs_.begin(), refs_.end()
                     , [&result, &begin](tape_ref<> const& aa)
@@ -356,7 +356,7 @@ namespace cl
             std::vector<tapescript::tape_ref<> > refs_;
 
         private:
-            tape_doubleValueVector vec_;
+            tape_double_value_vector vec_;
         };
 
         /// The pointer adapter
