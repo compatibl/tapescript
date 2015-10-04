@@ -797,22 +797,30 @@ namespace cl
             this->Dependent(x,y);
         }
 
+        /// assign a new operation sequence
+        template <typename ADvector>
+        void tape_stop(const ADvector &x, const ADvector &y)
+        {
+            this->Dependent(x, y);
+        }
+
+
         /// forward mode user API, one order multiple directions.
         template <typename VectorBase>
-        VectorBase forward(size_t q, size_t r, const VectorBase& x)
+        inline VectorBase forward(size_t q, size_t r, const VectorBase& x)
         {
             return this->Forward(q,r,x);
         }
 
         /// forward mode user API, multiple directions one order.
         template <typename VectorBase>
-        VectorBase forward(size_t q,
+        inline VectorBase forward(size_t q,
             const VectorBase& x, std::ostream& s = std::cout)
         {
             this->Forward(q,x,s);
         }
 
-
+        /// Dependent function forward to the adjoint library
         template <typename Inner>
         void Dependent(std::vector<cl::tape_wrapper<Inner>> const& x, std::vector<cl::tape_wrapper<Inner>> const& y)
         {
@@ -836,37 +844,39 @@ namespace cl
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
+    Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
+    Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }
 
-    template <class Inner>
-    inline void
-        independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
-    {
-        ext::Independent(tapescript::adapt(v_tape), abort_index);
-    }
-
-    template <class Inner>
-    inline void
-        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
-    {
-        ext::Independent(tapescript::adapt(v_tape));
-    }
     inline void
     Independent(std::vector<std::complex<cl::tape_double>> &x, std::size_t abort_index)
     {
 #if defined CL_TAPE_COMPLEX_ENABLED
         ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x), abort_index);
 #endif
+    }
+
+
+    template <class Inner>
+    inline void
+    tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
+    {
+        ext::Independent(tapescript::adapt(v_tape), abort_index);
+    }
+
+    template <class Inner>
+    inline void
+    tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape)
+    {
+        ext::Independent(tapescript::adapt(v_tape));
     }
 
     template <typename Type>

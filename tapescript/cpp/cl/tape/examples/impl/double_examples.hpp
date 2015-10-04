@@ -39,7 +39,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> sum = { X[0] + X[2], X[1] + X[3] };
@@ -71,7 +71,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> diff = { X[0] - X[2], X[1] - X[3] };
@@ -103,7 +103,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> exp = { std::exp(X[0]), std::exp(X[1]) }; 
@@ -136,7 +136,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> cos = { std::cos(X[0]), std::cos(X[1]) };
@@ -175,7 +175,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> discount_factor = { std::exp(-X[2] * X[4]), std::exp(-X[3] * X[5]) };
@@ -219,7 +219,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> y0 = { std::sin(X[0]) / std::cos(X[2]) + X[2] / X[0], std::sin(X[1]) / std::cos(X[2]) + X[2] / X[1] };
@@ -253,7 +253,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         cl::tape_double y0 = X[0] + X[1];
@@ -286,7 +286,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> y0 = { X[1], X[0] };
@@ -319,7 +319,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.        
         std::vector<cl::tape_double> Y = X;
@@ -351,7 +351,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> y0 = { X[0], X[0] };
@@ -384,7 +384,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> y0 = { std::max(X[0], X[3]), std::max(X[1], X[4]), std::max(X[2], X[5]) };
@@ -417,7 +417,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> array = { X[0], X[0] };
@@ -452,7 +452,7 @@ namespace cl
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         std::vector<cl::tape_double> x = { X[0], X[1], X[2] };
