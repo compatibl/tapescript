@@ -237,10 +237,10 @@ namespace cl
 #endif
     namespace tapescript
     {
-        class tape_refVector
+        class tape_ref_vector
         {
-            friend inline void Independent(tape_refVector& v);
-            friend inline void Independent(tape_refVector& v, std::size_t abort_index);
+            friend inline void Independent(tape_ref_vector& v);
+            friend inline void Independent(tape_ref_vector& v, std::size_t abort_index);
             template <typename Base>
             friend class tape_function;
 
@@ -281,7 +281,7 @@ namespace cl
 
             }
 
-            tape_refVector(std::size_t s = 0) :refs_(s)
+            tape_ref_vector(std::size_t s = 0) :refs_(s)
                 , vec_(s)
             {
                 this->assign_refs_();
@@ -785,7 +785,7 @@ namespace cl
             serializer & *this;
         }
 
-        tape_function(tapescript::tape_refVector const& x, tapescript::tape_refVector const& y)
+        tape_function(tapescript::tape_ref_vector const& x, tapescript::tape_ref_vector const& y)
             : tape_function_base<Base>(x.vec_, y.vec_)
             , serializability(x.vec_)
         { }
