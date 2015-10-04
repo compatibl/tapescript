@@ -746,7 +746,7 @@ namespace cl
     /// Currently we use this approach for adaptation of
     /// the extern type vectors to inner tape_inner_type.
     /// </summary>
-    typedef std::vector<cl::tape_double> tape_doubleVector;
+    typedef std::vector<cl::tape_double> tape_double_vector;
 
     /// <summary>
     /// Tape function is a compatible external functional implementation

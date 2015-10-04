@@ -33,13 +33,13 @@ namespace cl
         out_str << "Testing tape contents for addition of two tape_doubles." << std::endl;
         
         // Input values initialization.
-        tape_doubleVector X(2, 3.0);
+        tape_double_vector X(2, 3.0);
         
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
         
         // Output calculations.
-        tape_doubleVector Y(1);
+        tape_double_vector Y(1);
 
         Y[0] = 2 * X[0] + X[1];
 
@@ -84,7 +84,7 @@ namespace cl
         out_str << "Testing tape contents for multiplying of two tape_doubles." << std::endl;
 
         // Input values initialization.
-        tape_doubleVector X(2);
+        tape_double_vector X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -92,7 +92,7 @@ namespace cl
         Independent(X);
 
         // Output calculations.
-        tape_doubleVector Y(1);
+        tape_double_vector Y(1);
 
         Y[0] = X[0] * X[1];
 
@@ -137,13 +137,13 @@ namespace cl
         out_str << "Testing tape contents for pow of tape_double." << std::endl;
         
         // Input values initialization.
-        tape_doubleVector X(1, 3.0);
+        tape_double_vector X(1, 3.0);
         
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
         
         // Output calculations.
-        tape_doubleVector Y(1);
+        tape_double_vector Y(1);
 
         Y[0] = std::pow(X[0], 4);
 
@@ -175,13 +175,13 @@ namespace cl
         out_str << "Testing tape contents for exponent of tape_double." << std::endl;
 
         // Input values initialization.
-        tape_doubleVector X(1, 3.0);
+        tape_double_vector X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
 
         // Output calculations.
-        tape_doubleVector Y(1);
+        tape_double_vector Y(1);
 
         Y[0] = std::exp(-2.0 * X[0]);
 
@@ -214,7 +214,7 @@ namespace cl
         out_str << "Testing tape contents for addition of cos and sin of tape_double." << std::endl;
 
         // Input values initialization.
-        tape_doubleVector X(2);
+        tape_double_vector X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -222,7 +222,7 @@ namespace cl
         Independent(X);
 
         // Output calculations.
-        tape_doubleVector Y(1);
+        tape_double_vector Y(1);
 
         Y[0] = std::cos(X[0]) + std::sin(X[1]);
 
