@@ -195,7 +195,7 @@ namespace cl
         out_str << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
-        cl::tape_double_vector X = { a, b, c };
+        std::vector<tdouble> X = { a, b, c };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -204,13 +204,13 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_double_vector x(n);
+        std::vector<tdouble> x(n);
         // Obtain x_i values.
         cl::tape_array x_ref = lin_regr.GetInputX();
         for (int i = 0; i < n; i++)
             x[i] = x_ref[i];
         // Calculate corresponding y_i values.
-        cl::tape_double_vector y(n);
+        std::vector<tdouble> y(n);
         cl::tdouble& par_a = X[0];
         cl::tdouble& par_b = X[1];
         cl::tdouble& par_c = X[2];
@@ -237,11 +237,11 @@ namespace cl
         cl::tdouble beta = cov_xy_n / var_x_n;
         cl::tdouble alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::tape_double_vector y_estimate(n);
+        std::vector<tdouble> y_estimate(n);
         for (int i = 0; i < n; i++)
             y_estimate[i] = alpha + beta * x[i];
         // Output vector.
-        cl::tape_double_vector Y(n + 2);
+        std::vector<tdouble> Y(n + 2);
         Y[0] = alpha;
         Y[1] = beta;
         for (int i = 0; i < n; i++)
@@ -458,7 +458,7 @@ namespace cl
         lin_regr.Calculate();
         cl::tape_array x_ref_array = lin_regr.GetInputX();
         cl::tape_array y_ref_array = lin_regr.GetInputY();
-        cl::tape_double_vector X(2 * n);
+        std::vector<tdouble> X(2 * n);
         for (int i = 0; i < n; i++)
             X[i] = x_ref_array[i];
         for (int i = 0; i < n; i++)
@@ -492,11 +492,11 @@ namespace cl
         cl::tdouble beta = cov_xy_n / var_x_n;
         cl::tdouble alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::tape_double_vector y_estimate(n);
+        std::vector<tdouble> y_estimate(n);
         for (int i = 0; i < n; i++)
             y_estimate[i] = alpha + beta * X[i];
         // Output vector.
-        cl::tape_double_vector Y(n + 2);
+        std::vector<tdouble> Y(n + 2);
         Y[0] = alpha;
         Y[1] = beta;
         for (int i = 0; i < n; i++)

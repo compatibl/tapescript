@@ -221,7 +221,7 @@ namespace cl
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
-        cl::tape_double_vector X = { a, b, c, d };
+        std::vector<tdouble> X = { a, b, c, d };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -235,14 +235,14 @@ namespace cl
         cl::tdouble& par_c = X[2];
         cl::tdouble& par_d = X[3];
         // Obtain x_i values.
-        cl::tape_double_vector x(n);
+        std::vector<tdouble> x(n);
         for (int i = 0; i < n; i++)
             x[i] = i;
-        cl::tape_double_vector x2(n);
-        for (int i = 0; i < n; i++)
+        std::vector<tdouble> x2(n);
+        for (int i = 0; i < n; i++) 
             x2[i] = x[i] * x[i];
         // Calculate corresponding y_i values.
-        cl::tape_double_vector y(n);
+        std::vector<tdouble> y(n);
         for (int i = 0; i < n; i++)
             y[i] = par_a + x[i] * par_b + x2[i] * par_c + std::exp(-1 * par_d * x[i]);
         // Start quadratic regression calculation: calculate mean values.
@@ -255,31 +255,31 @@ namespace cl
         cl::tdouble sum_x2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2 += x2[i];
-        cl::tape_double_vector y2(n);
+        std::vector<tdouble> y2(n);
         for (int i = 0; i < n; i++)
             y2[i] = y[i] * y[i];
         cl::tdouble sum_y2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_y2 += y2[i];
-        cl::tape_double_vector xy(n);
+        std::vector<tdouble> xy(n);
         for (int i = 0; i < n; i++)
             xy[i] = x[i] * y[i];
         cl::tdouble sum_xy = 0.0;
         for (int i = 0; i < n; i++)
             sum_xy += xy[i];
-        cl::tape_double_vector x3(n);
+        std::vector<tdouble> x3(n);
         for (int i = 0; i < n; i++)
             x3[i] = x2[i] * x[i];
         cl::tdouble sum_x3 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x3 += x3[i];
-        cl::tape_double_vector x2y(n);
+        std::vector<tdouble> x2y(n);
         for (int i = 0; i < n; i++)
             x2y[i] = x2[i] * y[i];
         cl::tdouble sum_x2y = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2y += x2y[i];
-        cl::tape_double_vector x4(n);
+        std::vector<tdouble> x4(n);
         for (int i = 0; i < n; i++)
             x4[i] = x3[i] * x[i];
         cl::tdouble sum_x4 = 0.0;
@@ -297,11 +297,11 @@ namespace cl
         cl::tdouble beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
         cl::tdouble alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
-        cl::tape_double_vector y_estimate(n);
+        std::vector<tdouble> y_estimate(n);
         for (int i = 0; i < n; i++)
            y_estimate[i] = alpha + beta * x[i] + gamma * x2[i];
         // Output vector.
-        cl::tape_double_vector Y(n + 3);
+        std::vector<tdouble> Y(n + 3);
         Y[0] = alpha;
         Y[1] = beta;
         Y[2] = gamma;

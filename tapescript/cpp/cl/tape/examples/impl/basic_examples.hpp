@@ -33,13 +33,13 @@ namespace cl
         out_str << "Testing tape contents for addition of two tdoubles." << std::endl;
 
         // Input values initialization.
-        tape_double_vector X(2, 3.0);
+        std::vector<tdouble> X(2, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
         // Output calculations.
-        tape_double_vector Y(1);
+        std::vector<tdouble> Y(1);
 
         Y[0] = 2 * X[0] + X[1];
 
@@ -84,7 +84,7 @@ namespace cl
         out_str << "Testing tape contents for multiplying of two tdoubles." << std::endl;
 
         // Input values initialization.
-        tape_double_vector X(2);
+        std::vector<tdouble> X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -92,7 +92,7 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        tape_double_vector Y(1);
+        std::vector<tdouble> Y(1);
 
         Y[0] = X[0] * X[1];
 
@@ -137,13 +137,13 @@ namespace cl
         out_str << "Testing tape contents for pow of tdouble." << std::endl;
 
         // Input values initialization.
-        tape_double_vector X(1, 3.0);
+        std::vector<tdouble> X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
         // Output calculations.
-        tape_double_vector Y(1);
+        std::vector<tdouble> Y(1);
 
         Y[0] = std::pow(X[0], 4);
 
@@ -175,13 +175,13 @@ namespace cl
         out_str << "Testing tape contents for exponent of tdouble." << std::endl;
 
         // Input values initialization.
-        tape_double_vector X(1, 3.0);
+        std::vector<tdouble> X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
         // Output calculations.
-        tape_double_vector Y(1);
+        std::vector<tdouble> Y(1);
 
         Y[0] = std::exp(-2.0 * X[0]);
 
@@ -214,7 +214,7 @@ namespace cl
         out_str << "Testing tape contents for addition of cos and sin of tdouble." << std::endl;
 
         // Input values initialization.
-        tape_double_vector X(2);
+        std::vector<tdouble> X(2);
         X[0] = 2.0;
         X[1] = 3.0;
 
@@ -222,7 +222,7 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        tape_double_vector Y(1);
+        std::vector<tdouble> Y(1);
 
         Y[0] = std::cos(X[0]) + std::sin(X[1]);
 
