@@ -1,4 +1,4 @@
-Testing tape contents for addition of two tape_doubles.
+Testing tape contents for addition of two tdoubles.
 
 Function Y = 2 * X[0] + X[1] is being tested at X[0] = 3, X[1] = 3
 
@@ -28,7 +28,7 @@ Derivatives of Y with respect to X in Reverse mode has been calculated successfu
 	dY / dX (X[0]) = 2, dY / dX (X[1]) = 1
 
 ----------------------------------------------------------------------------------------------------
-Testing tape contents for multiplying of two tape_doubles.
+Testing tape contents for multiplying of two tdoubles.
 
 Function Y = X[0] * X[1] is being tested at X[0] = 2, X[1] = 3
 
@@ -56,7 +56,7 @@ Derivatives of Y on X in Reverse mode has been calculated successfully:
 	dY / dX(X[0]) = 3, dY / dX(X[1]) = 2
 
 ----------------------------------------------------------------------------------------------------
-Testing tape contents for pow of tape_double.
+Testing tape contents for pow of tdouble.
 
 Function Y =  X[0]^4 is being tested at X[0] = 3
 
@@ -74,7 +74,7 @@ Derivative of Y with respect to X in Reverse mode has been calculated successful
 	dY / dX (X[0]) = 108
 
 ----------------------------------------------------------------------------------------------------
-Testing tape contents for exponent of tape_double.
+Testing tape contents for exponent of tdouble.
 
 Function Y = exp(-2.0 * X[0]) is being tested at X[0] = 3
 
@@ -92,7 +92,7 @@ Derivative of Y with respect to X in Reverse mode has been calculated successful
 	dY / dX (X[0]) = -0.0049575
 
 ----------------------------------------------------------------------------------------------------
-Testing tape contents for addition of cos and sin of tape_double.
+Testing tape contents for addition of cos and sin of tdouble.
 
 Function Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = 2, X[1] = 3
 

@@ -30,7 +30,7 @@ namespace cl
 {
     inline void add_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for addition of two tape_doubles." << std::endl;
+        out_str << "Testing tape contents for addition of two tdoubles." << std::endl;
 
         // Input values initialization.
         tape_double_vector X(2, 3.0);
@@ -81,7 +81,7 @@ namespace cl
 
     inline void mult_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for multiplying of two tape_doubles." << std::endl;
+        out_str << "Testing tape contents for multiplying of two tdoubles." << std::endl;
 
         // Input values initialization.
         tape_double_vector X(2);
@@ -134,7 +134,7 @@ namespace cl
 
     inline void pow_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for pow of tape_double." << std::endl;
+        out_str << "Testing tape contents for pow of tdouble." << std::endl;
 
         // Input values initialization.
         tape_double_vector X(1, 3.0);
@@ -172,7 +172,7 @@ namespace cl
 
     inline void exponent_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for exponent of tape_double." << std::endl;
+        out_str << "Testing tape contents for exponent of tdouble." << std::endl;
 
         // Input values initialization.
         tape_double_vector X(1, 3.0);
@@ -211,7 +211,7 @@ namespace cl
 
     inline void cos_sin_example(std::ostream& out_str = std::cout)
     {
-        out_str << "Testing tape contents for addition of cos and sin of tape_double." << std::endl;
+        out_str << "Testing tape contents for addition of cos and sin of tdouble." << std::endl;
 
         // Input values initialization.
         tape_double_vector X(2);
@@ -264,7 +264,7 @@ namespace cl
     inline void basic_examples()
     {
         std::ofstream output("output/basic_examples_output.txt");
-        cl::tape_serializer<tape_double> serializer(output);
+        cl::tape_serializer<double> serializer(output);
 
         add_example(serializer);
         mult_example(serializer);

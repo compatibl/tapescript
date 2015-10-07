@@ -34,7 +34,7 @@ namespace cl
     {
         out_str << "Plus operation:\n" << std::endl;
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -98,7 +98,7 @@ namespace cl
     {
         out_str << "Exponent function:\n\n";
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -131,7 +131,7 @@ namespace cl
     {
         out_str << "Cosine function:\n\n";
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 1, 3.14159265359 / 2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -214,7 +214,7 @@ namespace cl
         out_str << "We are mixing arrays and scalars in calculations of\n";
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 1, 2, -1.2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -248,7 +248,7 @@ namespace cl
     {
         out_str << "Sum of an array:\n\n";
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -321,7 +321,7 @@ namespace cl
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
-        // Output calculations.
+        // Calculate output
         std::vector<cl::tdouble> Y = X;
         out_str << "Output vector: " << Y << "\n\n";
 
@@ -346,7 +346,7 @@ namespace cl
     {
         out_str << "Array construction from scalar:\n" << std::endl;
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 7 };
         out_str << "Input vector: " << X << "\n";
 
@@ -379,7 +379,7 @@ namespace cl
     {
         out_str << "Maximum of two arrays:\n" << std::endl;
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { -1, 0, 1, 1, 0, -1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -412,7 +412,7 @@ namespace cl
     {
         out_str << "L2 norm of an array:\n" << std::endl;
 
-        // Input values initialization.
+        // Initialize input values
         std::vector<cl::tdouble> X = { 3 };
         out_str << "Input vector: " << X << "\n";
 
