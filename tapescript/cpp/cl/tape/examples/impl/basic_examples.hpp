@@ -36,7 +36,7 @@ namespace cl
         tape_double_vector X(2, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        tape_start(X);
+        cl::tape_start(X);
 
         // Output calculations.
         tape_double_vector Y(1);
@@ -89,7 +89,7 @@ namespace cl
         X[1] = 3.0;
 
         // Declare the X vector as independent and start a tape recording.
-        tape_start(X);
+        cl::tape_start(X);
 
         // Output calculations.
         tape_double_vector Y(1);
@@ -140,7 +140,7 @@ namespace cl
         tape_double_vector X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        tape_start(X);
+        cl::tape_start(X);
 
         // Output calculations.
         tape_double_vector Y(1);
@@ -178,7 +178,7 @@ namespace cl
         tape_double_vector X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        tape_start(X);
+        cl::tape_start(X);
 
         // Output calculations.
         tape_double_vector Y(1);
@@ -219,7 +219,7 @@ namespace cl
         X[1] = 3.0;
 
         // Declare the X vector as independent and start a tape recording.
-        tape_start(X);
+        cl::tape_start(X);
 
         // Output calculations.
         tape_double_vector Y(1);
