@@ -817,7 +817,7 @@ namespace cl
         inline VectorBase forward(size_t q,
             const VectorBase& x, std::ostream& s = std::cout)
         {
-            this->Forward(q,x,s);
+            return this->Forward(q,x,s);
         }
 
         /// Dependent function forward to the adjoint library
