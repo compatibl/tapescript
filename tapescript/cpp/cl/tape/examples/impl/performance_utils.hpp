@@ -59,7 +59,7 @@ namespace cl
         double forw_;
         // Reverse sweep calculations time.
         double rev_;
-        // tape_function memory.
+        // tfunc memory.
         size_t mem_;
 
         double total_time() const
@@ -75,7 +75,7 @@ namespace cl
         os << "Forward sweep calculations time:         " << stat.forw_ << std::endl;
         os << "Reverse sweep calculations time:         " << stat.rev_  << std::endl;
         os << "Total time for derivatives calculation:  " << stat.total_time() << std::endl;
-        os << "tape_function memory (B): " << stat.mem_  << std::endl;
+        os << "tfunc memory (B): " << stat.mem_  << std::endl;
         return os;
     }
 
@@ -219,7 +219,7 @@ namespace cl
         // Output vector.
         std::vector<tape_type> Y;
         // Tape function.
-        cl::tape_function<inner_type> f;
+        cl::tfunc<inner_type> f;
 
         result.rec_ = test_performance(task.repeat_, [&X, &Y, &f, &task]()
         {
