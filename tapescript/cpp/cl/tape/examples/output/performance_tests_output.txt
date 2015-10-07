@@ -21,14 +21,6 @@ Reverse(1, w) sweep for w = { { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.5
 Reverse sweep result: { { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 }, { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 } }
 
 
-Tape recording time:                     0
-Ininial Forward(0) sweep time:           0
-Forward sweep calculations time:         0
-Reverse sweep calculations time:         0
-Total time for derivatives calculation:  0
-tape_function memory (B): 300
-
-
 Doubles:
 
 Input vector: { 0.976, 1.86, 4.3, 6.89, 2.06, 7.16, 0.898, 6.95, -1.53, 2.47, 2.92, -2.31, -1.25, -4.05, 7.84, -8.87, 9.27, -4.55, -2.33, -0.447 }
@@ -75,13 +67,5 @@ Forward sweep result: { -2.42, 9.21, -9.02, -3.04, 8.01, 7, 14.1, -0.471, -1.18,
 
 Reverse(1, w) sweep for w = { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 }...
 Reverse sweep result: { 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41, 9.57, -0.528, 5.98, 6.02, -0.77, 0.41, 5.61, 3.58, -7.63, 4.41 }
-
-
-Tape recording time:                     9.09e-005
-Ininial Forward(0) sweep time:           0
-Forward sweep calculations time:         9.09e-005
-Reverse sweep calculations time:         0
-Total time for derivatives calculation:  0.000182
-tape_function memory (B): 792
 
 

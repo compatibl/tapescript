@@ -328,18 +328,16 @@ namespace cl
     }
 
     template <class TaskFactory>
-    inline void compare_performance(TaskFactory factory, size_t n, std::ostream& out_str = fake_stream())
+    inline void compare_tape(TaskFactory factory, size_t n, std::ostream& out_str = fake_stream())
     {
         auto array_task = factory.get_array_task(n);
         auto double_task = factory.get_double_task(n);
 
         out_str << "Arrays:\n\n";
         test_statistic array_stat = adjoint_performance(array_task, out_str);
-        out_str << array_stat << "\n\n";
 
         out_str << "Doubles:\n\n";
         test_statistic double_stat = adjoint_performance(double_task, out_str);
-        out_str << double_stat << "\n\n";
     }
 
     template <class TaskFactory>
@@ -353,7 +351,7 @@ namespace cl
             , { "cleanlog", "false" }
         });
         
-        compare_performance(factory, 10, out_str);
+        compare_tape(factory, 10, out_str);
 
 #if defined CL_GRAPH_GEN
         for (size_t i = 1; i <= 50; i++)
