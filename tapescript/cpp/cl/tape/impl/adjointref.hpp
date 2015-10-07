@@ -783,7 +783,7 @@ namespace cl
             return this->Reverse(q, std::make_pair(v, &s)).first;
         }
 
-        template<typename Vector, typename Serializer>
+        template<typename Vector>
         inline Vector
         reverse(size_t q, Vector const& v)
         {

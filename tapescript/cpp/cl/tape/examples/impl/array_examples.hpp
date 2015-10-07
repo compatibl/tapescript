@@ -105,8 +105,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -140,8 +139,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.reverse(1, w, serializer);
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -175,8 +173,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -222,8 +219,7 @@ namespace cl
         out_str << "Calculation of sensitivity of discount factor.\n";
         std::vector<cl::tvalue> w = { 0, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[1] << "\n";
@@ -263,8 +259,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { -2, 1 }, { 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -298,8 +293,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -333,8 +327,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -371,8 +364,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 1, 2, 3, 4, 5 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -406,8 +398,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -442,8 +433,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 1, 2, 3 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -478,8 +468,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -527,8 +516,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { 0, 1, 0 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
