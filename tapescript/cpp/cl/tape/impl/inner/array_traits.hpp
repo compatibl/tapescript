@@ -131,7 +131,7 @@ namespace cl
         }
     };
 
-#if defined CL_EIGEN_ENABLED    
+#if defined CL_EIGEN_ENABLED
     /// <summary>Array traits of Eigen::Array.
     /// Note, the CppAD does not support Eigen aligment requirements for fixed-size types.</summary>
     template <class Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>

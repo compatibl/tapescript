@@ -115,7 +115,7 @@ namespace cl
                 "Usrrv"
             };
 
-            return OpNameTable[op];            
+            return OpNameTable[op];
         }
 
         static std::string header()
@@ -134,7 +134,7 @@ namespace cl
             {
                 *this << footer();
                 first_call_ = true;
-            }            
+            }
         }
 
         void check_first_call()
@@ -478,7 +478,7 @@ namespace cl
 
         bool first_call_;
     };
-    
+
     template <class Base>
     struct tape_serializer
         : tape_serializer_base

@@ -733,7 +733,7 @@ namespace cl
     /// <summary>Tape function is a compatible external functional implementation
     /// this should be suitable inside external framework.</summary>
     template <typename Base>
-    class tape_function 
+    class tape_function
         : public tape_function_base<Base>
         , tapescript::serialize_accessor<Base>
     {
@@ -758,7 +758,7 @@ namespace cl
         template <typename Inner, typename Serializer>
         tape_function(std::vector<cl::tape_wrapper<Inner>> const& x
                 , std::vector<cl::tape_wrapper<Inner>> const& y
-                , Serializer& serializer)   
+                , Serializer& serializer)
                         : tape_function_base<Base>(tapescript::adapt(x), tapescript::adapt(y))
                         , serializability(tapescript::adapt(x))
         {

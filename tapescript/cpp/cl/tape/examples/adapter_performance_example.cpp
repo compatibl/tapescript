@@ -26,7 +26,7 @@ limitations under the License.
 int main()
 {
     cl::adapter_performance_test();
-        
+
     system("pause");
     return 0;
 }

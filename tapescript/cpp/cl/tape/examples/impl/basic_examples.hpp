@@ -31,13 +31,13 @@ namespace cl
     inline void add_example(std::ostream& out_str = std::cout)
     {
         out_str << "Testing tape contents for addition of two tape_doubles." << std::endl;
-        
+
         // Input values initialization.
         tape_double_vector X(2, 3.0);
-        
+
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
-        
+
         // Output calculations.
         tape_double_vector Y(1);
 
@@ -135,13 +135,13 @@ namespace cl
     inline void pow_example(std::ostream& out_str = std::cout)
     {
         out_str << "Testing tape contents for pow of tape_double." << std::endl;
-        
+
         // Input values initialization.
         tape_double_vector X(1, 3.0);
-        
+
         // Declare the X vector as independent and start a tape recording.
         Independent(X);
-        
+
         // Output calculations.
         tape_double_vector Y(1);
 

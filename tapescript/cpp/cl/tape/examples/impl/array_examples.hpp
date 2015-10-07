@@ -61,7 +61,7 @@ namespace cl
         std::vector<cl::tvalue> w = { { 3, 7 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_str);
-        
+
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 

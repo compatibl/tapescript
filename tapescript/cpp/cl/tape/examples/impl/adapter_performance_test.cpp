@@ -61,7 +61,7 @@ namespace cl
                 ++begin;
             }
         }
-    
+
         void dot_product_test(std::ostream& out = std::cout)
         {
             int n = 100000000;
@@ -90,12 +90,12 @@ namespace cl
 
             for (int i = 0; i < repeats; ++i)
                 dotProduct(lefttape_double, righttape_double, tapeDoubleResult);
-            
+
             long _1 = GetTickCount();
 
             for (int i = 0; i < repeats; ++i)
                 dotProduct(leftNative, rightNative, nativeResult);
-            
+
             long _2 = GetTickCount();
 
             if (tapeDoubleResult != nativeResult)
@@ -111,7 +111,7 @@ namespace cl
         void math_functions_test(std::ostream& out = std::cout)
         {
             int n = 100000000;
-            
+
             out << std::endl << "Test performance of tape_wrapper adapter using math functions" << std::endl;
             out << "Calcilation start" << std::endl;
 
@@ -128,10 +128,10 @@ namespace cl
             tape_wrapper<double> tapeDoubleResult = 1;
 
             long _0 = GetTickCount();
-            
+
             std::for_each(vectape_double.begin(), vectape_double.end(), [&tapeDoubleResult](tape_wrapper<double> item)
                 {
-                tapeDoubleResult += std::sin(item * std::pow(tapeDoubleResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(tapeDoubleResult * std::tan(item)))))); 
+                tapeDoubleResult += std::sin(item * std::pow(tapeDoubleResult, std::sqrt(std::pow(item, 2.0) * std::exp(std::cos(tapeDoubleResult * std::tan(item))))));
                 });
 
             long _1 = GetTickCount();
@@ -157,7 +157,7 @@ namespace cl
     void adapter_performance_test()
     {
         std::ofstream output("output/adapter_performance_test_output.txt");
-        
+
         dot_product_test(output);
         math_functions_test(output);
     }

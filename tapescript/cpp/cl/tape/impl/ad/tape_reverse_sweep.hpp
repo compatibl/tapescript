@@ -342,7 +342,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                             , op
                             , arg);
 
-                    if (NumRes(op) > 0 && op != BeginOp) 
+                    if (NumRes(op) > 0 && op != BeginOp)
                         ss.saveOpResult(d + 1
                                     , Z_tmp
                                     , d + 1

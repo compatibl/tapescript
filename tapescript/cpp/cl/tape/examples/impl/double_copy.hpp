@@ -59,7 +59,7 @@ namespace cl
         template <typename TapeType>
         friend inline typename TapeType::value_type& cl::tapescript::value(TapeType& tapetype);
 #endif
-        
+
     public: // TYPEDEFS
 
         /// <summary>Explicit conversion operator from an arbitrary type.</summary>
@@ -202,7 +202,7 @@ namespace cl
 #endif
 
     public: // OPERATORS
-        
+
         /// <summary>Negation operator.</summary>
         inline bool operator!() const { return value_ == 0.0; } //!! Provide special treatment for AD
 
@@ -274,7 +274,7 @@ namespace cl
 
         /// <summary>Postfix decrementation.</summary>
         inline tape_type operator--(int) { tape_type result(value_); --(*this);  return result; }
-        
+
     private:
 
         template <typename Type>

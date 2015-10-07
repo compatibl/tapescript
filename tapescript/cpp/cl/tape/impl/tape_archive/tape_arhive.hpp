@@ -46,6 +46,7 @@ namespace cl
     template <typename >
     struct tape_inner;
 
+    /// <summary>Tape function forward declaration.</summary>
     template <typename Base>
     class tape_function;
 
@@ -70,7 +71,7 @@ namespace cl
     template <typename Archive, typename Ty_>
     inline void extern_io(Archive &s, Ty_& v)
     {
-# if !defined NDEBUG 
+# if !defined NDEBUG
 #   pragma message ("Please implement serialization for: " __FUNCSIG__)
 # endif
     }

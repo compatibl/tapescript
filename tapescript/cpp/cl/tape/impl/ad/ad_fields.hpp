@@ -74,7 +74,7 @@ namespace cl
             // Currenlty exclude from serialization
             // after call dependent this fields is empty, perhaps
             // we can work without it
-#           if defined CL_USE_SPARSE_PACK_            
+#           if defined CL_USE_SPARSE_PACK_
                 , decl_mem(CppAD::ADFun<Base>::for_jac_sparse_pack_)
                 , decl_mem(CppAD::ADFun<Base>::for_jac_sparse_set_)
 #           endif
@@ -82,7 +82,7 @@ namespace cl
     };
 
     template <template <class > class Ho_, class Base>
-    struct class_fields<Ho_<cl::tape_function<Base>>> 
+    struct class_fields<Ho_<cl::tape_function<Base>>>
         : class_fields<Ho_<CppAD::ADFun<Base>>>
     {};
 

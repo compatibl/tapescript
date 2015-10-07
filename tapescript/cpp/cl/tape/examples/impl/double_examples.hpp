@@ -34,7 +34,7 @@ namespace cl
     {
         out_str << "Plus operation:\n" << std::endl;
 
-        // Input values initialization.       
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -45,7 +45,7 @@ namespace cl
         std::vector<cl::tape_double> sum = { X[0] + X[2], X[1] + X[3] };
         std::vector<cl::tape_double> Y = sum;
         out_str << "Output vector: " << Y << "\n\n";
-       
+
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -98,7 +98,7 @@ namespace cl
     {
         out_str << "Exponent function:\n\n";
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -106,7 +106,7 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> exp = { std::exp(X[0]), std::exp(X[1]) }; 
+        std::vector<cl::tape_double> exp = { std::exp(X[0]), std::exp(X[1]) };
         std::vector<cl::tape_double> Y = exp;
         out_str << "Output vector: " << Y << "\n\n";
 
@@ -131,7 +131,7 @@ namespace cl
     {
         out_str << "Cosine function:\n\n";
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 1, 3.14159265359 / 2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -214,7 +214,7 @@ namespace cl
         out_str << "We are mixing arrays and scalars in calculations of\n";
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 1, 2, -1.2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -248,7 +248,7 @@ namespace cl
     {
         out_str << "Sum of an array:\n\n";
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
@@ -314,14 +314,14 @@ namespace cl
     {
         out_str << "Array concatenation:\n" << std::endl;
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 1, 2, 7, 0, 5 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
-        // Output calculations.        
+        // Output calculations.
         std::vector<cl::tape_double> Y = X;
         out_str << "Output vector: " << Y << "\n\n";
 
@@ -346,7 +346,7 @@ namespace cl
     {
         out_str << "Array construction from scalar:\n" << std::endl;
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 7 };
         out_str << "Input vector: " << X << "\n";
 
@@ -379,7 +379,7 @@ namespace cl
     {
         out_str << "Maximum of two arrays:\n" << std::endl;
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, -1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -412,7 +412,7 @@ namespace cl
     {
         out_str << "L2 norm of an array:\n" << std::endl;
 
-        // Input values initialization.        
+        // Input values initialization.
         std::vector<cl::tape_double> X = { 3 };
         out_str << "Input vector: " << X << "\n";
 
@@ -447,7 +447,7 @@ namespace cl
         out_str << "Linear regression:\n" << std::endl;
 
         // Input values initialization.
-        size_t n = 3;        
+        size_t n = 3;
         std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, 3 };
         out_str << "Input vector: " << X << "\n";
 

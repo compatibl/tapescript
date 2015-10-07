@@ -121,7 +121,7 @@ namespace cl
             typedef typename
                 std::remove_pointer<Stm>::type type_non_pointer;
             return static_cast<Serializer*>(get_ptr(stm))->io_type();
-            
+
         }
 
         template <typename Serializer>
@@ -139,7 +139,7 @@ namespace cl
             serializer_traits<Base>::type Serializer;
 
         return tapescript::io_type__<Serializer>(stm
-            , std::integral_constant<bool, cl::is_implemented<Serializer>::value 
+            , std::integral_constant<bool, cl::is_implemented<Serializer>::value
                     && cl::is_io_typed<Serializer>::value>()) & serializer_type::io_binary;
     }
 
@@ -150,7 +150,7 @@ namespace cl
             serializer_traits<Base>::type Serializer;
 
         auto v = tapescript::io_type__<Serializer>(stm
-                , std::integral_constant<bool, (bool)(cl::is_implemented<Serializer>::value 
+                , std::integral_constant<bool, (bool)(cl::is_implemented<Serializer>::value
                 && cl::is_io_typed<Serializer>::value)>());
 
         return (v & serializer_type::io_text) != 0;
@@ -165,7 +165,7 @@ namespace cl
     template <typename Se_>
     inline Se_& cast(cl::empty_result& s_out)
     {
-        typename 
+        typename
             std::remove_reference<Se_ >::type *ptr = 0;
 
         return *ptr;

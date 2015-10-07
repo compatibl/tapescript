@@ -81,12 +81,12 @@ namespace CppAD
     {   // constants
         const Base zero(0);
 
-        // Calculation cases when we have 
+        // Calculation cases when we have
         // stream and certain vector
         auto w = getarg<0>(arg);
         auto stream = getarg<1>(arg);
 
-        // Declaration of 
+        // Declaration of
         typedef decltype(w) VectorBase;
 
         // temporary indices
@@ -102,7 +102,7 @@ namespace CppAD
         Partial.extend(num_var_tape_  * q);
 
         // update maximum memory requirement
-        // memoryMax = std::max( memoryMax, 
+        // memoryMax = std::max( memoryMax,
         // 	Memory() + num_var_tape_  * q * sizeof(Base)
         // );
 
@@ -185,10 +185,10 @@ namespace CppAD
         {
             CPPAD_ASSERT_UNKNOWN(ind_taddr_[j] < num_var_tape_);
 
-            // independent variable taddr equals its operator taddr 
+            // independent variable taddr equals its operator taddr
             CPPAD_ASSERT_UNKNOWN(play_.GetOp(ind_taddr_[j]) == InvOp);
 
-            // by the Reverse Identity Theorem 
+            // by the Reverse Identity Theorem
             // partial of y^{(k)} w.r.t. u^{(0)} is equal to
             // partial of y^{(q-1)} w.r.t. u^{(q - 1 - k)}
             if (size_t(w.size()) == m)

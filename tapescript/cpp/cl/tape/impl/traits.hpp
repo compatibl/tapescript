@@ -35,7 +35,7 @@ namespace std
     public:
 
         typedef cl::tape_wrapper<Base> _Ty;
-        typedef typename 
+        typedef typename
             _Ty::value_type value_type;
 
         static _Ty _Flt_eps()

@@ -239,7 +239,7 @@ namespace cl
         for (int i = 0; i < n; i++)
             x[i] = i;
         cl::tape_double_vector x2(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             x2[i] = x[i] * x[i];
         // Calculate corresponding y_i values.
         cl::tape_double_vector y(n);
@@ -262,25 +262,25 @@ namespace cl
         for (int i = 0; i < n; i++)
             sum_y2 += y2[i];
         cl::tape_double_vector xy(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             xy[i] = x[i] * y[i];
         cl::tape_double sum_xy = 0.0;
         for (int i = 0; i < n; i++)
             sum_xy += xy[i];
         cl::tape_double_vector x3(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             x3[i] = x2[i] * x[i];
         cl::tape_double sum_x3 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x3 += x3[i];
         cl::tape_double_vector x2y(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             x2y[i] = x2[i] * y[i];
         cl::tape_double sum_x2y = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2y += x2y[i];
         cl::tape_double_vector x4(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             x4[i] = x3[i] * x[i];
         cl::tape_double sum_x4 = 0.0;
         for (int i = 0; i < n; i++)

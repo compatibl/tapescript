@@ -68,11 +68,11 @@ namespace CppAD
             return (left.scalar_value_ < right.scalar_value_)
                 ? exp_if_true : exp_if_false;
         }
-        
+
         size_t size = left.is_array() ? left.size() : right.size();
 
         typename cl::tape_inner<Array>::array_type result(size);
-        
+
         for (size_t i = 0; i < size; i++)
         {
             result[i] = left.element_at(i) < right.element_at(i)
@@ -81,7 +81,7 @@ namespace CppAD
 
         return result;
     }
-    
+
     // Conditional expression.
     template <class Array>
     inline cl::tape_inner<Array> CondExpOp(

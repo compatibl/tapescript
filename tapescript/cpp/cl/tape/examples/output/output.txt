@@ -8,20 +8,20 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 2, 5 }, { 1, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }            
-2    2    Init                        fz[0] = { 0, 1 }             fz[1] = { 1, -1 }           
-3    3    +        vl=1     vr=2      fz[0] = { 1, 3 }             fz[1] = { 3, 4 }            
-4         End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }
+2    2    Init                        fz[0] = { 0, 1 }             fz[1] = { 1, -1 }
+3    3    +        vl=1     vr=2      fz[0] = { 1, 3 }             fz[1] = { 3, 4 }
+4         End
 
 Forward sweep result: { { 3, 4 } }
 
 Reverse(1, w) sweep for w = { { 3, 7 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-3    3    +        vl=1     vr=2      fz[0] = { 1, 3 }             rz[0] = { 3, 7 }            
-2    2    Init                        fz[0] = { 0, 1 }             rz[0] = { 3, 7 }            
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 3, 7 }            
-0         Begin                      
+3    3    +        vl=1     vr=2      fz[0] = { 1, 3 }             rz[0] = { 3, 7 }
+2    2    Init                        fz[0] = { 0, 1 }             rz[0] = { 3, 7 }
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 3, 7 }
+0         Begin
 
 Reverse sweep result: { { 3, 7 }, { 3, 7 } }
 
@@ -36,20 +36,20 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 2, 5 }, { 1, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }            
-2    2    Init                        fz[0] = { 0, 1 }             fz[1] = { 1, -1 }           
-3    3    -        vl=1     vr=2      fz[0] = { 1, 1 }             fz[1] = { 1, 6 }            
-4         End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }
+2    2    Init                        fz[0] = { 0, 1 }             fz[1] = { 1, -1 }
+3    3    -        vl=1     vr=2      fz[0] = { 1, 1 }             fz[1] = { 1, 6 }
+4         End
 
 Forward sweep result: { { 1, 6 } }
 
 Reverse(1, w) sweep for w = { { 3, 7 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-3    3    -        vl=1     vr=2      fz[0] = { 1, 1 }             rz[0] = { 3, 7 }            
-2    2    Init                        fz[0] = { 0, 1 }             rz[0] = { -3, -7 }          
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 3, 7 }            
-0         Begin                      
+3    3    -        vl=1     vr=2      fz[0] = { 1, 1 }             rz[0] = { 3, 7 }
+2    2    Init                        fz[0] = { 0, 1 }             rz[0] = { -3, -7 }
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 3, 7 }
+0         Begin
 
 Reverse sweep result: { { 3, 7 }, { -3, -7 } }
 
@@ -64,18 +64,18 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 2, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 0, 1 }             fz[1] = { 2, -1 }           
-2    2    exp       v=1               fz[0] = { 1, 2.72 }          fz[1] = { 2, -2.72 }        
-3         End                        
+1    1    Init                        fz[0] = { 0, 1 }             fz[1] = { 2, -1 }
+2    2    exp       v=1               fz[0] = { 1, 2.72 }          fz[1] = { 2, -2.72 }
+3         End
 
 Forward sweep result: { { 2, -2.72 } }
 
 Reverse(1, w) sweep for w = { { 1, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-2    2    exp       v=1               fz[0] = { 1, 2.72 }          rz[0] = { 1, -1 }           
-1    1    Init                        fz[0] = { 0, 1 }             rz[0] = { 1, -2.72 }        
-0         Begin                      
+2    2    exp       v=1               fz[0] = { 1, 2.72 }          rz[0] = { 1, -1 }
+1    1    Init                        fz[0] = { 0, 1 }             rz[0] = { 1, -2.72 }
+0         Begin
 
 Reverse sweep result: { { 1, -2.72 } }
 
@@ -90,18 +90,18 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1, 1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 1.57 }          fz[1] = { 1, 1 }            
-2    3    cos       v=1               fz[0] = { 0.54, -1.03e-013 } fz[1] = { -0.841, -1 }      
-3         End                        
+1    1    Init                        fz[0] = { 1, 1.57 }          fz[1] = { 1, 1 }
+2    3    cos       v=1               fz[0] = { 0.54, -1.03e-013 } fz[1] = { -0.841, -1 }
+3         End
 
 Forward sweep result: { { -0.841, -1 } }
 
 Reverse(1, w) sweep for w = { { -2, 1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-2    3    cos       v=1               fz[0] = { 0.54, -1.03e-013 } rz[0] = { -2, 1 }           
-1    1    Init                        fz[0] = { 1, 1.57 }          rz[0] = { 1.68, -1 }        
-0         Begin                      
+2    3    cos       v=1               fz[0] = { 0.54, -1.03e-013 } rz[0] = { -2, 1 }
+1    1    Init                        fz[0] = { 1, 1.57 }          rz[0] = { 1.68, -1 }
+0         Begin
 
 Reverse sweep result: { { 1.68, -1 } }
 
@@ -122,14 +122,14 @@ Calculation of sensitivity to 1% change in interest rate.
 Forward(1, dx) sweep for dx = { 0, 0.01, 0 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 100, 110 }         fz[1] = 0                   
-2    2    Init                        fz[0] = { 0.05, 0.04 }       fz[1] = 0.01                
-3    3    Init                        fz[0] = { 1, 2 }             fz[1] = 0                   
-4    4    -        pl=0     vr=2      fz[0] = { -0.05, -0.04 }     fz[1] = -0.01               
-5    5    *        vl=4     vr=3      fz[0] = { -0.05, -0.08 }     fz[1] = { -0.01, -0.02 }    
+1    1    Init                        fz[0] = { 100, 110 }         fz[1] = 0
+2    2    Init                        fz[0] = { 0.05, 0.04 }       fz[1] = 0.01
+3    3    Init                        fz[0] = { 1, 2 }             fz[1] = 0
+4    4    -        pl=0     vr=2      fz[0] = { -0.05, -0.04 }     fz[1] = -0.01
+5    5    *        vl=4     vr=3      fz[0] = { -0.05, -0.08 }     fz[1] = { -0.01, -0.02 }
 6    6    exp       v=5               fz[0] = { 0.951, 0.923 }     fz[1] = { -0.00951, -0.0185 }
-7    7    *        vl=1     vr=6      fz[0] = { 95.1, 102 }        fz[1] = { -0.951, -2.03 }   
-8         End                        
+7    7    *        vl=1     vr=6      fz[0] = { 95.1, 102 }        fz[1] = { -0.951, -2.03 }
+8         End
 
 Forward sweep result: { { -0.951, -2.03 }, { -0.00951, -0.0185 } }
 Sensitivity of discounted price: { -0.951, -2.03 }
@@ -139,14 +139,14 @@ Calculation of sensitivity of discount factor.
 Reverse(1, w) sweep for w = { 0, 1 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-7    7    *        vl=1     vr=6      fz[0] = { 95.1, 102 }        rz[0] = 0                   
-6    6    exp       v=5               fz[0] = { 0.951, 0.923 }     rz[0] = 1                   
-5    5    *        vl=4     vr=3      fz[0] = { -0.05, -0.08 }     rz[0] = { 0.951, 0.923 }    
-4    4    -        pl=0     vr=2      fz[0] = { -0.05, -0.04 }     rz[0] = { 0.951, 1.85 }     
+7    7    *        vl=1     vr=6      fz[0] = { 95.1, 102 }        rz[0] = 0
+6    6    exp       v=5               fz[0] = { 0.951, 0.923 }     rz[0] = 1
+5    5    *        vl=4     vr=3      fz[0] = { -0.05, -0.08 }     rz[0] = { 0.951, 0.923 }
+4    4    -        pl=0     vr=2      fz[0] = { -0.05, -0.04 }     rz[0] = { 0.951, 1.85 }
 3    3    Init                        fz[0] = { 1, 2 }             rz[0] = { -0.0476, -0.0369 }
-2    2    Init                        fz[0] = { 0.05, 0.04 }       rz[0] = { -0.951, -1.85 }   
-1    1    Init                        fz[0] = { 100, 110 }         rz[0] = 0                   
-0         Begin                      
+2    2    Init                        fz[0] = { 0.05, 0.04 }       rz[0] = { -0.951, -1.85 }
+1    1    Init                        fz[0] = { 100, 110 }         rz[0] = 0
+0         Begin
 
 Reverse sweep result: { 0, { -0.951, -1.85 }, { -0.0476, -0.0369 } }
 Sensitivity to the changes in spot price:    0
@@ -165,36 +165,36 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1, -1 }, 2 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1, -1 }           
-2    2    Init                        fz[0] = -1.2                 fz[1] = 2                   
-3    3    /        vl=2     vr=1      fz[0] = { -1.2, -0.6 }       fz[1] = { 3.2, 0.7 }        
-4    5    cos       v=2               fz[0] = 0.362                fz[1] = 1.86                
-5    7    sin       v=1               fz[0] = { 0.841, 0.909 }     fz[1] = { 0.54, 0.416 }     
-6    8    /        vl=7     vr=5      fz[0] = { 2.32, 2.51 }       fz[1] = { -10.5, -11.8 }    
-7    9    +        vl=8     vr=3      fz[0] = { 1.12, 1.91 }       fz[1] = { -7.26, -11.1 }    
-8    12   pow      vl=2     pr=3      fz[0] = -1.73                fz[1] = 8.64                
-9    13   *        vl=1     vr=12     fz[0] = { -1.73, -3.46 }     fz[1] = { 6.91, 19 }        
-10   14   +        vl=9     vr=13     fz[0] = { -0.606, -1.55 }    fz[1] = { -0.343, 7.95 }    
-11   15   -        vl=14    pr=0.5    fz[0] = { -1.11, -2.05 }     fz[1] = { -0.343, 7.95 }    
-12        End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1, -1 }
+2    2    Init                        fz[0] = -1.2                 fz[1] = 2
+3    3    /        vl=2     vr=1      fz[0] = { -1.2, -0.6 }       fz[1] = { 3.2, 0.7 }
+4    5    cos       v=2               fz[0] = 0.362                fz[1] = 1.86
+5    7    sin       v=1               fz[0] = { 0.841, 0.909 }     fz[1] = { 0.54, 0.416 }
+6    8    /        vl=7     vr=5      fz[0] = { 2.32, 2.51 }       fz[1] = { -10.5, -11.8 }
+7    9    +        vl=8     vr=3      fz[0] = { 1.12, 1.91 }       fz[1] = { -7.26, -11.1 }
+8    12   pow      vl=2     pr=3      fz[0] = -1.73                fz[1] = 8.64
+9    13   *        vl=1     vr=12     fz[0] = { -1.73, -3.46 }     fz[1] = { 6.91, 19 }
+10   14   +        vl=9     vr=13     fz[0] = { -0.606, -1.55 }    fz[1] = { -0.343, 7.95 }
+11   15   -        vl=14    pr=0.5    fz[0] = { -1.11, -2.05 }     fz[1] = { -0.343, 7.95 }
+12        End
 
 Forward sweep result: { { -7.26, -11.1 }, { -0.343, 7.95 } }
 
 Reverse(1, w) sweep for w = { { -2, 1 }, { 2, 3 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-11   15   -        vl=14    pr=0.5    fz[0] = { -1.11, -2.05 }     rz[0] = { 2, 3 }            
-10   14   +        vl=9     vr=13     fz[0] = { -0.606, -1.55 }    rz[0] = { 2, 3 }            
-9    13   *        vl=1     vr=12     fz[0] = { -1.73, -3.46 }     rz[0] = { 2, 3 }            
-8    12   pow      vl=2     pr=3      fz[0] = -1.73                rz[0] = 8                   
-7    9    +        vl=8     vr=3      fz[0] = { 1.12, 1.91 }       rz[0] = { 0, 4 }            
-6    8    /        vl=7     vr=5      fz[0] = { 2.32, 2.51 }       rz[0] = { 0, 4 }            
-5    7    sin       v=1               fz[0] = { 0.841, 0.909 }     rz[0] = { 0, 11 }           
-4    5    cos       v=2               fz[0] = 0.362                rz[0] = -27.7               
-3    3    /        vl=2     vr=1      fz[0] = { -1.2, -0.6 }       rz[0] = { 0, 4 }            
-2    2    Init                        fz[0] = -1.2                 rz[0] = 10.7                
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { -3.46, -8.58 }    
-0         Begin                      
+11   15   -        vl=14    pr=0.5    fz[0] = { -1.11, -2.05 }     rz[0] = { 2, 3 }
+10   14   +        vl=9     vr=13     fz[0] = { -0.606, -1.55 }    rz[0] = { 2, 3 }
+9    13   *        vl=1     vr=12     fz[0] = { -1.73, -3.46 }     rz[0] = { 2, 3 }
+8    12   pow      vl=2     pr=3      fz[0] = -1.73                rz[0] = 8
+7    9    +        vl=8     vr=3      fz[0] = { 1.12, 1.91 }       rz[0] = { 0, 4 }
+6    8    /        vl=7     vr=5      fz[0] = { 2.32, 2.51 }       rz[0] = { 0, 4 }
+5    7    sin       v=1               fz[0] = { 0.841, 0.909 }     rz[0] = { 0, 11 }
+4    5    cos       v=2               fz[0] = 0.362                rz[0] = -27.7
+3    3    /        vl=2     vr=1      fz[0] = { -1.2, -0.6 }       rz[0] = { 0, 4 }
+2    2    Init                        fz[0] = -1.2                 rz[0] = 10.7
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { -3.46, -8.58 }
+0         Begin
 
 Reverse sweep result: { { -3.46, -8.58 }, 10.7 }
 
@@ -209,24 +209,24 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1.5, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1.5, -1 }         
-2         User     Sum                                                          
-3         Usrav     v=1              
-4    2    Usrrv                       fz[0] = 3                    fz[1] = 0.5                 
-5         User     Sum                                                          
-6         End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1.5, -1 }
+2         User     Sum
+3         Usrav     v=1
+4    2    Usrrv                       fz[0] = 3                    fz[1] = 0.5
+5         User     Sum
+6         End
 
 Forward sweep result: { 0.5 }
 
 Reverse(1, w) sweep for w = { 4 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-5         User     Sum                                                          
-4    2    Usrrv                       fz[0] = 3                    rz[0] = 4                   
-3         Usrav     v=1              
-2         User     Sum                                                          
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = 4                   
-0         Begin                      
+5         User     Sum
+4    2    Usrrv                       fz[0] = 3                    rz[0] = 4
+3         Usrav     v=1
+2         User     Sum
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = 4
+0         Begin
 
 Reverse sweep result: { 4 }
 
@@ -241,24 +241,24 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1.5, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1.5, -1 }         
-2         User     Reversing                                                    
-3         Usrav     v=1              
-4    2    Usrrv                       fz[0] = { 2, 1 }             fz[1] = { -1, 1.5 }         
-5         User     Reversing                                                    
-6         End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 1.5, -1 }
+2         User     Reversing
+3         Usrav     v=1
+4    2    Usrrv                       fz[0] = { 2, 1 }             fz[1] = { -1, 1.5 }
+5         User     Reversing
+6         End
 
 Forward sweep result: { { -1, 1.5 } }
 
 Reverse(1, w) sweep for w = { 4 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-5         User     Reversing                                                    
-4    2    Usrrv                       fz[0] = { 2, 1 }             rz[0] = 4                   
-3         Usrav     v=1              
-2         User     Reversing                                                    
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = 4                   
-0         Begin                      
+5         User     Reversing
+4    2    Usrrv                       fz[0] = { 2, 1 }             rz[0] = 4
+3         Usrav     v=1
+2         User     Reversing
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = 4
+0         Begin
 
 Reverse sweep result: { 4 }
 
@@ -273,40 +273,40 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 2, 5 }, 12, { 1, -1 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }            
-2    2    Init                        fz[0] = 7                    fz[1] = 12                  
-3    3    Init                        fz[0] = { 0, 5 }             fz[1] = { 1, -1 }           
-4         User     Concatenation                                                
-5         Usrav     v=1              
-6         Usrav     v=2              
-7    4    Usrrv                       fz[0] = { 1, 2, 7 }          fz[1] = { 2, 5, 12 }        
-8         User     Concatenation                                                
-9         User     Concatenation                                                
-10        Usrav     v=4              
-11        Usrav     v=3              
-12   5    Usrrv                       fz[0] = { 1, 2, 7, 0, 5 }    fz[1] = { 2, 5, 12, 1, -1 } 
-13        User     Concatenation                                                
-14        End                        
+1    1    Init                        fz[0] = { 1, 2 }             fz[1] = { 2, 5 }
+2    2    Init                        fz[0] = 7                    fz[1] = 12
+3    3    Init                        fz[0] = { 0, 5 }             fz[1] = { 1, -1 }
+4         User     Concatenation
+5         Usrav     v=1
+6         Usrav     v=2
+7    4    Usrrv                       fz[0] = { 1, 2, 7 }          fz[1] = { 2, 5, 12 }
+8         User     Concatenation
+9         User     Concatenation
+10        Usrav     v=4
+11        Usrav     v=3
+12   5    Usrrv                       fz[0] = { 1, 2, 7, 0, 5 }    fz[1] = { 2, 5, 12, 1, -1 }
+13        User     Concatenation
+14        End
 
 Forward sweep result: { { 2, 5, 12, 1, -1 } }
 
 Reverse(1, w) sweep for w = { { 1, 2, 3, 4, 5 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-13        User     Concatenation                                                
-12   5    Usrrv                       fz[0] = { 1, 2, 7, 0, 5 }    rz[0] = { 1, 2, 3, 4, 5 }   
-11        Usrav     v=3              
-10        Usrav     v=4              
-9         User     Concatenation                                                
-8         User     Concatenation                                                
-7    4    Usrrv                       fz[0] = { 1, 2, 7 }          rz[0] = { 1, 2, 3 }         
-6         Usrav     v=2              
-5         Usrav     v=1              
-4         User     Concatenation                                                
-3    3    Init                        fz[0] = { 0, 5 }             rz[0] = { 4, 5 }            
-2    2    Init                        fz[0] = 7                    rz[0] = 3                   
-1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 1, 2 }            
-0         Begin                      
+13        User     Concatenation
+12   5    Usrrv                       fz[0] = { 1, 2, 7, 0, 5 }    rz[0] = { 1, 2, 3, 4, 5 }
+11        Usrav     v=3
+10        Usrav     v=4
+9         User     Concatenation
+8         User     Concatenation
+7    4    Usrrv                       fz[0] = { 1, 2, 7 }          rz[0] = { 1, 2, 3 }
+6         Usrav     v=2
+5         Usrav     v=1
+4         User     Concatenation
+3    3    Init                        fz[0] = { 0, 5 }             rz[0] = { 4, 5 }
+2    2    Init                        fz[0] = 7                    rz[0] = 3
+1    1    Init                        fz[0] = { 1, 2 }             rz[0] = { 1, 2 }
+0         Begin
 
 Reverse sweep result: { { 1, 2 }, 3, { 4, 5 } }
 
@@ -321,26 +321,26 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { 1 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 7                    fz[1] = 1                   
-2         User     Construction(val, n)                                         
-3         Usrav     v=1              
-4         Usrap     p=2              
-5    2    Usrrv                       fz[0] = { 7, 7 }             fz[1] = { 1, 1 }            
-6         User     Construction(val, n)                                         
-7         End                        
+1    1    Init                        fz[0] = 7                    fz[1] = 1
+2         User     Construction(val, n)
+3         Usrav     v=1
+4         Usrap     p=2
+5    2    Usrrv                       fz[0] = { 7, 7 }             fz[1] = { 1, 1 }
+6         User     Construction(val, n)
+7         End
 
 Forward sweep result: { { 1, 1 } }
 
 Reverse(1, w) sweep for w = { { 1, 2 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-6         User     Construction(val, n)                                         
-5    2    Usrrv                       fz[0] = { 7, 7 }             rz[0] = { 1, 2 }            
-4         Usrap     p=2              
-3         Usrav     v=1              
-2         User     Construction(val, n)                                         
-1    1    Init                        fz[0] = 7                    rz[0] = 3                   
-0         Begin                      
+6         User     Construction(val, n)
+5    2    Usrrv                       fz[0] = { 7, 7 }             rz[0] = { 1, 2 }
+4         Usrap     p=2
+3         Usrav     v=1
+2         User     Construction(val, n)
+1    1    Init                        fz[0] = 7                    rz[0] = 3
+0         Begin
 
 Reverse sweep result: { 3 }
 
@@ -355,20 +355,20 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1, 1, 1 }, { 2, 2, 2 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { -1, 0, 1 }         fz[1] = { 1, 1, 1 }         
-2    2    Init                        fz[0] = { 1, 0, -1 }         fz[1] = { 2, 2, 2 }         
-3    3    > ? :    vl=1     vr=2     vt=1     vf=2     fz[0] = { 1, 0, 1 }          fz[1] = { 2, 2, 1 }         
-4         End                        
+1    1    Init                        fz[0] = { -1, 0, 1 }         fz[1] = { 1, 1, 1 }
+2    2    Init                        fz[0] = { 1, 0, -1 }         fz[1] = { 2, 2, 2 }
+3    3    > ? :    vl=1     vr=2     vt=1     vf=2     fz[0] = { 1, 0, 1 }          fz[1] = { 2, 2, 1 }
+4         End
 
 Forward sweep result: { { 2, 2, 1 } }
 
 Reverse(1, w) sweep for w = { { 1, 2, 3 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-3    3    > ? :    vl=1     vr=2     vt=1     vf=2     fz[0] = { 1, 0, 1 }          rz[0] = { 1, 2, 3 }         
-2    2    Init                        fz[0] = { 1, 0, -1 }         rz[0] = { 1, 2, 0 }         
-1    1    Init                        fz[0] = { -1, 0, 1 }         rz[0] = { 0, 0, 3 }         
-0         Begin                      
+3    3    > ? :    vl=1     vr=2     vt=1     vf=2     fz[0] = { 1, 0, 1 }          rz[0] = { 1, 2, 3 }
+2    2    Init                        fz[0] = { 1, 0, -1 }         rz[0] = { 1, 2, 0 }
+1    1    Init                        fz[0] = { -1, 0, 1 }         rz[0] = { 0, 0, 3 }
+0         Begin
 
 Reverse sweep result: { { 0, 0, 3 }, { 1, 2, 0 } }
 
@@ -383,38 +383,38 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { 1 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 3                    fz[1] = 1                   
-2         User     Construction(val, n)                                         
-3         Usrav     v=1              
-4         Usrap     p=2              
-5    2    Usrrv                       fz[0] = { 3, 3 }             fz[1] = { 1, 1 }            
-6         User     Construction(val, n)                                         
-7    5    pow      vl=2     pr=2      fz[0] = { 9, 9 }             fz[1] = { 6, 6 }            
-8         User     Sum                                                          
-9         Usrav     v=5              
-10   6    Usrrv                       fz[0] = 18                   fz[1] = 12                  
-11        User     Sum                                                          
-12   7    sqrt      v=6               fz[0] = 4.24                 fz[1] = 1.41                
-13        End                        
+1    1    Init                        fz[0] = 3                    fz[1] = 1
+2         User     Construction(val, n)
+3         Usrav     v=1
+4         Usrap     p=2
+5    2    Usrrv                       fz[0] = { 3, 3 }             fz[1] = { 1, 1 }
+6         User     Construction(val, n)
+7    5    pow      vl=2     pr=2      fz[0] = { 9, 9 }             fz[1] = { 6, 6 }
+8         User     Sum
+9         Usrav     v=5
+10   6    Usrrv                       fz[0] = 18                   fz[1] = 12
+11        User     Sum
+12   7    sqrt      v=6               fz[0] = 4.24                 fz[1] = 1.41
+13        End
 
 Forward sweep result: { 1.41 }
 
 Reverse(1, w) sweep for w = { 1 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-12   7    sqrt      v=6               fz[0] = 4.24                 rz[0] = 1                   
-11        User     Sum                                                          
-10   6    Usrrv                       fz[0] = 18                   rz[0] = 0.118               
-9         Usrav     v=5              
-8         User     Sum                                                          
-7    5    pow      vl=2     pr=2      fz[0] = { 9, 9 }             rz[0] = 0.118               
-6         User     Construction(val, n)                                         
-5    2    Usrrv                       fz[0] = { 3, 3 }             rz[0] = { 0.707, 0.707 }    
-4         Usrap     p=2              
-3         Usrav     v=1              
-2         User     Construction(val, n)                                         
-1    1    Init                        fz[0] = 3                    rz[0] = 1.41                
-0         Begin                      
+12   7    sqrt      v=6               fz[0] = 4.24                 rz[0] = 1
+11        User     Sum
+10   6    Usrrv                       fz[0] = 18                   rz[0] = 0.118
+9         Usrav     v=5
+8         User     Sum
+7    5    pow      vl=2     pr=2      fz[0] = { 9, 9 }             rz[0] = 0.118
+6         User     Construction(val, n)
+5    2    Usrrv                       fz[0] = { 3, 3 }             rz[0] = { 0.707, 0.707 }
+4         Usrap     p=2
+3         Usrav     v=1
+2         User     Construction(val, n)
+1    1    Init                        fz[0] = 3                    rz[0] = 1.41
+0         Begin
 
 Reverse sweep result: { 1.41 }
 
@@ -429,72 +429,72 @@ Ininial Forward(0) sweep...
 Forward(1, dx) sweep for dx = { { 1, 0, 0 }, { 0, 0, 0 } }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = { -1, 0, 1 }         fz[1] = { 1, 0, 0 }         
-2    2    Init                        fz[0] = { 1, 0, 3 }          fz[1] = { 0, 0, 0 }         
-3         User     Sum                                                          
-4         Usrav     v=1              
-5    3    Usrrv                       fz[0] = 0                    fz[1] = 1                   
-6         User     Sum                                                          
-7    4    *        pl=0.33* vr=3      fz[0] = 0                    fz[1] = 0.333               
-8         User     Sum                                                          
-9         Usrav     v=2              
-10   5    Usrrv                       fz[0] = 4                    fz[1] = 0                   
-11        User     Sum                                                          
-12   6    *        pl=0.33* vr=5      fz[0] = 1.33                 fz[1] = 0                   
+1    1    Init                        fz[0] = { -1, 0, 1 }         fz[1] = { 1, 0, 0 }
+2    2    Init                        fz[0] = { 1, 0, 3 }          fz[1] = { 0, 0, 0 }
+3         User     Sum
+4         Usrav     v=1
+5    3    Usrrv                       fz[0] = 0                    fz[1] = 1
+6         User     Sum
+7    4    *        pl=0.33* vr=3      fz[0] = 0                    fz[1] = 0.333
+8         User     Sum
+9         Usrav     v=2
+10   5    Usrrv                       fz[0] = 4                    fz[1] = 0
+11        User     Sum
+12   6    *        pl=0.33* vr=5      fz[0] = 1.33                 fz[1] = 0
 13   7    -        vl=1     vr=4      fz[0] = { -1, 0, 1 }         fz[1] = { 0.667, -0.333, -0.333 }
-14   8    -        vl=2     vr=6      fz[0] = { -0.333, -1.33, 1.67 } fz[1] = { 0, 0, 0 }         
+14   8    -        vl=2     vr=6      fz[0] = { -0.333, -1.33, 1.67 } fz[1] = { 0, 0, 0 }
 15   9    *        vl=7     vr=7      fz[0] = { 1, 0, 1 }          fz[1] = { -1.33, 0, -0.667 }
-16        User     Sum                                                          
-17        Usrav     v=9              
-18   10   Usrrv                       fz[0] = 2                    fz[1] = -2                  
-19        User     Sum                                                          
+16        User     Sum
+17        Usrav     v=9
+18   10   Usrrv                       fz[0] = 2                    fz[1] = -2
+19        User     Sum
 20   11   *        vl=7     vr=8      fz[0] = { 0.333, -0, 1.67 }  fz[1] = { -0.222, 0.444, -0.556 }
-21        User     Sum                                                          
-22        Usrav     v=11             
-23   12   Usrrv                       fz[0] = 2                    fz[1] = -0.333              
-24        User     Sum                                                          
-25   13   /        vl=12    vr=10     fz[0] = 1                    fz[1] = 0.833               
-26   14   *        vl=13    vr=4      fz[0] = 0                    fz[1] = 0.333               
-27   15   -        vl=6     vr=14     fz[0] = 1.33                 fz[1] = -0.333              
-28   16   *        vl=13    vr=1      fz[0] = { -1, 0, 1 }         fz[1] = { 0.167, 0, 0.833 } 
+21        User     Sum
+22        Usrav     v=11
+23   12   Usrrv                       fz[0] = 2                    fz[1] = -0.333
+24        User     Sum
+25   13   /        vl=12    vr=10     fz[0] = 1                    fz[1] = 0.833
+26   14   *        vl=13    vr=4      fz[0] = 0                    fz[1] = 0.333
+27   15   -        vl=6     vr=14     fz[0] = 1.33                 fz[1] = -0.333
+28   16   *        vl=13    vr=1      fz[0] = { -1, 0, 1 }         fz[1] = { 0.167, 0, 0.833 }
 29   17   +        vl=15    vr=16     fz[0] = { 0.333, 1.33, 2.33 } fz[1] = { -0.167, -0.333, 0.5 }
-30        End                        
+30        End
 
 Forward sweep result: { -0.333, 0.833, { -0.167, -0.333, 0.5 } }
 
 Reverse(1, w) sweep for w = { 0, 1, 0 }...
 
 Op#  Res# Op       Operands#          Taylor coefficients
-29   17   +        vl=15    vr=16     fz[0] = { 0.333, 1.33, 2.33 } rz[0] = 0                   
-28   16   *        vl=13    vr=1      fz[0] = { -1, 0, 1 }         rz[0] = 0                   
-27   15   -        vl=6     vr=14     fz[0] = 1.33                 rz[0] = 0                   
-26   14   *        vl=13    vr=4      fz[0] = 0                    rz[0] = 0                   
-25   13   /        vl=12    vr=10     fz[0] = 1                    rz[0] = 1                   
-24        User     Sum                                                          
-23   12   Usrrv                       fz[0] = 2                    rz[0] = 0.5                 
-22        Usrav     v=11             
-21        User     Sum                                                          
-20   11   *        vl=7     vr=8      fz[0] = { 0.333, -0, 1.67 }  rz[0] = 0.5                 
-19        User     Sum                                                          
-18   10   Usrrv                       fz[0] = 2                    rz[0] = -0.5                
-17        Usrav     v=9              
-16        User     Sum                                                          
-15   9    *        vl=7     vr=7      fz[0] = { 1, 0, 1 }          rz[0] = -0.5                
-14   8    -        vl=2     vr=6      fz[0] = { -0.333, -1.33, 1.67 } rz[0] = { -0.5, 0, 0.5 }    
+29   17   +        vl=15    vr=16     fz[0] = { 0.333, 1.33, 2.33 } rz[0] = 0
+28   16   *        vl=13    vr=1      fz[0] = { -1, 0, 1 }         rz[0] = 0
+27   15   -        vl=6     vr=14     fz[0] = 1.33                 rz[0] = 0
+26   14   *        vl=13    vr=4      fz[0] = 0                    rz[0] = 0
+25   13   /        vl=12    vr=10     fz[0] = 1                    rz[0] = 1
+24        User     Sum
+23   12   Usrrv                       fz[0] = 2                    rz[0] = 0.5
+22        Usrav     v=11
+21        User     Sum
+20   11   *        vl=7     vr=8      fz[0] = { 0.333, -0, 1.67 }  rz[0] = 0.5
+19        User     Sum
+18   10   Usrrv                       fz[0] = 2                    rz[0] = -0.5
+17        Usrav     v=9
+16        User     Sum
+15   9    *        vl=7     vr=7      fz[0] = { 1, 0, 1 }          rz[0] = -0.5
+14   8    -        vl=2     vr=6      fz[0] = { -0.333, -1.33, 1.67 } rz[0] = { -0.5, 0, 0.5 }
 13   7    -        vl=1     vr=4      fz[0] = { -1, 0, 1 }         rz[0] = { 0.833, -0.667, -0.167 }
-12   6    *        pl=0.33* vr=5      fz[0] = 1.33                 rz[0] = 0                   
-11        User     Sum                                                          
-10   5    Usrrv                       fz[0] = 4                    rz[0] = 0                   
-9         Usrav     v=2              
-8         User     Sum                                                          
-7    4    *        pl=0.33* vr=3      fz[0] = 0                    rz[0] = -1.11e-016          
-6         User     Sum                                                          
-5    3    Usrrv                       fz[0] = 0                    rz[0] = -3.7e-017           
-4         Usrav     v=1              
-3         User     Sum                                                          
-2    2    Init                        fz[0] = { 1, 0, 3 }          rz[0] = { -0.5, 0, 0.5 }    
+12   6    *        pl=0.33* vr=5      fz[0] = 1.33                 rz[0] = 0
+11        User     Sum
+10   5    Usrrv                       fz[0] = 4                    rz[0] = 0
+9         Usrav     v=2
+8         User     Sum
+7    4    *        pl=0.33* vr=3      fz[0] = 0                    rz[0] = -1.11e-016
+6         User     Sum
+5    3    Usrrv                       fz[0] = 0                    rz[0] = -3.7e-017
+4         Usrav     v=1
+3         User     Sum
+2    2    Init                        fz[0] = { 1, 0, 3 }          rz[0] = { -0.5, 0, 0.5 }
 1    1    Init                        fz[0] = { -1, 0, 1 }         rz[0] = { 0.833, -0.667, -0.167 }
-0         Begin                      
+0         Begin
 
 Reverse sweep result: { { 0.833, -0.667, -0.167 }, { -0.5, 0, 0.5 } }
 

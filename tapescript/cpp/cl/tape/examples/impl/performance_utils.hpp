@@ -350,7 +350,7 @@ namespace cl
             , { "ylabel", "Memory (B)" }
             , { "cleanlog", "false" }
         });
-        
+
         compare_tape(factory, 10, out_str);
 
 #if defined CL_GRAPH_GEN

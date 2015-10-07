@@ -47,7 +47,7 @@ namespace cl
 #   define CPPAD_REVERSE_INCLUDED
 #endif
 
-// Lock undef include 
+// Lock undef include
 #define CPPAD_UNDEF_INCLUDED
 
 #include <cppad/cppad.h>
