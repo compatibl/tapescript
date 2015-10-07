@@ -20,13 +20,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#include "impl/adapter_performance_test.hpp"
-#include <stdlib.h>
+#ifndef cl_tape_test_suite_impl_adapter_performance_test_hpp
+#define cl_tape_test_suite_impl_adapter_performance_test_hpp
 
-int main()
+#include <boost/test/unit_test.hpp>
+
+using namespace boost::unit_test_framework;
+
+namespace cl
 {
-    cl::adapter_performance_test();
-
-    system("pause");
-    return 0;
+    test_suite* ClAdapterPerformanceTestSuite();
 }
+
+#endif // cl_tape_test_suite_impl_adapter_performance_test_hpp
