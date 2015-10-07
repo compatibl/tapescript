@@ -58,7 +58,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w =  { 3, 7 } ;
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -90,7 +90,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 3, 7 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -123,7 +123,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -156,7 +156,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -202,7 +202,7 @@ namespace cl
         out_str << "Calculation of sensitivity of discount factor.\n";
         std::vector<double> w = { 0, 0, 1, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << " , " << rev[1] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[2] << " , " << rev[3] << "\n";
@@ -240,7 +240,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = {  -2, 1, 2, 3 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -273,7 +273,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -306,7 +306,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 4, 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -338,7 +338,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 1, 2, 3, 4, 5 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -371,7 +371,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -404,7 +404,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 1, 2, 3 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -438,7 +438,7 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<double> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 

@@ -253,12 +253,12 @@ namespace cl
         // Reverse sweep calculations.
         std::vector<inner_type> w = task.w_;
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<inner_type> rev = f.Reverse(1, w);
+        std::vector<inner_type> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
 
         result.rev_ = test_performance(task.repeat_, [&f, &w]()
         {
-            f.Reverse(1, w);
+            f.reverse(1, w);
         });
 
         result.mem_ = f.Memory();
