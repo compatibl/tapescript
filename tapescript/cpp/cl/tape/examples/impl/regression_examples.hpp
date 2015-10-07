@@ -76,10 +76,10 @@ namespace cl
         out_str << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
-        cl::tape_value a_ref = a;
-        cl::tape_value b_ref = b;
-        cl::tape_value c_ref = c;
-        std::vector<cl::tape_object> X = { a_ref, b_ref, c_ref };
+        cl::tvalue a_ref = a;
+        cl::tvalue b_ref = b;
+        cl::tvalue c_ref = c;
+        std::vector<cl::tobject> X = { a_ref, b_ref, c_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -88,33 +88,33 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_object& par_a = X[0];
-        cl::tape_object& par_b = X[1];
-        cl::tape_object& par_c = X[2];
+        cl::tobject& par_a = X[0];
+        cl::tobject& par_b = X[1];
+        cl::tobject& par_c = X[2];
         // Obtain x_i values.
-        cl::tape_object x = lin_regr.GetInputX();
+        cl::tobject x = lin_regr.GetInputX();
         // Calculate corresponding y_i values.
-        cl::tape_object y = par_a + x * par_b + exp(-1 * par_c * x);
+        cl::tobject y = par_a + x * par_b + exp(-1 * par_c * x);
         // Start linear regression calculation: calculate mean values.
-        cl::tape_object x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
-        cl::tape_object y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+        cl::tobject x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
+        cl::tobject y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
         // Variance times n: n * Var[x]
-        cl::tape_object var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+        cl::tobject var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
         // Covariance times n: n * Cov[x, y]
-        cl::tape_object cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+        cl::tobject cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
         // Linear regression coefficients.
-        cl::tape_object beta = cov_xy_n / var_x_n;
-        cl::tape_object alpha = y_mean - beta * x_mean;
+        cl::tobject beta = cov_xy_n / var_x_n;
+        cl::tobject alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::tape_object y_estimate = alpha + beta * x;
+        cl::tobject y_estimate = alpha + beta * x;
         // Output vector.
-        std::vector<cl::tape_object> Y = { alpha, beta, y_estimate };
+        std::vector<cl::tobject> Y = { alpha, beta, y_estimate };
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::tape_value> f(X, Y);
+        cl::tfunc<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
@@ -127,11 +127,11 @@ namespace cl
         std::clock_t calc_time = 0;
 
         // Derivatives with respect to a.
-        std::vector<cl::tape_value> dx = { 1, 0, 0 };
+        std::vector<cl::tvalue> dx = { 1, 0, 0 };
         if (flag_serializer)
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
-        std::vector<cl::tape_value> forw;
+        std::vector<cl::tvalue> forw;
         if (flag_serializer)
             forw = f.Forward(1, dx, out_str);
         else
@@ -252,7 +252,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
@@ -334,8 +334,8 @@ namespace cl
         lin_regr.Calculate();
         cl::tape_array x_ref_array = lin_regr.GetInputX();
         cl::tape_array y_ref_array = lin_regr.GetInputY();
-        cl::tape_value x_ref(x_ref_array), y_ref(y_ref_array);
-        std::vector<cl::tape_object> X = { x_ref, y_ref };
+        cl::tvalue x_ref(x_ref_array), y_ref(y_ref_array);
+        std::vector<cl::tobject> X = { x_ref, y_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
@@ -344,29 +344,29 @@ namespace cl
         cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_object& x = X[0];
-        cl::tape_object& y = X[1];
+        cl::tobject& x = X[0];
+        cl::tobject& y = X[1];
         // Start linear regression calculation: calculate mean values.
-        cl::tape_object x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
-        cl::tape_object y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
+        cl::tobject x_mean = 1.0 / n * cl::tapescript::sum_vec(x);
+        cl::tobject y_mean = 1.0 / n * cl::tapescript::sum_vec(y);
         // Variance times n: n * Var[x]
-        cl::tape_object var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
+        cl::tobject var_x_n = cl::tapescript::sum_vec((x - x_mean) * (x - x_mean));
         // Covariance times n: n * Cov[x, y]
-        cl::tape_object cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
+        cl::tobject cov_xy_n = cl::tapescript::sum_vec((x - x_mean) * (y - y_mean));
         // Linear regression coefficients.
-        cl::tape_object beta = cov_xy_n / var_x_n;
-        cl::tape_object alpha = y_mean - beta * x_mean;
+        cl::tobject beta = cov_xy_n / var_x_n;
+        cl::tobject alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
-        cl::tape_object y_estimate = alpha + beta * x;
+        cl::tobject y_estimate = alpha + beta * x;
         // Output vector.
-        std::vector<cl::tape_object> Y = { alpha, beta, y_estimate };
+        std::vector<cl::tobject> Y = { alpha, beta, y_estimate };
         if (flag_serializer)
             out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::tape_value> f(X, Y);
+        cl::tfunc<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -388,12 +388,12 @@ namespace cl
                 dx_ref_array[j] = 0;
             dx_ref_array[i] = 1;
 
-            cl::tape_value dx_ref(dx_ref_array), dy_ref(dy_ref_array);
-            std::vector<cl::tape_value> dx = { dx_ref, dy_ref };
+            cl::tvalue dx_ref(dx_ref_array), dy_ref(dy_ref_array);
+            std::vector<cl::tvalue> dx = { dx_ref, dy_ref };
             if (flag_serializer)
                 out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
-            std::vector<cl::tape_value> forw;
+            std::vector<cl::tvalue> forw;
             if (flag_serializer)
                 forw = f.Forward(1, dx, out_str);
             else
@@ -412,12 +412,12 @@ namespace cl
                 dy_ref_array[j] = 0;
             dy_ref_array[i] = 1;
 
-            cl::tape_value dx_ref(dx_ref_array), dy_ref(dy_ref_array);
-            std::vector<cl::tape_value> dx = { dx_ref, dy_ref };
+            cl::tvalue dx_ref(dx_ref_array), dy_ref(dy_ref_array);
+            std::vector<cl::tvalue> dx = { dx_ref, dy_ref };
             if (flag_serializer)
                 out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
-            std::vector<cl::tape_value> forw;
+            std::vector<cl::tvalue> forw;
             if (flag_serializer)
                 forw = f.Forward(1, dx, out_str);
             else
@@ -507,7 +507,7 @@ namespace cl
         if (data.flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -564,7 +564,7 @@ namespace cl
     inline void regression_examples()
     {
         std::ofstream of("regression_output.txt");
-        cl::tape_serializer<cl::tape_value> serializer(of);
+        cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.

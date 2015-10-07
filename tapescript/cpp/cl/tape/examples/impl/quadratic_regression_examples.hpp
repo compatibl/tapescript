@@ -74,10 +74,10 @@ namespace cl
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
-        cl::tape_value a_ref = a;
-        cl::tape_value b_ref = b;
-        cl::tape_value c_ref = c;
-        cl::tape_value d_ref = d;
+        cl::tvalue a_ref = a;
+        cl::tvalue b_ref = b;
+        cl::tvalue c_ref = c;
+        cl::tvalue d_ref = d;
         std::vector<cl::tape_object> X = { a_ref, b_ref, c_ref, d_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
@@ -133,7 +133,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::tape_value> f(X, Y);
+        cl::tape_function<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -146,11 +146,11 @@ namespace cl
         std::clock_t calc_time = 0;
 
         // Derivatives with respect to a.
-        std::vector<cl::tape_value> dx = { 1, 0, 0, 0 };
+        std::vector<cl::tvalue> dx = { 1, 0, 0, 0 };
         if (flag_serializer)
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
-        std::vector<cl::tape_value> forw;
+        std::vector<cl::tvalue> forw;
         if (flag_serializer)
             forw = f.Forward(1, dx, out_str);
         else
@@ -378,7 +378,7 @@ namespace cl
     inline void quadratic_regression_examples()
     {
         std::ofstream of("quadratic_regression_output.txt");
-        cl::tape_serializer<cl::tape_value> serializer(of);
+        cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.

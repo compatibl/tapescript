@@ -127,7 +127,11 @@ namespace cl
 {
     typedef cl::tape_double tdouble;
     typedef cl::tape_value tvalue;
+    typedef cl::tape_array tarray;
+    typedef cl::tape_object tobject;
 
+    template <typename Base>
+    using tfunc = cl::tape_function<Base>;
 }
 
 #endif

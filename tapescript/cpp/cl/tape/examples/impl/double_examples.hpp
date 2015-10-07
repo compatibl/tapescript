@@ -47,7 +47,7 @@ namespace cl
         out_str << "Output vector: " << Y << "\n\n";
        
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
@@ -79,7 +79,7 @@ namespace cl
         out_str << "Output vector: " << Y << "\n\n";
 
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
@@ -112,7 +112,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { { 2, -1 } };
@@ -145,7 +145,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { { 1, 1 } };
@@ -187,7 +187,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
@@ -229,7 +229,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1, -1 , 2 };
@@ -262,7 +262,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
@@ -295,7 +295,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
@@ -327,7 +327,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 12, 1, -1 };
@@ -360,7 +360,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
@@ -393,7 +393,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1, 1, 1, 2, 2, 2 };
@@ -427,7 +427,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
@@ -471,7 +471,7 @@ namespace cl
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 0, 0, 0, 0, 0, 1 };
@@ -483,7 +483,7 @@ namespace cl
     inline void non_optimized_array_examples()
     {
         std::ofstream of("output_non_optimized_array.txt");
-        cl::tape_serializer<cl::tape_value> serializer(of);
+        cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         plus_double_example(serializer);

@@ -799,7 +799,7 @@ namespace cl
 
         /// assign a new operation sequence
         template <typename ADvector>
-        void tape_stop(const ADvector &x, const ADvector &y)
+        void tape_read(const ADvector &x, const ADvector &y)
         {
             this->Dependent(x, y);
         }
