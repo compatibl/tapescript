@@ -27,17 +27,6 @@ limitations under the License.
 
 namespace cl
 {
-    template <class Array>
-    inline void print_sizeofs()
-    {
-        std::cout << std::setw(40) << typeid(Array).name() << ": \t";
-        std::cout << sizeof(Array) << "\t";
-        std::cout << sizeof(cl::tape_inner<Array>) << "\t";
-        std::cout << sizeof(CppAD::AD<cl::tape_inner<Array>>) << "\t";
-        std::cout << sizeof(cl::tape_wrapper<cl::tape_inner<Array>>) << std::endl;
-    }
-
-
     template <class Ty>
     std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
     {
