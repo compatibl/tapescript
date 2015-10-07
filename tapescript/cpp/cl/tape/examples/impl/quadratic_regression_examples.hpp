@@ -84,7 +84,7 @@ namespace cl
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         cl::tape_object& par_a = X[0];
@@ -227,7 +227,7 @@ namespace cl
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
         cl::tdouble& par_a = X[0];

@@ -224,11 +224,11 @@ namespace cl
         result.rec_ = test_performance(task.repeat_, [&X, &Y, &f, &task]()
         {
             // Declare the X vector as independent and start a tape recording.
-            cl::Independent(X);
+            cl::tape_start(X);
             // Output calculations.
             Y = task.func_(X);
             //Stop tape recording.
-            f.Dependent(X, Y);
+            f.tape_read(X, Y);
         });
 
         out_str << "Output vector: " << Y << "\n\n";
