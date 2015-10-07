@@ -230,10 +230,10 @@ namespace cl
         cl::Independent(X);
 
         // Output calculations.
-        cl::tape_double& par_a = X[0];
-        cl::tape_double& par_b = X[1];
-        cl::tape_double& par_c = X[2];
-        cl::tape_double& par_d = X[3];
+        cl::tdouble& par_a = X[0];
+        cl::tdouble& par_b = X[1];
+        cl::tdouble& par_c = X[2];
+        cl::tdouble& par_d = X[3];
         // Obtain x_i values.
         cl::tape_double_vector x(n);
         for (int i = 0; i < n; i++)
@@ -246,56 +246,56 @@ namespace cl
         for (int i = 0; i < n; i++)
             y[i] = par_a + x[i] * par_b + x2[i] * par_c + std::exp(-1 * par_d * x[i]);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tape_double sum_x = 0.0;
+        cl::tdouble sum_x = 0.0;
         for (int i = 0; i < n; i++)
             sum_x += x[i];
-        cl::tape_double sum_y = 0.0;
+        cl::tdouble sum_y = 0.0;
         for (int i = 0; i < n; i++)
             sum_y += y[i];
-        cl::tape_double sum_x2 = 0.0;
+        cl::tdouble sum_x2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2 += x2[i];
         cl::tape_double_vector y2(n);
         for (int i = 0; i < n; i++)
             y2[i] = y[i] * y[i];
-        cl::tape_double sum_y2 = 0.0;
+        cl::tdouble sum_y2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_y2 += y2[i];
         cl::tape_double_vector xy(n);
         for (int i = 0; i < n; i++)
             xy[i] = x[i] * y[i];
-        cl::tape_double sum_xy = 0.0;
+        cl::tdouble sum_xy = 0.0;
         for (int i = 0; i < n; i++)
             sum_xy += xy[i];
         cl::tape_double_vector x3(n);
         for (int i = 0; i < n; i++)
             x3[i] = x2[i] * x[i];
-        cl::tape_double sum_x3 = 0.0;
+        cl::tdouble sum_x3 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x3 += x3[i];
         cl::tape_double_vector x2y(n);
         for (int i = 0; i < n; i++)
             x2y[i] = x2[i] * y[i];
-        cl::tape_double sum_x2y = 0.0;
+        cl::tdouble sum_x2y = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2y += x2y[i];
         cl::tape_double_vector x4(n);
         for (int i = 0; i < n; i++)
             x4[i] = x3[i] * x[i];
-        cl::tape_double sum_x4 = 0.0;
+        cl::tdouble sum_x4 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x4 += x4[i];
         // Calculate covariances.
-        cl::tape_double S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tape_double S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tape_double S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tape_double S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tape_double S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        cl::tdouble S_xx = sum_x2 - sum_x * sum_x / n;
+        cl::tdouble S_xy = sum_xy - sum_x * sum_y / n;
+        cl::tdouble S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        cl::tdouble S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        cl::tdouble S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tape_double denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
-        cl::tape_double gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tape_double beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tape_double alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        cl::tdouble denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
+        cl::tdouble gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        cl::tdouble beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        cl::tdouble alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
         cl::tape_double_vector y_estimate(n);
         for (int i = 0; i < n; i++)

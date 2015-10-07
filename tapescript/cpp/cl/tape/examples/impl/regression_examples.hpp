@@ -211,31 +211,31 @@ namespace cl
             x[i] = x_ref[i];
         // Calculate corresponding y_i values.
         cl::tape_double_vector y(n);
-        cl::tape_double& par_a = X[0];
-        cl::tape_double& par_b = X[1];
-        cl::tape_double& par_c = X[2];
+        cl::tdouble& par_a = X[0];
+        cl::tdouble& par_b = X[1];
+        cl::tdouble& par_c = X[2];
         for (int i = 0; i < n; i++)
             y[i] = par_a + x[i] * par_b + std::exp(-1 * par_c * x[i]);
         // Start linear regression calculation: calculate mean values.
-        cl::tape_double x_mean = 0.0;
+        cl::tdouble x_mean = 0.0;
         for (int i = 0; i < n; i++)
             x_mean += x[i];
         x_mean /= n;
-        cl::tape_double y_mean = 0.0;
+        cl::tdouble y_mean = 0.0;
         for (int i = 0; i < n; i++)
             y_mean += y[i];
         y_mean /= n;
         // Variance times n: n * Var[x]
-        cl::tape_double var_x_n = 0.0;
+        cl::tdouble var_x_n = 0.0;
         for (int i = 0; i < n; i++)
             var_x_n += (x[i] - x_mean) * (x[i] - x_mean);
         // Covariance times n: n * Cov[x, y]
-        cl::tape_double cov_xy_n = 0.0;
+        cl::tdouble cov_xy_n = 0.0;
         for (int i = 0; i < n; i++)
             cov_xy_n += (x[i] - x_mean) * (y[i] - y_mean);
         // Linear regression coefficients.
-        cl::tape_double beta = cov_xy_n / var_x_n;
-        cl::tape_double alpha = y_mean - beta * x_mean;
+        cl::tdouble beta = cov_xy_n / var_x_n;
+        cl::tdouble alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
         cl::tape_double_vector y_estimate(n);
         for (int i = 0; i < n; i++)
@@ -472,25 +472,25 @@ namespace cl
 
         // Output calculations.
         // Start linear regression calculation: calculate mean values.
-        cl::tape_double x_mean = 0.0;
+        cl::tdouble x_mean = 0.0;
         for (int i = 0; i < n; i++)
             x_mean += X[i];
         x_mean /= n;
-        cl::tape_double y_mean = 0.0;
+        cl::tdouble y_mean = 0.0;
         for (int i = 0; i < n; i++)
             y_mean += X[n + i];
         y_mean /= n;
         // Variance times n: n * Var[x]
-        cl::tape_double var_x_n = 0.0;
+        cl::tdouble var_x_n = 0.0;
         for (int i = 0; i < n; i++)
             var_x_n += (X[i] - x_mean) * (X[i] - x_mean);
         // Covariance times n: n * Cov[x, y]
-        cl::tape_double cov_xy_n = 0.0;
+        cl::tdouble cov_xy_n = 0.0;
         for (int i = 0; i < n; i++)
             cov_xy_n += (X[i] - x_mean) * (X[n + i] - y_mean);
         // Linear regression coefficients.
-        cl::tape_double beta = cov_xy_n / var_x_n;
-        cl::tape_double alpha = y_mean - beta * x_mean;
+        cl::tdouble beta = cov_xy_n / var_x_n;
+        cl::tdouble alpha = y_mean - beta * x_mean;
         // Estimation for y_i.
         cl::tape_double_vector y_estimate(n);
         for (int i = 0; i < n; i++)
