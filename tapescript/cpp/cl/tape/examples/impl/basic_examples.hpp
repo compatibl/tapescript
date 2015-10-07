@@ -72,7 +72,10 @@ namespace cl
 
         // Calculate derivatives in Reverse mode.
         std::vector<double> sw(1, 1.0);
-        sy = f.reverse(1, sw);
+
+        out_str << "\nTape operations sequence for differentiation of Y with respect to X: ";
+
+        sy = f.reverse(1, sw, out_str);
 
         out_str << "\nDerivatives of Y with respect to X in Reverse mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << ", dY / dX (X[1]) = " << sy[1] << std::endl;
@@ -125,7 +128,10 @@ namespace cl
 
         // Calculate derivatives in Reverse mode.
         std::vector<double> sw(1, 1.0);
-        sy = f.reverse(1, sw);
+
+        out_str << "\nTape operations sequence for differentiation of Y with respect to X: ";
+
+        sy = f.reverse(1, sw, out_str);
 
         out_str << "\nDerivatives of Y on X in Reverse mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX(X[0]) = " << sy[0] << ", dY / dX(X[1]) = " << sy[1] << std::endl;
@@ -164,7 +170,11 @@ namespace cl
 
         // Calculate derivative in Reverse mode.
         std::vector<double> sw(1, 1.0);
-        sy = f.reverse(1, sw);
+
+        out_str << "\nTape operations sequence for differentiation of Y with respect to X: ";
+
+        sy = f.reverse(1, sw, out_str);
+
         out_str << "\nDerivative of Y with respect to X in Reverse mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << std::endl;
         out_str << std::endl << std::string(100, '-') << std::endl;
@@ -202,7 +212,10 @@ namespace cl
 
         // Calculate derivative in Reverse mode.
         std::vector<double> sw(1, 1.0);
-        sy = f.reverse(1, sw);
+
+        out_str << "\nTape operations sequence for differentiation of Y with respect to X: ";
+
+        sy = f.reverse(1, sw, out_str);
 
         out_str << "\nDerivative of Y with respect to X in Reverse mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << std::endl;
@@ -255,7 +268,10 @@ namespace cl
 
         // Calculate derivatives in Reverse mode.
         std::vector<double> sw(1, 1.0);
-        sy = f.reverse(1, sw);
+
+        out_str << "\nTape operations sequence for differentiation of Y with respect to X: ";
+
+        sy = f.reverse(1, sw, out_str);
 
         out_str << "\nDerivative of Y with respect to X in Reverse mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << ", dY / dX (X[1]) = " << sy[1] << std::endl;
