@@ -549,7 +549,7 @@ namespace cl
             /// adaptation </summary>
         template <typename Vector
                 , typename Value = typename vector_value<Vector>::type >
-        struct AdapterVector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
+        struct adapter_vector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
         {
             // typedef std::vector<Type, std::allocator<Type>> Vector;
             typedef typename
@@ -572,26 +572,26 @@ namespace cl
                 Vector::size_type size_type;
 
             /// Constructor
-            /// Pointer can initialize AdapterVector, but shared_ptr couldn't
-            AdapterVector(adapt_type<Vector> vc_ref)
+            /// Pointer can initialize adapter_vector, but shared_ptr couldn't
+            adapter_vector(adapt_type<Vector> vc_ref)
                 : ref_(vc_ref), ptr_()
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector(size_type size) : ptr_(new orig_vector(size))
+            adapter_vector(size_type size) : ptr_(new orig_vector(size))
                 , ref_(ptr_.get())
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector() : ptr_(new orig_vector())
+            adapter_vector() : ptr_(new orig_vector())
                 , ref_(ptr_.get())
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector(AdapterVector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
+            adapter_vector(adapter_vector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
                 , ref_(ptr_.get())
             {    }
 
@@ -644,7 +644,7 @@ namespace cl
                 ptr_->resize(s);
             }
 
-            inline AdapterVector& operator = (AdapterVector const& v)
+            inline adapter_vector& operator = (adapter_vector const& v)
             {
                 ptr_ = std::shared_ptr<orig_vector>(new orig_vector(*v.ref_.ptr_));
                 ref_ = adapt_type<Vector>(ptr_.get());
@@ -657,72 +657,72 @@ namespace cl
 
         template <typename Type
             , typename Value = typename vector_value<typename std::remove_const<Type>::type >::type >
-        struct Adapter;
+        struct adapter;
 
         template <typename Type, typename Value>
-        struct Adapter<std::vector<Type, std::allocator<Type>> const, Value>
-            : AdapterVector<std::vector<Type, std::allocator<Type>> const, Value>
+        struct adapter<std::vector<Type, std::allocator<Type>> const, Value>
+            : adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
-            Adapter(adapt_type<vector_type const> vc_ref)
-                : AdapterVector(vc_ref)
+            adapter(adapt_type<vector_type const> vc_ref)
+                : adapter_vector(vc_ref)
             {}
 
-            Adapter() : AdapterVector()
+            adapter() : adapter_vector()
             {}
 
-            Adapter(Adapter const& v)
-                : AdapterVector(static_cast<AdapterVector const&>(v))
+            adapter(adapter const& v)
+                : adapter_vector(static_cast<adapter_vector const&>(v))
             { }
 
-            Adapter(size_type size)
-                : AdapterVector(size)
+            adapter(size_type size)
+                : adapter_vector(size)
             {}
         };
 
         template <typename Type, typename Value>
-        struct Adapter<std::vector<Type, std::allocator<Type>>, Value >
-            : AdapterVector<std::vector<Type, std::allocator<Type>>, Value >
+        struct adapter<std::vector<Type, std::allocator<Type>>, Value >
+            : adapter_vector<std::vector<Type, std::allocator<Type>>, Value >
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
-            Adapter(adapt_type<vector_type> vc_ref)
-                : AdapterVector(vc_ref)
+            adapter(adapt_type<vector_type> vc_ref)
+                : adapter_vector(vc_ref)
             {}
 
-            Adapter() : AdapterVector()
+            adapter() : adapter_vector()
             {}
 
-            Adapter(Adapter const& v)
-                : AdapterVector(static_cast<AdapterVector const&>(v))
+            adapter(adapter const& v)
+                : adapter_vector(static_cast<adapter_vector const&>(v))
             {}
 
-            Adapter(size_type size)
-                : AdapterVector(size)
+            adapter(size_type size)
+                : adapter_vector(size)
             {}
         };
 
         template <typename Type>
-        inline Adapter<Type >
+        inline adapter<Type >
         adapt(Type& v) {
-            return Adapter<Type>(adapt_ptr<Type>(&v));
+            return adapter<Type>(adapt_ptr<Type>(&v));
         }
 
         template <typename Type>
-        inline Adapter<Type const>
+        inline adapter<Type const>
         adapt(Type const& v) {
-            return Adapter<Type const>(adapt_ptr<Type const>(&v));
+            return adapter<Type const>(adapt_ptr<Type const>(&v));
         }
 
         template <typename Conv, typename Type>
-        inline Adapter<Type, Conv>
+        inline adapter<Type, Conv>
         adapt_typed(Type& v) {
-            return Adapter<Type, Conv>(adapt_ptr<Type>(&v));
+            return adapter<Type, Conv>(adapt_ptr<Type>(&v));
         }
 
         template <typename Conv, typename Type>
-        inline Adapter<Type const, Conv const>
+        inline adapter<Type const, Conv const>
         adapt_typed(Type const& v) {
-            return Adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
+            return adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
         }
     }
 
