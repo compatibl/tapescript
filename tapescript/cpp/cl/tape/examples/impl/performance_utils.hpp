@@ -266,54 +266,6 @@ namespace cl
         return result;
     }
 
-    /*
-    struct array_scalar_compare
-    {
-        void set_title(std::string const& title)
-        {
-            array_task_.title_ = title;
-            double_task_.title_ = title;
-        }
-
-        void set_size(size_t size)
-        {
-            array_task_.size_ = size;
-            double_task_.size_ = size;
-        }
-
-        void set_input(std::vector<tape_value> const& x)
-        {
-            array_task_.X_ = x;
-
-            double_task_.X_ = arrays_to_doubles(x);
-        }
-
-        adjoint_task<tape_value> array_task_;
-        adjoint_task<double> double_task_;
-
-    private:
-        static std::vector<double> arrays_to_doubles(std::vector<tape_value> const& v)
-        {
-            std::vector<double> result;
-            for (const tape_value& a : v)
-            {
-                if (a.is_scalar())
-                {
-                    result.push_back(a.scalar_value_);
-                }
-                else
-                {
-                    for (double el : a.array_value_)
-                    {
-                        result.push_back(el);
-                    }
-                }
-            }
-            return result;
-        }
-    };
-    */
-
     template <class Vector>
     inline Vector gen_vector(size_t n, std::mt19937& gen)
     {
