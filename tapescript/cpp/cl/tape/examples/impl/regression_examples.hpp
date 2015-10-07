@@ -563,7 +563,7 @@ namespace cl
 
     inline void regression_examples()
     {
-        std::ofstream of("regression_output.txt");
+        std::ofstream of("output/regression_output.txt");
         cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 

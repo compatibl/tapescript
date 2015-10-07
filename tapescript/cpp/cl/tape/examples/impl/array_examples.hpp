@@ -534,7 +534,7 @@ namespace cl
 
     inline void array_examples()
     {
-        std::ofstream of("output.txt");
+        std::ofstream of("output/output.txt");
         cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 

@@ -82,7 +82,7 @@ namespace cl
 
     inline void performance_tests()
     {
-        std::ofstream of("performance_tests_output.txt");
+        std::ofstream of("output/performance_tests_output.txt");
         cl::tape_serializer<tape_value> serializer(of);
         serializer.precision(3);
 

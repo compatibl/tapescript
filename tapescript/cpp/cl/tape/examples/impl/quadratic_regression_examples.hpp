@@ -377,7 +377,7 @@ namespace cl
 
     inline void quadratic_regression_examples()
     {
-        std::ofstream of("quadratic_regression_output.txt");
+        std::ofstream of("output/quadratic_regression_output.txt");
         cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 

@@ -482,7 +482,7 @@ namespace cl
 
     inline void non_optimized_array_examples()
     {
-        std::ofstream of("output_non_optimized_array.txt");
+        std::ofstream of("output/output_non_optimized_array.txt");
         cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 

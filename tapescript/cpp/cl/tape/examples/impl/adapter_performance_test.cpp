@@ -156,7 +156,7 @@ namespace cl
 }
     void adapter_performance_test()
     {
-        std::ofstream output("adapter_performance_test_output.txt");
+        std::ofstream output("output/adapter_performance_test_output.txt");
         
         dot_product_test(output);
         math_functions_test(output);
