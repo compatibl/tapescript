@@ -30,7 +30,7 @@ limitations under the License.
 
 namespace cl
 {
-    inline void plus_double_example(std::ostream& out_str = std::cout)
+    inline void plus_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Plus operation:\n" << std::endl;
 
@@ -52,7 +52,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -62,7 +62,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void minus_double_example(std::ostream& out_str = std::cout)
+    inline void minus_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Minus operation:\n\n";
 
@@ -84,7 +84,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -94,7 +94,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void exp_double_example(std::ostream& out_str = std::cout)
+    inline void exp_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Exponent function:\n\n";
 
@@ -117,7 +117,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { { 2, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -127,7 +127,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void cos_double_example(std::ostream& out_str = std::cout)
+    inline void cos_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Cosine function:\n\n";
 
@@ -150,7 +150,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { { 1, 1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -160,7 +160,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void discount_double_example(std::ostream& out_str = std::cout)
+    inline void discount_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Discount calculations:\n\n";
 
@@ -193,7 +193,7 @@ namespace cl
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
         std::vector<double> dx = { 0, 0, 0.01, 0.01, 0, 0 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n";
         out_str << "Sensitivity of discounted price: " << forw[0] << " , " << forw[1] << "\n";
         out_str << "Sensitivity of discount factor:  " << forw[2] << " , " << forw[3] << "\n\n";
@@ -209,7 +209,7 @@ namespace cl
         out_str << "Sensitivity to the changes in maturity time: " << rev[4] << " , " << rev[5] << "\n\n\n";
     }
 
-    inline void double_example1(std::ostream& out_str = std::cout)
+    inline void double_example1(std::ostream& out_stream = std::cout)
     {
         out_str << "We are mixing arrays and scalars in calculations of\n";
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
@@ -234,7 +234,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1, -1 , 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -244,7 +244,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void sum_double_example(std::ostream& out_str = std::cout)
+    inline void sum_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Sum of an array:\n\n";
 
@@ -267,7 +267,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -277,7 +277,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void rev_double_example(std::ostream& out_str = std::cout)
+    inline void rev_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Reversing of an array:\n\n";
 
@@ -300,7 +300,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -310,7 +310,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void conc_double_example(std::ostream& out_str = std::cout)
+    inline void conc_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Array concatenation:\n" << std::endl;
 
@@ -332,7 +332,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 12, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -342,7 +342,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void make_double_example(std::ostream& out_str = std::cout)
+    inline void make_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Array construction from scalar:\n" << std::endl;
 
@@ -365,7 +365,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -375,7 +375,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void max_double_example(std::ostream& out_str = std::cout)
+    inline void max_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Maximum of two arrays:\n" << std::endl;
 
@@ -398,7 +398,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1, 1, 1, 2, 2, 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -408,7 +408,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void norm_double_example(std::ostream& out_str = std::cout)
+    inline void norm_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "L2 norm of an array:\n" << std::endl;
 
@@ -432,7 +432,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -442,7 +442,7 @@ namespace cl
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void linear_regression_double_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Linear regression:\n" << std::endl;
 
@@ -476,7 +476,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 0, 0, 0, 0, 0, 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
     }
 

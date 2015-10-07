@@ -53,7 +53,7 @@ namespace cl
     };
 
     // Example of linear regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void linear_regression_with_params_optimized_example(const initial_data& data, std::ostream& out_str = std::cout)
+    inline void linear_regression_with_params_optimized_example(const initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -133,7 +133,7 @@ namespace cl
         start_time = std::clock();
         std::vector<tvalue> forw;
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -146,7 +146,7 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -159,7 +159,7 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -172,7 +172,7 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to parameters of input distribution using non-optimized tape.
-    inline void linear_regression_with_params_nonoptimized_example(const initial_data& data, std::ostream& out_str = std::cout)
+    inline void linear_regression_with_params_nonoptimized_example(const initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -270,7 +270,7 @@ namespace cl
         start_time = std::clock();
         std::vector<double> forw;
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -283,7 +283,7 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -296,7 +296,7 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
             forw = f.forward(1, dx);
         stop_time = std::clock();
@@ -309,7 +309,7 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to input points using optimized tape.
-    inline void linear_regression_with_points_optimized_example(const initial_data& data, std::ostream& out_str = std::cout)
+    inline void linear_regression_with_points_optimized_example(const initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -395,7 +395,7 @@ namespace cl
             start_time = std::clock();
             std::vector<tvalue> forw;
             if (flag_serializer)
-                forw = f.forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_stream);
             else
                 forw = f.forward(1, dx);
             stop_time = std::clock();
@@ -419,7 +419,7 @@ namespace cl
             start_time = std::clock();
             std::vector<tvalue> forw;
             if (flag_serializer)
-                forw = f.forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_stream);
             else
                 forw = f.forward(1, dx);
             stop_time = std::clock();
@@ -433,7 +433,7 @@ namespace cl
     }
 
     // Example of linear regression differentiation with respect to input points using non-optimized tape.
-    inline void linear_regression_with_points_nonoptimized_example(const initial_data& data, std::ostream& out_str = std::cout)
+    inline void linear_regression_with_points_nonoptimized_example(const initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -529,7 +529,7 @@ namespace cl
             start_time = std::clock();
             std::vector<double> forw;
             if (flag_serializer)
-                forw = f.forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_stream);
             else
                 forw = f.forward(1, dx);
             stop_time = std::clock();
@@ -548,7 +548,7 @@ namespace cl
             start_time = std::clock();
             std::vector<double> forw;
             if (flag_serializer)
-                forw = f.forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_stream);
             else
                 forw = f.forward(1, dx);
             stop_time = std::clock();

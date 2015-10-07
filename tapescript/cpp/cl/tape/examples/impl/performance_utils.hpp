@@ -204,7 +204,7 @@ namespace cl
     };
 
     template <class AdjointTask>
-    inline test_statistic adjoint_performance(AdjointTask const& task, std::ostream& out_str = fake_stream())
+    inline test_statistic adjoint_performance(AdjointTask const& task, std::ostream& out_stream = fake_stream())
     {
         typedef typename AdjointTask::inner_type inner_type;
         typedef typename AdjointTask::tape_type tape_type;
@@ -242,7 +242,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<inner_type> dx = task.dx_;
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<inner_type> forw = f.forward(1, dx, out_str);
+        std::vector<inner_type> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         result.forw_ = test_performance(task.repeat_, [&f, &dx]()
@@ -280,20 +280,20 @@ namespace cl
     }
 
     template <class TaskFactory>
-    inline void compare_tape(TaskFactory factory, size_t n, std::ostream& out_str = fake_stream())
+    inline void compare_tape(TaskFactory factory, size_t n, std::ostream& out_stream = fake_stream())
     {
         auto array_task = factory.get_array_task(n);
         auto double_task = factory.get_double_task(n);
 
         out_str << "Arrays:\n\n";
-        test_statistic array_stat = adjoint_performance(array_task, out_str);
+        test_statistic array_stat = adjoint_performance(array_task, out_stream);
 
         out_str << "Doubles:\n\n";
-        test_statistic double_stat = adjoint_performance(double_task, out_str);
+        test_statistic double_stat = adjoint_performance(double_task, out_stream);
     }
 
     template <class TaskFactory>
-    inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_str = fake_stream())
+    inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_stream = fake_stream())
     {
         tape_empty_test_output outMemory(folder_name, {
             { "title", "Tape size dependence on number of variables" }
@@ -303,15 +303,15 @@ namespace cl
             , { "cleanlog", "false" }
         });
 
-        compare_tape(factory, 10, out_str);
+        compare_tape(factory, 10, out_stream);
 
 #if defined CL_GRAPH_GEN
         for (size_t i = 1; i <= 50; i++)
         {
             auto array_task = factory.get_array_task(i);
             auto double_task = factory.get_double_task(i);
-            test_statistic array_stat = adjoint_performance(array_task, out_str);
-            test_statistic double_stat = adjoint_performance(double_task, out_str);
+            test_statistic array_stat = adjoint_performance(array_task, out_stream);
+            test_statistic double_stat = adjoint_performance(double_task, out_stream);
             plot_struct<mem_columns> memory(array_stat, double_stat);
             outMemory << memory;
         }

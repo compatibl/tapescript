@@ -73,10 +73,10 @@ namespace cl
     };
 
 
-    inline void plus_performance(std::ostream& out_str = fake_stream())
+    inline void plus_performance(std::ostream& out_stream = fake_stream())
     {
         out_str << "Plus:\n\n";
-        compare_tape(plus_task_factory(), 10, out_str);
+        compare_tape(plus_task_factory(), 10, out_stream);
         performance_plot("Plus pots", plus_task_factory());
     }
 
