@@ -92,7 +92,7 @@ namespace cl
         cl::tobject& par_c = X[2];
         cl::tobject& par_d = X[3];
         // Obtain x_i values.
-        cl::tape_array x_ref(n);
+        cl::tarray x_ref(n);
         for (int i = 0; i < n; i++)
             x_ref[i] = i;
         cl::tobject x = x_ref;
@@ -139,7 +139,7 @@ namespace cl
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
-        cl::tape_array d_ref_array;
+        cl::tarray d_ref_array;
         d_ref_array.resize(3);
 
         // Derivative calculation time.
