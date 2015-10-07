@@ -239,7 +239,7 @@ namespace cl
         for (int i = 0; i < n; i++)
             x[i] = i;
         std::vector<tdouble> x2(n);
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             x2[i] = x[i] * x[i];
         // Calculate corresponding y_i values.
         std::vector<tdouble> y(n);
