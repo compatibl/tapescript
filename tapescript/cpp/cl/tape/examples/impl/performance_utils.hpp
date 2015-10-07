@@ -236,18 +236,18 @@ namespace cl
         out_str << "Ininial Forward(0) sweep...\n\n";
         result.init_ = test_performance(task.repeat_, [&f, &x_val]()
         {
-            f.Forward(0, x_val);
+            f.forward(0, x_val);
         });
 
         // Forward sweep calculations.
         std::vector<inner_type> dx = task.dx_;
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<inner_type> forw = f.Forward(1, dx, out_str);
+        std::vector<inner_type> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         result.forw_ = test_performance(task.repeat_, [&f, &dx]()
         {
-            f.Forward(1, dx);
+            f.forward(1, dx);
         });
 
         // Reverse sweep calculations.

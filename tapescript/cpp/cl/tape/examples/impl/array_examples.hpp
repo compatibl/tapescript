@@ -54,7 +54,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 2, 5 }, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -99,7 +99,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 2, 5 }, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -134,14 +134,14 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 2, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<cl::tvalue> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         auto& serializer = static_cast<cl::tape_serializer<cl::tvalue>&>(out_str);
-        std::vector<cl::tvalue> rev = f.Reverse(1, std::make_pair(w, &serializer)).first;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, serializer);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
@@ -169,7 +169,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1, 1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -213,7 +213,7 @@ namespace cl
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
         std::vector<cl::tvalue> dx = { 0, 0.01, 0 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n";
         out_str << "Sensitivity of discounted price: " << forw[0] << "\n";
         out_str << "Sensitivity of discount factor:  " << forw[1] << "\n\n";
@@ -257,7 +257,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1, -1 }, 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -292,7 +292,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1.5, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -327,7 +327,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1.5, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -365,7 +365,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 2, 5 }, 12, { 1, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -400,7 +400,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -436,7 +436,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1, 1, 1 }, { 2, 2, 2 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -472,7 +472,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -521,7 +521,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<cl::tvalue> dx = { { 1, 0, 0 }, { 0, 0, 0 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<cl::tvalue> forw = f.Forward(1, dx, out_str);
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.

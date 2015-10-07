@@ -133,9 +133,9 @@ namespace cl
         start_time = std::clock();
         std::vector<cl::tvalue> forw;
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dA(lin_regr, forw, eps);
@@ -146,9 +146,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dB(lin_regr, forw, eps);
@@ -159,9 +159,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dC(lin_regr, forw, eps);
@@ -270,9 +270,9 @@ namespace cl
         start_time = std::clock();
         std::vector<double> forw;
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dA(lin_regr, forw, eps);
@@ -283,9 +283,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dB(lin_regr, forw, eps);
@@ -296,9 +296,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_str);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
         cl::check_derivatives_dC(lin_regr, forw, eps);
@@ -395,9 +395,9 @@ namespace cl
             start_time = std::clock();
             std::vector<cl::tvalue> forw;
             if (flag_serializer)
-                forw = f.Forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_str);
             else
-                forw = f.Forward(1, dx);
+                forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
             cl::check_derivatives_dX(lin_regr, forw, i, eps);
@@ -419,9 +419,9 @@ namespace cl
             start_time = std::clock();
             std::vector<cl::tvalue> forw;
             if (flag_serializer)
-                forw = f.Forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_str);
             else
-                forw = f.Forward(1, dx);
+                forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
             cl::check_derivatives_dY(lin_regr, forw, i, eps);
@@ -529,9 +529,9 @@ namespace cl
             start_time = std::clock();
             std::vector<double> forw;
             if (flag_serializer)
-                forw = f.Forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_str);
             else
-                forw = f.Forward(1, dx);
+                forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
             cl::check_derivatives_dX(lin_regr, forw, i, eps);
@@ -548,9 +548,9 @@ namespace cl
             start_time = std::clock();
             std::vector<double> forw;
             if (flag_serializer)
-                forw = f.Forward(1, dx, out_str);
+                forw = f.forward(1, dx, out_str);
             else
-                forw = f.Forward(1, dx);
+                forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
             cl::check_derivatives_dY(lin_regr, forw, i, eps);

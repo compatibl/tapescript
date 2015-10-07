@@ -52,7 +52,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -84,7 +84,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -117,7 +117,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { { 2, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -150,7 +150,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { { 1, 1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -193,7 +193,7 @@ namespace cl
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
         std::vector<double> dx = { 0, 0, 0.01, 0.01, 0, 0 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n";
         out_str << "Sensitivity of discounted price: " << forw[0] << " , " << forw[1] << "\n";
         out_str << "Sensitivity of discount factor:  " << forw[2] << " , " << forw[3] << "\n\n";
@@ -234,7 +234,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1, -1 , 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -267,7 +267,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -300,7 +300,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -332,7 +332,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 12, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -365,7 +365,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -398,7 +398,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1, 1, 1, 2, 2, 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -432,7 +432,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
@@ -476,7 +476,7 @@ namespace cl
         // Forward sweep calculations.
         std::vector<double> dx = { 0, 0, 0, 0, 0, 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_str);
         out_str << "Forward sweep result: " << forw << "\n\n";
     }
 

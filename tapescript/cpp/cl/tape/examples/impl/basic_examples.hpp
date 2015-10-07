@@ -54,7 +54,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[0]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << std::endl;
@@ -65,7 +65,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[1]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX(X[1]) = " << sy[0] << std::endl;
@@ -107,7 +107,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[0]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX(X[0]) = " << sy[0] << std::endl;
@@ -118,7 +118,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[1]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX(X[1]) = " << sy[0] << std::endl;
@@ -157,7 +157,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[0]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX(X[0]) = " << sy[0] << std::endl;
@@ -195,7 +195,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[0]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << std::endl;
@@ -237,7 +237,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[0]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[0]) = " << sy[0] << std::endl;
@@ -248,7 +248,7 @@ namespace cl
 
         out_str << "\nTape operations sequence for differentiation of Y with respect to X[1]: ";
 
-        sy = f.Forward(1, sx, out_str);
+        sy = f.forward(1, sx, out_str);
 
         out_str << "Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:" << std::endl;
         out_str << "\tdY / dX (X[1]) = " << sy[0] << std::endl;
