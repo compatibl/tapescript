@@ -36,7 +36,7 @@ namespace cl
         std::vector<tdouble> X(2, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
         std::vector<tdouble> Y(1);
@@ -46,7 +46,7 @@ namespace cl
         out_str << "\nFunction Y = 2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);
@@ -89,7 +89,7 @@ namespace cl
         X[1] = 3.0;
 
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
         std::vector<tdouble> Y(1);
@@ -99,7 +99,7 @@ namespace cl
         out_str << "\nFunction Y = X[0] * X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);
@@ -140,7 +140,7 @@ namespace cl
         std::vector<tdouble> X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
         std::vector<tdouble> Y(1);
@@ -150,7 +150,7 @@ namespace cl
         out_str << "\nFunction Y =  X[0]^4 is being tested at X[0] = " << X[0] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
 
         // Calculate derivative in Forward mode.
         std::vector<double> sy, sx(1, 1.0);
@@ -178,7 +178,7 @@ namespace cl
         std::vector<tdouble> X(1, 3.0);
 
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
         std::vector<tdouble> Y(1);
@@ -188,7 +188,7 @@ namespace cl
         out_str << "\nFunction Y = exp(-2.0 * X[0]) is being tested at X[0] = " << X[0] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
 
         // Calculate derivative in Forward mode.
         std::vector<double> sy, sx(1, 1.0);
@@ -219,7 +219,7 @@ namespace cl
         X[1] = 3.0;
 
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
         std::vector<tdouble> Y(1);
@@ -229,7 +229,7 @@ namespace cl
         out_str << "\nFunction Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
         std::vector<double> sy, sx(2, 0.0);
@@ -264,7 +264,7 @@ namespace cl
     inline void basic_examples()
     {
         std::ofstream output("output/basic_examples_output.txt");
-        cl::tape_serializer<double> serializer(output);
+        tape_serializer<double> serializer(output);
 
         add_example(serializer);
         mult_example(serializer);

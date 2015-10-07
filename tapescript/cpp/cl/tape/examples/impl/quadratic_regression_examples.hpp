@@ -74,83 +74,83 @@ namespace cl
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
-        cl::tvalue a_ref = a;
-        cl::tvalue b_ref = b;
-        cl::tvalue c_ref = c;
-        cl::tvalue d_ref = d;
-        std::vector<cl::tobject> X = { a_ref, b_ref, c_ref, d_ref };
+        tvalue a_ref = a;
+        tvalue b_ref = b;
+        tvalue c_ref = c;
+        tvalue d_ref = d;
+        std::vector<tobject> X = { a_ref, b_ref, c_ref, d_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
-        cl::tobject& par_a = X[0];
-        cl::tobject& par_b = X[1];
-        cl::tobject& par_c = X[2];
-        cl::tobject& par_d = X[3];
+        tobject& par_a = X[0];
+        tobject& par_b = X[1];
+        tobject& par_c = X[2];
+        tobject& par_d = X[3];
         // Obtain x_i values.
-        cl::tarray x_ref(n);
+        tarray x_ref(n);
         for (int i = 0; i < n; i++)
             x_ref[i] = i;
-        cl::tobject x = x_ref;
-        cl::tobject x2 = x * x;
+        tobject x = x_ref;
+        tobject x2 = x * x;
         // Calculate corresponding y_i values.
-        cl::tobject y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
+        tobject y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tobject sum_x = cl::tapescript::sum_vec(x);
-        cl::tobject sum_y = cl::tapescript::sum_vec(y);
-        cl::tobject sum_x2 = cl::tapescript::sum_vec(x2);
-        cl::tobject y2 = y * y;
-        cl::tobject sum_y2 = cl::tapescript::sum_vec(y2);
-        cl::tobject xy = x * y;
-        cl::tobject sum_xy = cl::tapescript::sum_vec(xy);
-        cl::tobject x3 = x2 * x;
-        cl::tobject sum_x3 = cl::tapescript::sum_vec(x3);
-        cl::tobject x2y = x2 * y;
-        cl::tobject sum_x2y = cl::tapescript::sum_vec(x2y);
-        cl::tobject x4 = x3 * x;
-        cl::tobject sum_x4 = cl::tapescript::sum_vec(x4);
+        tobject sum_x = tapescript::sum_vec(x);
+        tobject sum_y = tapescript::sum_vec(y);
+        tobject sum_x2 = tapescript::sum_vec(x2);
+        tobject y2 = y * y;
+        tobject sum_y2 = tapescript::sum_vec(y2);
+        tobject xy = x * y;
+        tobject sum_xy = tapescript::sum_vec(xy);
+        tobject x3 = x2 * x;
+        tobject sum_x3 = tapescript::sum_vec(x3);
+        tobject x2y = x2 * y;
+        tobject sum_x2y = tapescript::sum_vec(x2y);
+        tobject x4 = x3 * x;
+        tobject sum_x4 = tapescript::sum_vec(x4);
         // Calculate covariances.
-        cl::tobject S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tobject S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tobject S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tobject S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tobject S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        tobject S_xx = sum_x2 - sum_x * sum_x / n;
+        tobject S_xy = sum_xy - sum_x * sum_y / n;
+        tobject S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        tobject S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        tobject S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tobject denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
-        cl::tobject gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tobject beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tobject alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        tobject denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
+        tobject gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        tobject beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        tobject alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
-        cl::tobject y_estimate = alpha + beta * x + gamma * x2;
+        tobject y_estimate = alpha + beta * x + gamma * x2;
         // Output vector.
-        std::vector<cl::tobject> Y = { alpha, beta, gamma, y_estimate };
+        std::vector<tobject> Y = { alpha, beta, gamma, y_estimate };
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<cl::tvalue> f(X, Y);
+        tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
-        cl::tarray d_ref_array;
+        tarray d_ref_array;
         d_ref_array.resize(3);
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
 
         // Derivatives with respect to a.
-        std::vector<cl::tvalue> dx = { 1, 0, 0, 0 };
+        std::vector<tvalue> dx = { 1, 0, 0, 0 };
         if (flag_serializer)
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
-        std::vector<cl::tvalue> forw;
+        std::vector<tvalue> forw;
         if (flag_serializer)
             forw = f.forward(1, dx, out_str);
         else
@@ -227,13 +227,13 @@ namespace cl
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::tape_start(X);
+        tape_start(X);
 
         // Output calculations.
-        cl::tdouble& par_a = X[0];
-        cl::tdouble& par_b = X[1];
-        cl::tdouble& par_c = X[2];
-        cl::tdouble& par_d = X[3];
+        tdouble& par_a = X[0];
+        tdouble& par_b = X[1];
+        tdouble& par_c = X[2];
+        tdouble& par_d = X[3];
         // Obtain x_i values.
         std::vector<tdouble> x(n);
         for (int i = 0; i < n; i++)
@@ -246,56 +246,56 @@ namespace cl
         for (int i = 0; i < n; i++)
             y[i] = par_a + x[i] * par_b + x2[i] * par_c + std::exp(-1 * par_d * x[i]);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tdouble sum_x = 0.0;
+        tdouble sum_x = 0.0;
         for (int i = 0; i < n; i++)
             sum_x += x[i];
-        cl::tdouble sum_y = 0.0;
+        tdouble sum_y = 0.0;
         for (int i = 0; i < n; i++)
             sum_y += y[i];
-        cl::tdouble sum_x2 = 0.0;
+        tdouble sum_x2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2 += x2[i];
         std::vector<tdouble> y2(n);
         for (int i = 0; i < n; i++)
             y2[i] = y[i] * y[i];
-        cl::tdouble sum_y2 = 0.0;
+        tdouble sum_y2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_y2 += y2[i];
         std::vector<tdouble> xy(n);
         for (int i = 0; i < n; i++)
             xy[i] = x[i] * y[i];
-        cl::tdouble sum_xy = 0.0;
+        tdouble sum_xy = 0.0;
         for (int i = 0; i < n; i++)
             sum_xy += xy[i];
         std::vector<tdouble> x3(n);
         for (int i = 0; i < n; i++)
             x3[i] = x2[i] * x[i];
-        cl::tdouble sum_x3 = 0.0;
+        tdouble sum_x3 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x3 += x3[i];
         std::vector<tdouble> x2y(n);
         for (int i = 0; i < n; i++)
             x2y[i] = x2[i] * y[i];
-        cl::tdouble sum_x2y = 0.0;
+        tdouble sum_x2y = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2y += x2y[i];
         std::vector<tdouble> x4(n);
         for (int i = 0; i < n; i++)
             x4[i] = x3[i] * x[i];
-        cl::tdouble sum_x4 = 0.0;
+        tdouble sum_x4 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x4 += x4[i];
         // Calculate covariances.
-        cl::tdouble S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tdouble S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tdouble S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tdouble S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tdouble S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        tdouble S_xx = sum_x2 - sum_x * sum_x / n;
+        tdouble S_xy = sum_xy - sum_x * sum_y / n;
+        tdouble S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        tdouble S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        tdouble S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tdouble denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
-        cl::tdouble gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tdouble beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tdouble alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        tdouble denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
+        tdouble gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        tdouble beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        tdouble alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
         std::vector<tdouble> y_estimate(n);
         for (int i = 0; i < n; i++)
@@ -313,7 +313,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tfunc<double> f(X, Y);
+        tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -378,7 +378,7 @@ namespace cl
     inline void quadratic_regression_examples()
     {
         std::ofstream of("output/performance/quadratic_regression_output.txt");
-        cl::tape_serializer<cl::tvalue> serializer(of);
+        tape_serializer<tvalue> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.
