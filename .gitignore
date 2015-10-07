@@ -8,6 +8,7 @@ syntax: glob
 **/obj/Release
 **/x64/Debug
 **/x64/Release
+**/output/performance/
 
 *.user
 *.suo
@@ -42,3 +43,4 @@ testCaseCollection.xml
 
 # Using regexp syntax
 syntax: regexp
+tapescript/cpp/cl/tape/examples/output/performance/
