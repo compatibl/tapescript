@@ -44,9 +44,9 @@ namespace cl
             array_task.dx_ = { gen_vector<tvalue>(n, gen), gen_vector<tvalue>(n, gen) };
             array_task.w_ = { gen_vector<tvalue>(n, gen) };
             array_task.repeat_ = repeat / n + 1;
-            array_task.func_ = [](std::vector<tape_object> const& v)
+            array_task.func_ = [](std::vector<tobject> const& v)
             {
-                return std::vector<tape_object>{ v[0] + v[1] };
+                return std::vector<tobject>{ v[0] + v[1] };
             };
             return array_task;
         }
