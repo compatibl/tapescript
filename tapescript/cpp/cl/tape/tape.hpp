@@ -50,7 +50,7 @@ namespace cl
 // Lock undef include
 #define CPPAD_UNDEF_INCLUDED
 
-#include <cppad/cppad.h>
+#include <cppad/cppad.hpp>
 
 #if !defined CL_USE_NATIVE_FORWARD
 #   if !defined TYPE_SERIALIZER
@@ -113,7 +113,7 @@ namespace cl
 namespace ext
 {
     template <typename Type>
-    inline typename Type Value(Type const& v)
+    inline Type Value(Type const& v)
     {   return v; }
 }
 #endif

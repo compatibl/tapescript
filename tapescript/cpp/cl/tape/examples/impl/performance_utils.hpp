@@ -31,7 +31,7 @@ limitations under the License.
 #include <cl/tape/tape.hpp>
 #include <cl/tape/util/testoutput.hpp>
 
-#include "impl/utils.hpp"
+#include "utils.hpp"
 
 namespace cl
 {

@@ -23,7 +23,7 @@ limitations under the License.
 #ifndef cl_tape_examples_impl_performance_tests_hpp
 #define cl_tape_examples_impl_performance_tests_hpp
 
-#include "impl/performance_utils.hpp"
+#include "performance_utils.hpp"
 
 namespace cl
 {
