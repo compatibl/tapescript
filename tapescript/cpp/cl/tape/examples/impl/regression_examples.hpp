@@ -92,7 +92,7 @@ namespace cl
         tobject& par_b = X[1];
         tobject& par_c = X[2];
         // Obtain x_i values.
-        tobject x = lin_regr.GetInputX();
+        tobject x = (tvalue)lin_regr.GetInputX();
         // Calculate corresponding y_i values.
         tobject y = par_a + x * par_b + exp(-1 * par_c * x);
         // Start linear regression calculation: calculate mean values.

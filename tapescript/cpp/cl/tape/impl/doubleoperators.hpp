@@ -230,14 +230,14 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() + right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_& right)
         {
             return left.operator type() + right.operator type();
         }
@@ -250,19 +250,20 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() - right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_& right)
         {
             return left.operator type() - right.operator type();
         }
     };
 
+#if defined _MSC_VER
     /// Operator + for class which has conversion to double for right hand side argument
     template <typename Left, typename RC>
     struct operator_traits<Left, cl::tape_double, struct oper_plus, std::true_type, RC, basic_operators>
@@ -270,14 +271,14 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() + right;
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left.operator type() + right;
         }
@@ -290,14 +291,14 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left + right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left + right.operator type();
         }
@@ -310,14 +311,14 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() - right;
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left.operator type() - right;
         }
@@ -330,18 +331,19 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left - right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left - right.operator type();
         }
     };
+#endif
 
     template <typename Left, typename Right>
     inline typename operator_traits<typename std::remove_const<Left>::type
@@ -382,33 +384,34 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() / right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_& right)
         {
             return left.operator type() / right.operator type();
         }
     };
 
+#if defined _MSC_VER
     template <typename Left, typename RC>
     struct operator_traits<Left, cl::tape_double, struct oper_div, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() / right;
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left.operator type() / right;
         }
@@ -420,18 +423,19 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left / right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left / right.operator type();
         }
     };
+#endif
 
     template <typename Left, typename Right>
     inline typename operator_traits<typename std::remove_const<Left>::type
@@ -456,33 +460,34 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() * right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_& right)
         {
             return left.operator type() * right.operator type();
         }
     };
 
+#if defined _MSC_VER
     template <typename Left, typename RC>
     struct operator_traits<Left, cl::tape_double, struct oper_mult, std::true_type, RC, basic_operators>
     {
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left.operator type() * right;
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left.operator type() * right;
         }
@@ -494,18 +499,19 @@ namespace cl_ext
         // This ensures correct behavior for classes convertible to double
         typedef cl::tape_double type;
 
-        template <typename Left, typename Right>
-        inline type operator()(Left const& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_ const& left, Right_ const& right)
         {
             return left * right.operator type();
         }
 
-        template <typename Left, typename Right>
-        inline type operator()(Left& left, Right const& right)
+        template <typename Left_, typename Right_>
+        inline type operator()(Left_& left, Right_ const& right)
         {
             return left * right.operator type();
         }
     };
+#endif
 
     template <typename Left, typename Right>
     inline typename operator_traits<typename std::remove_const<Left>::type
@@ -581,7 +587,7 @@ namespace cl
 {
     template <typename Type
         , int DefaultValue
-        , typename HasValue = cl::has_value<Type>::type >
+        , typename HasValue = typename cl::has_value<Type>::type >
     struct take_value
     {
         static const int value = DefaultValue;

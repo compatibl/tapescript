@@ -105,8 +105,9 @@ namespace cl
             cl::print_type<typename Member::type>();
 #           endif
 
-            ss(obj->*(Member()()));
-
+            Member m;
+            ss(obj->*(m()));
+            
 #           if !defined NDEBUG
             debug_mem(Member(), *obj);
 #           endif
@@ -153,7 +154,7 @@ namespace cl
             | cl::serializer_type::io_text
             , io_binary = cl::serializer_type::io_binary
         };
-
+#if defined _MSC_VER
         template <typename... Args>
         tape_archive(std::string const& path
             , int archive_type = io_binary, Args&... args)
@@ -162,6 +163,18 @@ namespace cl
             , ss_(os_)
             , archive_type_(archive_type)
         {}
+#elif __GNUC__
+        template <typename... Args>
+        tape_archive(std::string const& path
+            , int archive_type, Args&... args)
+            : serializer<Base>()
+            , os_(path)
+            , ss_(os_)
+            , archive_type_(archive_type)
+        {}
+#endif
+
+        
 
         struct serialize__
         {

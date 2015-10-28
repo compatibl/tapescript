@@ -27,8 +27,10 @@ limitations under the License.
 //#include <cppad/vector.hpp>
 #include <array>
 #include <numeric>
+#include <set>
 #include <assert.h>
 #include <cl/tape/impl/inner/base_tape_inner.hpp>
+#include <cppad/vector.hpp>
 
 namespace cl
 {
@@ -43,7 +45,7 @@ namespace cl
             {
                 if (x.is_scalar())
                     return x;
-                inner_type::array_type temp(x.array_value_.size());
+                typename inner_type::array_type temp(x.array_value_.size());
                 std::reverse_copy(begin(x.array_value_), end(x.array_value_), begin(temp));
                 return temp;
             }
@@ -54,7 +56,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_reverse_vec()
-                    : atomic_base("Reversing")
+                    : CppAD::atomic_base<inner_type>("Reversing")
                 {}
     
                 bool forward(
@@ -204,7 +206,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_sum_vec()
-                    : atomic_base("Sum")
+                    : CppAD::atomic_base<inner_type>("Sum")
                 {}
     
                 static inline inner_type adjust_size(double val, const inner_type& model)
@@ -409,7 +411,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
     
                 atomic_conc_vec()
-                    : atomic_base("Concatenation")
+                    : CppAD::atomic_base<inner_type>("Concatenation")
                 {}
     
                 bool forward(
@@ -622,7 +624,7 @@ namespace cl
                 template <class T> using vector = CppAD::vector<T>;
 
                 atomic_make_vec()
-                    : atomic_base("Construction(val, n)")
+                    : CppAD::atomic_base<inner_type>("Construction(val, n)")
                 {}
 
                 bool forward(

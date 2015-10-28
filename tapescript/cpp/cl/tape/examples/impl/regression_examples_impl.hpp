@@ -29,6 +29,18 @@ limitations under the License.
 
 namespace cl
 {
+    namespace
+    {
+        void throw_(char * s)
+        {
+#       if defined _MSC_VER
+            throw std::exception(s);
+#       elif
+            throw s;
+#       endif
+        }
+    }
+
     // Check derivatives with respect to a.
     void check_derivatives_da(cl::LinearRegression& lin_regr, std::vector<cl::tvalue>& forw, double eps)
     {
@@ -36,16 +48,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dA() - forw[0].scalar_value_) > eps)
-            throw std::exception("Adjoint alpha derivative w.r.t a differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t a differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dA() - forw[1].scalar_value_) > eps)
-            throw std::exception("Adjoint beta derivative w.r.t a differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t a differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dA(j) - forw[2].element_at(j)) > eps)
-            throw std::exception("Adjoint y_estimate derivative w.r.t a differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t a differs from expectation.");
     }
 
     // Check derivatives with respect to a.
@@ -55,16 +67,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dA() - forw[0]) > eps)
-            throw std::exception("Adjoint alpha derivative w.r.t a differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t a differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dA() - forw[1]) > eps)
-            throw std::exception("Adjoint beta derivative w.r.t a differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t a differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dA(j) - forw[2 + j]) > eps)
-            throw std::exception("Adjoint y_estimate derivative w.r.t a differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t a differs from expectation.");
     }
 
     // Check derivatives with respect to b.
@@ -74,16 +86,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dB() - forw[0].scalar_value_) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t b differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t b differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dB() - forw[1].scalar_value_) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t b differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t b differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dB(j) - forw[2].element_at(j)) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t b differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t b differs from expectation.");
     }
 
     // Check derivatives with respect to b.
@@ -93,16 +105,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dB() - forw[0]) > eps)
-            throw std::exception("Adjoint alpha derivative w.r.t a differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t a differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dB() - forw[1]) > eps)
-            throw std::exception("Adjoint beta derivative w.r.t a differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t a differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dB(j) - forw[2 + j]) > eps)
-            throw std::exception("Adjoint y_estimate derivative w.r.t a differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t a differs from expectation.");
     }
 
     // Check derivatives with respect to c.
@@ -112,16 +124,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dC() - forw[0].scalar_value_) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t c differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t c differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dC() - forw[1].scalar_value_) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t c differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t c differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dC(j) - forw[2].element_at(j)) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t c differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t c differs from expectation.");
     }
 
     // Check derivatives with respect to c.
@@ -131,16 +143,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dC() - forw[0]) > eps)
-            throw std::exception("Adjoint alpha derivative w.r.t a differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t a differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dC() - forw[1]) > eps)
-            throw std::exception("Adjoint beta derivative w.r.t a differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t a differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dC(j) - forw[2 + j]) > eps)
-            throw std::exception("Adjoint y_estimate derivative w.r.t a differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t a differs from expectation.");
     }
 
     // Check derivatives with respect to x_i.
@@ -150,16 +162,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dX(i) - forw[0].scalar_value_) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t x_i differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dX(i) - forw[1].scalar_value_) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t x_i differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dX(j, i) - forw[2].element_at(j)) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
     }
 
     // Check derivatives with respect to x_i.
@@ -169,16 +181,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dX(i) - forw[0]) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t x_i differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dX(i) - forw[1]) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t x_i differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dX(j, i) - forw[2 + j]) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
     }
 
     // Check derivatives with respect to y_i.
@@ -188,16 +200,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dY(i) - forw[0].scalar_value_) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t x_i differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dY(i) - forw[1].scalar_value_) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t x_i differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dY(j, i) - forw[2].element_at(j)) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
     }
 
     // Check derivatives with respect to y_i.
@@ -207,16 +219,16 @@ namespace cl
 
         // Checking alpha derivatives.
         if (std::fabs(lin_regr.GetDerivate_dAlpha_dY(i) - forw[0]) > eps)
-            throw new std::exception("Adjoint alpha derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint alpha derivative w.r.t x_i differs from expectation.");
 
         // Checking beta derivatives.
         if (std::fabs(lin_regr.GetDerivate_dBeta_dY(i) - forw[1]) > eps)
-            throw new std::exception("Adjoint beta derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint beta derivative w.r.t x_i differs from expectation.");
 
         // Checking y_estimate derivatives.
         for (int j = 0; j < n; j++)
         if (std::fabs(lin_regr.GetDerivate_dYEstim_dY(j, i) - forw[2 + j]) > eps)
-            throw new std::exception("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
+            throw_("Adjoint y_estimate derivative w.r.t x_i differs from expectation.");
     }
 }
 

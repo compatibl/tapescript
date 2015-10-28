@@ -26,6 +26,7 @@ limitations under the License.
 #include <limits>
 #include <valarray>
 #include <sstream>
+#include <assert.h>
 
 #include <cl/tape/impl/inner/array_traits.hpp>
 
@@ -123,7 +124,7 @@ namespace cl
         {
             if (is_array())
             {
-                cl::throw_("Not a scalar.");
+                throw "Not a scalar";
             }
             return scalar_value_;
         }
@@ -310,15 +311,15 @@ namespace cl
         }                                                                                       \
         else if (x.is_array() && y.is_scalar())                                                 \
         {                                                                                       \
-            return x.array_value_ Op y.scalar_value_;                                           \
+            return tape_inner<Array>(x.array_value_ Op y.scalar_value_);                        \
         }                                                                                       \
         else if (x.is_scalar() && y.is_array())                                                 \
         {                                                                                       \
-            return x.scalar_value_ Op y.array_value_;                                           \
+            return tape_inner<Array>(x.scalar_value_ Op y.array_value_);                        \
         }                                                                                       \
         else /* (x.is_array() && y.is_array()) */                                               \
         {                                                                                       \
-            return x.array_value_ Op y.array_value_;                                            \
+            return tape_inner<Array>(x.array_value_ Op y.array_value_);                         \
         }                                                                                       \
     }                                                                                           \
                                                                                                 \
@@ -331,7 +332,7 @@ namespace cl
         {                                                                                       \
             return x.scalar_value_ Op y;                                                        \
         }                                                                                       \
-        return x.array_value_ Op y;                                                             \
+        return tape_inner<Array>(x.array_value_ Op y);                                          \
     }                                                                                           \
                                                                                                 \
     template <class Array>                                                                      \
@@ -343,7 +344,7 @@ namespace cl
         {                                                                                       \
             return x Op y.scalar_value_;                                                        \
         }                                                                                       \
-        return x Op y.array_value_;                                                             \
+        return tape_inner<Array>(x Op y.array_value_);                                          \
     }
 
     CL_BIN_INNER_ARRAY_OPERATOR(-)

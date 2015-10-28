@@ -27,7 +27,7 @@ limitations under the License.
 
 #include <cl/tape/tape.hpp>
 
-#include "impl\utils.hpp"
+#include "impl/utils.hpp"
 
 struct test_stream
 {
@@ -80,8 +80,8 @@ int main()
 
     std::cout << std::endl << "Run performance_tests see tape data in output/performance_tests_output.txt ..." << std::endl;
     cl::performance_tests();
-
-    /*std::cout << std::endl << "Run regression_examples see tape data in output/performance/regression_examples_output.txt ..." << std::endl;
+    /*
+    std::cout << std::endl << "Run regression_examples see tape data in output/performance/regression_examples_output.txt ..." << std::endl;
     cl::regression_examples();
 
     std::cout << std::endl << "Run quadratic_regression_examples see tape data in output/performance/quadratic_regression_examples_output.txt ..." << std::endl;

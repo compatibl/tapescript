@@ -162,23 +162,23 @@ namespace cl
 
             inline tape_iterator<Vector>& operator ++()
             {
-                ++first; ++second; return *this;
+                ++(this->first); ++(this->second); return *this;
             }
 
             inline tape_iterator<Vector>
                 operator ++(int)
             {
-                return std::make_pair(first++; second++);
+                return std::make_pair((this->first)++, (this->second)++);
             }
 
             inline tape_iterator<Vector> operator + (std::size_t size)
             {
-                return std::make_pair(first + size, second + size);
+                return std::make_pair(this->first + size, this->second + size);
             }
 
             inline tape_iterator<Vector> operator - (std::size_t size)
             {
-                return std::make_pair(first - size, second - size);
+                return std::make_pair(this->first - size, this->second - size);
             }
         };
     }
@@ -203,6 +203,10 @@ namespace cl
 
 namespace std
 {
+#if defined __GNUC__
+    template <typename Type> struct _Is_iterator {};
+#endif
+
     /// <summary>Implementation of std traits for algorithmic use.</summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::tape_iterator<Vector> >
         : std::true_type{};
@@ -221,6 +225,8 @@ namespace cl
 #endif
     namespace tapescript
     {
+
+#ifdef CL_TAPE_REF_VECTOR_ENABLED
         class tape_ref_vector
         {
             friend inline void Independent(tape_ref_vector& v);
@@ -342,6 +348,8 @@ namespace cl
         private:
             tape_double_value_vector vec_;
         };
+
+#endif //CL_TAPE_REF_VECTOR_ENABLED
 
         /// The pointer adapter
         template <typename P>
@@ -596,10 +604,10 @@ namespace cl
             {    }
 
             /// <summary>Const operator []</summary>
-            inline converted_value_type const&
+            inline typename Convention::converted_value_type const&
                 operator[](size_type ix) const
             {
-                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                typedef std::integral_constant<bool, Convention::is_convertible_value> is_Conv;
                 return Convention::cconv_2value(ref_->operator [](ix), is_Conv());
             }
 
@@ -607,25 +615,25 @@ namespace cl
             /// In CppAD std::remove_const<> didn't used
             /// If it's const
             template <typename If_Need_Compile__>
-            inline ret_value_type
+            inline typename Convention::ret_value_type
                 get__(size_type ix, std::false_type)
             {
-                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                typedef std::integral_constant<bool, Convention::is_convertible_value> is_Conv;
                 return Convention::conv_2value(ptr_->operator[](ix), is_Conv());
             }
 
             template <typename If_Need_Compile__>
-            inline ret_value_type
+            inline typename Convention::ret_value_type
                 get__(size_type ix, std::true_type)
             {
-                typedef std::integral_constant<bool, is_convertible_value> is_Conv;
+                typedef std::integral_constant<bool, Convention::is_convertible_value> is_Conv;
                 return Convention::conv_2value(ref_->operator[](ix), is_Conv());
             }
         public:
 
             /// If it's constant vector the instance should be placed in the shared ptr
             /// not constant operator []
-            inline ret_value_type
+            inline typename Convention::ret_value_type
                 operator[](size_type ix)
             {
                 return this->get__<struct try__>(ix, std::is_same<orig_vector, Vector>());
@@ -663,20 +671,28 @@ namespace cl
         struct adapter<std::vector<Type, std::allocator<Type>> const, Value>
             : adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>
         {
+            typedef adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>
+                    base;
+  
+            template <typename T>
+            using adapt_type = adapt_ptr<T>;
+
+            typedef typename adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>::size_type size_type;
+
             typedef std::vector<Type, std::allocator<Type>> vector_type;
             adapter(adapt_type<vector_type const> vc_ref)
-                : adapter_vector(vc_ref)
+                : base(vc_ref)
             {}
 
-            adapter() : adapter_vector()
+            adapter() : base()
             {}
 
             adapter(adapter const& v)
-                : adapter_vector(static_cast<adapter_vector const&>(v))
+                : base(static_cast<base const&>(v))
             { }
 
             adapter(size_type size)
-                : adapter_vector(size)
+                : base(size)
             {}
         };
 
@@ -684,20 +700,28 @@ namespace cl
         struct adapter<std::vector<Type, std::allocator<Type>>, Value >
             : adapter_vector<std::vector<Type, std::allocator<Type>>, Value >
         {
+            typedef adapter_vector<std::vector<Type, std::allocator<Type>>, Value >
+                    base;
+
+            template <typename T>
+            using adapt_type = adapt_ptr<T>;
+
+            typedef typename base::size_type size_type;    
+
             typedef std::vector<Type, std::allocator<Type>> vector_type;
             adapter(adapt_type<vector_type> vc_ref)
-                : adapter_vector(vc_ref)
+                : base(vc_ref)
             {}
 
-            adapter() : adapter_vector()
+            adapter() : base()
             {}
 
             adapter(adapter const& v)
-                : adapter_vector(static_cast<adapter_vector const&>(v))
+                : base(static_cast<base const&>(v))
             {}
 
             adapter(size_type size)
-                : adapter_vector(size)
+                : base(size)
             {}
         };
 
@@ -764,11 +788,12 @@ namespace cl
         {
             serializer & *this;
         }
-
+#ifdef CL_TAPE_REF_VECTOR_ENABLED
         tape_function(tapescript::tape_ref_vector const& x, tapescript::tape_ref_vector const& y)
             : tape_function_base<Base>(x.vec_, y.vec_)
             , serializability(x.vec_)
         { }
+#endif
 
         template <typename Inner>
         tape_function(std::vector<cl::tape_wrapper<Inner>> const& x, std::vector<cl::tape_wrapper<Inner>> const& y)
@@ -846,14 +871,16 @@ namespace cl
     inline void
     Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
-        ext::Independent(tapescript::adapt(v_tape), abort_index);
+        auto av = tapescript::adapt(v_tape);
+        ext::Independent(av, abort_index);
     }
 
     template <class Inner>
     inline void
     Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
-        ext::Independent(tapescript::adapt(v_tape));
+        auto av = tapescript::adapt(v_tape);
+        ext::Independent(av);
     }
 
     inline void
@@ -869,14 +896,16 @@ namespace cl
     inline void
     tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
-        ext::Independent(tapescript::adapt(v_tape), abort_index);
+        auto av = tapescript::adapt(v_tape);
+        ext::Independent(av, abort_index);
     }
 
     template <class Inner>
     inline void
     tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
-        ext::Independent(tapescript::adapt(v_tape));
+        auto av = tapescript::adapt(v_tape);
+        ext::Independent(av);
     }
 
     template <typename Type>

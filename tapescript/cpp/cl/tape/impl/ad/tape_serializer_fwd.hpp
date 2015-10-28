@@ -43,6 +43,7 @@ namespace cl
     template <typename T>
     struct tape_serializer;
 
+#if defined _MSC_VER
     template <typename Stream>
     inline bool is_cout(Stream& stg)
     {
@@ -53,6 +54,14 @@ namespace cl
 
         return false;
     }
+#elif __GNUC__
+    template <typename Stream>
+    inline bool is_cout(Stream& stg)
+    {
+        return (&std::cout == reinterpret_cast<std::ostream*>(&stg));
+    }
+#endif
+
 
     template <typename Trait0, typename Serializer, typename Stream, typename... Args>
     inline void serialize__(Trait0, Stream& stg, Args...)
@@ -98,7 +107,7 @@ namespace cl
         typedef typename
             serializer_traits<Base>::type Serializer;
 
-        serialize__<Serializer>(cl::is_implemented<Serializer>(), stg, args...);
+        serialize__<cl::is_implemented<Serializer>, Serializer, Stream, Args...>(cl::is_implemented<Serializer>(), stg, args...);
     }
 
     namespace tapescript
