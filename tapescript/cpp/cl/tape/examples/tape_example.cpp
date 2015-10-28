@@ -79,10 +79,10 @@ int main()
     std::cout << std::endl << "Run performance_tests see tape data in output/performance_tests_output.txt ..." << std::endl;
     cl::performance_tests();
 
-    std::cout << std::endl << "Run regression_examples see tape data in output/regression_examples_output.txt ..." << std::endl;
+    std::cout << std::endl << "Run regression_examples see tape data in output/performance/regression_examples_output.txt ..." << std::endl;
     cl::regression_examples();
 
-    std::cout << std::endl << "Run quadratic_regression_examples see tape data in output/quadratic_regression_examples_output.txt ..." << std::endl;
+    std::cout << std::endl << "Run quadratic_regression_examples see tape data in output/performance/quadratic_regression_examples_output.txt ..." << std::endl;
     cl::quadratic_regression_examples();
 
     system("pause");
