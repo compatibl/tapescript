@@ -229,11 +229,11 @@ namespace cl
     inline void example1(std::ostream& out_stream = std::cout)
     {
         out_str << "We are mixing arrays and scalars in calculations of\n";
-        out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
+        out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * (x0 + x1)^3 - 0.5 } function:\n\n";
 
         // Input values initialization.
         cl::tvalue x0 = { 1, 2 };
-        cl::tvalue x1 = -1.2;
+        cl::tvalue x1 = -1.0;
         std::vector<cl::tobject> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
@@ -242,7 +242,7 @@ namespace cl
 
         // Output calculations.
         cl::tobject y0 = std::sin(X[0]) / std::cos(X[1]) + X[1] / X[0];
-        cl::tobject y1 = y0 + X[0] * std::pow(X[1], 3) - 0.5;
+        cl::tobject y1 = y0 + X[0] * std::pow(X[0] + X[1], 3) - 0.5;
         std::vector<cl::tobject> Y = { y0, y1 };
         out_str << "Output vector: " << Y << "\n\n";
 
