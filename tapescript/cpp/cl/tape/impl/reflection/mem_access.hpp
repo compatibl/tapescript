@@ -78,8 +78,7 @@ namespace cl
     struct fields
     {};
 
-    // This class about what I can do in new time ago 
-    // why you 
+    // This is for specifying Ty_::*fields
     template <class Ty_>
     struct class_fields;
 }
