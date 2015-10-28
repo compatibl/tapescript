@@ -217,7 +217,7 @@ namespace cl
 
         // Declare a tape function and stop the tape recording.
         if (flag_serializer)
-            out_stream << "Ininial Forward(0) sweep...\n";
+            out_stream << "Initial Forward(0) sweep...\n";
         tfunc<tvalue> f(X, Y);
         tape_time = std::clock() - tape_time;
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
@@ -423,7 +423,7 @@ namespace cl
 
         // Declare a tape function and stop the tape recording.
         if (flag_serializer)
-            out_stream << "Ininial Forward(0) sweep...\n";
+            out_stream << "Initial Forward(0) sweep...\n";
         tfunc<double> f(X, Y);
         tape_time = std::clock() - tape_time;
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
