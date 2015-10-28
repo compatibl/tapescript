@@ -601,13 +601,13 @@ namespace boost { namespace lambda { namespace detail
     template <typename > struct promote_code;
 
     //!! Translates to native type (currently may cause a runtime error, to be fixed)
-    template <>
-    struct promote_code<cl::tape_double >
+    template <typename Base>
+    struct promote_code<cl::tape_wrapper<Base> >
     {
         static const int value = cl::take_value<
                                         boost::lambda::detail::promote_code
                                         <
-                                            typename cl::remove_ad<typename cl::tape_double::value_type>::type
+                                            typename cl::remove_ad<typename cl::tape_wrapper<Base>::value_type>::type
                                         >
                                         , 600 //!!! See boost promote_code for double, avoid hardcode
                                    >::value;
@@ -620,10 +620,10 @@ namespace boost {  namespace detail
     struct return_type_2_arithmetic_phase_3;
     template<class> class return_type_deduction_failure;
 
-    template<>
-    struct return_type_2_arithmetic_phase_3 <cl::tape_double >
+    template<typename Base>
+    struct return_type_2_arithmetic_phase_3 <cl::tape_wrapper<Base> >
     {
-        typedef cl::tape_double ad_type;
+        typedef cl::tape_wrapper<Base> ad_type;
         typedef ad_type A;
 
         return_type_2_arithmetic_phase_3(ad_type const& ad_v) {   }
@@ -652,56 +652,66 @@ namespace boost { namespace numeric { namespace ublas
         return (cl::tape_double)left < right;
     }
 
+    template <typename Left, typename Base>
+    inline bool operator < (Left const& left, cl::tape_wrapper<Base> const& right)
+    {
+#if defined CL_COMPILE_TIME_DEBUG
+#pragma message ("overload operator < : " __FUNCSIG__)
+#endif
+        cl::throw_("Operator is not implemented: " __FUNCSIG__);
+        return true;// (cl::tape_wrapper<Base>)left < right;
+    }
+
     // This is hooked operator <
-    template <typename DoubleType>
+    template <typename DoubleType, typename Base>
     inline bool operator <
             (boost::numeric::ublas::matrix_scalar_unary<
                boost::numeric::ublas::matrix_binary<
                     boost::numeric::ublas::matrix_matrix_binary<
                         boost::numeric::ublas::triangular_adaptor<
                             boost::numeric::ublas::matrix<
-                                cl::tape_double
+                                cl::tape_wrapper<Base>
                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
                                 , boost::numeric::ublas::unbounded_array<
                                         DoubleType
-                                        , std::allocator<cl::tape_double>
+                                        , std::allocator<cl::tape_wrapper<Base>>
                                   >
                             >
                             , boost::numeric::ublas::basic_unit_lower<unsigned int>
                         >
                         , boost::numeric::ublas::triangular_adaptor<
                              boost::numeric::ublas::matrix<
-                                cl::tape_double
+                                cl::tape_wrapper<Base>
                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
                                 , boost::numeric::ublas::unbounded_array<
-                                      cl::tape_double
-                                      , std::allocator<cl::tape_double>
+                                      cl::tape_wrapper<Base>
+                                      , std::allocator<cl::tape_wrapper<Base>>
                                   > >, struct boost::numeric::ublas::basic_upper<unsigned int>
                           >
                         , boost::numeric::ublas::matrix_matrix_prod<
                                 boost::numeric::ublas::triangular_adaptor<
                                     boost::numeric::ublas::matrix<
-                                        cl::tape_double
+                                        cl::tape_wrapper<Base>
                                         , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, class std::allocator<cl::tape_wrapper<Base>> >
                                     >
                                     , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                 >
                                 , boost::numeric::ublas::triangular_adaptor<
                                     class boost::numeric::ublas::matrix<
-                                        cl::tape_double
+                                        cl::tape_wrapper<Base>
                                         , struct boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                        , class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
+                                        , class boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, class std::allocator<cl::tape_wrapper<Base>> >
                                     >, struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
-                                , cl::tape_double
+                                , cl::tape_wrapper<Base>
                             >
                     >
                     , boost::numeric::ublas::matrix<
-                        cl::tape_double, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<cl::tape_double, class std::allocator<cl::tape_double> >
+                        cl::tape_wrapper<Base>, struct boost::numeric::ublas::basic_row_major<unsigned int, int>, class boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, class std::allocator<cl::tape_wrapper<Base>> >
                       >
                     , boost::numeric::ublas::scalar_minus<
-                            cl::tape_double, cl::tape_double
+                            cl::tape_wrapper<Base>, cl::tape_wrapper<Base>
                         >
                 >
                 , boost::numeric::ublas::matrix_norm_inf<
@@ -709,55 +719,55 @@ namespace boost { namespace numeric { namespace ublas
                             boost::numeric::ublas::matrix_matrix_binary<
                                 boost::numeric::ublas::triangular_adaptor<
                                         boost::numeric::ublas::matrix<
-                                            cl::tape_double
+                                            cl::tape_wrapper<Base>
                                             , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                            , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
+                                            , boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, std::allocator<cl::tape_wrapper<Base>> >
                                         >
                                     , struct boost::numeric::ublas::basic_unit_lower<unsigned int>
                                 >
                                 , boost::numeric::ublas::triangular_adaptor<
                                         boost::numeric::ublas::matrix<
-                                            cl::tape_double
+                                            cl::tape_wrapper<Base>
                                             , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                            , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
+                                            , boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, std::allocator<cl::tape_wrapper<Base>> >
                                         >
                                         , struct boost::numeric::ublas::basic_upper<unsigned int>
                                   >
                                   , boost::numeric::ublas::matrix_matrix_prod<
                                         boost::numeric::ublas::triangular_adaptor<
                                             boost::numeric::ublas::matrix<
-                                                cl::tape_double
+                                                cl::tape_wrapper<Base>
                                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                                , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
+                                                , boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, std::allocator<cl::tape_wrapper<Base>> >
                                             >
                                             , boost::numeric::ublas::basic_unit_lower<unsigned int>
                                         >
                                         , boost::numeric::ublas::triangular_adaptor<
                                             boost::numeric::ublas::matrix<
-                                                cl::tape_double
+                                                cl::tape_wrapper<Base>
                                                 , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                                , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
+                                                , boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, std::allocator<cl::tape_wrapper<Base>> >
                                             >
                                             , boost::numeric::ublas::basic_upper<unsigned int>
                                         >
-                                        , cl::tape_double
+                                        , cl::tape_wrapper<Base>
                                   >
                             >
                             , boost::numeric::ublas::matrix<
-                                    cl::tape_double
+                                    cl::tape_wrapper<Base>
                                     , boost::numeric::ublas::basic_row_major<unsigned int, int>
-                                    , boost::numeric::ublas::unbounded_array<cl::tape_double, std::allocator<cl::tape_double> >
+                                    , boost::numeric::ublas::unbounded_array<cl::tape_wrapper<Base>, std::allocator<cl::tape_wrapper<Base>> >
                               >
-                            , boost::numeric::ublas::scalar_minus<cl::tape_double, cl::tape_double>
+                            , boost::numeric::ublas::scalar_minus<cl::tape_wrapper<Base>, cl::tape_wrapper<Base>>
                         >
                 >
            > const& left
-        , cl::tape_double const& right)
+        , cl::tape_wrapper<Base> const& right)
     {
 #if defined CL_COMPILE_TIME_DEBUG
 #pragma message ("overload operator < : " __FUNCSIG__)
 #endif
-        return (cl::tape_double)left < right;
+        return (cl::tape_wrapper<Base>)left < right;
     }
 }
 }}}
@@ -767,10 +777,10 @@ namespace boost
     namespace detail {
         template <typename Type> struct is_arithmetic_impl;
 
-        template< >
-        struct is_arithmetic_impl<cl::tape_double>
+        template<typename Base>
+        struct is_arithmetic_impl<cl::tape_wrapper<Base>>
         {
-            typedef cl::remove_ad<cl::tape_double::value_type>::type value_type;
+            typedef typename cl::remove_ad<typename cl::tape_wrapper<Base>::value_type>::type value_type;
 #if defined BOOST_STATIC_CONSTANT
             BOOST_STATIC_CONSTANT(bool, value =
                 (::boost::type_traits::ice_or<
@@ -780,7 +790,7 @@ namespace boost
 #else
             static const bool value = std::is_arithmetic<value_type>::value;
 #endif
-            typedef std::is_arithmetic<value_type>::type type;
+            typedef typename std::is_arithmetic<value_type>::type type;
         };
     }
 }
