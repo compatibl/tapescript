@@ -62,7 +62,7 @@ namespace cl
             for (int j = 0; j < npar; j++)
                 analyt_value += coef_deriv_analyt[i][j] * dx[j].scalar_value_;
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative differs from expectation.");
+                throw_("Adjoint derivative differs from expectation.");
             analyt[i] = analyt_value;
         }
         for (int i = 0; i < npoints; i++)
@@ -72,7 +72,7 @@ namespace cl
             for (int j = 0; j < npar; j++)
                 analyt_value += estim_deriv_analyt[i][j] * dx[j].scalar_value_;
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative differs from expectation.");
+                throw_("Adjoint derivative differs from expectation.");
             analyt[order + 1][i] = analyt_value;
         }
         return analyt;
@@ -93,7 +93,7 @@ namespace cl
             for (int j = 0; j < npar; j++)
                 analyt_value += coef_deriv_analyt[i][j] * dx[j];
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative differs from expectation.");
+                throw_("Adjoint derivative differs from expectation.");
             analyt[i] = analyt_value;
         }
         for (int i = order + 1; i < order + 1 + npoints; i++)
@@ -103,7 +103,7 @@ namespace cl
             for (int j = 0; j < npar; j++)
                 analyt_value += estim_deriv_analyt[i - order - 1][j] * dx[j];
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative differs from expectation.");
+                throw_("Adjoint derivative differs from expectation.");
             analyt[i] = analyt_value;
         }
         return analyt;
@@ -130,7 +130,7 @@ namespace cl
             for (int j = 0; j < npoints; j++)
                 analyt_value += estim_deriv_analyt[j][i] * dx[order + 1].element_at(j);
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative for differs from expectation.");
+                throw_("Adjoint derivative for differs from expectation.");
             analyt[i] = analyt_value;
         }
         return analyt;
@@ -153,7 +153,7 @@ namespace cl
             for (int j = order + 1; j < order + 1 + npoints; j++)
                 analyt_value += estim_deriv_analyt[j - order - 1][i] * dx[j];
             if (!check_tol(analyt_value, adjoint_value, tol))
-                throw std::exception("Adjoint derivative for differs from expectation.");
+                throw_("Adjoint derivative for differs from expectation.");
             analyt[i] = analyt_value;
         }
         return analyt;

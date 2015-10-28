@@ -30,6 +30,7 @@ limitations under the License.
 #include <fstream>
 
 #include <cl/tape/tape.hpp>
+#include <cl/tape/impl/tape_archive/tape_arhive.hpp>
 
 namespace cl
 {

@@ -114,8 +114,8 @@ namespace cl
         tobject calculate_estimation()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
-            tobject estim_y = 0;
+                throw_("Regression coefficients are not calculated.");
+            tobject estim_y = tvalue(0);
             for (int i = 0; i < m_; i++)
                 estim_y += coef_[i] * x_power_[i];
             is_estim_calculated = true;
@@ -126,7 +126,7 @@ namespace cl
         std::vector<std::vector<double>> calculate_coefficients_derivatives()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
+                throw_("Regression coefficients are not calculated.");
             std::vector<std::vector<double>> d_coef_d_y(m_);
             std::vector<tvalue> x_power_tvalue(m_);
             for (int i = 0; i < m_; i++)
@@ -191,7 +191,7 @@ namespace cl
                 mat_inv[i][i] = 1 / diag[i];
                 for (int j = i + 1; j < m; j++)
                 {
-                    element_type sum = 0;
+                    element_type sum = element_type(0.0);
                     for (int k = i; k < j; k++)
                         sum -= mat_inv[j][k] * mat_inv[k][i];
                     mat_inv[j][i] = sum / diag[j];

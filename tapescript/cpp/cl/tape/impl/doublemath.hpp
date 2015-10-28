@@ -751,6 +751,7 @@ namespace std
         return temp *= lhs;
     }
 
+#if defined _MSC_VER
     template <class Inner>
     inline cl::tape_wrapper<Inner> pow(cl::tape_wrapper<Inner> const &_Left, int _Right)
     {
@@ -767,6 +768,7 @@ namespace std
 
         return _Pow_int(_Left, _Right);
     }
+#endif
 
     inline std::complex<cl::tape_double>
     operator/(cl::tape_double lhs, const std::complex<cl::tape_double>& rhs)

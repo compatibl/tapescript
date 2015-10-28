@@ -35,7 +35,7 @@ namespace cl
         {
 #       if defined _MSC_VER
             throw std::exception(s);
-#       elif
+#       elif __GNUC__
             throw s;
 #       endif
         }

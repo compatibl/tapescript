@@ -166,11 +166,11 @@ namespace cl
 #elif __GNUC__
         template <typename... Args>
         tape_archive(std::string const& path
-            , int archive_type, Args&... args)
+                     , Args&... args)
             : serializer<Base>()
             , os_(path)
             , ss_(os_)
-            , archive_type_(archive_type)
+            , archive_type_(io_binary)
         {}
 #endif
 
@@ -370,7 +370,7 @@ namespace cl
             typedef typename
                 class_fields<ho<Ty_>>::type class_fields_type;
 
-            io(&v, ss_imp, class_fields_type());
+            this->io(&v, ss_imp, class_fields_type());
 
             return *this;
         }

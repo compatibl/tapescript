@@ -95,7 +95,7 @@ namespace cl
         tarray x_ref(n);
         for (int i = 0; i < n; i++)
             x_ref[i] = i;
-        tobject x = x_ref;
+        tobject x = (tvalue)x_ref;
         tobject x2 = x * x;
         // Calculate corresponding y_i values.
         tobject y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);

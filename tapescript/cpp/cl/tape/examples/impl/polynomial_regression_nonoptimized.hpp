@@ -123,7 +123,7 @@ namespace cl
         std::vector<tdouble> calculate_estimation()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
+                throw_("Regression coefficients are not calculated.");
             // Number of data points.
             int npoints = data_x_.size();
             std::vector<tdouble> estim_y(npoints);
@@ -138,7 +138,7 @@ namespace cl
         std::vector<std::vector<double>> calculate_coefficients_derivatives()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
+                throw_("Regression coefficients are not calculated.");
             std::vector<std::vector<double>> d_coef_d_y(m_);
             // Number of data points.
             int npoints = data_x_.size();
