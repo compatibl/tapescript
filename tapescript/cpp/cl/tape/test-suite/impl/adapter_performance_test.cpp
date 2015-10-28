@@ -35,6 +35,10 @@ namespace cl
 {
     namespace
     {
+        // Common variables
+        int vector_size = 1000000;
+        int repeat_number = 1000;
+
         // Returns dot product of two vectors.
         inline void dotProduct(std::vector<double> const& lhs, std::vector<double> const& rhs, double & result)
         {
@@ -62,64 +66,57 @@ namespace cl
             }
         }
     
-        void dot_product_test(std::ostream& out = std::cout)
+        void dot_product_test()
         {
-            int n = 100000000;
-            out << std::endl << "Test performance of tape_wrapper adapter using dot product calculation" << std::endl;
-            out << "Dot product of two vectors (size " << n << " ) is being calculated" << std::endl;
+            BOOST_TEST_MESSAGE("Testing performance of tape_wrapper adapter using dot product calculation");
 
-            std::vector<double> leftNative(n);
-            std::vector<double> rightNative(n);
+            std::vector<double> leftNative(vector_size);
+            std::vector<double> rightNative(vector_size);
 
-            std::vector<tape_wrapper<double>> lefttape_double(n);
-            std::vector<tape_wrapper<double>> righttape_double(n);
+            std::vector<tape_wrapper<double>> lefttape_double(vector_size);
+            std::vector<tape_wrapper<double>> righttape_double(vector_size);
 
             srand((unsigned int)time(nullptr));
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < vector_size; ++i)
             {
                 lefttape_double[i] = leftNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
                 righttape_double[i] = rightNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
             }
 
-            double nativeResult = 1;
-            tape_wrapper<double> tapeDoubleResult = 1;
-
-            int repeats = 100;
+            double nativeResult = 0;
+            tape_wrapper<double> tapeDoubleResult = 0;
 
             long _0 = GetTickCount();
 
-            for (int i = 0; i < repeats; ++i)
+            for (int i = 0; i < repeat_number; ++i)
                 dotProduct(lefttape_double, righttape_double, tapeDoubleResult);
             
             long _1 = GetTickCount();
 
-            for (int i = 0; i < repeats; ++i)
+            for (int i = 0; i < repeat_number; ++i)
                 dotProduct(leftNative, rightNative, nativeResult);
             
             long _2 = GetTickCount();
 
-            if (tapeDoubleResult != nativeResult)
-                out << "Results are not the same" << std::endl;
+            BOOST_CHECK(tapeDoubleResult == nativeResult);
+            
+            double tape_wrapper_time = _1 - _0;
+            double native_double_time = _2 - _1;
 
-            out << "Calculation end" << std::endl;
-            out << "\tTime for tape_wrapper<double> " << int(_1 - _0) << " ticks" << std::endl;
-            out << "\tTime for double " << int(_2 - _1) << " ticks" << std::endl;
-            out << "\tThe relative difference  " << 1.0 * std::abs(int((_1 - _0) - (_2 - _1))) / std::max(_1 - _0, _2 - _1)
-                << std::endl << std::endl;
+            // Relative difference between tape_wrapper time and native double time
+            // should be less than 10%
+            BOOST_CHECK(std::abs(tape_wrapper_time - native_double_time) / std::max(tape_wrapper_time, native_double_time) < 0.10);
         }
 
-        void math_functions_test(std::ostream& out = std::cout)
+        void math_functions_test()
         {
-            int n = 100000000;
-            
-            out << std::endl << "Test performance of tape_wrapper adapter using math functions" << std::endl;
-            out << "Calcilation start" << std::endl;
+            BOOST_TEST_MESSAGE("Testing performance of tape_wrapper adapter using math functions");
 
-            std::vector<double> vecNative(n);
-            std::vector<tape_wrapper<double>> vectape_double(n);
+            std::vector<double> vecNative(vector_size);
+            std::vector<tape_wrapper<double>> vectape_double(vector_size);
 
             srand((unsigned int)time(nullptr));
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < vector_size; ++i)
             {
                 vectape_double[i] = vecNative[i] = rand() % 10 + (rand() % 1000 / 1000.0);
             }
@@ -143,22 +140,22 @@ namespace cl
 
             long _2 = GetTickCount();
 
-            if (tapeDoubleResult != nativeResult)
-                out << "Results are not the same" << std::endl;
+            BOOST_CHECK(tapeDoubleResult == nativeResult);
 
-            out << "Calculation end" << std::endl;
-            out << "\tTime for tape_wrapper<double> " << int(_1 - _0) << " ticks" << std::endl;
-            out << "\tTime for double " << int(_2 - _1) << " ticks" << std::endl;
-            out << "\tThe relative difference  " << 1.0 * std::abs(int((_1 - _0) - (_2 - _1))) / std::max(_1 - _0, _2 - _1)
-                << std::endl << std::endl;
+            double tape_wrapper_time = _1 - _0;
+            double native_double_time = _2 - _1;
+
+            // Relative difference between tape_wrapper time and native double time
+            // should be less than 10%
+            BOOST_CHECK(std::abs(tape_wrapper_time - native_double_time) / std::max(tape_wrapper_time, native_double_time) < 0.10);
         }
 
 }
-    void adapter_performance_test()
+    test_suite* ClAdapterPerformanceTestSuite()
     {
-        std::ofstream output("output/adapter_performance_test_output.txt");
-        
-        dot_product_test(output);
-        math_functions_test(output);
+        test_suite* suite = BOOST_TEST_SUITE("ClAdapterPerformance test");
+        suite->add(BOOST_TEST_CASE(&dot_product_test));
+        suite->add(BOOST_TEST_CASE(&math_functions_test));
+        return suite;
     }
 }

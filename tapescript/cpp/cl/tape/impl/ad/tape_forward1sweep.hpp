@@ -242,7 +242,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             // index for current instruction
             size_t i_op;
 
-            // next variables 
+            // next variables
             size_t i_var;
 
             // operation argument indices
@@ -283,8 +283,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             // work space used by UserOp.
             vector<bool> user_vx;        // empty vecotor
             vector<bool> user_vy;        // empty vecotor
-            vector<Base> user_tx;        // argument vector Taylor coefficients 
-            vector<Base> user_ty;        // result vector Taylor coefficients 
+            vector<Base> user_tx;        // argument vector Taylor coefficients
+            vector<Base> user_ty;        // result vector Taylor coefficients
             size_t user_index = 0;       // indentifier for this atomic operation
             size_t user_id = 0;       // user identifier for this call to operator
             size_t user_i = 0;       // index in result vector
@@ -326,7 +326,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             // (not needed for order zero)
             const size_t user_q1 = q + 1;
 
-            // variable indices for results vector 
+            // variable indices for results vector
             // (done differently for order zero).
             vector<size_t> user_iy;
 
@@ -350,7 +350,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 while (cskip_op[i_op])
                 {
                     if (op == CSumOp)
-                    {	// CSumOp has a variable number of arguments 
+                    {	// CSumOp has a variable number of arguments
                         play->forward_csum(op, arg, i_op, i_var);
                     }
                     CPPAD_ASSERT_UNKNOWN(op != CSkipOp);
@@ -1051,8 +1051,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             std::cout << std::endl;
 # else
                 // serialize tape
-                if (!is_cout(s_out) && is_io_text<Base>(s_out))
-                    serialize<Base>(s_out
+                if (!cl::is_cout(s_out) && cl::is_io_text<Base>(s_out))
+                    cl::serialize<Base>(s_out
                         , user_iy
                         , play
                         , taylor

@@ -34,19 +34,19 @@ namespace cl
 #else
         enum { repeat = 100 };
 #endif
-        inline adjoint_task<tape_value> get_array_task(size_t n)
+        inline adjoint_task<tvalue> get_array_task(size_t n)
         {
             std::mt19937 gen;
             gen.seed(0);
-            adjoint_task<tape_value> array_task;
+            adjoint_task<tvalue> array_task;
             array_task.size_ = n;
-            array_task.X_ = { gen_vector<tape_value>(n, gen), gen_vector<tape_value>(n, gen) };
-            array_task.dx_ = { gen_vector<tape_value>(n, gen), gen_vector<tape_value>(n, gen) };
-            array_task.w_ = { gen_vector<tape_value>(n, gen) };
+            array_task.X_ = { gen_vector<tvalue>(n, gen), gen_vector<tvalue>(n, gen) };
+            array_task.dx_ = { gen_vector<tvalue>(n, gen), gen_vector<tvalue>(n, gen) };
+            array_task.w_ = { gen_vector<tvalue>(n, gen) };
             array_task.repeat_ = repeat / n + 1;
-            array_task.func_ = [](std::vector<tape_object> const& v)
+            array_task.func_ = [](std::vector<tobject> const& v)
             {
-                return std::vector<tape_object>{ v[0] + v[1] };
+                return std::vector<tobject>{ v[0] + v[1] };
             };
             return array_task;
         }
@@ -61,11 +61,11 @@ namespace cl
             double_task.dx_ = gen_vector<std::vector<double>>(2 * n, gen);
             double_task.w_ = gen_vector<std::vector<double>>(n, gen);
             double_task.repeat_ = repeat / n + 1;
-            double_task.func_ = [n](std::vector<tape_double> const& v)
+            double_task.func_ = [n](std::vector<tdouble> const& v)
             {
                 auto middle = v.begin() + n;
-                std::vector<tape_double> result(n);
-                std::transform(v.begin(), middle, middle, result.begin(), std::plus<tape_double>());
+                std::vector<tdouble> result(n);
+                std::transform(v.begin(), middle, middle, result.begin(), std::plus<tdouble>());
                 return result;
             };
             return double_task;
@@ -73,17 +73,17 @@ namespace cl
     };
 
 
-    inline void plus_performance(std::ostream& out_str = fake_stream())
+    inline void plus_performance(std::ostream& out_stream = fake_stream())
     {
         out_str << "Plus:\n\n";
-        compare_performance(plus_task_factory(), 10, out_str);
+        compare_tape(plus_task_factory(), 10, out_stream);
         performance_plot("Plus pots", plus_task_factory());
     }
 
     inline void performance_tests()
     {
-        std::ofstream of("performance_tests_output.txt");
-        CppAD::tape_serializer<tape_value> serializer(of);
+        std::ofstream of("output/performance_tests_output.txt");
+        cl::tape_serializer<tvalue> serializer(of);
         serializer.precision(3);
 
         plus_performance(serializer);

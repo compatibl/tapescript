@@ -52,7 +52,7 @@ namespace cl
     };
 
     // Example of quadratic regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void quadratic_regression_with_params_optimized_example(const quadratic_initial_data& data, std::ostream& out_str = std::cout)
+    inline void quadratic_regression_with_params_optimized_example(const quadratic_initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -74,87 +74,87 @@ namespace cl
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
-        cl::tape_value a_ref = a;
-        cl::tape_value b_ref = b;
-        cl::tape_value c_ref = c;
-        cl::tape_value d_ref = d;
-        std::vector<cl::tape_object> X = { a_ref, b_ref, c_ref, d_ref };
+        cl::tvalue a_ref = a;
+        cl::tvalue b_ref = b;
+        cl::tvalue c_ref = c;
+        cl::tvalue d_ref = d;
+        std::vector<cl::tobject> X = { a_ref, b_ref, c_ref, d_ref };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_object& par_a = X[0];
-        cl::tape_object& par_b = X[1];
-        cl::tape_object& par_c = X[2];
-        cl::tape_object& par_d = X[3];
+        cl::tobject& par_a = X[0];
+        cl::tobject& par_b = X[1];
+        cl::tobject& par_c = X[2];
+        cl::tobject& par_d = X[3];
         // Obtain x_i values.
-        cl::tape_array x_ref(n);
+        cl::tarray x_ref(n);
         for (int i = 0; i < n; i++)
             x_ref[i] = i;
-        cl::tape_object x = x_ref;
-        cl::tape_object x2 = x * x;
+        cl::tobject x = x_ref;
+        cl::tobject x2 = x * x;
         // Calculate corresponding y_i values.
-        cl::tape_object y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
+        cl::tobject y = par_a + x * par_b + x2 * par_c + std::exp(-1 * par_d * x);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tape_object sum_x = cl::tapescript::sum_vec(x);
-        cl::tape_object sum_y = cl::tapescript::sum_vec(y);
-        cl::tape_object sum_x2 = cl::tapescript::sum_vec(x2);
-        cl::tape_object y2 = y * y;
-        cl::tape_object sum_y2 = cl::tapescript::sum_vec(y2);
-        cl::tape_object xy = x * y;
-        cl::tape_object sum_xy = cl::tapescript::sum_vec(xy);
-        cl::tape_object x3 = x2 * x;
-        cl::tape_object sum_x3 = cl::tapescript::sum_vec(x3);
-        cl::tape_object x2y = x2 * y;
-        cl::tape_object sum_x2y = cl::tapescript::sum_vec(x2y);
-        cl::tape_object x4 = x3 * x;
-        cl::tape_object sum_x4 = cl::tapescript::sum_vec(x4);
+        cl::tobject sum_x = cl::tapescript::sum_vec(x);
+        cl::tobject sum_y = cl::tapescript::sum_vec(y);
+        cl::tobject sum_x2 = cl::tapescript::sum_vec(x2);
+        cl::tobject y2 = y * y;
+        cl::tobject sum_y2 = cl::tapescript::sum_vec(y2);
+        cl::tobject xy = x * y;
+        cl::tobject sum_xy = cl::tapescript::sum_vec(xy);
+        cl::tobject x3 = x2 * x;
+        cl::tobject sum_x3 = cl::tapescript::sum_vec(x3);
+        cl::tobject x2y = x2 * y;
+        cl::tobject sum_x2y = cl::tapescript::sum_vec(x2y);
+        cl::tobject x4 = x3 * x;
+        cl::tobject sum_x4 = cl::tapescript::sum_vec(x4);
         // Calculate covariances.
-        cl::tape_object S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tape_object S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tape_object S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tape_object S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tape_object S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        cl::tobject S_xx = sum_x2 - sum_x * sum_x / n;
+        cl::tobject S_xy = sum_xy - sum_x * sum_y / n;
+        cl::tobject S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        cl::tobject S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        cl::tobject S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tape_object denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
-        cl::tape_object gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tape_object beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tape_object alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        cl::tobject denominator = S_xx * S_x2x2 - pow(S_xx2, 2.0);
+        cl::tobject gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        cl::tobject beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        cl::tobject alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
-        cl::tape_object y_estimate = alpha + beta * x + gamma * x2;
+        cl::tobject y_estimate = alpha + beta * x + gamma * x2;
         // Output vector.
-        std::vector<cl::tape_object> Y = { alpha, beta, gamma, y_estimate };
+        std::vector<cl::tobject> Y = { alpha, beta, gamma, y_estimate };
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<cl::tape_value> f(X, Y);
+        cl::tfunc<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
-        cl::tape_array d_ref_array;
+        cl::tarray d_ref_array;
         d_ref_array.resize(3);
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
 
         // Derivatives with respect to a.
-        std::vector<cl::tape_value> dx = { 1, 0, 0, 0 };
+        std::vector<cl::tvalue> dx = { 1, 0, 0, 0 };
         if (flag_serializer)
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
-        std::vector<cl::tape_value> forw;
+        std::vector<cl::tvalue> forw;
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -164,9 +164,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -176,9 +176,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -188,9 +188,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -199,7 +199,7 @@ namespace cl
     }
 
     // Example of quadratic regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void quadratic_regression_with_params_nonoptimized_example(const quadratic_initial_data& data, std::ostream& out_str = std::cout)
+    inline void quadratic_regression_with_params_nonoptimized_example(const quadratic_initial_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
@@ -221,87 +221,87 @@ namespace cl
 
         // Input values initialization.
         out_str << "Input vector size: n = " << n << std::endl;
-        cl::tape_double_vector X = { a, b, c, d };
+        std::vector<tdouble> X = { a, b, c, d };
         if (flag_serializer)
             out_str << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_double& par_a = X[0];
-        cl::tape_double& par_b = X[1];
-        cl::tape_double& par_c = X[2];
-        cl::tape_double& par_d = X[3];
+        cl::tdouble& par_a = X[0];
+        cl::tdouble& par_b = X[1];
+        cl::tdouble& par_c = X[2];
+        cl::tdouble& par_d = X[3];
         // Obtain x_i values.
-        cl::tape_double_vector x(n);
+        std::vector<tdouble> x(n);
         for (int i = 0; i < n; i++)
             x[i] = i;
-        cl::tape_double_vector x2(n);
-        for (int i = 0; i < n; i++) 
+        std::vector<tdouble> x2(n);
+        for (int i = 0; i < n; i++)
             x2[i] = x[i] * x[i];
         // Calculate corresponding y_i values.
-        cl::tape_double_vector y(n);
+        std::vector<tdouble> y(n);
         for (int i = 0; i < n; i++)
             y[i] = par_a + x[i] * par_b + x2[i] * par_c + std::exp(-1 * par_d * x[i]);
         // Start quadratic regression calculation: calculate mean values.
-        cl::tape_double sum_x = 0.0;
+        cl::tdouble sum_x = 0.0;
         for (int i = 0; i < n; i++)
             sum_x += x[i];
-        cl::tape_double sum_y = 0.0;
+        cl::tdouble sum_y = 0.0;
         for (int i = 0; i < n; i++)
             sum_y += y[i];
-        cl::tape_double sum_x2 = 0.0;
+        cl::tdouble sum_x2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2 += x2[i];
-        cl::tape_double_vector y2(n);
+        std::vector<tdouble> y2(n);
         for (int i = 0; i < n; i++)
             y2[i] = y[i] * y[i];
-        cl::tape_double sum_y2 = 0.0;
+        cl::tdouble sum_y2 = 0.0;
         for (int i = 0; i < n; i++)
             sum_y2 += y2[i];
-        cl::tape_double_vector xy(n);
-        for (int i = 0; i < n; i++) 
+        std::vector<tdouble> xy(n);
+        for (int i = 0; i < n; i++)
             xy[i] = x[i] * y[i];
-        cl::tape_double sum_xy = 0.0;
+        cl::tdouble sum_xy = 0.0;
         for (int i = 0; i < n; i++)
             sum_xy += xy[i];
-        cl::tape_double_vector x3(n);
-        for (int i = 0; i < n; i++) 
+        std::vector<tdouble> x3(n);
+        for (int i = 0; i < n; i++)
             x3[i] = x2[i] * x[i];
-        cl::tape_double sum_x3 = 0.0;
+        cl::tdouble sum_x3 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x3 += x3[i];
-        cl::tape_double_vector x2y(n);
-        for (int i = 0; i < n; i++) 
+        std::vector<tdouble> x2y(n);
+        for (int i = 0; i < n; i++)
             x2y[i] = x2[i] * y[i];
-        cl::tape_double sum_x2y = 0.0;
+        cl::tdouble sum_x2y = 0.0;
         for (int i = 0; i < n; i++)
             sum_x2y += x2y[i];
-        cl::tape_double_vector x4(n);
-        for (int i = 0; i < n; i++) 
+        std::vector<tdouble> x4(n);
+        for (int i = 0; i < n; i++)
             x4[i] = x3[i] * x[i];
-        cl::tape_double sum_x4 = 0.0;
+        cl::tdouble sum_x4 = 0.0;
         for (int i = 0; i < n; i++)
             sum_x4 += x4[i];
         // Calculate covariances.
-        cl::tape_double S_xx = sum_x2 - sum_x * sum_x / n;
-        cl::tape_double S_xy = sum_xy - sum_x * sum_y / n;
-        cl::tape_double S_xx2 = sum_x3 - sum_x * sum_x2 / n;
-        cl::tape_double S_x2y = sum_x2y - sum_x2 * sum_y / n;
-        cl::tape_double S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
+        cl::tdouble S_xx = sum_x2 - sum_x * sum_x / n;
+        cl::tdouble S_xy = sum_xy - sum_x * sum_y / n;
+        cl::tdouble S_xx2 = sum_x3 - sum_x * sum_x2 / n;
+        cl::tdouble S_x2y = sum_x2y - sum_x2 * sum_y / n;
+        cl::tdouble S_x2x2 = sum_x4 - sum_x2 * sum_x2 / n;
         // Quadratic regression coefficients.
-        cl::tape_double denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
-        cl::tape_double gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
-        cl::tape_double beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
-        cl::tape_double alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
+        cl::tdouble denominator = S_xx * S_x2x2 - std::pow(S_xx2, 2.0);
+        cl::tdouble gamma = (S_x2y * S_xx - S_xy * S_xx2) / denominator;
+        cl::tdouble beta = (S_xy * S_x2x2 - S_x2y * S_xx2) / denominator;
+        cl::tdouble alpha = (sum_y - beta * sum_x - gamma * sum_x2) / n;
         // Estimation for y_i.
-        cl::tape_double_vector y_estimate(n);
+        std::vector<tdouble> y_estimate(n);
         for (int i = 0; i < n; i++)
            y_estimate[i] = alpha + beta * x[i] + gamma * x2[i];
         // Output vector.
-        cl::tape_double_vector Y(n + 3);
+        std::vector<tdouble> Y(n + 3);
         Y[0] = alpha;
         Y[1] = beta;
         Y[2] = gamma;
@@ -313,7 +313,7 @@ namespace cl
         if (flag_serializer)
             out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
         out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
@@ -328,9 +328,9 @@ namespace cl
         start_time = std::clock();
         std::vector<double> forw;
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -340,9 +340,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -352,9 +352,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -364,9 +364,9 @@ namespace cl
             out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
-            forw = f.Forward(1, dx, out_str);
+            forw = f.forward(1, dx, out_stream);
         else
-            forw = f.Forward(1, dx);
+            forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
@@ -377,8 +377,8 @@ namespace cl
 
     inline void quadratic_regression_examples()
     {
-        std::ofstream of("quadratic_regression_output.txt");
-        CppAD::tape_serializer<cl::tape_value> serializer(of);
+        std::ofstream of("output/performance/quadratic_regression_output.txt");
+        cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         // Input data parameters.

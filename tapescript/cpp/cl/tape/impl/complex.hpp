@@ -30,9 +30,7 @@ namespace ext = CppAD;
 
 namespace std
 {
-    /// <summary>
-    /// The complex type based on tape double.
-    /// </summary>
+    /// <summary>The complex type based on tape double.</summary>
     template<typename Inner>
     class complex<cl::tape_wrapper<Inner>>
     {
@@ -42,7 +40,7 @@ namespace std
         typedef cl::tape_wrapper<Inner> tape_type;
 
         // parse ad base
-        typedef typename 
+        typedef typename
             cl::remove_ad<typename tape_type::value_type>::type ad_base_type;
 
         typedef tape_type value_type;
@@ -425,7 +423,7 @@ namespace cl
     {
         typedef typename
             cl::remove_ad<typename tape_wrapper<Inner>::value_type>::type inner_base_type;
-        if (lhs.mode_ 
+        if (lhs.mode_
             == std::complex<tape_wrapper<Inner>>::RealBase)
         {
             return std::abs(lhs) >= rhs;

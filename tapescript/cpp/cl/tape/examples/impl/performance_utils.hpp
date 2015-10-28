@@ -59,7 +59,7 @@ namespace cl
         double forw_;
         // Reverse sweep calculations time.
         double rev_;
-        // tape_function memory.
+        // tfunc memory.
         size_t mem_;
 
         double total_time() const
@@ -75,7 +75,7 @@ namespace cl
         os << "Forward sweep calculations time:         " << stat.forw_ << std::endl;
         os << "Reverse sweep calculations time:         " << stat.rev_  << std::endl;
         os << "Total time for derivatives calculation:  " << stat.total_time() << std::endl;
-        os << "tape_function memory (B): " << stat.mem_  << std::endl;
+        os << "tfunc memory (B): " << stat.mem_  << std::endl;
         return os;
     }
 
@@ -179,7 +179,7 @@ namespace cl
     inline std::ostream& fake_stream()
     {
         static std::ostream stream(nullptr);
-        static CppAD::tape_serializer_base fake(stream);
+        static cl::tape_serializer_base fake(stream);
         return fake;
     }
 
@@ -204,7 +204,7 @@ namespace cl
     };
 
     template <class AdjointTask>
-    inline test_statistic adjoint_performance(AdjointTask const& task, std::ostream& out_str = fake_stream())
+    inline test_statistic adjoint_performance(AdjointTask const& task, std::ostream& out_stream = fake_stream())
     {
         typedef typename AdjointTask::inner_type inner_type;
         typedef typename AdjointTask::tape_type tape_type;
@@ -219,16 +219,16 @@ namespace cl
         // Output vector.
         std::vector<tape_type> Y;
         // Tape function.
-        cl::tape_function<inner_type> f;
+        cl::tfunc<inner_type> f;
 
         result.rec_ = test_performance(task.repeat_, [&X, &Y, &f, &task]()
         {
             // Declare the X vector as independent and start a tape recording.
-            cl::Independent(X);
+            cl::tape_start(X);
             // Output calculations.
             Y = task.func_(X);
             //Stop tape recording.
-            f.Dependent(X, Y);
+            f.tape_read(X, Y);
         });
 
         out_str << "Output vector: " << Y << "\n\n";
@@ -236,83 +236,35 @@ namespace cl
         out_str << "Ininial Forward(0) sweep...\n\n";
         result.init_ = test_performance(task.repeat_, [&f, &x_val]()
         {
-            f.Forward(0, x_val);
+            f.forward(0, x_val);
         });
 
         // Forward sweep calculations.
         std::vector<inner_type> dx = task.dx_;
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<inner_type> forw = f.Forward(1, dx, out_str);
+        std::vector<inner_type> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         result.forw_ = test_performance(task.repeat_, [&f, &dx]()
         {
-            f.Forward(1, dx);
+            f.forward(1, dx);
         });
 
         // Reverse sweep calculations.
         std::vector<inner_type> w = task.w_;
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<inner_type> rev = f.Reverse(1, w);
+        std::vector<inner_type> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
 
         result.rev_ = test_performance(task.repeat_, [&f, &w]()
         {
-            f.Reverse(1, w);
+            f.reverse(1, w);
         });
 
         result.mem_ = f.Memory();
 
         return result;
     }
-
-    /*
-    struct array_scalar_compare
-    {
-        void set_title(std::string const& title)
-        {
-            array_task_.title_ = title;
-            double_task_.title_ = title;
-        }
-
-        void set_size(size_t size)
-        {
-            array_task_.size_ = size;
-            double_task_.size_ = size;
-        }
-
-        void set_input(std::vector<tape_value> const& x)
-        {
-            array_task_.X_ = x;
-
-            double_task_.X_ = arrays_to_doubles(x);
-        }
-
-        adjoint_task<tape_value> array_task_;
-        adjoint_task<double> double_task_;
-
-    private:
-        static std::vector<double> arrays_to_doubles(std::vector<tape_value> const& v)
-        {
-            std::vector<double> result;
-            for (const tape_value& a : v)
-            {
-                if (a.is_scalar())
-                {
-                    result.push_back(a.scalar_value_);
-                }
-                else
-                {
-                    for (double el : a.array_value_)
-                    {
-                        result.push_back(el);
-                    }
-                }
-            }
-            return result;
-        }
-    };
-    */
 
     template <class Vector>
     inline Vector gen_vector(size_t n, std::mt19937& gen)
@@ -328,22 +280,20 @@ namespace cl
     }
 
     template <class TaskFactory>
-    inline void compare_performance(TaskFactory factory, size_t n, std::ostream& out_str = fake_stream())
+    inline void compare_tape(TaskFactory factory, size_t n, std::ostream& out_stream = fake_stream())
     {
         auto array_task = factory.get_array_task(n);
         auto double_task = factory.get_double_task(n);
 
         out_str << "Arrays:\n\n";
-        test_statistic array_stat = adjoint_performance(array_task, out_str);
-        out_str << array_stat << "\n\n";
+        test_statistic array_stat = adjoint_performance(array_task, out_stream);
 
         out_str << "Doubles:\n\n";
-        test_statistic double_stat = adjoint_performance(double_task, out_str);
-        out_str << double_stat << "\n\n";
+        test_statistic double_stat = adjoint_performance(double_task, out_stream);
     }
 
     template <class TaskFactory>
-    inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_str = fake_stream())
+    inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_stream = fake_stream())
     {
         cl::tape_empty_test_output outMemory(folder_name, {
             { "title", "Tape size dependence on number of variables" }
@@ -352,16 +302,16 @@ namespace cl
             , { "ylabel", "Memory (B)" }
             , { "cleanlog", "false" }
         });
-        
-        compare_performance(factory, 10, out_str);
+
+        compare_tape(factory, 10, out_stream);
 
 #if defined CL_GRAPH_GEN
         for (size_t i = 1; i <= 50; i++)
         {
             auto array_task = factory.get_array_task(i);
             auto double_task = factory.get_double_task(i);
-            test_statistic array_stat = adjoint_performance(array_task, out_str);
-            test_statistic double_stat = adjoint_performance(double_task, out_str);
+            test_statistic array_stat = adjoint_performance(array_task, out_stream);
+            test_statistic double_stat = adjoint_performance(double_task, out_stream);
             plot_struct<mem_columns> memory(array_stat, double_stat);
             outMemory << memory;
         }

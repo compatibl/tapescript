@@ -25,16 +25,12 @@ limitations under the License.
 
 #include <cl/tape/impl/adjointrefoperator.hpp>
 
-/// <summary>
-/// Adapter for types convertible to double.
-/// </summary>
+/// <summary>adapter for types convertible to double.</summary>
 namespace cl
 {
     namespace tapescript
     {
-        /// <summary>
-        /// Need for referenced values
-        /// </summary>
+        /// <summary>Need for referenced values</summary>
         template <typename Base
             = typename cl::remove_ad<cl::tape_double::value_type >::type >
         struct tape_ref;
@@ -47,16 +43,12 @@ namespace cl
         return v.get();
     }
 
-    /// <summary>
-    /// Declaration of dereference for adjoint reference class.
-    /// </summary>
+    /// <summary>Declaration of dereference for adjoint reference class.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> > v);
 
-    /// <summary>
-    /// Declaration of dereference for adjoint reference const class.
-    /// </summary>
+    /// <summary>Declaration of dereference for adjoint reference const class.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> const> v);
@@ -145,10 +137,8 @@ namespace cl
             }
         };
 
-        /// <summary>
-        /// Iterator over tape double accessors,
-        /// used for the algorithmic adjoint.
-        /// </summary>
+        /// <summary>Iterator over tape double accessors,
+        /// used for the algorithmic adjoint.</summary>
         template <typename Vector = std::vector<cl::tape_double> >
         struct tape_iterator : std::pair<typename Vector::iterator
             , typename std::vector<tape_ref<> >::iterator >
@@ -193,9 +183,7 @@ namespace cl
         };
     }
 
-    /// <summary>
-    /// Dereference implementation.
-    /// </summary>
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type >::inner_type&
     deref(ref_type<tapescript::tape_ref<Type > > v)
@@ -203,9 +191,7 @@ namespace cl
         return *(v.get().ptr_);
     }
 
-    /// <summary>
-    /// Dereference implementation.
-    /// </summary>
+    /// <summary>Dereference implementation.</summary>
     template <typename Type>
     inline typename tapescript::tape_ref<Type>::inner_type&
     deref(ref_type<tapescript::tape_ref<Type> const> v)
@@ -217,9 +203,7 @@ namespace cl
 
 namespace std
 {
-    /// <summary>
-    /// Implementation of std traits for algorithmic use.
-    /// </summary>
+    /// <summary>Implementation of std traits for algorithmic use.</summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::tape_iterator<Vector> >
         : std::true_type{};
 }
@@ -565,7 +549,7 @@ namespace cl
             /// adaptation </summary>
         template <typename Vector
                 , typename Value = typename vector_value<Vector>::type >
-        struct AdapterVector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
+        struct adapter_vector : adapt_type_convention<typename std::remove_const<Vector>::type, Value>
         {
             // typedef std::vector<Type, std::allocator<Type>> Vector;
             typedef typename
@@ -588,26 +572,26 @@ namespace cl
                 Vector::size_type size_type;
 
             /// Constructor
-            /// Pointer can initialize AdapterVector, but shared_ptr couldn't
-            AdapterVector(adapt_type<Vector> vc_ref)
+            /// Pointer can initialize adapter_vector, but shared_ptr couldn't
+            adapter_vector(adapt_type<Vector> vc_ref)
                 : ref_(vc_ref), ptr_()
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector(size_type size) : ptr_(new orig_vector(size))
+            adapter_vector(size_type size) : ptr_(new orig_vector(size))
                 , ref_(ptr_.get())
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector() : ptr_(new orig_vector())
+            adapter_vector() : ptr_(new orig_vector())
                 , ref_(ptr_.get())
             {   }
 
             /// Constructor
             /// we should create the instance and value will be putted to ref
-            AdapterVector(AdapterVector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
+            adapter_vector(adapter_vector const& vc) : ptr_(new orig_vector(*vc.ref_.ptr_))
                 , ref_(ptr_.get())
             {    }
 
@@ -660,7 +644,7 @@ namespace cl
                 ptr_->resize(s);
             }
 
-            inline AdapterVector& operator = (AdapterVector const& v)
+            inline adapter_vector& operator = (adapter_vector const& v)
             {
                 ptr_ = std::shared_ptr<orig_vector>(new orig_vector(*v.ref_.ptr_));
                 ref_ = adapt_type<Vector>(ptr_.get());
@@ -673,87 +657,83 @@ namespace cl
 
         template <typename Type
             , typename Value = typename vector_value<typename std::remove_const<Type>::type >::type >
-        struct Adapter;
+        struct adapter;
 
         template <typename Type, typename Value>
-        struct Adapter<std::vector<Type, std::allocator<Type>> const, Value>
-            : AdapterVector<std::vector<Type, std::allocator<Type>> const, Value>
+        struct adapter<std::vector<Type, std::allocator<Type>> const, Value>
+            : adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
-            Adapter(adapt_type<vector_type const> vc_ref)
-                : AdapterVector(vc_ref)
+            adapter(adapt_type<vector_type const> vc_ref)
+                : adapter_vector(vc_ref)
             {}
 
-            Adapter() : AdapterVector()
+            adapter() : adapter_vector()
             {}
 
-            Adapter(Adapter const& v)
-                : AdapterVector(static_cast<AdapterVector const&>(v))
+            adapter(adapter const& v)
+                : adapter_vector(static_cast<adapter_vector const&>(v))
             { }
 
-            Adapter(size_type size)
-                : AdapterVector(size)
+            adapter(size_type size)
+                : adapter_vector(size)
             {}
         };
 
         template <typename Type, typename Value>
-        struct Adapter<std::vector<Type, std::allocator<Type>>, Value >
-            : AdapterVector<std::vector<Type, std::allocator<Type>>, Value >
+        struct adapter<std::vector<Type, std::allocator<Type>>, Value >
+            : adapter_vector<std::vector<Type, std::allocator<Type>>, Value >
         {
             typedef std::vector<Type, std::allocator<Type>> vector_type;
-            Adapter(adapt_type<vector_type> vc_ref)
-                : AdapterVector(vc_ref)
+            adapter(adapt_type<vector_type> vc_ref)
+                : adapter_vector(vc_ref)
             {}
 
-            Adapter() : AdapterVector()
+            adapter() : adapter_vector()
             {}
 
-            Adapter(Adapter const& v)
-                : AdapterVector(static_cast<AdapterVector const&>(v))
+            adapter(adapter const& v)
+                : adapter_vector(static_cast<adapter_vector const&>(v))
             {}
 
-            Adapter(size_type size)
-                : AdapterVector(size)
+            adapter(size_type size)
+                : adapter_vector(size)
             {}
         };
 
         template <typename Type>
-        inline Adapter<Type >
+        inline adapter<Type >
         adapt(Type& v) {
-            return Adapter<Type>(adapt_ptr<Type>(&v));
+            return adapter<Type>(adapt_ptr<Type>(&v));
         }
 
         template <typename Type>
-        inline Adapter<Type const>
+        inline adapter<Type const>
         adapt(Type const& v) {
-            return Adapter<Type const>(adapt_ptr<Type const>(&v));
+            return adapter<Type const>(adapt_ptr<Type const>(&v));
         }
 
         template <typename Conv, typename Type>
-        inline Adapter<Type, Conv>
+        inline adapter<Type, Conv>
         adapt_typed(Type& v) {
-            return Adapter<Type, Conv>(adapt_ptr<Type>(&v));
+            return adapter<Type, Conv>(adapt_ptr<Type>(&v));
         }
 
         template <typename Conv, typename Type>
-        inline Adapter<Type const, Conv const>
+        inline adapter<Type const, Conv const>
         adapt_typed(Type const& v) {
-            return Adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
+            return adapter<Type const, Conv const>(adapt_ptr<Type const>(&v));
         }
     }
 
-    /// <summary>
-    /// Currently we use this approach for adaptation of
-    /// the extern type vectors to inner tape_inner_type.
-    /// </summary>
+    /// <summary>Currently we use this approach for adaptation of
+    /// the extern type vectors to inner tape_inner_type.</summary>
     typedef std::vector<cl::tape_double> tape_double_vector;
 
-    /// <summary>
-    /// Tape function is a compatible external functional implementation
-    /// this should be suitable inside external framework.
-    /// </summary>
+    /// <summary>Tape function is a compatible external functional implementation
+    /// this should be suitable inside external framework.</summary>
     template <typename Base>
-    class tape_function 
+    class tape_function
         : public tape_function_base<Base>
         , tapescript::serialize_accessor<Base>
     {
@@ -778,7 +758,7 @@ namespace cl
         template <typename Inner, typename Serializer>
         tape_function(std::vector<cl::tape_wrapper<Inner>> const& x
                 , std::vector<cl::tape_wrapper<Inner>> const& y
-                , Serializer& serializer)   
+                , Serializer& serializer)
                         : tape_function_base<Base>(tapescript::adapt(x), tapescript::adapt(y))
                         , serializability(tapescript::adapt(x))
         {
@@ -796,6 +776,51 @@ namespace cl
             , serializability(tapescript::adapt(x))
         { }
 
+        template<typename Vector, typename Serializer>
+        inline Vector
+        reverse(size_t q, Vector const& v, Serializer& s)
+        {
+            return this->Reverse(q, std::make_pair(v, &s)).first;
+        }
+
+        template<typename Vector>
+        inline Vector
+        reverse(size_t q, Vector const& v)
+        {
+            return this->Reverse(q, v);
+        }
+
+        /// assign a new operation sequence
+        template <typename ADvector>
+        void dependent(const ADvector &x, const ADvector &y)
+        {
+            this->Dependent(x,y);
+        }
+
+        /// assign a new operation sequence
+        template <typename ADvector>
+        void tape_read(const ADvector &x, const ADvector &y)
+        {
+            this->Dependent(x, y);
+        }
+
+
+        /// forward mode user API, one order multiple directions.
+        template <typename VectorBase>
+        inline VectorBase forward(size_t q, size_t r, const VectorBase& x)
+        {
+            return this->Forward(q,r,x);
+        }
+
+        /// forward mode user API, multiple directions one order.
+        template <typename VectorBase>
+        inline VectorBase forward(size_t q,
+            const VectorBase& x, std::ostream& s = std::cout)
+        {
+            return this->Forward(q,x,s);
+        }
+
+        /// Dependent function forward to the adjoint library
         template <typename Inner>
         void Dependent(std::vector<cl::tape_wrapper<Inner>> const& x, std::vector<cl::tape_wrapper<Inner>> const& y)
         {
@@ -819,14 +844,14 @@ namespace cl
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
+    Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
         ext::Independent(tapescript::adapt(v_tape), abort_index);
     }
 
     template <class Inner>
     inline void
-        Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
+    Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
         ext::Independent(tapescript::adapt(v_tape));
     }
@@ -837,6 +862,21 @@ namespace cl
 #if defined CL_TAPE_COMPLEX_ENABLED
         ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x), abort_index);
 #endif
+    }
+
+
+    template <class Inner>
+    inline void
+    tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
+    {
+        ext::Independent(tapescript::adapt(v_tape), abort_index);
+    }
+
+    template <class Inner>
+    inline void
+    tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape)
+    {
+        ext::Independent(tapescript::adapt(v_tape));
     }
 
     template <typename Type>

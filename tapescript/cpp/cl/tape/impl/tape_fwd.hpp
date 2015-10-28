@@ -23,6 +23,8 @@ limitations under the License.
 #ifndef cl_tape_fwd_doublecl_hpp
 #define cl_tape_fwd_doublecl_hpp
 
+# include <valarray>
+
 namespace CppAD
 {
     /// CppAd forward declaration few classes
@@ -34,9 +36,7 @@ namespace CppAD
     class ADFun;
 }
 
-/// <summary>
-/// Adapter for types convertible to double.
-/// </summary>
+/// <summary>Adapter for types convertible to double.</summary>
 namespace cl
 {
 #if defined CL_TAPE_CPPAD
@@ -52,17 +52,13 @@ namespace cl
     template <typename Base>
     struct tape_inner_type {    };
 #endif
-    /// <summary>
-    /// Alias on std reference wrapper type
+    /// <summary>Alias on std reference wrapper type
     /// it used for preventing native type specification
-    /// for adapted types.
-    /// </summary>
+    /// for adapted types.</summary>
     template <typename Type>
     using ref_type = std::reference_wrapper<Type>;
 
-    /// <summary>
-    /// tape_double forward declaration
-    /// </summary>
+    /// <summary>tape_double forward declaration</summary>
     template<typename Base>
     class tape_wrapper;
 
@@ -76,17 +72,27 @@ namespace cl
     typedef tape_wrapper<double> tape_double;
 #endif
 
-    /// <summary>Empty structure.</summary>
+    /// <summary>Empty structure.
+    /// Used as default argument for validsating alternative in SFINAE</summary>
     struct dummy;
 
+    /// <summary>Compiletime use for trying
+    /// generate syntax constructions in SFINAE princip</summary>
     template <typename Ty_>
     struct solve_dummy { typedef dummy type; };
 
+    /// <summary>Tape function is a compatible external functional implementation
+    /// this should be suitable inside external framework.</summary>
     template <typename Base>
     class tape_function;
+
+    template <class Array> struct tape_inner;
+    typedef std::valarray<double> tape_array;
+    typedef tape_inner<tape_array> tape_value;
+    typedef tape_wrapper<tape_value> tape_object;
 }
 
-namespace CppAD
+namespace cl
 {
     /// Forward declaration about serialization
     template <typename T>
@@ -119,6 +125,18 @@ namespace CppAD
     {
         typedef typename Ty_::io_typed io_typed;
     };
+}
+
+///<summary>Short type alias for tape based classes</summary>
+namespace cl
+{
+    typedef cl::tape_double tdouble;
+    typedef cl::tape_value tvalue;
+    typedef cl::tape_array tarray;
+    typedef cl::tape_object tobject;
+
+    template <typename Base>
+    using tfunc = cl::tape_function<Base>;
 }
 
 #endif

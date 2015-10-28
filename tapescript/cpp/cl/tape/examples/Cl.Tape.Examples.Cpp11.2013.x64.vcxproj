@@ -382,7 +382,14 @@
     <ClInclude Include="cppad\local\vec_ad.hpp" />
     <ClInclude Include="impl\array_examples.hpp" />
     <ClInclude Include="impl\basic_examples.hpp" />
+    <ClInclude Include="impl\double_copy.hpp" />
+    <ClInclude Include="impl\double_examples.hpp" />
+    <ClInclude Include="impl\linear_regression.hpp" />
     <ClInclude Include="impl\performance_tests.hpp" />
+    <ClInclude Include="impl\performance_utils.hpp" />
+    <ClInclude Include="impl\quadratic_regression_examples.hpp" />
+    <ClInclude Include="impl\regression_examples.hpp" />
+    <ClInclude Include="impl\regression_examples_impl.hpp" />
     <ClInclude Include="impl\utils.hpp" />
   </ItemGroup>
   <ItemGroup>

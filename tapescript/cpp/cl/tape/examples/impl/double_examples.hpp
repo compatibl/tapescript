@@ -30,170 +30,170 @@ limitations under the License.
 
 namespace cl
 {
-    inline void plus_double_example(std::ostream& out_str = std::cout)
+    inline void plus_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Plus operation:\n" << std::endl;
 
-        // Input values initialization.       
-        std::vector<cl::tape_double> X = { 1, 2, 0, 1 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> sum = { X[0] + X[2], X[1] + X[3] };
-        std::vector<cl::tape_double> Y = sum;
+        std::vector<cl::tdouble> sum = { X[0] + X[2], X[1] + X[3] };
+        std::vector<cl::tdouble> Y = sum;
         out_str << "Output vector: " << Y << "\n\n";
-       
+
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w =  { 3, 7 } ;
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void minus_double_example(std::ostream& out_str = std::cout)
+    inline void minus_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Minus operation:\n\n";
 
         // Input values initialization.
-        std::vector<cl::tape_double> X = { 1, 2, 0, 1 };
+        std::vector<cl::tdouble> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> diff = { X[0] - X[2], X[1] - X[3] };
-        std::vector<cl::tape_double> Y = diff;
+        std::vector<cl::tdouble> diff = { X[0] - X[2], X[1] - X[3] };
+        std::vector<cl::tdouble> Y = diff;
         out_str << "Output vector: " << Y << "\n\n";
 
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 3, 7 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void exp_double_example(std::ostream& out_str = std::cout)
+    inline void exp_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Exponent function:\n\n";
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 0, 1 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> exp = { std::exp(X[0]), std::exp(X[1]) }; 
-        std::vector<cl::tape_double> Y = exp;
+        std::vector<cl::tdouble> exp = { std::exp(X[0]), std::exp(X[1]) };
+        std::vector<cl::tdouble> Y = exp;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { { 2, -1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { { 1, -1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void cos_double_example(std::ostream& out_str = std::cout)
+    inline void cos_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Cosine function:\n\n";
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 1, 3.14159265359 / 2 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 1, 3.14159265359 / 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> cos = { std::cos(X[0]), std::cos(X[1]) };
-        std::vector<cl::tape_double> Y = cos;
+        std::vector<cl::tdouble> cos = { std::cos(X[0]), std::cos(X[1]) };
+        std::vector<cl::tdouble> Y = cos;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { { 1, 1 } };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { { -2, 1 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void discount_double_example(std::ostream& out_str = std::cout)
+    inline void discount_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Discount calculations:\n\n";
 
         // Input values initialization.
-        std::vector<cl::tape_double>  spot = { 100, 110 };
-        std::vector<cl::tape_double>  rate = { 0.05, 0.04 };
-        std::vector<cl::tape_double>  time = { 1, 2 };
-        std::vector<cl::tape_double> X = { spot[0], spot[1], rate[0], rate[1], time[0], time[1] };
+        std::vector<cl::tdouble>  spot = { 100, 110 };
+        std::vector<cl::tdouble>  rate = { 0.05, 0.04 };
+        std::vector<cl::tdouble>  time = { 1, 2 };
+        std::vector<cl::tdouble> X = { spot[0], spot[1], rate[0], rate[1], time[0], time[1] };
         out_str << "Spot: " << spot << "\n";
         out_str << "Rate: " << rate << "\n";
         out_str << "Time: " << time << "\n";
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> discount_factor = { std::exp(-X[2] * X[4]), std::exp(-X[3] * X[5]) };
-        std::vector<cl::tape_double> discounted_price = { X[0] * discount_factor[0], X[1] * discount_factor[1] };
-        std::vector<cl::tape_double> Y = { discounted_price[0], discounted_price[1], discount_factor[0], discount_factor[1] };
+        std::vector<cl::tdouble> discount_factor = { std::exp(-X[2] * X[4]), std::exp(-X[3] * X[5]) };
+        std::vector<cl::tdouble> discounted_price = { X[0] * discount_factor[0], X[1] * discount_factor[1] };
+        std::vector<cl::tdouble> Y = { discounted_price[0], discounted_price[1], discount_factor[0], discount_factor[1] };
         out_str << "Discounted price: " << discounted_price << "\n";
         out_str << "Discount factor: " << discount_factor << "\n";
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         out_str << "Calculation of sensitivity to 1% change in interest rate.\n";
         std::vector<double> dx = { 0, 0, 0.01, 0.01, 0, 0 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n";
         out_str << "Sensitivity of discounted price: " << forw[0] << " , " << forw[1] << "\n";
         out_str << "Sensitivity of discount factor:  " << forw[2] << " , " << forw[3] << "\n\n";
@@ -202,288 +202,288 @@ namespace cl
         out_str << "Calculation of sensitivity of discount factor.\n";
         std::vector<double> w = { 0, 0, 1, 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n";
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << " , " << rev[1] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[2] << " , " << rev[3] << "\n";
         out_str << "Sensitivity to the changes in maturity time: " << rev[4] << " , " << rev[5] << "\n\n\n";
     }
 
-    inline void double_example1(std::ostream& out_str = std::cout)
+    inline void double_example1(std::ostream& out_stream = std::cout)
     {
         out_str << "We are mixing arrays and scalars in calculations of\n";
         out_str << "Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * x1^3 - 0.5 } function:\n\n";
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 1, 2, -1.2 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 1, 2, -1.2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> y0 = { std::sin(X[0]) / std::cos(X[2]) + X[2] / X[0], std::sin(X[1]) / std::cos(X[2]) + X[2] / X[1] };
-        std::vector<cl::tape_double> y1 = { y0[0] + X[0] * std::pow(X[2], 3) - 0.5, y0[1] + X[1] * std::pow(X[2], 3) - 0.5 };
-        std::vector<cl::tape_double> Y = { y0[0], y0[1], y1[0], y1[1] };
+        std::vector<cl::tdouble> y0 = { std::sin(X[0]) / std::cos(X[2]) + X[2] / X[0], std::sin(X[1]) / std::cos(X[2]) + X[2] / X[1] };
+        std::vector<cl::tdouble> y1 = { y0[0] + X[0] * std::pow(X[2], 3) - 0.5, y0[1] + X[1] * std::pow(X[2], 3) - 0.5 };
+        std::vector<cl::tdouble> Y = { y0[0], y0[1], y1[0], y1[1] };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1, -1 , 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = {  -2, 1, 2, 3 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void sum_double_example(std::ostream& out_str = std::cout)
+    inline void sum_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Sum of an array:\n\n";
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 1, 2 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        cl::tape_double y0 = X[0] + X[1];
-        std::vector<cl::tape_double> Y = { y0 };
+        cl::tdouble y0 = X[0] + X[1];
+        std::vector<cl::tdouble> Y = { y0 };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void rev_double_example(std::ostream& out_str = std::cout)
+    inline void rev_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Reversing of an array:\n\n";
 
         // Input values initialization.
-        std::vector<cl::tape_double> X = { 1, 2 };
+        std::vector<cl::tdouble> X = { 1, 2 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> y0 = { X[1], X[0] };
-        std::vector<cl::tape_double > Y =  y0;
+        std::vector<cl::tdouble> y0 = { X[1], X[0] };
+        std::vector<cl::tdouble > Y =  y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1.5, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 4, 4 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void conc_double_example(std::ostream& out_str = std::cout)
+    inline void conc_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Array concatenation:\n" << std::endl;
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 1, 2, 7, 0, 5 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 1, 2, 7, 0, 5 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
-        // Output calculations.        
-        std::vector<cl::tape_double> Y = X;
+        // Output calculations.
+        std::vector<cl::tdouble> Y = X;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 2, 5, 12, 1, -1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 1, 2, 3, 4, 5 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void make_double_example(std::ostream& out_str = std::cout)
+    inline void make_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Array construction from scalar:\n" << std::endl;
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 7 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 7 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> y0 = { X[0], X[0] };
-        std::vector<cl::tape_double> Y = y0;
+        std::vector<cl::tdouble> y0 = { X[0], X[0] };
+        std::vector<cl::tdouble> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { { 1, 2 } };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void max_double_example(std::ostream& out_str = std::cout)
+    inline void max_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Maximum of two arrays:\n" << std::endl;
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, -1 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { -1, 0, 1, 1, 0, -1 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> y0 = { std::max(X[0], X[3]), std::max(X[1], X[4]), std::max(X[2], X[5]) };
-        std::vector<cl::tape_double> Y = y0;
+        std::vector<cl::tdouble> y0 = { std::max(X[0], X[3]), std::max(X[1], X[4]), std::max(X[2], X[5]) };
+        std::vector<cl::tdouble> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1, 1, 1, 2, 2, 2 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 1, 2, 3 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void norm_double_example(std::ostream& out_str = std::cout)
+    inline void norm_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "L2 norm of an array:\n" << std::endl;
 
-        // Input values initialization.        
-        std::vector<cl::tape_double> X = { 3 };
+        // Input values initialization.
+        std::vector<cl::tdouble> X = { 3 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> array = { X[0], X[0] };
-        cl::tape_double norm = std::sqrt(std::pow(array[0], 2) + std::pow(array[1], 2));
-        std::vector<cl::tape_double> Y = { norm };
+        std::vector<cl::tdouble> array = { X[0], X[0] };
+        cl::tdouble norm = std::sqrt(std::pow(array[0], 2) + std::pow(array[1], 2));
+        std::vector<cl::tdouble> Y = { norm };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
 
         // Reverse sweep calculations.
         std::vector<double> w = { 1 };
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
-        std::vector<double> rev = f.Reverse(1, w);
+        std::vector<double> rev = f.reverse(1, w);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
     }
 
-    inline void linear_regression_double_example(std::ostream& out_str = std::cout)
+    inline void linear_regression_double_example(std::ostream& out_stream = std::cout)
     {
         out_str << "Linear regression:\n" << std::endl;
 
         // Input values initialization.
-        size_t n = 3;        
-        std::vector<cl::tape_double> X = { -1, 0, 1, 1, 0, 3 };
+        size_t n = 3;
+        std::vector<cl::tdouble> X = { -1, 0, 1, 1, 0, 3 };
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
-        cl::Independent(X);
+        cl::tape_start(X);
 
         // Output calculations.
-        std::vector<cl::tape_double> x = { X[0], X[1], X[2] };
-        std::vector<cl::tape_double> y = { X[3], X[4], X[5] };
-        cl::tape_double x_mean = 1.0 / n * (x[0] + x[1] + x[2]);
-        cl::tape_double y_mean = 1.0 / n * (y[0] + y[1] + y[2]);
+        std::vector<cl::tdouble> x = { X[0], X[1], X[2] };
+        std::vector<cl::tdouble> y = { X[3], X[4], X[5] };
+        cl::tdouble x_mean = 1.0 / n * (x[0] + x[1] + x[2]);
+        cl::tdouble y_mean = 1.0 / n * (y[0] + y[1] + y[2]);
         // Variance times n: n * Var[x]
-        cl::tape_double var_x_n = std::pow(x[0] - x_mean, 2) + std::pow(x[1] - x_mean, 2) + std::pow(x[2] - x_mean, 2);
+        cl::tdouble var_x_n = std::pow(x[0] - x_mean, 2) + std::pow(x[1] - x_mean, 2) + std::pow(x[2] - x_mean, 2);
         // Covariance times n: n * Cov[x, y]
-        cl::tape_double cov_xy_n = (x[0] - x_mean) * (y[0] - y_mean) + (x[1] - x_mean) * (y[1] - y_mean) + (x[2] - x_mean) * (y[2] - y_mean);
-        cl::tape_double beta = cov_xy_n / var_x_n;
-        cl::tape_double alpha = y_mean - beta * x_mean;
-        std::vector<cl::tape_double> y_estimate = { alpha + beta * x[0], alpha + beta * x[1], alpha + beta * x[2] };
-        std::vector<cl::tape_double> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
+        cl::tdouble cov_xy_n = (x[0] - x_mean) * (y[0] - y_mean) + (x[1] - x_mean) * (y[1] - y_mean) + (x[2] - x_mean) * (y[2] - y_mean);
+        cl::tdouble beta = cov_xy_n / var_x_n;
+        cl::tdouble alpha = y_mean - beta * x_mean;
+        std::vector<cl::tdouble> y_estimate = { alpha + beta * x[0], alpha + beta * x[1], alpha + beta * x[2] };
+        std::vector<cl::tdouble> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Ininial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
-        cl::tape_function<double> f(X, Y);
+        cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
         std::vector<double> dx = { 0, 0, 0, 0, 0, 1 };
         out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
-        std::vector<double> forw = f.Forward(1, dx, out_str);
+        std::vector<double> forw = f.forward(1, dx, out_stream);
         out_str << "Forward sweep result: " << forw << "\n\n";
     }
 
     inline void non_optimized_array_examples()
     {
-        std::ofstream of("output_non_optimized_array.txt");
-        CppAD::tape_serializer<cl::tape_value> serializer(of);
+        std::ofstream of("output/output_non_optimized_array.txt");
+        cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         plus_double_example(serializer);

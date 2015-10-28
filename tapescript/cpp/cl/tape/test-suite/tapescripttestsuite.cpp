@@ -20,32 +20,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_examples_impl_utils_hpp
-#define cl_tape_examples_impl_utils_hpp
+//#define BOOST_TEST_DYN_LINK
+//#define BOOST_TEST_MAIN
 
-#include <cl/tape/tape.hpp>
 
-namespace cl
+#include <boost/test/unit_test.hpp>
+#include <boost/test/impl/unit_test_main.ipp>
+
+using namespace boost::unit_test_framework;
+
+#include "impl/adapter_arithmetic_test.hpp"
+#include "impl/adapter_performance_test.hpp"
+
+
+test_suite* init_unit_test_suite(int, char*[])
 {
-    template <class Ty>
-    std::ostream& operator<<(std::ostream& ostr, std::vector<Ty> const& v)
-    {
-        if (v.size() == 0)
-        {
-            return ostr << "{}";
-        }
+    std::string header =
+        "Testing Cl.Tape.Cpp11.2013.x64";
+    std::string rule = std::string(35, '=');
 
-        std::stringstream ss;
-        ss.precision(ostr.precision());
-        ss << "{ " << v[0];
-        for (size_t i = 1; i < v.size(); i++)
-        {
-            ss << ", " << v[i];
-        }
-        ss << " }";
-
-        return ostr << ss.str();
-    }
+    BOOST_TEST_MESSAGE(rule);
+    BOOST_TEST_MESSAGE(header);
+    BOOST_TEST_MESSAGE(rule);
+    test_suite* test = BOOST_TEST_SUITE("Cl tapescript test suite");
+    
+    test->add(cl::ClAdapterArithmeticTestSuite());
+#ifdef NDEBUG
+    test->add(cl::ClAdapterPerformanceTestSuite());
+#endif
+        
+    return test;
 }
 
-#endif
+
+

@@ -33,7 +33,7 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 #ifndef cl_tape_impl_ad_tape_serializer_hpp
 #define cl_tape_impl_ad_tape_serializer_hpp
 
-namespace CppAD
+namespace cl
 {
     struct tape_serializer_base : std::ostream
     {
@@ -47,12 +47,12 @@ namespace CppAD
 
         size_t io_type()
         {
-            return CppAD::serializer_type::io_text;
+            return cl::serializer_type::io_text;
         }
 
         ~tape_serializer_base()  { std::ostream::clear(); }
 
-        static inline const char* OpName(OpCode op)
+        static inline const char* OpName(CppAD::OpCode op)
         {
             static const char *OpNameTable[] = {
                 "abs",
@@ -115,7 +115,7 @@ namespace CppAD
                 "Usrrv"
             };
 
-            return OpNameTable[op];            
+            return OpNameTable[op];
         }
 
         static std::string header()
@@ -128,13 +128,13 @@ namespace CppAD
             return "\n";
         }
 
-        void check_last_call(OpCode op)
+        void check_last_call(CppAD::OpCode op)
         {
-            if (op == BeginOp || op == EndOp)
+            if (op == CppAD::BeginOp || op == CppAD::EndOp)
             {
                 *this << footer();
                 first_call_ = true;
-            }            
+            }
         }
 
         void check_first_call()
@@ -158,13 +158,16 @@ namespace CppAD
         template <class Base>
         static void saveOp(
             std::ostream&          os,
-            const player<Base>*    play,
+            const CppAD::player<Base>*    play,
             size_t                 i_op,
             size_t                 i_var,
-            OpCode                 op,
-            const addr_t*          ind)
+            CppAD::OpCode                 op,
+            const CppAD::addr_t*          ind)
         {
             size_t i;
+
+            using namespace CppAD;
+
             CPPAD_ASSERT_KNOWN(
                 !thread_alloc::in_parallel(),
                 "cannot print trace of AD operations in parallel mode"
@@ -424,12 +427,14 @@ namespace CppAD
 
         template<typename Base>
         inline void saveOp(
-            const player<Base>*    play,
+            const CppAD::player<Base>*    play,
             size_t                 i_op,
             size_t                 i_var,
-            OpCode                 op,
-            const addr_t*          ind)
+            CppAD::OpCode                 op,
+            const CppAD::addr_t*          ind)
         {
+            using namespace CppAD;
+
             check_first_call();
             size_t length = (op == UserOp) ? 80 : 37;
 
@@ -453,6 +458,8 @@ namespace CppAD
             size_t                 nrz,
             const  Value          *rz)
         {
+            using namespace CppAD;
+
             const char* prefix = "";// "\n                                         ";
             const size_t width = 20;
 
@@ -471,7 +478,7 @@ namespace CppAD
 
         bool first_call_;
     };
-    
+
     template <class Base>
     struct tape_serializer
         : tape_serializer_base
