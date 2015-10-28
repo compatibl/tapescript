@@ -212,7 +212,7 @@ namespace cl
             {
                 result += array_value_[i];
             }
-            return result;            
+            return result;
         }
 
         // Returns size of array value.

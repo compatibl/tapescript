@@ -179,7 +179,7 @@ namespace cl
     inline std::ostream& fake_stream()
     {
         static std::ostream stream(nullptr);
-        static cl::tape_serializer_base fake(stream);
+        static tape_serializer_base fake(stream);
         return fake;
     }
 
@@ -219,12 +219,12 @@ namespace cl
         // Output vector.
         std::vector<tape_type> Y;
         // Tape function.
-        cl::tfunc<inner_type> f;
+        tfunc<inner_type> f;
 
         result.rec_ = test_performance(task.repeat_, [&X, &Y, &f, &task]()
         {
             // Declare the X vector as independent and start a tape recording.
-            cl::tape_start(X);
+            tape_start(X);
             // Output calculations.
             Y = task.func_(X);
             //Stop tape recording.
@@ -295,7 +295,7 @@ namespace cl
     template <class TaskFactory>
     inline void performance_plot(std::string const& folder_name, TaskFactory factory, std::ostream& out_stream = fake_stream())
     {
-        cl::tape_empty_test_output outMemory(folder_name, {
+        tape_empty_test_output outMemory(folder_name, {
             { "title", "Tape size dependence on number of variables" }
             , { "filename", "TapeSize" }
             , { "not_clear", "Not" }

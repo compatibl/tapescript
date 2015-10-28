@@ -193,7 +193,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         // index for current instruction
         size_t i_op;
 
-        // next variables 
+        // next variables
         size_t i_var;
 
         // operation argument indices
@@ -234,8 +234,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         // work space used by UserOp.
         vector<bool> user_vx;        // empty vecotor
         vector<bool> user_vy;        // empty vecotor
-        vector<Base> user_tx;        // argument vector Taylor coefficients 
-        vector<Base> user_ty;        // result vector Taylor coefficients 
+        vector<Base> user_tx;        // argument vector Taylor coefficients
+        vector<Base> user_ty;        // result vector Taylor coefficients
         size_t user_index = 0;       // indentifier for this atomic operation
         size_t user_id = 0;       // user identifier for this call to operator
         size_t user_i = 0;       // index in result vector
@@ -272,7 +272,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         */
 
 # if CPPAD_FORWARD0SWEEP_TRACE
-        // variable indices for results vector 
+        // variable indices for results vector
         // (done differently for order zero).
         vector<size_t> user_iy;
 # endif
@@ -350,7 +350,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // -------------------------------------------------
 
             case CExpOp:
-                // Use the general case with d == 0 
+                // Use the general case with d == 0
                 // (could create an optimzied verison for this case)
                 forward_cond_op_0(
                     i_var, arg, num_par, parameter, J, taylor

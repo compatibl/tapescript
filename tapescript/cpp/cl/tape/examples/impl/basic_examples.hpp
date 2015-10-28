@@ -45,7 +45,7 @@ namespace cl
 
         out_str << "\nFunction Y = 2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
-        // Declare a tape function and stop tape recording.
+        // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.

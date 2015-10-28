@@ -8,6 +8,7 @@ syntax: glob
 **/obj/Release
 **/x64/Debug
 **/x64/Release
+**/output/performance/
 
 *.user
 *.suo

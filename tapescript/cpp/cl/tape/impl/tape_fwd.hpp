@@ -74,10 +74,11 @@ namespace cl
 
     /// <summary>Empty structure.
     /// Used as default argument for validsating alternative in SFINAE</summary>
+    /// Used as default argument for validating alternative in SFINAE</summary>
     struct dummy;
 
-    /// <summary>Compiletime use for trying
-    /// generate syntax constructions in SFINAE princip</summary>
+    /// <summary>Compile time use for trying to
+    /// generate syntax constructions in SFINAE.</summary>
     template <typename Ty_>
     struct solve_dummy { typedef dummy type; };
 

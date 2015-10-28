@@ -72,13 +72,12 @@ namespace cl
         /* Overload this function to debug member IO */
     }
 
-    // This class is fields list
-    // we use this for iterable fields
+    // This class is fields list we use for iterable fields
     template <typename... Ty_>
     struct fields
     {};
 
-    // This is for specifying Ty_::*fields
+    // Class fields
     template <class Ty_>
     struct class_fields;
 }
