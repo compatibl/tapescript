@@ -88,7 +88,7 @@ namespace cl
         // Returns true if scalar mode used (ordinary or intrusive).
         bool is_scalar() const
         {
-            return mode_ & (ScalarMode | IntrusiveScalar);
+            return (mode_ & (ScalarMode | IntrusiveScalar)) != 0;
         }
 
         // Returns true if array mode used.
