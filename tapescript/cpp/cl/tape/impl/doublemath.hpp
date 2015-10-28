@@ -744,13 +744,19 @@ namespace std
         return temp *= lhs;
     }
 
-    inline cl::tape_double
-    pow(cl::tape_double const &_Left, int _Right)
+    template <class Inner>
+    inline cl::tape_wrapper<Inner> pow(cl::tape_wrapper<Inner> const &_Left, int _Right)
     {
         // The error can happen here
         // if we use _Right as argument of pow
         CL_CHECK(_Pow_int(_Left, _Right)
             == std::pow(v_(_Left), _Right));
+
+        if (_Right == 0)
+        {
+            cl::tape_wrapper<Inner> zero = _Left - _Left;
+            return 1 + zero;
+        }
 
         return _Pow_int(_Left, _Right);
     }
