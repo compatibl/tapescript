@@ -394,6 +394,7 @@
     <ClInclude Include="impl\quadratic_regression_examples.hpp" />
     <ClInclude Include="impl\regression_examples.hpp" />
     <ClInclude Include="impl\regression_examples_impl.hpp" />
+    <ClInclude Include="impl\serialization_example.hpp" />
     <ClInclude Include="impl\utils.hpp" />
   </ItemGroup>
   <ItemGroup>

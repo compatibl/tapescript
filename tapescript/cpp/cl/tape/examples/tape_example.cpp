@@ -65,6 +65,7 @@ struct test_stream
 #include "impl/regression_examples.hpp"
 #include "impl/quadratic_regression_examples.hpp"
 #include "impl/polynomial_regression_examples.hpp"
+#include "impl/serialization_example.hpp"
 
 int main()
 {
