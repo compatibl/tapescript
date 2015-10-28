@@ -105,8 +105,9 @@ namespace cl
             cl::print_type<typename Member::type>();
 #           endif
 
-            ss(obj->*(Member()()));
-
+            Member m;
+            ss(obj->*(m()));
+            
 #           if !defined NDEBUG
             debug_mem(Member(), *obj);
 #           endif
@@ -156,12 +157,24 @@ namespace cl
 
         template <typename... Args>
         tape_archive(std::string const& path
-            , int archive_type = io_binary, Args&... args)
+            , int archive_type, Args&... args)
             : serializer<Base>()
             , os_(path)
             , ss_(os_)
             , archive_type_(archive_type)
         {}
+
+        template <typename... Args>
+        tape_archive(std::string const& path
+                     , Args&... args)
+            : serializer<Base>()
+            , os_(path)
+            , ss_(os_)
+            , archive_type_(io_binary)
+        {}
+
+
+        
 
         struct serialize__
         {
@@ -357,7 +370,7 @@ namespace cl
             typedef typename
                 class_fields<ho<Ty_>>::type class_fields_type;
 
-            io(&v, ss_imp, class_fields_type());
+            this->io(&v, ss_imp, class_fields_type());
 
             return *this;
         }

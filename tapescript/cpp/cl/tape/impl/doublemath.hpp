@@ -36,7 +36,7 @@ namespace cl
 {
     inline void throw_(char const* what)
     {
-        throw std::exception(what);
+        throw std::runtime_error(what);
     }
 }
 
@@ -744,15 +744,32 @@ namespace std
         return temp *= lhs;
     }
 
-    inline cl::tape_double
-    pow(cl::tape_double const &_Left, int _Right)
+    template <class Inner>
+    inline cl::tape_wrapper<Inner> pow(cl::tape_wrapper<Inner> Left, int Right)
     {
         // The error can happen here
         // if we use _Right as argument of pow
-        CL_CHECK(_Pow_int(_Left, _Right)
-            == std::pow(v_(_Left), _Right));
+        CL_CHECK(_Pow_int(Left, Right)
+            == std::pow(v_(Left), Right));
 
-        return _Pow_int(_Left, _Right);
+        if (Right == 0)
+        {
+            cl::tape_wrapper<Inner> zero = Left - Left;
+            return 1.0 + zero;
+        }
+
+        unsigned int N;
+        if (Right >= 0)
+            N = (unsigned int)Right;
+        else
+            N = (unsigned int)(-Right);
+        for (cl::tape_wrapper<Inner> Z = cl::tape_wrapper<Inner>(1.0); ; Left *= Left)
+        {
+            if ((N & 1) != 0)
+                Z *= Left;
+            if ((N >>= 1) == 0)
+                return (Right < 0 ? cl::tape_wrapper<Inner>(1.0) / Z : Z);
+        }
     }
 
     inline std::complex<cl::tape_double>

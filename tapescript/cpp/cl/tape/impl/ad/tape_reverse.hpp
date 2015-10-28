@@ -33,8 +33,7 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 #ifndef cl_tape_impl_ad_tape_reverse_hpp
 #define cl_tape_impl_ad_tape_reverse_hpp
 
-# ifndef TAPE_REVERSE_HPP_INCLUDED
-# define TAPE_REVERSE_HPP_INCLUDED
+# include <cl/tape/impl/inner/tape_inner.hpp>
 
 namespace CppAD
 {
@@ -216,7 +215,5 @@ namespace CppAD
         return make_result<VectorBaseType>(value).get();
     }
 }
-
-# endif
 
 #endif // cl_tape_impl_ad_tape_reverse_hpp

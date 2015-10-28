@@ -50,7 +50,12 @@ namespace cl
 // Lock undef include
 #define CPPAD_UNDEF_INCLUDED
 
-#include <cppad/cppad.h>
+#if defined CL_TAPE_INNER_ARRAY_ENABLED
+#   include <cl/tape/impl/inner/base_tape_inner.hpp>
+#   include <cl/tape/impl/inner/tape_inner_ops.hpp>   
+#endif
+
+#include <cppad/CppAD.h>
 
 #if !defined CL_USE_NATIVE_FORWARD
 #   if !defined TYPE_SERIALIZER
@@ -128,16 +133,11 @@ namespace ext
 
 #include <cl/tape/impl/adjointref.hpp>
 #include <cl/tape/impl/doublelimits.hpp>
-#include <cl/tape/impl/doubleoperators.hpp>
 #include <cl/tape/impl/doublemath.hpp>
+#include <cl/tape/impl/doubleoperators.hpp>
 
 #if defined CL_TAPE_COMPLEX_ENABLED
 #   include <cl/tape/impl/traits.hpp>
-#endif
-
-#if defined CL_TAPE_INNER_ARRAY_ENABLED
-#   include <cl/tape/impl/inner/base_tape_inner.hpp>
-#   include <cl/tape/impl/inner/tape_inner_ops.hpp>
 #endif
 
 /// Adaptation adjoint framework essences

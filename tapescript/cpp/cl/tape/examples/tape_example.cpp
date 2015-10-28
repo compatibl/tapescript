@@ -27,7 +27,7 @@ limitations under the License.
 
 #include <cl/tape/tape.hpp>
 
-#include "impl\utils.hpp"
+#include "impl/utils.hpp"
 
 struct test_stream
 {
@@ -64,6 +64,8 @@ struct test_stream
 #include "impl/performance_tests.hpp"
 #include "impl/regression_examples.hpp"
 #include "impl/quadratic_regression_examples.hpp"
+#include "impl/polynomial_regression_examples.hpp"
+#include "impl/serialization_example.hpp"
 
 int main()
 {
@@ -78,12 +80,16 @@ int main()
 
     std::cout << std::endl << "Run performance_tests see tape data in output/performance_tests_output.txt ..." << std::endl;
     cl::performance_tests();
-
-    std::cout << std::endl << "Run regression_examples see tape data in output/regression_examples_output.txt ..." << std::endl;
+    /*
+    std::cout << std::endl << "Run regression_examples see tape data in output/performance/regression_examples_output.txt ..." << std::endl;
     cl::regression_examples();
 
-    std::cout << std::endl << "Run quadratic_regression_examples see tape data in output/quadratic_regression_examples_output.txt ..." << std::endl;
-    cl::quadratic_regression_examples();
+    std::cout << std::endl << "Run quadratic_regression_examples see tape data in output/performance/quadratic_regression_examples_output.txt ..." << std::endl;
+    cl::quadratic_regression_examples();*/
+
+    std::cout << std::endl << "Run polynomial_regression_examples see tape data in output/performance/polynomial_regression_examples_output.txt ..." << std::endl;
+    cl::polynomial_regression_examples();
+
 
     system("pause");
     return 0;

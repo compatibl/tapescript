@@ -33,7 +33,8 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 #ifndef cl_tape_impl_ad_tape_serializer_call_hpp
 #define cl_tape_impl_ad_tape_serializer_call_hpp
 
-__if_not_exists(CppAD::serializers_list)
+#if defined _MSC_VER
+    __if_not_exists(CppAD::serializers_list)
 {
     namespace boost {
         namespace archive {
@@ -53,6 +54,26 @@ __if_not_exists(CppAD::serializers_list)
         struct serializer_traits;
     }
 }
+#elif __GNUC__
+    namespace boost {
+        namespace archive {
+            class binary_oarchive;
+            class binary_iarchive;
+        }
+    }
+
+    namespace CppAD
+    {
+        template <class... > struct serializers_list;
+
+        template <template <typename, typename> class Serializer, typename Archive>
+        struct ho_serializer2;
+
+        template <typename >
+        struct serializer_traits;
+    }
+
+#endif
 
 namespace CppAD
 {
@@ -93,7 +114,7 @@ namespace CppAD
     inline void io_ss__(Stream &archiver, bool&, size_t&, size_t&, size_t&, size_t&, player<Base>*&, size_t&
         , Base*&, bool*&, pod_vector<addr_t>&, size_t&, size_t&, size_t&, CppAD::serializers_list<Rest...>)
     {
-        cl::throw_("Not serializable.");
+	throw "Not serializable.";
     }
 
     template <typename Serializer, typename Stream, typename Base, typename S, typename... Rest>
@@ -170,7 +191,7 @@ namespace CppAD
         , size_t                   &compare_change_number   // result
         , size_t                   &compare_change_op_index // result
         , typename
-                CppAD::serializer_traits<Base>::certain_archivers* ptr = 0
+                CppAD::serializer_traits<Base>::certain_archivers* ptr
         , Args&...                  args)
     {
         typedef typename
@@ -204,13 +225,13 @@ namespace CppAD
     inline void serialize__
         (std::true_type
         , Stream                             &s_out
-        , CppAD::vector<unsigned __int64>    &user_iy
+        , CppAD::vector<unsigned long long>  &user_iy
         , CppAD::player<Base>*                play
         , Base                               *taylor
         , enum CppAD::OpCode                  op
         , int                                 user_state
-        , unsigned __int64                    i_op
-        , unsigned __int64                    q
+        , unsigned long long                  i_op
+        , unsigned long long                  q
         , size_t                              user_m
         , const size_t                        J
         , const CppAD::addr_t                *arg
@@ -280,6 +301,7 @@ namespace cl
 {
     namespace tapescript
     {
+#if defined _MSC_VER
         __if_not_exists(serialize_accessor)
         {
             template <class Base>
@@ -290,11 +312,26 @@ namespace cl
                 {}
 
                 template <class Vector>
-                serialize_accessor(Vector& vc) //: acc_(vc)
+                serialize_accessor(Vector vc) //: acc_(vc)
                 {
                 }
             };
         }
+#elif __GNUC__
+            template <class Base>
+            class serialize_accessor
+            {
+            public:
+                serialize_accessor()
+                {}
+
+                template <class Vector>
+                serialize_accessor(Vector vc) //: acc_(vc)
+                {
+                }
+            };
+
+#endif        
     } // namespace tapescript
 
 } // namespace cl

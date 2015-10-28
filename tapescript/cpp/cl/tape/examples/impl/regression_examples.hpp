@@ -70,10 +70,10 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with parameters (optimized tape):\n" << std::endl;
+        out_stream << "Linear regression with parameters (optimized tape):\n" << std::endl;
 
         // Input values initialization.
-        out_str << "Input vector size: n = " << n << std::endl;
+        out_stream << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
         tvalue a_ref = a;
@@ -81,7 +81,7 @@ namespace cl
         tvalue c_ref = c;
         std::vector<tobject> X = { a_ref, b_ref, c_ref };
         if (flag_serializer)
-            out_str << "Input vector: " << X << "\n";
+            out_stream << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
@@ -92,7 +92,7 @@ namespace cl
         tobject& par_b = X[1];
         tobject& par_c = X[2];
         // Obtain x_i values.
-        tobject x = lin_regr.GetInputX();
+        tobject x = (tvalue)lin_regr.GetInputX();
         // Calculate corresponding y_i values.
         tobject y = par_a + x * par_b + exp(-1 * par_c * x);
         // Start linear regression calculation: calculate mean values.
@@ -109,15 +109,15 @@ namespace cl
         tobject y_estimate = alpha + beta * x;
         // Output vector.
         std::vector<tobject> Y = { alpha, beta, y_estimate };
-        //out_str << "Output vector: " << Y << "\n\n";
+        //out_stream << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_stream << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
-        out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
+        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Forward sweep calculations.
         tarray d_ref_array;
@@ -129,7 +129,7 @@ namespace cl
         // Derivatives with respect to a.
         std::vector<tvalue> dx = { 1, 0, 0 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         std::vector<tvalue> forw;
         if (flag_serializer)
@@ -138,12 +138,12 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dA(lin_regr, forw, eps);
+        check_derivatives_da(lin_regr, forw, eps);
 
         // Derivatives with respect to b.
         dx = { 0, 1, 0 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
             forw = f.forward(1, dx, out_stream);
@@ -151,12 +151,12 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dB(lin_regr, forw, eps);
+        check_derivatives_db(lin_regr, forw, eps);
 
         // Derivatives with respect to c.
         dx = { 0, 0, 1 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
             forw = f.forward(1, dx, out_stream);
@@ -164,11 +164,11 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dC(lin_regr, forw, eps);
+        check_derivatives_dc(lin_regr, forw, eps);
 
-        out_str << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
-        out_str << "All derivatives calculated successfully." << std::endl;
-        out_str << std::endl;
+        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        out_stream << "All derivatives calculated successfully." << std::endl;
+        out_stream << std::endl;
     }
 
     // Example of linear regression differentiation with respect to parameters of input distribution using non-optimized tape.
@@ -189,15 +189,15 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with parameters (non-optimized tape):\n" << std::endl;
+        out_stream << "Linear regression with parameters (non-optimized tape):\n" << std::endl;
 
         // Input values initialization.
-        out_str << "Input vector size: n = " << n << std::endl;
+        out_stream << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
         std::vector<tdouble> X = { a, b, c };
         if (flag_serializer)
-            out_str << "Input vector: " << X << "\n";
+            out_stream << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
@@ -247,15 +247,15 @@ namespace cl
         for (int i = 0; i < n; i++)
             Y[2 + i] = y_estimate[i];
         if (flag_serializer)
-            out_str << "Output vector: " << Y << "\n\n";
+            out_stream << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_stream << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
-        out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
+        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
@@ -266,7 +266,7 @@ namespace cl
         // Derivatives with respect to a.
         dx = { 1, 0, 0 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         std::vector<double> forw;
         if (flag_serializer)
@@ -275,12 +275,12 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dA(lin_regr, forw, eps);
+        check_derivatives_da(lin_regr, forw, eps);
 
         // Derivatives with respect to b.
         dx = { 0, 1, 0 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
             forw = f.forward(1, dx, out_stream);
@@ -288,12 +288,12 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dB(lin_regr, forw, eps);
+        check_derivatives_db(lin_regr, forw, eps);
 
         // Derivatives with respect to c.
         dx = { 0, 0, 1 };
         if (flag_serializer)
-            out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+            out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
         start_time = std::clock();
         if (flag_serializer)
             forw = f.forward(1, dx, out_stream);
@@ -301,11 +301,11 @@ namespace cl
             forw = f.forward(1, dx);
         stop_time = std::clock();
         calc_time += stop_time - start_time;
-        check_derivatives_dC(lin_regr, forw, eps);
+        check_derivatives_dc(lin_regr, forw, eps);
 
-        out_str << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
-        out_str << "All derivatives calculated successfully." << std::endl;
-        out_str << std::endl;
+        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        out_stream << "All derivatives calculated successfully." << std::endl;
+        out_stream << std::endl;
     }
 
     // Example of linear regression differentiation with respect to input points using optimized tape.
@@ -326,10 +326,10 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with points (optimized tape):\n" << std::endl;
+        out_stream << "Linear regression with points (optimized tape):\n" << std::endl;
 
         // Input values initialization.
-        out_str << "Input vector size: n = " << n << std::endl;
+        out_stream << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
         tarray x_ref_array = lin_regr.GetInputX();
@@ -337,7 +337,7 @@ namespace cl
         tvalue x_ref(x_ref_array), y_ref(y_ref_array);
         std::vector<tobject> X = { x_ref, y_ref };
         if (flag_serializer)
-            out_str << "Input vector: " << X << "\n";
+            out_stream << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
@@ -361,15 +361,15 @@ namespace cl
         // Output vector.
         std::vector<tobject> Y = { alpha, beta, y_estimate };
         if (flag_serializer)
-            out_str << "Output vector: " << Y << "\n\n";
+            out_stream << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_stream << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
-        out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
+        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
         tarray dx_ref_array, dy_ref_array;
@@ -391,7 +391,7 @@ namespace cl
             tvalue dx_ref(dx_ref_array), dy_ref(dy_ref_array);
             std::vector<tvalue> dx = { dx_ref, dy_ref };
             if (flag_serializer)
-                out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+                out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
             std::vector<tvalue> forw;
             if (flag_serializer)
@@ -400,7 +400,7 @@ namespace cl
                 forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-            check_derivatives_dX(lin_regr, forw, i, eps);
+            check_derivatives_dx(lin_regr, forw, i, eps);
         }
 
         // Derivatives with respect to y_i.
@@ -415,7 +415,7 @@ namespace cl
             tvalue dx_ref(dx_ref_array), dy_ref(dy_ref_array);
             std::vector<tvalue> dx = { dx_ref, dy_ref };
             if (flag_serializer)
-                out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+                out_stream << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
             start_time = std::clock();
             std::vector<tvalue> forw;
             if (flag_serializer)
@@ -424,12 +424,12 @@ namespace cl
                 forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-            check_derivatives_dY(lin_regr, forw, i, eps);
+            check_derivatives_dy(lin_regr, forw, i, eps);
         }
 
-        out_str << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
-        out_str << "All derivatives calculated successfully." << std::endl;
-        out_str << std::endl;
+        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        out_stream << "All derivatives calculated successfully." << std::endl;
+        out_stream << std::endl;
     }
 
     // Example of linear regression differentiation with respect to input points using non-optimized tape.
@@ -450,10 +450,10 @@ namespace cl
         // Tolerance for analytical vs. adjoint derivative check.
         double eps = data.eps;
 
-        out_str << "Linear regression with points (non-optimized tape):\n" << std::endl;
+        out_stream << "Linear regression with points (non-optimized tape):\n" << std::endl;
 
         // Input values initialization.
-        out_str << "Input vector size: n = " << n << std::endl;
+        out_stream << "Input vector size: n = " << n << std::endl;
         LinearRegression lin_regr(n, a, b, c);
         lin_regr.Calculate();
         tarray x_ref_array = lin_regr.GetInputX();
@@ -464,7 +464,7 @@ namespace cl
         for (int i = 0; i < n; i++)
             X[n + i] = y_ref_array[i];
         if (flag_serializer)
-            out_str << "Input vector: " << X << "\n";
+            out_stream << "Input vector: " << X << "\n";
 
         std::clock_t start_time = std::clock();
         // Declare the X vector as independent and start a tape recording.
@@ -502,15 +502,15 @@ namespace cl
         for (int i = 0; i < n; i++)
             Y[2 + i] = y_estimate[i];
         if (flag_serializer)
-            out_str << "Output vector: " << Y << "\n\n";
+            out_stream << "Output vector: " << Y << "\n\n";
 
         if (data.flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_stream << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
-        out_str << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_str << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
+        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
@@ -534,7 +534,7 @@ namespace cl
                 forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-            check_derivatives_dX(lin_regr, forw, i, eps);
+            check_derivatives_dx(lin_regr, forw, i, eps);
         }
 
         // Derivatives with respect to y_i.
@@ -553,12 +553,12 @@ namespace cl
                 forw = f.forward(1, dx);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-            check_derivatives_dY(lin_regr, forw, i, eps);
+            check_derivatives_dy(lin_regr, forw, i, eps);
         }
 
-        out_str << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
-        out_str << "All derivatives calculated successfully." << std::endl;
-        out_str << std::endl;
+        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        out_stream << "All derivatives calculated successfully." << std::endl;
+        out_stream << std::endl;
     }
 
     inline void regression_examples()

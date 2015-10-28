@@ -47,7 +47,7 @@ namespace cl
         tarray d_beta_d_y_input_;
         std::valarray<tarray> d_y_estim_d_x_input_;
         std::valarray<tarray> d_y_estim_d_y_input_;
-        // Derivatives w.r.t to a, b, c parameters.
+        // Derivatives with respect to a, b, and  c parameters.
         double d_alpha_d_a_;
         double d_alpha_d_b_;
         double d_alpha_d_c_;
@@ -145,7 +145,7 @@ namespace cl
                 }
             }
 
-            // Calculate derivatives w.r.t input parameters a, b, c.
+            // Calculate derivatives with respect to input parameters a, b, and c.
             // Derivatives for beta.
             d_beta_d_a_ = 0.0;
             d_beta_d_b_ = 1.0;

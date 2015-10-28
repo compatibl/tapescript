@@ -53,7 +53,7 @@ namespace cl
         size_t size_;
         // Tape recording time.
         double rec_;
-        // Ininial Forward(0) sweep time.
+        // Initial Forward(0) sweep time.
         double init_;
         // Forward sweep calculations time.
         double forw_;
@@ -71,7 +71,7 @@ namespace cl
     inline std::ostream& operator<<(std::ostream& os, test_statistic const& stat)
     {
         os << "Tape recording time:                     " << stat.rec_  << std::endl;
-        os << "Ininial Forward(0) sweep time:           " << stat.init_ << std::endl;
+        os << "Initial Forward(0) sweep time:           " << stat.init_ << std::endl;
         os << "Forward sweep calculations time:         " << stat.forw_ << std::endl;
         os << "Reverse sweep calculations time:         " << stat.rev_  << std::endl;
         os << "Total time for derivatives calculation:  " << stat.total_time() << std::endl;
@@ -233,7 +233,7 @@ namespace cl
 
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         result.init_ = test_performance(task.repeat_, [&f, &x_val]()
         {
             f.forward(0, x_val);

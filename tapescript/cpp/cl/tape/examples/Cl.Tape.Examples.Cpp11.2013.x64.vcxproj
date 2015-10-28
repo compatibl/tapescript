@@ -387,9 +387,14 @@
     <ClInclude Include="impl\linear_regression.hpp" />
     <ClInclude Include="impl\performance_tests.hpp" />
     <ClInclude Include="impl\performance_utils.hpp" />
+    <ClInclude Include="impl\polynomial_regression.hpp" />
+    <ClInclude Include="impl\polynomial_regression_data.hpp" />
+    <ClInclude Include="impl\polynomial_regression_examples.hpp" />
+    <ClInclude Include="impl\polynomial_regression_nonoptimized.hpp" />
     <ClInclude Include="impl\quadratic_regression_examples.hpp" />
     <ClInclude Include="impl\regression_examples.hpp" />
     <ClInclude Include="impl\regression_examples_impl.hpp" />
+    <ClInclude Include="impl\serialization_example.hpp" />
     <ClInclude Include="impl\utils.hpp" />
   </ItemGroup>
   <ItemGroup>

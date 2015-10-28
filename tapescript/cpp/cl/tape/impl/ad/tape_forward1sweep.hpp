@@ -33,6 +33,8 @@ Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
 #ifndef cl_tape_impl_ad_tape_forward1sweep_hpp
 #define cl_tape_impl_ad_tape_forward1sweep_hpp
 
+#include <cl/tape/impl/ad/tape_serializer_fwd.hpp>
+
 namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         /*!
         \file forward1sweep.hpp

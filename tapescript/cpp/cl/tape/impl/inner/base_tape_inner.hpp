@@ -25,6 +25,12 @@ limitations under the License.
 
 #include <limits>
 #include <cl/tape/impl/inner/tape_inner.hpp>
+#include <cppad/local/declare_ad.hpp>
+#include <cppad/local/cppad_assert.hpp>
+#include <cppad/local/base_cond_exp.hpp>
+#include <cppad/local/limits.hpp>
+#include <cppad/local/op_code.hpp>
+#include <cppad/local/hash_code.hpp>
 
 namespace CppAD
 {
@@ -109,7 +115,7 @@ namespace CppAD
             return CondExpOpEq(left, right, exp_if_true, exp_if_false);
 
         default:
-            cl::throw_("Unknown compare operation.");
+            throw "Unknown compare operation.";
             return exp_if_true;
         }
     }

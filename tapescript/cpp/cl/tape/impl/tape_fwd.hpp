@@ -72,7 +72,8 @@ namespace cl
     typedef tape_wrapper<double> tape_double;
 #endif
 
-    /// <summary>Empty structure.</summary>
+    /// <summary>Empty structure.
+    /// Used as default argument for validsating alternative in SFINAE</summary>
     /// Used as default argument for validating alternative in SFINAE</summary>
     struct dummy;
 

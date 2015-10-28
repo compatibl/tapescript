@@ -35,7 +35,7 @@ namespace cl
         // Input values initialization.
         std::vector<tdouble> X(2, 3.0);
 
-        // Declare the X vector as independent and start a tape recording.
+        // Declare the X vector as independent and start tape recording.
         cl::tape_start(X);
 
         // Output calculations.

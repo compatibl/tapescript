@@ -37,9 +37,13 @@
     <ClInclude Include="impl\doublemath.hpp" />
     <ClInclude Include="impl\doubleoperatorcheck.hpp" />
     <ClInclude Include="impl\doubleoperators.hpp" />
+    <ClInclude Include="impl\inner\array_traits.hpp" />
     <ClInclude Include="impl\inner\base_inner_array.hpp" />
+    <ClInclude Include="impl\inner\base_tape_inner.hpp" />
     <ClInclude Include="impl\inner\inner_array.hpp" />
     <ClInclude Include="impl\inner\inner_array_ops.hpp" />
+    <ClInclude Include="impl\inner\tape_inner.hpp" />
+    <ClInclude Include="impl\inner\tape_inner_ops.hpp" />
     <ClInclude Include="impl\ql\blackcalculator_t.hpp" />
     <ClInclude Include="impl\ql\errorfunction_t.hpp" />
     <ClInclude Include="impl\ql\normaldistribution_t.hpp" />

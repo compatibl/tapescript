@@ -171,7 +171,7 @@ namespace cl
 
     /// <summary>This template and its specializations provide conversion to tape_double value_type.</summary>
     template <typename Converter, typename ThisType, typename From>
-    inline typename void
+    inline void
     convert(ThisType& this_value, From const& other_value)
     {
         Converter::convert(this_value, other_value);

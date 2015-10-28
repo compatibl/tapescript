@@ -66,17 +66,17 @@ namespace cl
 #endif
         // Friend functions
         // in which we should get double directly
-        template <typename Inner>
-        friend cl::tape_wrapper<Inner> std::ceil(cl::tape_wrapper<Inner> x);
+        template <typename Inner_>
+        friend cl::tape_wrapper<Inner_> std::ceil(cl::tape_wrapper<Inner_> x);
 
-        template <typename Inner>
-        friend cl::tape_wrapper<Inner> std::floor(cl::tape_wrapper<Inner> x);
+        template <typename Inner_>
+        friend cl::tape_wrapper<Inner_> std::floor(cl::tape_wrapper<Inner_> x);
 
     public: // TYPEDEFS
 
         /// <summary>Explicit conversion operator from an arbitrary type.</summary>
         template <typename Type>
-        explicit tape_type(Type const& rhs)
+        explicit tape_wrapper(Type const& rhs)
             : value_()
         {
             cl::tape_double_convert<Type, value_type>::convert(*this, rhs);
@@ -127,7 +127,11 @@ namespace cl
 #   pragma message ("get__ std::false_type, std::false_type " __FUNCSIG__)
 #endif
             // Would cause a recursive call
+#if defined _MSC_VER
             static_assert(false, "Conversion to this type isn't implemented");
+#elif __GNUC__
+            throw "Conversion to this type isn't implemented";
+#endif            
             return Type();
         }
 
@@ -203,14 +207,14 @@ namespace cl
 
     public: // CONSTRUCTORS
 
-        inline tape_type() : value_() {}
+        inline tape_wrapper() : value_() {}
 
         /// <summary>Implicit constructor from double.</summary>
-        inline tape_type(value_type rhs) : value_(rhs) {}
+        inline tape_wrapper(value_type rhs) : value_(rhs) {}
 
 //!!! Should this include other CL_TAPE_* options?
 #if defined CL_TAPE_CPPAD
-        inline tape_type(const Inner& rhs) : value_(rhs) {}
+        inline tape_wrapper(const Inner& rhs) : value_(rhs) {}
 #endif
 
     public: // OPERATORS
