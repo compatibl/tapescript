@@ -123,8 +123,8 @@ namespace cl
         tobject calculate_estimation()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
-            tobject estim_y = 0;
+                throw std::runtime_error("Regression coefficients are not calculated.");
+            tobject estim_y = tobject(0);
             for (int i = 0; i < m_; i++)
                 estim_y += coef_[i] * x_power_[i];
             is_estim_calculated = true;
@@ -135,7 +135,7 @@ namespace cl
         std::vector<std::vector<double>> calculate_coefficients_derivatives()
         {
             if (!is_coef_calculated)
-                throw std::exception("Regression coefficients are not calculated.");
+                throw std::runtime_error("Regression coefficients are not calculated.");
             std::vector<std::vector<double>> d_coef_d_y(m_);
             std::vector<tvalue> x_power_tvalue(m_);
             for (int i = 0; i < m_; i++)
@@ -185,7 +185,7 @@ namespace cl
             boost::numeric::ublas::permutation_matrix<std::size_t> pm(m);
             // Perform LU-factorization
             if(boost::numeric::ublas::lu_factorize(input, pm))
-                throw std::exception("Singular matrix");
+                throw std::runtime_error("Singular matrix");
             // Create identity matrix of for inverse
             boost::numeric::ublas::matrix<element_type> inverse(m, m);
             inverse.assign(boost::numeric::ublas::identity_matrix<element_type>(m));
