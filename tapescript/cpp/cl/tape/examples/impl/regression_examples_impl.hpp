@@ -33,11 +33,7 @@ namespace cl
     {
         void throw_(char * s)
         {
-#       if defined _MSC_VER
-            throw std::exception(s);
-#       elif __GNUC__
-            throw s;
-#       endif
+            throw std::runtime_error(s);
         }
     }
 

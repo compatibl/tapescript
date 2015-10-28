@@ -154,16 +154,16 @@ namespace cl
             | cl::serializer_type::io_text
             , io_binary = cl::serializer_type::io_binary
         };
-#if defined _MSC_VER
+
         template <typename... Args>
         tape_archive(std::string const& path
-            , int archive_type = io_binary, Args&... args)
+            , int archive_type, Args&... args)
             : serializer<Base>()
             , os_(path)
             , ss_(os_)
             , archive_type_(archive_type)
         {}
-#elif __GNUC__
+
         template <typename... Args>
         tape_archive(std::string const& path
                      , Args&... args)
@@ -172,7 +172,7 @@ namespace cl
             , ss_(os_)
             , archive_type_(io_binary)
         {}
-#endif
+
 
         
 

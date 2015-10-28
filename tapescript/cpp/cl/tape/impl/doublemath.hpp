@@ -34,17 +34,10 @@ limitations under the License.
 /// Math in AD mode, in progress
 namespace cl
 {
-#if defined _MSC_VER
     inline void throw_(char const* what)
     {
-        throw std::exception(what);
+        throw std::runtime_error(what);
     }
-#elif __GNUC__
-    inline void throw_(char * what)
-    {
-        throw what;
-    }
-#endif    
 }
 
 namespace checkers
