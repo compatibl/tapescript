@@ -32,8 +32,8 @@ AC_PROG_INSTALL
 # Help the compiler find external software
 
 [project_path="`pwd`"]
-[dependencies_include_path="/../../../../../dependencies/cpp"]
-[tapescript_include_path="/../../../"]	
+[dependencies_include_path="/dependencies/cpp"]
+[tapescript_include_path="/tapescript/cpp/"]	
 AC_SUBST([CPPFLAGS],["${CPPFLAGS} -I${project_path}${tapescript_include_path}"])
 AC_SUBST([CPPFLAGS],["${CPPFLAGS} -I${project_path}${dependencies_include_path}"])
 #AC_SUBST([CPPFLAGS],["${CPPFLAGS} -I${dependencies_include_path}"])
@@ -82,5 +82,6 @@ AM_CONDITIONAL(EMACS_FOUND, test "${EMACS}" != "no")
 # done, output the configured files
 AC_CONFIG_FILES([
     Makefile
+    tapescript/cpp/cl/tape/examples/Makefile
     ])
 AC_OUTPUT

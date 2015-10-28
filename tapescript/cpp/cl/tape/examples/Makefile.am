@@ -4,6 +4,7 @@ AM_CPPFLAGS = -I${top_srcdir} -I${top_builddir}
 noinst_PROGRAMS = tape_example
 
 AM_CPPFLAGS += -std=c++11
+AM_CPPFLAGS += -DCL_TAPE_INNER_ARRAY_ENABLED -DCL_TAPE_CPPAD -DCL_TAPE -DCL_TAPE_CAN_GET_VALUE
 
 tape_exampledir=${includedir}
 tape_example_HEADERS = \
