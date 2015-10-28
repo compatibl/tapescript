@@ -25,6 +25,9 @@ limitations under the License.
 
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/triangular.hpp>
+#include <boost/numeric/ublas/lu.hpp>
 
 namespace cl
 {
@@ -71,8 +74,14 @@ namespace cl
         {
             // Create vectors of powers of x from 0 to 2m.
             x_power_.resize(2 * m_);
-            for (int i = 0; i < 2 * m_; i++)
-                x_power_[i] = std::pow(data_x_, i);
+            x_power_[0] = 1 + data_x_ - data_x_;
+            std::vector<tobject> x_power_sum_vec(2 * m_);
+            x_power_sum_vec[0] = tapescript::sum_vec(x_power_[0]);
+            for (int i = 1; i < 2 * m_; i++)
+            {
+                x_power_[i] = x_power_[i - 1] * data_x_;
+                x_power_sum_vec[i] = tapescript::sum_vec(x_power_[i]);
+            }
 
             // Calculate matrix X * X^T.
             mat_X_XT_.resize(m_);
@@ -82,15 +91,15 @@ namespace cl
             // Calculate lower triangular matrix elements.
             for (int i = 0; i < m_; i++)
                 for (int j = 0; j <= i; j++)
-                    mat_X_XT_[i][j] = tapescript::sum_vec(x_power_[i + j]);
+                    mat_X_XT_[i][j] = x_power_sum_vec[i + j];
 
-                // Calculate the rest of matrix elements using symmetry.
+            // Calculate the rest of matrix elements using symmetry.
             for (int i = 0; i < m_; i++)
                 for (int j = i + 1; j < m_; j++)
                     mat_X_XT_[i][j] = mat_X_XT_[j][i];
 
             // Calculate inverse matrix (X * X^T)^-1.
-            mat_X_XT_inv_ = invert_sym_matrix(mat_X_XT_);
+            mat_X_XT_inv_ = invert_sym_matrix_boost(mat_X_XT_);
 
             // Calculate vector X^T * y.
             vec_XT_y_.resize(m_);
@@ -114,8 +123,8 @@ namespace cl
         tobject calculate_estimation()
         {
             if (!is_coef_calculated)
-                throw_("Regression coefficients are not calculated.");
-            tobject estim_y = tvalue(0);
+                throw std::exception("Regression coefficients are not calculated.");
+            tobject estim_y = 0;
             for (int i = 0; i < m_; i++)
                 estim_y += coef_[i] * x_power_[i];
             is_estim_calculated = true;
@@ -126,7 +135,7 @@ namespace cl
         std::vector<std::vector<double>> calculate_coefficients_derivatives()
         {
             if (!is_coef_calculated)
-                throw_("Regression coefficients are not calculated.");
+                throw std::exception("Regression coefficients are not calculated.");
             std::vector<std::vector<double>> d_coef_d_y(m_);
             std::vector<tvalue> x_power_tvalue(m_);
             for (int i = 0; i < m_; i++)
@@ -161,59 +170,30 @@ namespace cl
             return estim_y_deriv;
         }
 
-        // Invert symmetric matrix using Cholesky decomposition.
+        // Invert symmetric matrix using Cholesky decomposition from the Boost library.
         // This template method works with both element_type = tobject and element_type = tdouble.
         template<typename element_type>
-        static std::vector<std::vector<element_type>> invert_sym_matrix(const std::vector<std::vector<element_type>> mat)
+        static std::vector<std::vector<element_type>> invert_sym_matrix_boost(const std::vector<std::vector<element_type>>& mat)
         {
             // Matrix size.
             int m = mat.size();
-            // Vector of eigen values.
-            std::vector<element_type> diag(m);
-            // Initialize output inversed matrix with input matrix elements.
+            boost::numeric::ublas::matrix<element_type> input(m, m);
+            for (int i = 0; i < m; i++)
+                for (int j = 0; j < m; j++)
+                    input.operator ()(i, j) = mat[i][j];
+            // Create a permutation matrix for the LU-factorization
+            boost::numeric::ublas::permutation_matrix<std::size_t> pm(m);
+            // Perform LU-factorization
+            if(boost::numeric::ublas::lu_factorize(input, pm))
+                throw std::exception("Singular matrix");
+            // Create identity matrix of for inverse
+            boost::numeric::ublas::matrix<element_type> inverse(m, m);
+            inverse.assign(boost::numeric::ublas::identity_matrix<element_type>(m));
+            boost::numeric::ublas::lu_substitute(input, pm, inverse);
             std::vector<std::vector<element_type>> mat_inv = mat;
-            // Calculate inversed matrix.
             for (int i = 0; i < m; i++)
-            {
-                for (int j = i; j < m; j++)
-                {
-                    element_type sum = mat_inv[i][j];
-                    for (int k = i - 1; k >= 0; k--)
-                        sum -= mat_inv[i][k] * mat_inv[j][k];
-                    if (i == j)
-                        diag[i] = std::sqrt(sum);
-                    else
-                        mat_inv[j][i] = sum / diag[i];
-                }
-            }
-            for (int i = 0; i < m; i++)
-            {
-                mat_inv[i][i] = 1 / diag[i];
-                for (int j = i + 1; j < m; j++)
-                {
-                    element_type sum = element_type(0.0);
-                    for (int k = i; k < j; k++)
-                        sum -= mat_inv[j][k] * mat_inv[k][i];
-                    mat_inv[j][i] = sum / diag[j];
-                }
-            }
-            for (int i = 0; i < m; i++)
-            for (int j = i + 1; j < m; j++)
-                mat_inv[i][j] = 0.0;
-            for (int i = 0; i < m; i++)
-            {
-                mat_inv[i][i] *= mat_inv[i][i];
-                for (int k = i + 1; k < m; k++)
-                    mat_inv[i][i] += mat_inv[k][i] * mat_inv[k][i];
-                for (int j = i + 1; j < m; j++)
-                for (int k = j; k < m; k++)
-                    mat_inv[i][j] += mat_inv[k][i] * mat_inv[k][j];
-            }
-            // Symmetrize inversed matrix.
-            for (int i = 0; i < m; i++)
-            for (int j = 0; j < i; j++)
-                mat_inv[i][j] = mat_inv[j][i];
-            // Return inversed matrix.
+                for (int j = 0; j < m; j++)
+                    mat_inv[i][j] = inverse(i, j);
             return mat_inv;
         }
     };

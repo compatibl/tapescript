@@ -28,86 +28,6 @@ limitations under the License.
 
 namespace cl
 {
-    template <class T>
-    struct Holder;
-
-    template <class H>
-    struct Caller {};
-
-    template <template <class> class H>
-    struct Caller<H<tobject> >
-    {
-        static tobject CreateEquidistantXVector(size_t n)
-        {
-            double step = 10.0 / n;
-            tarray vec_ref(n);
-            for (int i = 0; i < n; i++)
-                vec_ref[i] = (i + 1) * step;
-            tobject vec = (tvalue)vec_ref;
-            return vec;
-        }
-
-        static tobject FunctionPolynomPlusExp(const tobject& x, const std::vector<tobject>& par, int deriv_par)
-        {
-            int order = par.size() - 1;
-            tobject y = tvalue(0.0);
-            if (deriv_par == -1)
-            {
-                for (int i = 0; i < order; i++)
-                    y += par[i] * std::pow(x, i);
-                y += exp(-1 * par[order] * x);
-            }
-            else if (deriv_par >= 0 && deriv_par < par.size() - 1)
-                y += std::pow(x, deriv_par);
-            else if (deriv_par == par.size() - 1)
-                y += -1 * x * exp(-1 * par[deriv_par] * x);
-            else
-                throw_("Wrong parameter number for analytical derivative calculation.");
-
-            return y;
-        }
-    };
-
-    template <template <class> class H>
-    struct Caller<H<std::vector<tdouble> > >
-    {
-        static std::vector<tdouble> CreateEquidistantXVector(size_t n)
-        {
-            double step = 10.0 / n;
-            std::vector<tdouble> vec(n);
-            for (int i = 0; i < n; i++)
-                vec[i] = (i + 1) * step;
-            return vec;
-        }
-
-        static std::vector<tdouble> FunctionPolynomPlusExp(const std::vector<tdouble>& x, const std::vector<std::vector<tdouble>>& par, int deriv_par)
-        {
-            // Number of data points.
-            int npoints = x.size();
-            int order = par.size() - 1;
-            std::vector<tdouble> y(npoints);
-            if (deriv_par == -1)
-            {
-                for (int j = 0; j < npoints; j++)
-                {
-                    for (int i = 0; i < order; i++)
-                        y[j] += par[i][0] * std::pow(x[j], i);
-                    y[j] += std::exp(-1 * par[order][0] * x[j]);
-                }
-            }
-            else if (deriv_par >= 0 && deriv_par < par.size() - 1)
-            for (int j = 0; j < npoints; j++)
-                y[j] = std::pow(x[j], deriv_par);
-            else if (deriv_par == par.size() - 1)
-            for (int j = 0; j < npoints; j++)
-                y[j] = -1 * x[j] * std::exp(-1 * par[deriv_par][0] * x[j]);
-            else
-                throw_("Wrong parameter number for analytical derivative calculation.");
-
-            return y;
-        }
-    };
-
     // Class to store steering parameters for polynomial regression examples.
     // Also provides service methods for generation of input data.
     class polynomial_regression_data
@@ -211,20 +131,96 @@ namespace cl
         bool GetFlagReverseAll() const { return flag_reverse_all_; }
         void SetFlagReverseAll(bool flag) { flag_reverse_all_ = flag; }
 
-        // Create equidistant vector { 0, ..., 10} as tobject.
+        // Create equidistant vector { -1, ..., 9} as tobject.
         template<typename element_type>
-        element_type CreateEquidistantXVector() const
+        element_type CreateEquidistantXVector() const;
+
+        // tobject specification of the method defined above.
+        template<>
+        tobject CreateEquidistantXVector<tobject>() const
         {
-            return Caller<Holder<element_type> >::CreateEquidistantXVector(n_);
+            double step = 10.0 / n_;
+            tarray vec_ref(n_);
+            for (int i = 0; i < n_; i++)
+                vec_ref[i] = (i + 1) * step - 2.0;
+            tobject vec = vec_ref;
+            return vec;
+        }
+
+        // std::vector<tdouble> specification of the method defined above.
+        template<>
+        std::vector<tdouble> CreateEquidistantXVector<std::vector<tdouble>>() const
+        {
+            double step = 10.0 / n_;
+            std::vector<tdouble> vec(n_);
+            for (int i = 0; i < n_; i++)
+                vec[i] = (i + 1) * step - 2.0;
+            return vec;
+        }
+
+        // Static method to create y vector using provided x vector, pointer to function y = func(x, pars) and its parameters pars.
+        template<typename element_type>
+        static element_type CreateYVector(element_type x, element_type(*func)(const element_type& x, const std::vector<element_type>& pars), const std::vector<element_type>& pars)
+        {
+            element_type y = func(x, pars);
+            return y;
         }
 
         // Static method to create y vector using provided x vector:
         // y = par[0] + par[1] * x + ... + par[order - 1] * x^(order - 1) + exp(-1 * par[order] * x),
         // where order = par.size() - 1.
         template<typename element_type>
-        static element_type FunctionPolynomPlusExp(const element_type& x, const std::vector<element_type>& par, int deriv_par = -1)
+        static element_type FunctionPolynomPlusExp(const element_type& x, const std::vector<element_type>& par, int deriv_par = -1);
+
+        // tobject specification of the method defined above.
+        template<>
+        static tobject FunctionPolynomPlusExp<tobject>(const tobject& x, const std::vector<tobject>& par, int deriv_par)
         {
-            return Caller<Holder<element_type> >::FunctionPolynomPlusExp(x, par, deriv_par);
+            int order = par.size() - 1;
+            tobject y = 0;
+            if (deriv_par == -1)
+            {
+                for (int i = 0; i < order; i++)
+                    y += par[i] * std::pow(x, i);
+                y += exp(-1 * par[order] * x);
+            }
+            else if (deriv_par >= 0 && deriv_par < par.size() - 1)
+                y += std::pow(x, deriv_par);
+            else if (deriv_par == par.size() - 1)
+                y += -1 * x * exp(-1 * par[deriv_par] * x);
+            else
+                throw std::exception("Wrong parameter number for analytical derivative calculation.");
+
+            return y;
+        }
+
+        // std::vector<tdouble> specification of the method defined above.
+        template<>
+        static std::vector<tdouble> FunctionPolynomPlusExp<std::vector<tdouble>>(const std::vector<tdouble>& x, const std::vector<std::vector<tdouble>>& par, int deriv_par)
+        {
+            // Number of data points.
+            int npoints = x.size();
+            int order = par.size() - 1;
+            std::vector<tdouble> y(npoints);
+            if (deriv_par == -1)
+            {
+                for (int j = 0; j < npoints; j++)
+                {
+                    for (int i = 0; i < order; i++)
+                        y[j] += par[i][0] * std::pow(x[j], i);
+                    y[j] += std::exp(-1 * par[order][0] * x[j]);
+                }
+            }
+            else if (deriv_par >= 0 && deriv_par < par.size() - 1)
+                for (int j = 0; j < npoints; j++)
+                    y[j] = std::pow(x[j], deriv_par);
+            else if (deriv_par == par.size() - 1)
+                for (int j = 0; j < npoints; j++)
+                    y[j] = -1 * x[j] * std::exp(-1 * par[deriv_par][0] * x[j]);
+            else
+                throw std::exception("Wrong parameter number for analytical derivative calculation.");
+
+            return y;
         }
     };
 }

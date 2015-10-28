@@ -74,11 +74,16 @@ namespace cl
             int npoints = data_x_.size();
             // Create vectors of powers of x from 0 to 2m.
             x_power_.resize(2 * m_);
+            std::vector<tdouble> x_power_sum_vec(2 * m_);
             for (int i = 0; i < 2 * m_; i++)
             {
                 x_power_[i].resize(npoints);
+                x_power_sum_vec[i] = 0;
                 for (int j = 0; j < npoints; j++)
+                {
                     x_power_[i][j] = std::pow(data_x_[j], i);
+                    x_power_sum_vec[i] += x_power_[i][j];
+                }
             }
 
             // Calculate matrix X * X^T.
@@ -89,8 +94,7 @@ namespace cl
             // Calculate lower triangular matrix elements.
             for (int i = 0; i < m_; i++)
                 for (int j = 0; j <= i; j++)
-                    for (int k = 0; k < npoints; k++)
-                        mat_X_XT_[i][j] += x_power_[i + j][k];
+                    mat_X_XT_[i][j] = x_power_sum_vec[i + j];
 
             // Calculate the rest of matrix elements using symmetry.
             for (int i = 0; i < m_; i++)
@@ -98,7 +102,7 @@ namespace cl
                     mat_X_XT_[i][j] = mat_X_XT_[j][i];
 
             // Calculate inverse matrix (X * X^T)^-1.
-            mat_X_XT_inv_ = polynomial_regression::invert_sym_matrix(mat_X_XT_);
+            mat_X_XT_inv_ = polynomial_regression::invert_sym_matrix_boost(mat_X_XT_);
 
             // Calculate vector X^T * y.
             vec_XT_y_.resize(m_);
