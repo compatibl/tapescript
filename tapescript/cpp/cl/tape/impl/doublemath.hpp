@@ -744,24 +744,33 @@ namespace std
         return temp *= lhs;
     }
 
-#if defined _MSC_VER
     template <class Inner>
-    inline cl::tape_wrapper<Inner> pow(cl::tape_wrapper<Inner> const &_Left, int _Right)
+    inline cl::tape_wrapper<Inner> pow(cl::tape_wrapper<Inner> Left, int Right)
     {
         // The error can happen here
         // if we use _Right as argument of pow
-        CL_CHECK(_Pow_int(_Left, _Right)
-            == std::pow(v_(_Left), _Right));
+        CL_CHECK(_Pow_int(Left, Right)
+            == std::pow(v_(Left), Right));
 
-        if (_Right == 0)
+        if (Right == 0)
         {
-            cl::tape_wrapper<Inner> zero = _Left - _Left;
-            return 1 + zero;
+            cl::tape_wrapper<Inner> zero = Left - Left;
+            return 1.0 + zero;
         }
 
-        return _Pow_int(_Left, _Right);
+        unsigned int N;
+        if (Right >= 0)
+            N = (unsigned int)Right;
+        else
+            N = (unsigned int)(-Right);
+        for (cl::tape_wrapper<Inner> Z = cl::tape_wrapper<Inner>(1.0); ; Left *= Left)
+        {
+            if ((N & 1) != 0)
+                Z *= Left;
+            if ((N >>= 1) == 0)
+                return (Right < 0 ? cl::tape_wrapper<Inner>(1.0) / Z : Z);
+        }
     }
-#endif
 
     inline std::complex<cl::tape_double>
     operator/(cl::tape_double lhs, const std::complex<cl::tape_double>& rhs)
