@@ -1,17 +1,9 @@
 
 AM_CPPFLAGS = -I${top_srcdir} -I${top_builddir}
 
-if AUTO_EXAMPLES
-bin_PROGRAMS = tape_example
-TESTS = tape_example$(EXEEXT)
-else
 noinst_PROGRAMS = tape_example
-endif
 
-#SUBDIRS = impl
-
-ACLOCAL_AMFLAGS = -I m4
-AM_CPPFLAGS = -std=c++11
+AM_CPPFLAGS += -std=c++11
 
 tape_exampledir=${includedir}
 tape_example_HEADERS = \
@@ -30,8 +22,6 @@ tape_example_HEADERS = \
     
 tape_example_SOURCES = \
     tape_example.cpp
-
-m4datadir = $(datadir)/aclocal
 
 EXTRA_DIST = \
 	autogen.sh
