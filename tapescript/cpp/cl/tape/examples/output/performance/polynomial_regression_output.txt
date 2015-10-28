@@ -1,0 +1,96 @@
+Polynomial regression (order 1) differentiation with respect to input parameters (optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 1516
+Tape creation took (ms): 1.08e+003
+
+Forward calculation took (ms): 368
+
+Reversed calculation took (ms): 299
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 1) differentiation with respect to input parameters (non-optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 324002276
+Tape creation took (ms): 1.23e+003
+
+Forward calculation took (ms): 524
+
+Reversed calculation took (ms): 249
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 2) differentiation with respect to input parameters (optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 2528
+Tape creation took (ms): 1.66e+003
+
+Forward calculation took (ms): 662
+
+Reversed calculation took (ms): 472
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 2) differentiation with respect to input parameters (non-optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 516003980
+Tape creation took (ms): 1.62e+003
+
+Forward calculation took (ms): 1.01e+003
+
+Reversed calculation took (ms): 571
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 3) differentiation with respect to input parameters (optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 3780
+Tape creation took (ms): 2.23e+003
+
+Forward calculation took (ms): 1.06e+003
+
+Reversed calculation took (ms): 819
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 3) differentiation with respect to input parameters (non-optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 708005740
+Tape creation took (ms): 2.21e+003
+
+Forward calculation took (ms): 1.72e+003
+
+Reversed calculation took (ms): 1.11e+003
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 4) differentiation with respect to input parameters (optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 5272
+Tape creation took (ms): 2.82e+003
+
+Forward calculation took (ms): 1.52e+003
+
+Reversed calculation took (ms): 1.25e+003
+
+All derivatives calculated successfully.
+
+Polynomial regression (order 4) differentiation with respect to input parameters (non-optimized tape):
+
+Input vector size: n = 1000000
+Tape memory (bytes): 900007532
+Tape creation took (ms): 3.29e+003
+
+Forward calculation took (ms): 2.79e+003
+
+Reversed calculation took (ms): 2.05e+003
+
+All derivatives calculated successfully.
+
