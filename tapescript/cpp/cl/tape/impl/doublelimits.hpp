@@ -29,14 +29,15 @@ limitations under the License.
 namespace std
 {
     /// <summary>Provides numeric limits for tape_double.</summary>
-    template<> class numeric_limits<cl::tape_double>
+    template<class Inner>
+    class numeric_limits<cl::tape_wrapper<Inner>>
     {
     public:
         static const bool is_specialized = true;
 
-        static double min() throw() { return numeric_limits<double>::min(); }
-        static double max() throw() { return numeric_limits<double>::max(); }
-        static double lowest() throw() { return numeric_limits<double>::lowest(); }
+        static Inner min() throw() { return numeric_limits<double>::min(); }
+        static Inner max() throw() { return numeric_limits<double>::max(); }
+        static Inner lowest() throw() { return numeric_limits<double>::lowest(); }
 
         static const int digits = numeric_limits<double>::digits;
         static const int digits10 = numeric_limits<double>::digits10;
@@ -46,8 +47,8 @@ namespace std
         static const bool is_integer = numeric_limits<double>::is_integer;
         static const bool is_exact = numeric_limits<double>::is_exact;
         static const int radix = numeric_limits<double>::radix;
-        static const double epsilon() throw() { return numeric_limits<double>::epsilon(); }
-        static const double round_error() throw() { return numeric_limits<double>::round_error(); }
+        static const Inner epsilon() throw() { return numeric_limits<double>::epsilon(); }
+        static const Inner round_error() throw() { return numeric_limits<double>::round_error(); }
 
         static const int min_exponent = numeric_limits<double>::min_exponent;
         static const int min_exponent10 = numeric_limits<double>::min_exponent10;
@@ -58,10 +59,10 @@ namespace std
         static const bool has_quiet_NaN = numeric_limits<double>::has_quiet_NaN;
         static const bool has_signaling_NaN = numeric_limits<double>::has_signaling_NaN;
 
-        static double infinity() throw() { return numeric_limits<double>::infinity(); }
-        static double quiet_NaN() throw() { return numeric_limits<double>::quiet_NaN(); }
-        static double signaling_NaN() throw() { return numeric_limits<double>::signaling_NaN(); }
-        static double denorm_min() throw() { return numeric_limits<double>::denorm_min(); }
+        static Inner infinity() throw() { return numeric_limits<double>::infinity(); }
+        static Inner quiet_NaN() throw() { return numeric_limits<double>::quiet_NaN(); }
+        static Inner signaling_NaN() throw() { return numeric_limits<double>::signaling_NaN(); }
+        static Inner denorm_min() throw() { return numeric_limits<double>::denorm_min(); }
     };
 }
 
