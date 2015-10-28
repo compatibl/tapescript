@@ -38,7 +38,7 @@ namespace cl
         std::vector<cl::tdouble> X = { 1, 2, 0, 1 };
         out_str << "Input vector: " << X << "\n";
 
-        // Declare the X vector as independent and start a tape recording.
+        // Declare the X vector as independent and start tape recording.
         cl::tape_start(X);
 
         // Output calculations.
@@ -46,7 +46,7 @@ namespace cl
         std::vector<cl::tdouble> Y = sum;
         out_str << "Output vector: " << Y << "\n\n";
 
-        // Declare a tape function and stop the tape recording.
+        // Declare a tape function and stop tape recording.
         cl::tfunc<double> f(X, Y);
 
         // Forward sweep calculations.
@@ -110,7 +110,7 @@ namespace cl
         std::vector<cl::tdouble> Y = exp;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -143,7 +143,7 @@ namespace cl
         std::vector<cl::tdouble> Y = cos;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -185,7 +185,7 @@ namespace cl
         out_str << "Discount factor: " << discount_factor << "\n";
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -227,7 +227,7 @@ namespace cl
         std::vector<cl::tdouble> Y = { y0[0], y0[1], y1[0], y1[1] };
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -260,7 +260,7 @@ namespace cl
         std::vector<cl::tdouble> Y = { y0 };
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -293,7 +293,7 @@ namespace cl
         std::vector<cl::tdouble > Y =  y0;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -325,7 +325,7 @@ namespace cl
         std::vector<cl::tdouble> Y = X;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -358,7 +358,7 @@ namespace cl
         std::vector<cl::tdouble> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -391,7 +391,7 @@ namespace cl
         std::vector<cl::tdouble> Y = y0;
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -425,7 +425,7 @@ namespace cl
         std::vector<cl::tdouble> Y = { norm };
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 
@@ -469,7 +469,7 @@ namespace cl
         std::vector<cl::tdouble> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
         out_str << "Output vector: " << Y << "\n\n";
 
-        out_str << "Ininial Forward(0) sweep...\n\n";
+        out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
 

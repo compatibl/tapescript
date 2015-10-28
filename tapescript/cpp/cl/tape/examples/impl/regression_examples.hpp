@@ -112,7 +112,7 @@ namespace cl
         //out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
@@ -250,7 +250,7 @@ namespace cl
             out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
@@ -364,7 +364,7 @@ namespace cl
             out_str << "Output vector: " << Y << "\n\n";
 
         if (flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<cl::tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
@@ -505,7 +505,7 @@ namespace cl
             out_str << "Output vector: " << Y << "\n\n";
 
         if (data.flag_serializer)
-            out_str << "Ininial Forward(0) sweep...\n\n";
+            out_str << "Initial Forward(0) sweep...\n\n";
         // Declare a tape function and stop the tape recording.
         cl::tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();

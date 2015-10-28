@@ -35,7 +35,7 @@ namespace cl
         // Input values initialization.
         std::vector<tdouble> X(2, 3.0);
 
-        // Declare the X vector as independent and start a tape recording.
+        // Declare the X vector as independent and start tape recording.
         cl::tape_start(X);
 
         // Output calculations.
@@ -45,7 +45,7 @@ namespace cl
 
         out_str << "\nFunction Y = 2 * X[0] + X[1] is being tested at X[0] = " << X[0] << ", X[1] = " << X[1] << std::endl;
 
-        // Declare a tape function and stop the tape recording.
+        // Declare a tape function and stop tape recording.
         cl::tfunc<double> f(X, Y);
 
         // Calculate derivative of Y with respect to X[0] in Forward mode.
