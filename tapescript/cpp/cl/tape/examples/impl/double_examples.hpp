@@ -25,7 +25,7 @@ limitations under the License.
 
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
-#include "impl/array_examples.hpp"
+#include "array_examples.hpp"
 
 
 namespace cl
