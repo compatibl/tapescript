@@ -159,8 +159,8 @@ namespace cl
         return analyt;
     }
 
-    // Example of linear regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void polynomial_regression_with_params_optimized_example(const PolynomialRegressionData& data, std::ostream& out_stream = std::cout)
+    // Example of polynomial regression differentiation with respect to parameters of input distribution using optimized tape.
+    inline void polynomial_regression_with_params_optimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.GetFlagSerializer();
@@ -195,7 +195,7 @@ namespace cl
         // Create vector of x_i values.
         tobject x = data.CreateEquidistantXVector<tobject>();
         // Create vector of y_i values.
-        tobject y = PolynomialRegressionData::FunctionPolynomPlusExp(x, X);
+        tobject y = polynomial_regression_data::FunctionPolynomPlusExp(x, X);
         if (flag_serializer)
         {
             out_stream << "Input data x: " << x << "\n";
@@ -238,7 +238,7 @@ namespace cl
             for (int i = 0; i < npar; i++)
             {
                 d_y_d_par[i].resize(npoints);
-                tvalue d_y_d_par_tvalue = (tvalue)PolynomialRegressionData::FunctionPolynomPlusExp(x, X, i);
+                tvalue d_y_d_par_tvalue = (tvalue)polynomial_regression_data::FunctionPolynomPlusExp(x, X, i);
                 for (int j = 0; j < npoints; j++)
                     d_y_d_par[i][j] = d_y_d_par_tvalue.element_at(j);
             }
@@ -361,8 +361,8 @@ namespace cl
         out_stream << std::endl;
     }
 
-    // Example of linear regression differentiation with respect to parameters of input distribution using non-optimized tape.
-    inline void polynomial_regression_with_params_nonoptimized_example(const PolynomialRegressionData& data, std::ostream& out_stream = std::cout)
+    // Example of polynomial regression differentiation with respect to parameters of input distribution using non-optimized tape.
+    inline void polynomial_regression_with_params_nonoptimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.GetFlagSerializer();
@@ -400,7 +400,7 @@ namespace cl
         std::vector<std::vector<tdouble>> X_vector(npar);
         for (int i = 0; i < npar; i++)
             X_vector[i] = { X[i] };
-        std::vector<tdouble> y = PolynomialRegressionData::FunctionPolynomPlusExp(x, X_vector);
+        std::vector<tdouble> y = polynomial_regression_data::FunctionPolynomPlusExp(x, X_vector);
         if (flag_serializer)
         {
             out_stream << "Input data x: " << x << "\n";
@@ -443,7 +443,7 @@ namespace cl
             for (int i = 0; i < npar; i++)
             {
                 d_y_d_par[i].resize(npoints);
-                std::vector<tdouble> d_y_d_par_tvalue = PolynomialRegressionData::FunctionPolynomPlusExp(x, X_vector, i);
+                std::vector<tdouble> d_y_d_par_tvalue = polynomial_regression_data::FunctionPolynomPlusExp(x, X_vector, i);
                 for (int j = 0; j < npoints; j++)
                     d_y_d_par[i][j] = (double)d_y_d_par_tvalue[j];
             }
@@ -572,22 +572,22 @@ namespace cl
         serializer.precision(3);
 
         // Order 1.
-        PolynomialRegressionData data_1(1);
+        polynomial_regression_data data_1(1);
         polynomial_regression_with_params_optimized_example(data_1, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_1, serializer);
 
         // Order 2.
-        PolynomialRegressionData data_2(2);
+        polynomial_regression_data data_2(2);
         polynomial_regression_with_params_optimized_example(data_2, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_2, serializer);
 
         // Order 3.
-        PolynomialRegressionData data_3(3);
+        polynomial_regression_data data_3(3);
         polynomial_regression_with_params_optimized_example(data_3, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_3, serializer);
 
         // Order 4.
-        PolynomialRegressionData data_4(4);
+        polynomial_regression_data data_4(4);
         polynomial_regression_with_params_optimized_example(data_4, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_4, serializer);
     }

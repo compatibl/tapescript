@@ -30,7 +30,7 @@ namespace cl
 {
     // Class to store steering parameters for polynomial regression examples.
     // Also provides service methods for generation of input data.
-    class PolynomialRegressionData
+    class polynomial_regression_data
     {
     private:
         // Order of polynomial regression.
@@ -61,7 +61,7 @@ namespace cl
         bool flag_check_;
 
     public:
-        PolynomialRegressionData(int order) : order_(order)
+        polynomial_regression_data(int order) : order_(order)
         {
             // Default settings for debug/release mode.
 #if defined NDEBUG
