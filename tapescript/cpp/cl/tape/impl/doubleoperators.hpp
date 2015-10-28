@@ -658,8 +658,7 @@ namespace boost { namespace numeric { namespace ublas
 #if defined CL_COMPILE_TIME_DEBUG
 #pragma message ("overload operator < : " __FUNCSIG__)
 #endif
-        cl::throw_("Operator is not implemented: " __FUNCSIG__);
-        return true;// (cl::tape_wrapper<Base>)left < right;
+        return left.operator cl::tape_wrapper<Base>() < right;
     }
 
     // This is hooked operator <
