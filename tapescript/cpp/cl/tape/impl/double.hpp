@@ -181,6 +181,7 @@ namespace cl
                 , is_arithmetic_or_contructible =
                         std::is_arithmetic<Type>::value
                             || std::is_constructible <native_type, typename cl::remove_ad<value_type>::type >::value
+                , is_remove_ad = std::is_same<native_type, typename cl::remove_ad<value_type>::type>::value
             };
 
             typedef std::integral_constant<bool, is_sm || is_constructible_from_value > is_value_type;
@@ -189,7 +190,8 @@ namespace cl
             // We should show message if we can create
             // class from double type but not from QlDouble
             to<Type>(std::integral_constant<bool, is_arithmetic_or_contructible
-                && !std::is_arithmetic<Type>::value >());
+                && !std::is_arithmetic<Type>::value
+                && !is_remove_ad>());
 
             return this->get__<Type>(is_arithm_or_contrictible(), is_value_type());
         }
