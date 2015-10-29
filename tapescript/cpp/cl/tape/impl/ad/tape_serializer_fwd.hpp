@@ -107,7 +107,7 @@ namespace cl
         typedef typename
             serializer_traits<Base>::type Serializer;
 
-        serialize__<cl::is_implemented<Serializer>, Serializer, Stream, Args...>(cl::is_implemented<Serializer>(), stg, args...);
+        serialize__<Serializer, Stream, Base>(cl::is_implemented<Serializer>(), stg, args...);
     }
 
     namespace tapescript
