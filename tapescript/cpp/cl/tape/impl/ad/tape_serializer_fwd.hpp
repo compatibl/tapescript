@@ -63,8 +63,8 @@ namespace cl
 #endif
 
 
-    template <typename Trait0, typename Serializer, typename Stream, typename... Args>
-    inline void serialize__(Trait0, Stream& stg, Args...)
+    template <typename Serializer, typename Stream, typename... Args>
+    inline void serialize__(std::false_type, Stream& stg, Args...)
     {
 # if defined CL_COMPILE_TIME_DEBUG_ENABLED
 #   pragma message ("Empty serializer in: " __FUNCSIG__)
@@ -107,7 +107,7 @@ namespace cl
         typedef typename
             serializer_traits<Base>::type Serializer;
 
-        serialize__<Serializer, Stream, Base>(cl::is_implemented<Serializer>(), stg, args...);
+        serialize__<Serializer>(cl::is_implemented<Serializer>(), stg, args...);
     }
 
     namespace tapescript

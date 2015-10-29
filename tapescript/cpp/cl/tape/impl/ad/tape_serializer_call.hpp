@@ -225,7 +225,7 @@ namespace CppAD
     inline void serialize__
         (std::true_type
         , Stream                             &s_out
-        , CppAD::vector<unsigned long long>  &user_iy
+        , CppAD::vector<size_t>              &user_iy
         , CppAD::player<Base>*                play
         , Base                               *taylor
         , enum CppAD::OpCode                  op
