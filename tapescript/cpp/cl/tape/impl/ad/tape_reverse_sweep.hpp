@@ -1,16 +1,13 @@
 /*
 Copyright (C) 2015-present CompatibL
 
-This file is part of TapeScript (the "Software"), an open source library
-for adjoint algorithmic differentiation (AAD), available from:
+Documentation and quant finance examples are available at:
 
-http://github.com/compatibl/tapescript (source)
-http://www.tapescript.org (documentation)
+http://www.modval.org/adjoint
 
-The Software is distributed under multiple licenses. This distribution
-is under the terms of the Apache License, Version 2.0 (the "License");
+Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at:
+You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
@@ -19,17 +16,17 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+This file includes code from CppAD, a C++ algorithmic differentiation library
+distributed under multiple licenses. This distribution is under the terms of
+the Eclipse Public License Version 1.0, a copy of which is available at:
+
+https://www.eclipse.org/legal/epl-v10.html
+
+CppAD code included in this file is subject to copyright:
+
+Copyright (C) 2003-15 Bradley M. Bell
 */
-/* --------------------------------------------------------------------------
-CppAD: C++ Algorithmic Differentiation: Copyright (C) 2003-15 Bradley M. Bell
-
-CppAD is distributed under multiple licenses. This distribution is under
-the terms of the
-Eclipse Public License Version 1.0.
-
-A copy of this license is included in the COPYING file of this distribution.
-Please visit http://www.coin-or.org/CppAD/ for information on other licenses.
--------------------------------------------------------------------------- */
 
 #ifndef cl_tape_impl_ad_reverse_sweep_hpp
 #define cl_tape_impl_ad_reverse_sweep_hpp
