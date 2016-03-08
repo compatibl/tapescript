@@ -11,53 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="declare.hpp" />
-    <ClInclude Include="examples\impl\array_examples.hpp" />
-    <ClInclude Include="examples\impl\basic_examples.hpp" />
-    <ClInclude Include="examples\impl\double_examples.hpp" />
-    <ClInclude Include="examples\impl\linear_regression.hpp" />
-    <ClInclude Include="examples\impl\performance_tests.hpp" />
-    <ClInclude Include="examples\impl\regression_examples.hpp" />
-    <ClInclude Include="examples\impl\regression_examples_impl.hpp" />
-    <ClInclude Include="examples\impl\utils.hpp" />
-    <ClInclude Include="implement.hpp" />
-    <ClInclude Include="impl\adjointref.hpp" />
-    <ClInclude Include="impl\adjointrefoperator.hpp" />
-    <ClInclude Include="impl\ad\ad_fields.hpp" />
-    <ClInclude Include="impl\ad\tape_forward0sweep.hpp" />
-    <ClInclude Include="impl\ad\tape_forward1sweep.hpp" />
-    <ClInclude Include="impl\ad\tape_serializer.hpp" />
-    <ClInclude Include="impl\ad\tape_serializer_call.hpp" />
-    <ClInclude Include="impl\ad\tape_serializer_fwd.hpp" />
-    <ClInclude Include="impl\boost_connectors.hpp" />
-    <ClInclude Include="impl\complex.hpp" />
-    <ClInclude Include="impl\double.hpp" />
-    <ClInclude Include="impl\doubleconverter.hpp" />
-    <ClInclude Include="impl\doublelimits.hpp" />
-    <ClInclude Include="impl\doublemath.hpp" />
-    <ClInclude Include="impl\doubleoperatorcheck.hpp" />
-    <ClInclude Include="impl\doubleoperators.hpp" />
-    <ClInclude Include="impl\inner\array_traits.hpp" />
-    <ClInclude Include="impl\inner\base_inner_array.hpp" />
-    <ClInclude Include="impl\inner\base_tape_inner.hpp" />
-    <ClInclude Include="impl\inner\inner_array.hpp" />
-    <ClInclude Include="impl\inner\inner_array_ops.hpp" />
-    <ClInclude Include="impl\inner\tape_inner.hpp" />
-    <ClInclude Include="impl\inner\tape_inner_ops.hpp" />
-    <ClInclude Include="impl\ql\blackcalculator_t.hpp" />
-    <ClInclude Include="impl\ql\errorfunction_t.hpp" />
-    <ClInclude Include="impl\ql\normaldistribution_t.hpp" />
-    <ClInclude Include="impl\ql\payoffs_t.hpp" />
-    <ClInclude Include="impl\ql\payoff_t.hpp" />
-    <ClInclude Include="impl\reflection\mem_access.hpp" />
-    <ClInclude Include="impl\std_fwd.hpp" />
-    <ClInclude Include="impl\tape_archive\tape_arhive.hpp" />
-    <ClInclude Include="impl\tape_fwd.hpp" />
-    <ClInclude Include="impl\traits.hpp" />
-    <ClInclude Include="import.hpp" />
-    <ClInclude Include="tape.hpp" />
-    <ClInclude Include="util\testoutput.hpp" />
-    <ClInclude Include="util\testutil.hpp" />
+    <ClInclude Include="**\*.hpp" Exclude="examples\**\*.hpp"/>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{27712514-1FE3-4409-AAF7-00D1D20FB522}</ProjectGuid>
