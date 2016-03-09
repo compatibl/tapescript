@@ -1,7 +1,7 @@
 ﻿/*
 Copyright (C) 2015-present CompatibL
 
-Documentation and quant finance examples are available at:
+Performance test results and finance-specific examples are available at:
 
 http://www.modval.org/adjoint
 
