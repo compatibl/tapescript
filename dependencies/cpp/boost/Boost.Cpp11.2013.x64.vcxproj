@@ -11,10 +11,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="serialization\src\archive_exception.cpp" />
+    <ClCompile Include="serialization\src\basic_archive.cpp" />
+    <ClCompile Include="serialization\src\basic_iarchive.cpp" />
+    <ClCompile Include="serialization\src\basic_iserializer.cpp" />
+    <ClCompile Include="serialization\src\basic_oarchive.cpp" />
+    <ClCompile Include="serialization\src\basic_oserializer.cpp" />
+    <ClCompile Include="serialization\src\basic_pointer_iserializer.cpp" />
+    <ClCompile Include="serialization\src\basic_pointer_oserializer.cpp" />
+    <ClCompile Include="serialization\src\basic_serializer_map.cpp" />
+    <ClCompile Include="serialization\src\basic_text_iprimitive.cpp" />
+    <ClCompile Include="serialization\src\basic_text_oprimitive.cpp" />
+    <ClCompile Include="serialization\src\basic_text_wiprimitive.cpp" />
+    <ClCompile Include="serialization\src\basic_text_woprimitive.cpp" />
+    <ClCompile Include="serialization\src\basic_xml_archive.cpp" />
+    <ClCompile Include="serialization\src\codecvt_null.cpp" />
+    <ClCompile Include="serialization\src\extended_type_info.cpp" />
+    <ClCompile Include="serialization\src\extended_type_info_no_rtti.cpp" />
+    <ClCompile Include="serialization\src\extended_type_info_typeid.cpp" />
+    <ClCompile Include="serialization\src\polymorphic_iarchive.cpp" />
+    <ClCompile Include="serialization\src\polymorphic_oarchive.cpp" />
+    <ClCompile Include="serialization\src\stl_port.cpp" />
+    <ClCompile Include="serialization\src\void_cast.cpp" />
     <ClCompile Include="system\src\*.cpp" />
     <ClCompile Include="archive\impl\src\*.cpp" />
     <ClCompile Include="filesystem\src\*.cpp" />
     <ClCompile Include="test\impl\**\*.ipp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="serialization\src\basic_xml_grammar.ipp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{05FCBA2D-EBAF-4265-94E6-CB33526C758F}</ProjectGuid>
@@ -59,10 +84,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>BOOST_FILESYSTEM_NO_LIB;BOOST_SYSTEM_NO_LIB;WIN32;_DEBUG;_WINDOWS;_LIB;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_TEST_NO_MAIN;BOOST_FILESYSTEM_NO_LIB;BOOST_SYSTEM_NO_LIB;WIN32;_DEBUG;_WINDOWS;_LIB;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4800;4244;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,11 +103,12 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>BOOST_FILESYSTEM_NO_LIB;BOOST_SYSTEM_NO_LIB;WIN32;NDEBUG;_WINDOWS;_LIB;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_TEST_NO_MAIN;BOOST_FILESYSTEM_NO_LIB;BOOST_SYSTEM_NO_LIB;WIN32;NDEBUG;_WINDOWS;_LIB;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
       <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ExceptionHandling>Async</ExceptionHandling>
+      <DisableSpecificWarnings>4800;4244;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
