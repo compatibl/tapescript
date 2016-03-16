@@ -37,6 +37,9 @@ namespace cl
         std::vector<cl::tobject> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
+        cl::tvalue exp_value = { 1, 3 };
+        CL_ASSERT(X[0] + X[1] == exp_value, "Calculated and expected values are different.");
+
         // Declare the X vector as independent and start  tape recording.
         cl::tape_start(X);
 
@@ -61,6 +64,8 @@ namespace cl
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
 
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == X[0] + X[1], "Calculated and expected values are different.");
     }
 
     inline void minus_example(std::ostream& out_stream = std::cout)
@@ -72,6 +77,9 @@ namespace cl
         cl::tvalue x1 = { 0, 1 };
         std::vector<cl::tobject> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp_value = { 1, 1 };
+        CL_ASSERT(X[0] - X[1] == exp_value, "Calculated and expected values are different.");
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
@@ -105,6 +113,8 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == exp_value, "Calculated and expected values are different.");
     }
 
     inline void exp_example(std::ostream& out_stream = std::cout)
@@ -116,11 +126,54 @@ namespace cl
         std::vector<cl::tobject> X = { x0 };
         out_str << "Input vector: " << X << "\n";
 
+        cl::tvalue exp_value = { 1,  std::exp(1)};
+        CL_ASSERT(std::exp(X[0]) == exp_value, "Calculated and expected values are different.");
+
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
         // Output calculations.
         cl::tobject exp = std::exp(X[0]);
+        std::vector<cl::tobject> Y = { exp };
+        out_str << "Output vector: " << Y << "\n\n";
+
+        out_str << "Initial Forward(0) sweep...\n\n";
+        // Declare a tape function and stop the tape recording.
+        cl::tfunc<cl::tvalue> f(X, Y);
+
+        // Forward sweep calculations.
+        std::vector<cl::tvalue> dx = { { 1, 1 } };
+        out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_stream);
+        out_str << "Forward sweep result: " << forw << "\n\n";
+
+        // Reverse sweep calculations.
+        std::vector<cl::tvalue> w = { { 1, 1 } };
+        out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
+        out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == std::exp(X[0]), "Calculated and expected values are different.");
+    }
+
+    inline void array_pow_example(std::ostream& out_stream = std::cout)
+    {
+        out_str << "Pow function:\n\n";
+
+        // Input values initialization.
+        cl::tvalue x0 = { 1, 2 };
+        std::vector<cl::tobject> X = { x0 };
+        out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp_value = { 1, 4 };
+        CL_ASSERT(std::pow(X[0], 2) == exp_value, "Calculated and expected values are different.");
+        CL_ASSERT(std::pow(X[0], 2.0) == exp_value, "Calculated and expected values are different.");
+
+        // Declare the X vector as independent and start a tape recording.
+        cl::tape_start(X);
+
+        // Output calculations.
+        cl::tobject exp = std::pow(X[0], 2);
         std::vector<cl::tobject> Y = { exp };
         out_str << "Output vector: " << Y << "\n\n";
 
@@ -139,6 +192,8 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == std::pow(X[0], 2.0), "Calculated and expected values are different.");
     }
 
     inline void cos_example(std::ostream& out_stream = std::cout)
@@ -149,6 +204,10 @@ namespace cl
         cl::tvalue x0 = { 1, 3.14159265359 / 2 };
         std::vector<cl::tobject> X = { x0 };
         out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp_value = { std::cos(1), 0 };
+        cl::tvalue exp_err = { 1e-10, 1e-10 };
+        CL_ASSERT(std::abs(std::cos(X[0]) - exp_value) < exp_err, "Calculated and expected values are different.");
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
@@ -173,6 +232,8 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(std::abs(Y[0] - std::cos(X[0])) < exp_err, "Calculated and expected values are different.");
     }
 
     inline void discount_example(std::ostream& out_stream = std::cout)
@@ -188,6 +249,12 @@ namespace cl
         out_str << "Rate: " << rate << "\n";
         out_str << "Time: " << time << "\n";
         out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp_discount_factor = { std::exp(-0.05), std::exp(-0.08) };
+        cl::tvalue exp_discount_price = { 100 * std::exp(-0.05), 110 * std::exp(-0.08) };
+        std::vector<cl::tobject> exp_vec = { exp_discount_price, exp_discount_factor };
+        CL_ASSERT(std::exp(-X[1] * X[2]) == exp_discount_factor, "Calculated and expected values are different.");
+        CL_ASSERT(X[0] * std::exp(-X[1] * X[2]) == exp_discount_price, "Calculated and expected values are different.");
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
@@ -222,6 +289,8 @@ namespace cl
         out_str << "Sensitivity to the changes in spot price:    " << rev[0] << "\n";
         out_str << "Sensitivity to the changes in interest rate: " << rev[1] << "\n";
         out_str << "Sensitivity to the changes in maturity time: " << rev[2] << "\n\n\n";
+
+        CL_ASSERT(Y == exp_vec, "Calculated and expected values are different.");
     }
 
     inline void example1(std::ostream& out_stream = std::cout)
@@ -235,8 +304,14 @@ namespace cl
         std::vector<cl::tobject> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
+        cl::tvalue exp_err = { 1e-10, 1e-10 };
+        cl::tvalue exp_y0 = { std::sin(1) / std::cos(-1) - 1.0 / 1.0, std::sin(2) / std::cos(-1) - 1.0 / 2.0 };
+        CL_ASSERT(std::sin(X[0]) / std::cos(X[1]) + X[1] / X[0] == exp_y0, "Calculated and expected values are different.");
+
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
+
+        cl::tobject temp = std::sin(X[0]);
 
         // Output calculations.
         cl::tobject y0 = std::sin(X[0]) / std::cos(X[1]) + X[1] / X[0];
@@ -259,6 +334,8 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == std::sin(X[0]) / std::cos(X[1]) + X[1] / X[0], "Calculated and expected values are different.");
     }
 
     inline void sum_example(std::ostream& out_stream = std::cout)
@@ -269,6 +346,9 @@ namespace cl
         cl::tvalue x0 = { 1, 2 };
         std::vector<cl::tobject> X = { x0 };
         out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp = 3;
+        CL_ASSERT(cl::tapescript::sum_vec(X[0]) == exp, "Calculated and expected values are different.");
 
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
@@ -293,6 +373,8 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(Y[0] == cl::tapescript::sum_vec(X[0]), "Calculated and expected values are different.");
     }
 
     inline void rev_example(std::ostream& out_stream = std::cout)
@@ -410,6 +492,9 @@ namespace cl
         std::vector<cl::tobject> X = { x0, x1 };
         out_str << "Input vector: " << X << "\n";
 
+        cl::tvalue exp = { 1, 0, 1 };
+        CL_ASSERT(std::max(X[0], X[1]) == exp, "Calculated and expected values are different.");
+
         // Declare the X vector as independent and start a tape recording.
         cl::tape_start(X);
 
@@ -433,6 +518,48 @@ namespace cl
         out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
         std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
         out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(std::max(X[0], X[1]) == Y[0], "Calculated and expected values are different.");
+    }
+
+    inline void min_example(std::ostream& out_stream = std::cout)
+    {
+        out_str << "Minimum of two arrays:\n" << std::endl;
+
+        // Input values initialization.
+        cl::tvalue x0 = { -1, 0, 1 };
+        cl::tvalue x1 = { 1, 0, -1 };
+        std::vector<cl::tobject> X = { x0, x1 };
+        out_str << "Input vector: " << X << "\n";
+
+        cl::tvalue exp = { -1, 0, -1 };
+        CL_ASSERT(std::min(X[0], X[1]) == exp, "Calculated and expected values are different.");
+
+        // Declare the X vector as independent and start a tape recording.
+        cl::tape_start(X);
+
+        // Output calculations.
+        cl::tobject y0 = std::min(X[0], X[1]);
+        std::vector<cl::tobject> Y = { y0 };
+        out_str << "Output vector: " << Y << "\n\n";
+
+        out_str << "Initial Forward(0) sweep...\n\n";
+        // Declare a tape function and stop the tape recording.
+        cl::tfunc<cl::tvalue> f(X, Y);
+
+        // Forward sweep calculations.
+        std::vector<cl::tvalue> dx = { { 1, 1, 1 }, { 2, 2, 2 } };
+        out_str << "Forward(1, dx) sweep for dx = " << dx << "..." << std::endl;
+        std::vector<cl::tvalue> forw = f.forward(1, dx, out_stream);
+        out_str << "Forward sweep result: " << forw << "\n\n";
+
+        // Reverse sweep calculations.
+        std::vector<cl::tvalue> w = { { 1, 2, 3 } };
+        out_str << "Reverse(1, w) sweep for w = " << w << "..." << std::endl;
+        std::vector<cl::tvalue> rev = f.reverse(1, w, out_stream);
+        out_str << "Reverse sweep result: " << rev << "\n\n\n";
+
+        CL_ASSERT(std::min(X[0], X[1]) == Y[0], "Calculated and expected values are different.");
     }
 
     inline void norm_example(std::ostream& out_stream = std::cout)
@@ -520,13 +647,14 @@ namespace cl
 
     inline void array_examples()
     {
-        std::ofstream of("output/output.txt");
+        std::ofstream of("output/array_examples_output.txt");
         cl::tape_serializer<cl::tvalue> serializer(of);
         serializer.precision(3);
 
         plus_example(serializer);
         minus_example(serializer);
         exp_example(serializer);
+        array_pow_example(serializer);
         cos_example(serializer);
         discount_example(serializer);
         example1(serializer);
@@ -535,6 +663,7 @@ namespace cl
         conc_example(serializer);
         make_example(serializer);
         max_example(serializer);
+        min_example(serializer);
         norm_example(serializer);
         linear_regression_example(serializer);
     }

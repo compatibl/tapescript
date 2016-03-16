@@ -446,25 +446,55 @@ namespace cl
 
         // Input values initialization.
         size_t n = 3;
-        std::vector<tdouble> X = { -1, 0, 1, 1, 0, 3 };
+        std::vector<double> x_ref = { -1, 0, 1 };
+        std::vector<double> y_ref = { 1, 0, 3 };
+        std::vector<tdouble> X(2 * n);
+        std::copy(x_ref.begin(), x_ref.end(), X.begin());
+        std::copy(y_ref.begin(), y_ref.end(), X.begin() + n);
+
         out_str << "Input vector: " << X << "\n";
 
         // Declare the X vector as independent and start a tape recording.
         tape_start(X);
 
         // Output calculations.
-        std::vector<tdouble> x = { X[0], X[1], X[2] };
-        std::vector<tdouble> y = { X[3], X[4], X[5] };
-        tdouble x_mean = 1.0 / n * (x[0] + x[1] + x[2]);
-        tdouble y_mean = 1.0 / n * (y[0] + y[1] + y[2]);
+        auto x = X.begin();
+        auto y = X.begin() + n;
+
+        tdouble x_mean = 0;
+        tdouble y_mean = 0;
+        for (size_t i = 0; i < n; i++)
+        {
+            x_mean += x[i];
+            y_mean += y[i];
+        }
+        x_mean /= n;
+        y_mean /= n;
+
         // Variance times n: n * Var[x]
-        tdouble var_x_n = std::pow(x[0] - x_mean, 2) + std::pow(x[1] - x_mean, 2) + std::pow(x[2] - x_mean, 2);
+        tdouble var_x_n = 0;
         // Covariance times n: n * Cov[x, y]
-        tdouble cov_xy_n = (x[0] - x_mean) * (y[0] - y_mean) + (x[1] - x_mean) * (y[1] - y_mean) + (x[2] - x_mean) * (y[2] - y_mean);
+        tdouble cov_xy_n = 0;
+        for (size_t i = 0; i < n; i++)
+        {
+            var_x_n += std::pow(x[i] - x_mean, 2);
+            cov_xy_n += (x[i] - x_mean) * (y[i] - y_mean);
+        }
+
         tdouble beta = cov_xy_n / var_x_n;
         tdouble alpha = y_mean - beta * x_mean;
-        std::vector<tdouble> y_estimate = { alpha + beta * x[0], alpha + beta * x[1], alpha + beta * x[2] };
-        std::vector<tdouble> Y = { alpha, beta, y_estimate[0], y_estimate[1], y_estimate[2] };
+        std::vector<tdouble> y_estimate(n);
+        for (size_t i = 0; i < n; i++)
+        {
+            y_estimate[i] = alpha + beta * x[i];
+        }
+        std::vector<tdouble> Y(n + 2);
+        Y[0] = alpha;
+        Y[1] = beta;
+        for (size_t i = 0; i < n; i++)
+        {
+            Y[i + 2] = y_estimate[i];
+        }
         out_str << "Output vector: " << Y << "\n\n";
 
         out_str << "Initial Forward(0) sweep...\n\n";
