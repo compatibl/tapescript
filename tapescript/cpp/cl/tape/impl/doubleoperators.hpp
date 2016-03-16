@@ -36,155 +36,29 @@ limitations under the License.
 //!! Certain tape double operators
 namespace cl
 {
-    namespace tapescript
+    /// <summary>Serialize to stream.</summary>
+    inline std::ostream& operator<<(std::ostream& output, const tape_double& v)
     {
-        /// Take value from tape double
-        template <typename TapeType>
-        inline typename TapeType::value_type const& cvalue(TapeType const& tv)
-        {
-            return tv.value_;
-        }
+        if (v.is_ptr())
+            output << v.tdouble_();
+        else
+            output << v.double_();
 
-        /// Take const value from tape double
-        template <typename TapeType>
-        inline typename TapeType::value_type& value(TapeType& tv)
-        {
-            return tv.value_;
-        }
+        return output;
     }
 
-    /// <summary>Returns the result of addition of two tape_double objects.</summary>
-    inline tape_double operator+(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) + cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of subtraction of two tape_double objects.</summary>
-    inline tape_double operator-(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) - cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of multiplication of two tape_double objects.</summary>
-    inline tape_double operator*(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) * cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of division of two tape_double objects.</summary>
-    inline tape_double operator/(const tape_double& lhs, const tape_double& rhs) { return cl::tapescript::cvalue(lhs) / cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of addition of tape_double and double.</summary>
-    inline tape_double operator+(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) + rhs; }
-
-    /// <summary>Returns the result of subtraction of tape_double and double.</summary>
-    inline tape_double operator-(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) - rhs; }
-
-    /// <summary>Returns the result of multiplication of tape_double and double.</summary>
-    inline tape_double operator*(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) * rhs; }
-
-    /// <summary>Returns the result of division of tape_double and double.</summary>
-    inline tape_double operator/(const tape_double& lhs, double rhs) { return cl::tapescript::cvalue(lhs) / rhs; }
-
-    /// <summary>Returns the result of addition of double and tape_double.</summary>
-    inline tape_double operator+(double lhs, const tape_double& rhs) { return lhs + cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of subtraction of double and tape_double.</summary>
-    inline tape_double operator-(double lhs, const tape_double& rhs) { return lhs - cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of multiplication of double and tape_double.</summary>
-    inline tape_double operator*(double lhs, const tape_double& rhs) { return lhs * cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of division of double and tape_double.</summary>
-    inline tape_double operator/(double lhs, const tape_double& rhs) { return lhs / cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is equal to rhs.</summary>
-    inline bool operator==(double lhs, const tape_double& rhs) { return lhs == cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is not equal to rhs.</summary>
-    inline bool operator!=(double lhs, const tape_double& rhs) { return lhs != cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is less than rhs.</summary>
-    inline bool operator<(double lhs, const tape_double& rhs) { return lhs < cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is less than or equal to rhs.</summary>
-    inline bool operator<=(double lhs, const tape_double& rhs) { return lhs <= cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is more than rhs.</summary>
-    inline bool operator>(double lhs, const tape_double& rhs) { return lhs > cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is more than or equal to rhs.</summary>
-    inline bool operator>=(double lhs, const tape_double& rhs) { return lhs >= cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Serialize to stream.</summary>
-    inline std::ostream& operator<<(std::ostream& output, const tape_double& v) { output << cl::tapescript::cvalue(v); return output; }
-
     /// <summary>Deserialize from stream.</summary>
-    inline std::istream& operator>>(std::istream& input, tape_double& v) { input >> cl::tapescript::value(v); return input; }
+    inline std::istream& operator>>(std::istream& input, tape_double& v)
+    {
+        if (v.is_ptr())
+            input >> v.tdouble_();
+        else
+            input >> v.double_();
+
+        return input;
+    }
 
 
-    /// <summary>Returns the result of addition of two cl::tape_wrapper<Base> objects.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator+(const cl::tape_wrapper<Base>& lhs, const cl::tape_wrapper<Base>& rhs) { return cl::tapescript::cvalue(lhs) + cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of subtraction of two cl::tape_wrapper<Base> objects.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator-(const cl::tape_wrapper<Base>& lhs, const cl::tape_wrapper<Base>& rhs) { return cl::tapescript::cvalue(lhs) - cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of multiplication of two cl::tape_wrapper<Base> objects.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator*(const cl::tape_wrapper<Base>& lhs, const cl::tape_wrapper<Base>& rhs) { return cl::tapescript::cvalue(lhs) * cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of division of two cl::tape_wrapper<Base> objects.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator/(const cl::tape_wrapper<Base>& lhs, const cl::tape_wrapper<Base>& rhs) { return cl::tapescript::cvalue(lhs) / cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of addition of cl::tape_wrapper<Base> and double.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator+(const cl::tape_wrapper<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) + rhs; }
-
-    /// <summary>Returns the result of subtraction of cl::tape_wrapper<Base> and double.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator-(const cl::tape_wrapper<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) - rhs; }
-
-    /// <summary>Returns the result of multiplication of cl::tape_wrapper<Base> and double.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator*(const cl::tape_wrapper<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) * rhs; }
-
-    /// <summary>Returns the result of division of cl::tape_wrapper<Base> and double.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator/(const cl::tape_wrapper<Base>& lhs, double rhs) { return cl::tapescript::cvalue(lhs) / rhs; }
-
-    /// <summary>Returns the result of addition of double and cl::tape_wrapper<Base>.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator+(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs + cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of subtraction of double and cl::tape_wrapper<Base>.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator-(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs - cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of multiplication of double and cl::tape_wrapper<Base>.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator*(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs * cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns the result of division of double and cl::tape_wrapper<Base>.</summary>
-    template <class Base>
-    inline cl::tape_wrapper<Base> operator/(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs / cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is equal to rhs.</summary>
-    template <class Base>
-    inline bool operator==(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs == cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is not equal to rhs.</summary>
-    template <class Base>
-    inline bool operator!=(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs != cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is less than rhs.</summary>
-    template <class Base>
-    inline bool operator<(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs < cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is less than or equal to rhs.</summary>
-    template <class Base>
-    inline bool operator<=(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs <= cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is more than rhs.</summary>
-    template <class Base>
-    inline bool operator>(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs > cl::tapescript::cvalue(rhs); }
-
-    /// <summary>Returns true if lhs is more than or equal to rhs.</summary>
-    template <class Base>
-    inline bool operator>=(double lhs, const cl::tape_wrapper<Base>& rhs) { return lhs >= cl::tapescript::cvalue(rhs); }
 
     /// <summary>Serialize to stream.</summary>
     template <class Base>
@@ -198,12 +72,6 @@ namespace cl
 //!! Supporting code for double operators, in progress
 namespace cl_ext
 {
-    template <typename _Ty>
-    inline void print_type()
-    {
-#pragma message (__FUNCSIG__)
-    }
-
     struct basic_operators;
 
     template <typename Left, typename Right>
@@ -349,9 +217,9 @@ namespace cl_ext
         operator - (Left left, Right right)
     {
 
-#if defined CL_COMPILE_TIME_DEBUG
-#    pragma message ("overload operator - : " __FUNCSIG__)
-#endif
+#           if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#               pragma message ("overload operator - : " __FUNCSIG__)
+#           endif
 
             operator_traits<typename std::remove_const<Left>::type
                 , typename std::remove_const<Right>::type, oper_minus> op;
@@ -365,9 +233,9 @@ namespace cl_ext
         operator + (Left left, Right right)
     {
 
-#if defined CL_COMPILE_TIME_DEBUG
-#    pragma message ("overload operator + : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator + : " __FUNCSIG__)
+#       endif
 
         operator_traits<typename std::remove_const<Left>::type
             , typename std::remove_const<Right>::type, oper_plus> op;
@@ -441,9 +309,9 @@ namespace cl_ext
         operator / (Left left, Right right)
     {
 
-#if defined CL_COMPILE_TIME_DEBUG
-#    pragma message ("overload operator / : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator / : " __FUNCSIG__)
+#       endif
 
         operator_traits<typename std::remove_const<Left>::type
             , typename std::remove_const<Right>::type, oper_div> op;
@@ -516,9 +384,10 @@ namespace cl_ext
         , typename std::remove_const<Right>::type, struct oper_mult>::type
         operator * (Left left, Right right)
     {
-#if defined CL_COMPILE_TIME_DEBUG
-#    pragma message ("overload operator * : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator * : " __FUNCSIG__)
+#       endif
+
         operator_traits<typename std::remove_const<Left>::type
             , typename std::remove_const<Right>::type, oper_mult> op;
 
@@ -553,11 +422,11 @@ namespace std
         template <typename Left, typename Right>
         typename cl::tape_double::value_type operator () (Left const& left, Right const& right) const
         {
-#if defined CL_TAPE_CPPAD
-            return (left * right).value();
-#else
-            return (cl::tape_double::value_type)(left * right);
-#endif
+#           if defined CL_TAPE_CPPAD
+               return (left * right).value();
+#           else
+               return (cl::tape_double::value_type)(left * right);
+#           endif
         }
     };
 
@@ -650,18 +519,19 @@ namespace boost { namespace numeric { namespace ublas
     template <typename Left>
     inline bool operator < (Left const& left, cl::tape_double const& right)
     {
-#if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator < : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator < : " __FUNCSIG__)
+#       endif
         return (cl::tape_double)left < right;
     }
 
     template <typename Left, typename Base>
     inline bool operator < (Left const& left, cl::tape_wrapper<Base> const& right)
     {
-#if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator < : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator < : " __FUNCSIG__)
+#       endif
+
         return left.operator cl::tape_wrapper<Base>() < right;
     }
 
@@ -767,9 +637,10 @@ namespace boost { namespace numeric { namespace ublas
            > const& left
         , cl::tape_wrapper<Base> const& right)
     {
-#if defined CL_COMPILE_TIME_DEBUG
-#pragma message ("overload operator < : " __FUNCSIG__)
-#endif
+#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+#           pragma message ("overload operator < : " __FUNCSIG__)
+#       endif
+
         return (cl::tape_wrapper<Base>)left < right;
     }
 }
@@ -784,18 +655,22 @@ namespace boost
         struct is_arithmetic_impl<cl::tape_wrapper<Base>>
         {
             typedef typename cl::remove_ad<typename cl::tape_wrapper<Base>::value_type>::type value_type;
-#if defined BOOST_STATIC_CONSTANT
-            BOOST_STATIC_CONSTANT(bool, value =
-                (::boost::type_traits::ice_or<
-                    ::boost::is_integral<value_type>::value,
-                    ::boost::is_float<value_type>::value
-                >::value));
-#else
-            static const bool value = std::is_arithmetic<value_type>::value;
-#endif
+
+#           if defined BOOST_STATIC_CONSTANT
+                       BOOST_STATIC_CONSTANT(bool, value =
+                           (::boost::type_traits::ice_or<
+                               ::boost::is_integral<value_type>::value,
+                               ::boost::is_float<value_type>::value
+                           >::value));
+#           else
+              static const bool value = std::is_arithmetic<value_type>::value;
+#           endif
+
             typedef typename std::is_arithmetic<value_type>::type type;
         };
     }
 }
 
 #endif  // cl_tape_impl_doubleoperators_hpp
+
+
