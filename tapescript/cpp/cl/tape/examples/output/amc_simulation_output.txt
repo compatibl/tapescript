@@ -1,0 +1,28 @@
+price 1.89232
+Forward(1, dx) sweep for dx = { 1, 0, 0, 0, 0 }...
+Forward sweep result: Delta equal { 0.280602 }
+
+price 1.93945
+Forward(1, dx) sweep for dx = { 1, 0, 0, 0, 0 }...
+Forward sweep result: Delta equal { 0.284267 }
+
+price 1.98694
+Forward(1, dx) sweep for dx = { 1, 0, 0, 0, 0 }...
+Forward sweep result: Delta equal { 0.287934 }
+
+price 2.03484
+Forward(1, dx) sweep for dx = { 1, 0, 0, 0, 0 }...
+Forward sweep result: Delta equal { 0.290518 }
+
+price 2.08309
+Forward(1, dx) sweep for dx = { 1, 0, 0, 0, 0 }...
+Forward sweep result: Delta equal { 0.293104 }
+
+tdouble performance result: 0.024 for size portfolio = 5
+{ 1.89232, 1.93945, 1.98694, 2.03484, 2.08309 }
+Forward(1, dx) sweep for dx = { { 1, 1, 1, 1, 1 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } }...
+Forward sweep result: Delta equal { { 0.280602, 0.284267, 0.287934, 0.290518, 0.293104 } }
+
+tarray performance result: 0.016 for size portfolio = 5
+tdouble performance result: 1.129 for size portfolio = 1000
+tarray performance result: 0.178 for size portfolio = 1000
