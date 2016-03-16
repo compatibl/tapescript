@@ -1,11 +1,9 @@
 /*
-Copyright (C) 2003-2015 CompatibL
+Copyright (C) 2015-present CompatibL
 
-This file is part of TapeScript, an open source library and tape encoding
-standard for adjoint algorithmic differentiation (AAD), available from
+Performance test results and finance-specific examples are available at:
 
-http://github.com/compatibl/tapescript (source)
-http://tapescript.org (documentation)
+http://www.modval.org/adjoint
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
