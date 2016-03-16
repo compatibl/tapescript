@@ -1,0 +1,561 @@
+Plus operation:
+
+Input vector: { { 1, 2 }, { 0, 1 } }
+Output vector: { { 1, 3 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 2, 5 }, { 1, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 2, 5 }            
+2    2    Init                        value = { 0, 1 }             fwd[1] = { 1, -1 }           
+3    3    +       var#1    var#2      value = { 1, 3 }             fwd[1] = { 3, 4 }            
+4         End                        
+
+Forward sweep result: { { 3, 4 } }
+
+Reverse(1, w) sweep for w = { { 3, 7 } }...
+
+Op#  Var# Op      Operands            Calculated
+3    3    +       var#1    var#2      value = { 1, 3 }             rev[1] = { 3, 7 }            
+2    2    Init                        value = { 0, 1 }             rev[1] = { 3, 7 }            
+1    1    Init                        value = { 1, 2 }             rev[1] = { 3, 7 }            
+0         Begin                      
+
+Reverse sweep result: { { 3, 7 }, { 3, 7 } }
+
+
+Minus operation:
+
+Input vector: { { 1, 2 }, { 0, 1 } }
+Output vector: { { 1, 1 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 2, 5 }, { 1, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 2, 5 }            
+2    2    Init                        value = { 0, 1 }             fwd[1] = { 1, -1 }           
+3    3    -       var#1    var#2      value = { 1, 1 }             fwd[1] = { 1, 6 }            
+4         End                        
+
+Forward sweep result: { { 1, 6 } }
+
+Reverse(1, w) sweep for w = { { 3, 7 } }...
+
+Op#  Var# Op      Operands            Calculated
+3    3    -       var#1    var#2      value = { 1, 1 }             rev[1] = { 3, 7 }            
+2    2    Init                        value = { 0, 1 }             rev[1] = { -3, -7 }          
+1    1    Init                        value = { 1, 2 }             rev[1] = { 3, 7 }            
+0         Begin                      
+
+Reverse sweep result: { { 3, 7 }, { -3, -7 } }
+
+
+Exponent function:
+
+Input vector: { { 0, 1 } }
+Output vector: { { 1, 2.72 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 0, 1 }             fwd[1] = { 1, 1 }            
+2    2    exp     var#1               value = { 1, 2.72 }          fwd[1] = { 1, 2.72 }         
+3         End                        
+
+Forward sweep result: { { 1, 2.72 } }
+
+Reverse(1, w) sweep for w = { { 1, 1 } }...
+
+Op#  Var# Op      Operands            Calculated
+2    2    exp     var#1               value = { 1, 2.72 }          rev[1] = { 1, 1 }            
+1    1    Init                        value = { 0, 1 }             rev[1] = { 1, 2.72 }         
+0         Begin                      
+
+Reverse sweep result: { { 1, 2.72 } }
+
+
+Pow function:
+
+Input vector: { { 1, 2 } }
+Output vector: { { 1, 4 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 2, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 2, -1 }           
+2    2    *       var#1    var#1      value = { 1, 4 }             fwd[1] = { 4, -4 }           
+3         End                        
+
+Forward sweep result: { { 4, -4 } }
+
+Reverse(1, w) sweep for w = { { 1, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+2    2    *       var#1    var#1      value = { 1, 4 }             rev[1] = { 1, -1 }           
+1    1    Init                        value = { 1, 2 }             rev[1] = { 2, -4 }           
+0         Begin                      
+
+Reverse sweep result: { { 2, -4 } }
+
+
+Cosine function:
+
+Input vector: { { 1, 1.57 } }
+Output vector: { { 0.54, -1.03e-013 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 1.57 }          fwd[1] = { 1, 1 }            
+2    3    cos     var#1               value = { 0.54, -1.03e-013 } fwd[1] = { -0.841, -1 }      
+3         End                        
+
+Forward sweep result: { { -0.841, -1 } }
+
+Reverse(1, w) sweep for w = { { -2, 1 } }...
+
+Op#  Var# Op      Operands            Calculated
+2    3    cos     var#1               value = { 0.54, -1.03e-013 } rev[1] = { -2, 1 }           
+1    1    Init                        value = { 1, 1.57 }          rev[1] = { 1.68, -1 }        
+0         Begin                      
+
+Reverse sweep result: { { 1.68, -1 } }
+
+
+Discount calculations:
+
+Spot: { 100, 110 }
+Rate: { 0.05, 0.04 }
+Time: { 1, 2 }
+Input vector: { { 100, 110 }, { 0.05, 0.04 }, { 1, 2 } }
+Discounted price: { 95.1, 102 }
+Discount factor: { 0.951, 0.923 }
+Output vector: { { 95.1, 102 }, { 0.951, 0.923 } }
+
+Initial Forward(0) sweep...
+
+Calculation of sensitivity to 1% change in interest rate.
+Forward(1, dx) sweep for dx = { 0, 0.01, 0 }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 100, 110 }         fwd[1] = 0                   
+2    2    Init                        value = { 0.05, 0.04 }       fwd[1] = 0.01                
+3    3    Init                        value = { 1, 2 }             fwd[1] = 0                   
+4    4    -       0        var#2      value = { -0.05, -0.04 }     fwd[1] = -0.01               
+5    5    *       var#4    var#3      value = { -0.05, -0.08 }     fwd[1] = { -0.01, -0.02 }    
+6    6    exp     var#5               value = { 0.951, 0.923 }     fwd[1] = { -0.00951, -0.0185 }
+7    7    *       var#1    var#6      value = { 95.1, 102 }        fwd[1] = { -0.951, -2.03 }   
+8         End                        
+
+Forward sweep result: { { -0.951, -2.03 }, { -0.00951, -0.0185 } }
+Sensitivity of discounted price: { -0.951, -2.03 }
+Sensitivity of discount factor:  { -0.00951, -0.0185 }
+
+Calculation of sensitivity of discount factor.
+Reverse(1, w) sweep for w = { 0, 1 }...
+
+Op#  Var# Op      Operands            Calculated
+7    7    *       var#1    var#6      value = { 95.1, 102 }        rev[1] = 0                   
+6    6    exp     var#5               value = { 0.951, 0.923 }     rev[1] = 1                   
+5    5    *       var#4    var#3      value = { -0.05, -0.08 }     rev[1] = { 0.951, 0.923 }    
+4    4    -       0        var#2      value = { -0.05, -0.04 }     rev[1] = { 0.951, 1.85 }     
+3    3    Init                        value = { 1, 2 }             rev[1] = { -0.0476, -0.0369 }
+2    2    Init                        value = { 0.05, 0.04 }       rev[1] = { -0.951, -1.85 }   
+1    1    Init                        value = { 100, 110 }         rev[1] = 0                   
+0         Begin                      
+
+Reverse sweep result: { 0, { -0.951, -1.85 }, { -0.0476, -0.0369 } }
+Sensitivity to the changes in spot price:    0
+Sensitivity to the changes in interest rate: { -0.951, -1.85 }
+Sensitivity to the changes in maturity time: { -0.0476, -0.0369 }
+
+
+We are mixing arrays and scalars in calculations of
+Y = { sin(x0) / cos(x1) + x1 / x0, y0 + x0 * (x0 + x1)^3 - 0.5 } function:
+
+Input vector: { { 1, 2 }, -1 }
+Output vector: { { 0.557, 1.18 }, { 0.0574, 2.68 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, -1 }, 2 }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 1, -1 }           
+2    2    Init                        value = -1                   fwd[1] = 2                   
+3    4    sin     var#1               value = { 0.841, 0.909 }     fwd[1] = { 0.54, 0.416 }     
+4    5    /       var#2    var#1      value = { -1, -0.5 }         fwd[1] = { 3, 0.75 }         
+5    7    cos     var#2               value = 0.54                 fwd[1] = 1.68                
+6    9    sin     var#1               value = { 0.841, 0.909 }     fwd[1] = { 0.54, 0.416 }     
+7    10   /       var#9    var#7      value = { 1.56, 1.68 }       fwd[1] = { -3.85, -4.47 }    
+8    11   +       var#10   var#5      value = { 0.557, 1.18 }      fwd[1] = { -0.851, -3.72 }   
+9    12   +       var#1    var#2      value = { 0, 1 }             fwd[1] = { 3, 1 }            
+10   13   *       var#12   var#12     value = { 0, 1 }             fwd[1] = { 0, 2 }            
+11   14   *       var#12   var#13     value = { 0, 1 }             fwd[1] = { 0, 3 }            
+12   15   *       var#1    var#14     value = { 0, 2 }             fwd[1] = { 0, 5 }            
+13   16   +       var#11   var#15     value = { 0.557, 3.18 }      fwd[1] = { -0.851, 1.28 }    
+14   17   -       var#16   0.5        value = { 0.0574, 2.68 }     fwd[1] = { -0.851, 1.28 }    
+15        End                        
+
+Forward sweep result: { { -0.851, -3.72 }, { -0.851, 1.28 } }
+
+Reverse(1, w) sweep for w = { { -2, 1 }, { 2, 3 } }...
+
+Op#  Var# Op      Operands            Calculated
+14   17   -       var#16   0.5        value = { 0.0574, 2.68 }     rev[1] = { 2, 3 }            
+13   16   +       var#11   var#15     value = { 0.557, 3.18 }      rev[1] = { 2, 3 }            
+12   15   *       var#1    var#14     value = { 0, 2 }             rev[1] = { 2, 3 }            
+11   14   *       var#12   var#13     value = { 0, 1 }             rev[1] = { 2, 6 }            
+10   13   *       var#12   var#12     value = { 0, 1 }             rev[1] = { 0, 6 }            
+9    12   +       var#1    var#2      value = { 0, 1 }             rev[1] = { 0, 18 }           
+8    11   +       var#10   var#5      value = { 0.557, 1.18 }      rev[1] = { 0, 4 }            
+7    10   /       var#9    var#7      value = { 1.56, 1.68 }       rev[1] = { 0, 4 }            
+6    9    sin     var#1               value = { 0.841, 0.909 }     rev[1] = { 0, 7.4 }          
+5    7    cos     var#2               value = 0.54                 rev[1] = -12.5               
+4    5    /       var#2    var#1      value = { -1, -0.5 }         rev[1] = { 0, 4 }            
+3    4    sin     var#1               value = { 0.841, 0.909 }     rev[1] = 0                   
+2    2    Init                        value = -1                   rev[1] = 9.52                
+1    1    Init                        value = { 1, 2 }             rev[1] = { 0, 18.9 }         
+0         Begin                      
+
+Reverse sweep result: { { 0, 18.9 }, 9.52 }
+
+
+Sum of an array:
+
+Input vector: { { 1, 2 } }
+Output vector: { 3 }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1.5, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 1.5, -1 }         
+2         User     Sum                                                          
+3         Usrav   var#1              
+4    2    Usrrv                       value = 3                    fwd[1] = 0.5                 
+5         User     Sum                                                          
+6         End                        
+
+Forward sweep result: { 0.5 }
+
+Reverse(1, w) sweep for w = { 4 }...
+
+Op#  Var# Op      Operands            Calculated
+5         User     Sum                                                          
+4    2    Usrrv                       value = 3                    rev[1] = 4                   
+3         Usrav   var#1              
+2         User     Sum                                                          
+1    1    Init                        value = { 1, 2 }             rev[1] = 4                   
+0         Begin                      
+
+Reverse sweep result: { 4 }
+
+
+Reversing of an array:
+
+Input vector: { { 1, 2 } }
+Output vector: { { 2, 1 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1.5, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 1.5, -1 }         
+2         User     Reversing                                                    
+3         Usrav   var#1              
+4    2    Usrrv                       value = { 2, 1 }             fwd[1] = { -1, 1.5 }         
+5         User     Reversing                                                    
+6         End                        
+
+Forward sweep result: { { -1, 1.5 } }
+
+Reverse(1, w) sweep for w = { 4 }...
+
+Op#  Var# Op      Operands            Calculated
+5         User     Reversing                                                    
+4    2    Usrrv                       value = { 2, 1 }             rev[1] = 4                   
+3         Usrav   var#1              
+2         User     Reversing                                                    
+1    1    Init                        value = { 1, 2 }             rev[1] = 4                   
+0         Begin                      
+
+Reverse sweep result: { 4 }
+
+
+Array concatenation:
+
+Input vector: { { 1, 2 }, 7, { 0, 5 } }
+Output vector: { { 1, 2, 7, 0, 5 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 2, 5 }, 12, { 1, -1 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { 1, 2 }             fwd[1] = { 2, 5 }            
+2    2    Init                        value = 7                    fwd[1] = 12                  
+3    3    Init                        value = { 0, 5 }             fwd[1] = { 1, -1 }           
+4         User     Concatenation                                                
+5         Usrav   var#1              
+6         Usrav   var#2              
+7    4    Usrrv                       value = { 1, 2, 7 }          fwd[1] = { 2, 5, 12 }        
+8         User     Concatenation                                                
+9         User     Concatenation                                                
+10        Usrav   var#4              
+11        Usrav   var#3              
+12   5    Usrrv                       value = { 1, 2, 7, 0, 5 }    fwd[1] = { 2, 5, 12, 1, -1 } 
+13        User     Concatenation                                                
+14        End                        
+
+Forward sweep result: { { 2, 5, 12, 1, -1 } }
+
+Reverse(1, w) sweep for w = { { 1, 2, 3, 4, 5 } }...
+
+Op#  Var# Op      Operands            Calculated
+13        User     Concatenation                                                
+12   5    Usrrv                       value = { 1, 2, 7, 0, 5 }    rev[1] = { 1, 2, 3, 4, 5 }   
+11        Usrav   var#3              
+10        Usrav   var#4              
+9         User     Concatenation                                                
+8         User     Concatenation                                                
+7    4    Usrrv                       value = { 1, 2, 7 }          rev[1] = { 1, 2, 3 }         
+6         Usrav   var#2              
+5         Usrav   var#1              
+4         User     Concatenation                                                
+3    3    Init                        value = { 0, 5 }             rev[1] = { 4, 5 }            
+2    2    Init                        value = 7                    rev[1] = 3                   
+1    1    Init                        value = { 1, 2 }             rev[1] = { 1, 2 }            
+0         Begin                      
+
+Reverse sweep result: { { 1, 2 }, 3, { 4, 5 } }
+
+
+Array construction from scalar:
+
+Input vector: { 7 }
+Output vector: { { 7, 7 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { 1 }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 7                    fwd[1] = 1                   
+2         User     Construction(val, n)                                         
+3         Usrav   var#1              
+4         Usrap   2                  
+5    2    Usrrv                       value = { 7, 7 }             fwd[1] = { 1, 1 }            
+6         User     Construction(val, n)                                         
+7         End                        
+
+Forward sweep result: { { 1, 1 } }
+
+Reverse(1, w) sweep for w = { { 1, 2 } }...
+
+Op#  Var# Op      Operands            Calculated
+6         User     Construction(val, n)                                         
+5    2    Usrrv                       value = { 7, 7 }             rev[1] = { 1, 2 }            
+4         Usrap   2                  
+3         Usrav   var#1              
+2         User     Construction(val, n)                                         
+1    1    Init                        value = 7                    rev[1] = 3                   
+0         Begin                      
+
+Reverse sweep result: { 3 }
+
+
+Maximum of two arrays:
+
+Input vector: { { -1, 0, 1 }, { 1, 0, -1 } }
+Output vector: { { 1, 0, 1 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 1, 1 }, { 2, 2, 2 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { -1, 0, 1 }         fwd[1] = { 1, 1, 1 }         
+2    2    Init                        value = { 1, 0, -1 }         fwd[1] = { 2, 2, 2 }         
+3    3    > ? :   var#1    var#2    var#1    var#2     value = { 1, 0, 1 }          fwd[1] = { 2, 2, 1 }         
+4         End                        
+
+Forward sweep result: { { 2, 2, 1 } }
+
+Reverse(1, w) sweep for w = { { 1, 2, 3 } }...
+
+Op#  Var# Op      Operands            Calculated
+3    3    > ? :   var#1    var#2    var#1    var#2     value = { 1, 0, 1 }          rev[1] = { 1, 2, 3 }         
+2    2    Init                        value = { 1, 0, -1 }         rev[1] = { 1, 2, 0 }         
+1    1    Init                        value = { -1, 0, 1 }         rev[1] = { 0, 0, 3 }         
+0         Begin                      
+
+Reverse sweep result: { { 0, 0, 3 }, { 1, 2, 0 } }
+
+
+Minimum of two arrays:
+
+Input vector: { { -1, 0, 1 }, { 1, 0, -1 } }
+Output vector: { { -1, 0, -1 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 1, 1 }, { 2, 2, 2 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { -1, 0, 1 }         fwd[1] = { 1, 1, 1 }         
+2    2    Init                        value = { 1, 0, -1 }         fwd[1] = { 2, 2, 2 }         
+3    3    < ? :   var#1    var#2    var#1    var#2     value = { -1, 0, -1 }        fwd[1] = { 1, 2, 2 }         
+4         End                        
+
+Forward sweep result: { { 1, 2, 2 } }
+
+Reverse(1, w) sweep for w = { { 1, 2, 3 } }...
+
+Op#  Var# Op      Operands            Calculated
+3    3    < ? :   var#1    var#2    var#1    var#2     value = { -1, 0, -1 }        rev[1] = { 1, 2, 3 }         
+2    2    Init                        value = { 1, 0, -1 }         rev[1] = { 0, 2, 3 }         
+1    1    Init                        value = { -1, 0, 1 }         rev[1] = { 1, 0, 0 }         
+0         Begin                      
+
+Reverse sweep result: { { 1, 0, 0 }, { 0, 2, 3 } }
+
+
+L2 norm of an array:
+
+Input vector: { 3 }
+Output vector: { 4.24 }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { 1 }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 3                    fwd[1] = 1                   
+2         User     Construction(val, n)                                         
+3         Usrav   var#1              
+4         Usrap   2                  
+5    2    Usrrv                       value = { 3, 3 }             fwd[1] = { 1, 1 }            
+6         User     Construction(val, n)                                         
+7    3    *       var#2    var#2      value = { 9, 9 }             fwd[1] = { 6, 6 }            
+8         User     Sum                                                          
+9         Usrav   var#3              
+10   4    Usrrv                       value = 18                   fwd[1] = 12                  
+11        User     Sum                                                          
+12   5    sqrt    var#4               value = 4.24                 fwd[1] = 1.41                
+13        End                        
+
+Forward sweep result: { 1.41 }
+
+Reverse(1, w) sweep for w = { 1 }...
+
+Op#  Var# Op      Operands            Calculated
+12   5    sqrt    var#4               value = 4.24                 rev[1] = 1                   
+11        User     Sum                                                          
+10   4    Usrrv                       value = 18                   rev[1] = 0.118               
+9         Usrav   var#3              
+8         User     Sum                                                          
+7    3    *       var#2    var#2      value = { 9, 9 }             rev[1] = 0.118               
+6         User     Construction(val, n)                                         
+5    2    Usrrv                       value = { 3, 3 }             rev[1] = { 0.707, 0.707 }    
+4         Usrap   2                  
+3         Usrav   var#1              
+2         User     Construction(val, n)                                         
+1    1    Init                        value = 3                    rev[1] = 1.41                
+0         Begin                      
+
+Reverse sweep result: { 1.41 }
+
+
+Linear regression:
+
+Input vector: { { -1, 0, 1 }, { 1, 0, 3 } }
+Output vector: { 1.33, 1, { 0.333, 1.33, 2.33 } }
+
+Initial Forward(0) sweep...
+
+Forward(1, dx) sweep for dx = { { 1, 0, 0 }, { 0, 0, 0 } }...
+
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = { -1, 0, 1 }         fwd[1] = { 1, 0, 0 }         
+2    2    Init                        value = { 1, 0, 3 }          fwd[1] = { 0, 0, 0 }         
+3         User     Sum                                                          
+4         Usrav   var#1              
+5    3    Usrrv                       value = 0                    fwd[1] = 1                   
+6         User     Sum                                                          
+7    4    *       0.333333 var#3      value = 0                    fwd[1] = 0.333               
+8         User     Sum                                                          
+9         Usrav   var#2              
+10   5    Usrrv                       value = 4                    fwd[1] = 0                   
+11        User     Sum                                                          
+12   6    *       0.333333 var#5      value = 1.33                 fwd[1] = 0                   
+13   7    -       var#1    var#4      value = { -1, 0, 1 }         fwd[1] = { 0.667, -0.333, -0.333 }
+14   8    -       var#2    var#6      value = { -0.333, -1.33, 1.67 } fwd[1] = { 0, 0, 0 }         
+15   9    *       var#7    var#7      value = { 1, 0, 1 }          fwd[1] = { -1.33, 0, -0.667 }
+16        User     Sum                                                          
+17        Usrav   var#9              
+18   10   Usrrv                       value = 2                    fwd[1] = -2                  
+19        User     Sum                                                          
+20   11   *       var#7    var#8      value = { 0.333, -0, 1.67 }  fwd[1] = { -0.222, 0.444, -0.556 }
+21        User     Sum                                                          
+22        Usrav   var#11             
+23   12   Usrrv                       value = 2                    fwd[1] = -0.333              
+24        User     Sum                                                          
+25   13   /       var#12   var#10     value = 1                    fwd[1] = 0.833               
+26   14   *       var#13   var#4      value = 0                    fwd[1] = 0.333               
+27   15   -       var#6    var#14     value = 1.33                 fwd[1] = -0.333              
+28   16   *       var#13   var#1      value = { -1, 0, 1 }         fwd[1] = { 0.167, 0, 0.833 } 
+29   17   +       var#15   var#16     value = { 0.333, 1.33, 2.33 } fwd[1] = { -0.167, -0.333, 0.5 }
+30        End                        
+
+Forward sweep result: { -0.333, 0.833, { -0.167, -0.333, 0.5 } }
+
+Reverse(1, w) sweep for w = { 0, 1, 0 }...
+
+Op#  Var# Op      Operands            Calculated
+29   17   +       var#15   var#16     value = { 0.333, 1.33, 2.33 } rev[1] = 0                   
+28   16   *       var#13   var#1      value = { -1, 0, 1 }         rev[1] = 0                   
+27   15   -       var#6    var#14     value = 1.33                 rev[1] = 0                   
+26   14   *       var#13   var#4      value = 0                    rev[1] = 0                   
+25   13   /       var#12   var#10     value = 1                    rev[1] = 1                   
+24        User     Sum                                                          
+23   12   Usrrv                       value = 2                    rev[1] = 0.5                 
+22        Usrav   var#11             
+21        User     Sum                                                          
+20   11   *       var#7    var#8      value = { 0.333, -0, 1.67 }  rev[1] = 0.5                 
+19        User     Sum                                                          
+18   10   Usrrv                       value = 2                    rev[1] = -0.5                
+17        Usrav   var#9              
+16        User     Sum                                                          
+15   9    *       var#7    var#7      value = { 1, 0, 1 }          rev[1] = -0.5                
+14   8    -       var#2    var#6      value = { -0.333, -1.33, 1.67 } rev[1] = { -0.5, 0, 0.5 }    
+13   7    -       var#1    var#4      value = { -1, 0, 1 }         rev[1] = { 0.833, -0.667, -0.167 }
+12   6    *       0.333333 var#5      value = 1.33                 rev[1] = 0                   
+11        User     Sum                                                          
+10   5    Usrrv                       value = 4                    rev[1] = 0                   
+9         Usrav   var#2              
+8         User     Sum                                                          
+7    4    *       0.333333 var#3      value = 0                    rev[1] = -1.11e-016          
+6         User     Sum                                                          
+5    3    Usrrv                       value = 0                    rev[1] = -3.7e-017           
+4         Usrav   var#1              
+3         User     Sum                                                          
+2    2    Init                        value = { 1, 0, 3 }          rev[1] = { -0.5, 0, 0.5 }    
+1    1    Init                        value = { -1, 0, 1 }         rev[1] = { 0.833, -0.667, -0.167 }
+0         Begin                      
+
+Reverse sweep result: { { 0.833, -0.667, -0.167 }, { -0.5, 0, 0.5 } }
+
+

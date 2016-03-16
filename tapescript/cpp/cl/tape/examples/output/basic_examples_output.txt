@@ -3,33 +3,33 @@ Testing tape contents for addition of two tdoubles.
 Function Y = 2 * X[0] + X[1] is being tested at X[0] = 3, X[1] = 3
 
 Tape operations sequence for differentiation of Y with respect to X[0]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 3                    fz[1] = 1                   
-2    2    Init                        fz[0] = 3                    fz[1] = 0                   
-3    3    *        pl=2     vr=1      fz[0] = 6                    fz[1] = 2                   
-4    4    +        vl=3     vr=2      fz[0] = 9                    fz[1] = 2                   
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 3                    fwd[1] = 1                   
+2    2    Init                        value = 3                    fwd[1] = 0                   
+3    3    *       2        var#1      value = 6                    fwd[1] = 2                   
+4    4    +       var#3    var#2      value = 9                    fwd[1] = 2                   
 5         End                        
 
 Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
 	dY / dX (X[0]) = 2
 
 Tape operations sequence for differentiation of Y with respect to X[1]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 3                    fz[1] = 0                   
-2    2    Init                        fz[0] = 3                    fz[1] = 1                   
-3    3    *        pl=2     vr=1      fz[0] = 6                    fz[1] = 0                   
-4    4    +        vl=3     vr=2      fz[0] = 9                    fz[1] = 1                   
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 3                    fwd[1] = 0                   
+2    2    Init                        value = 3                    fwd[1] = 1                   
+3    3    *       2        var#1      value = 6                    fwd[1] = 0                   
+4    4    +       var#3    var#2      value = 9                    fwd[1] = 1                   
 5         End                        
 
 Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:
 	dY / dX(X[1]) = 1
 
 Tape operations sequence for differentiation of Y with respect to X: 
-Op#  Res# Op       Operands#          Taylor coefficients
-4    4    +        vl=3     vr=2      fz[0] = 9                    rz[0] = 1                   
-3    3    *        pl=2     vr=1      fz[0] = 6                    rz[0] = 1                   
-2    2    Init                        fz[0] = 3                    rz[0] = 1                   
-1    1    Init                        fz[0] = 3                    rz[0] = 2                   
+Op#  Var# Op      Operands            Calculated
+4    4    +       var#3    var#2      value = 9                    rev[1] = 1                   
+3    3    *       2        var#1      value = 6                    rev[1] = 1                   
+2    2    Init                        value = 3                    rev[1] = 1                   
+1    1    Init                        value = 3                    rev[1] = 2                   
 0         Begin                      
 
 
@@ -42,30 +42,30 @@ Testing tape contents for multiplying of two tdoubles.
 Function Y = X[0] * X[1] is being tested at X[0] = 2, X[1] = 3
 
 Tape operations sequence for differentiation of Y with respect to X[0]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 2                    fz[1] = 1                   
-2    2    Init                        fz[0] = 3                    fz[1] = 0                   
-3    3    *        vl=1     vr=2      fz[0] = 6                    fz[1] = 3                   
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 1                   
+2    2    Init                        value = 3                    fwd[1] = 0                   
+3    3    *       var#1    var#2      value = 6                    fwd[1] = 3                   
 4         End                        
 
 Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
 	dY / dX(X[0]) = 3
 
 Tape operations sequence for differentiation of Y with respect to X[1]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 2                    fz[1] = 0                   
-2    2    Init                        fz[0] = 3                    fz[1] = 1                   
-3    3    *        vl=1     vr=2      fz[0] = 6                    fz[1] = 2                   
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 0                   
+2    2    Init                        value = 3                    fwd[1] = 1                   
+3    3    *       var#1    var#2      value = 6                    fwd[1] = 2                   
 4         End                        
 
 Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:
 	dY / dX(X[1]) = 2
 
 Tape operations sequence for differentiation of Y with respect to X: 
-Op#  Res# Op       Operands#          Taylor coefficients
-3    3    *        vl=1     vr=2      fz[0] = 6                    rz[0] = 1                   
-2    2    Init                        fz[0] = 3                    rz[0] = 2                   
-1    1    Init                        fz[0] = 2                    rz[0] = 3                   
+Op#  Var# Op      Operands            Calculated
+3    3    *       var#1    var#2      value = 6                    rev[1] = 1                   
+2    2    Init                        value = 3                    rev[1] = 2                   
+1    1    Init                        value = 2                    rev[1] = 3                   
 0         Begin                      
 
 
@@ -78,20 +78,20 @@ Testing tape contents for pow of tdouble.
 Function Y =  X[0]^4 is being tested at X[0] = 3
 
 Tape operations sequence for differentiation of Y with respect to X[0]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 3                    fz[1] = 1                   
-2    2    *        vl=1     vr=1      fz[0] = 9                    fz[1] = 6                   
-3    3    *        vl=2     vr=2      fz[0] = 81                   fz[1] = 108                 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 3                    fwd[1] = 1                   
+2    2    *       var#1    var#1      value = 9                    fwd[1] = 6                   
+3    3    *       var#2    var#2      value = 81                   fwd[1] = 108                 
 4         End                        
 
 Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
 	dY / dX(X[0]) = 108
 
 Tape operations sequence for differentiation of Y with respect to X: 
-Op#  Res# Op       Operands#          Taylor coefficients
-3    3    *        vl=2     vr=2      fz[0] = 81                   rz[0] = 1                   
-2    2    *        vl=1     vr=1      fz[0] = 9                    rz[0] = 18                  
-1    1    Init                        fz[0] = 3                    rz[0] = 108                 
+Op#  Var# Op      Operands            Calculated
+3    3    *       var#2    var#2      value = 81                   rev[1] = 1                   
+2    2    *       var#1    var#1      value = 9                    rev[1] = 18                  
+1    1    Init                        value = 3                    rev[1] = 108                 
 0         Begin                      
 
 
@@ -101,67 +101,275 @@ Derivative of Y with respect to X in Reverse mode has been calculated successful
 ----------------------------------------------------------------------------------------------------
 Testing tape contents for exponent of tdouble.
 
-Function Y = exp(-2.0 * X[0]) is being tested at X[0] = 3
+Function Y = exp(-2.0 * X[0]) is being tested at X[0] = 23.0855
 
 Tape operations sequence for differentiation of Y with respect to X[0]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 3                    fz[1] = 1                   
-2    2    *        pl=-2    vr=1      fz[0] = -6                   fz[1] = -2                  
-3    3    exp       v=2               fz[0] = 0.00247875           fz[1] = -0.0049575          
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 23.0855              fwd[1] = 1                   
+2    2    *       -2       var#1      value = -46.1711             fwd[1] = -2                  
+3    3    exp     var#2               value = 8.87478e-021         fwd[1] = -1.77496e-020       
 4         End                        
 
 Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
-	dY / dX (X[0]) = -0.0049575
+	dY / dX (X[0]) = -1.77496e-020
 
 Tape operations sequence for differentiation of Y with respect to X: 
-Op#  Res# Op       Operands#          Taylor coefficients
-3    3    exp       v=2               fz[0] = 0.00247875           rz[0] = 1                   
-2    2    *        pl=-2    vr=1      fz[0] = -6                   rz[0] = 0.00247875          
-1    1    Init                        fz[0] = 3                    rz[0] = -0.0049575          
+Op#  Var# Op      Operands            Calculated
+3    3    exp     var#2               value = 8.87478e-021         rev[1] = 1                   
+2    2    *       -2       var#1      value = -46.1711             rev[1] = 8.87478e-021        
+1    1    Init                        value = 23.0855              rev[1] = -1.77496e-020       
 0         Begin                      
 
 
 Derivative of Y with respect to X in Reverse mode has been calculated successfully:
-	dY / dX (X[0]) = -0.0049575
+	dY / dX (X[0]) = -1.77496e-020
+
+----------------------------------------------------------------------------------------------------
+Testing tape contents for log of tdouble.
+
+Function Y[0] = log(2.0 * X[0]) is being tested at X[0] = 4.09861
+
+Function Y[1] = log10(2.0 * X[1]) is being tested at X[1] = 3.47712
+
+Tape operations sequence for differentiation of Y with respect to X[0]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 4.09861              fwd[1] = 1                   
+2    2    Init                        value = 3.47712              fwd[1] = 0                   
+3    3    *       2        var#1      value = 8.19722              fwd[1] = 2                   
+4    4    log     var#3               value = 2.1038               fwd[1] = 0.243985            
+5    5    *       2        var#2      value = 6.95424              fwd[1] = 0                   
+6    6    log     var#5               value = 1.93935              fwd[1] = 0                   
+7    7    /       var#6    2.30259    value = 0.84225              fwd[1] = 0                   
+8         End                        
+
+Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
+	dY / dX (X[0]) = 0.243985
+
+Tape operations sequence for differentiation of Y with respect to X: 
+Op#  Var# Op      Operands            Calculated
+7    7    /       var#6    2.30259    value = 0.84225              rev[1] = 0                   
+6    6    log     var#5               value = 1.93935              rev[1] = 0                   
+5    5    *       2        var#2      value = 6.95424              rev[1] = 0                   
+4    4    log     var#3               value = 2.1038               rev[1] = 1                   
+3    3    *       2        var#1      value = 8.19722              rev[1] = 0.121993            
+2    2    Init                        value = 3.47712              rev[1] = 0                   
+1    1    Init                        value = 4.09861              rev[1] = 0.243985            
+0         Begin                      
+
+
+Derivative of Y with respect to X in Reverse mode has been calculated successfully:
+	dY / dX (X[0]) = 0.243985
+
+----------------------------------------------------------------------------------------------------
+Testing tape contents for abs of tdouble.
+
+Function Y = abs(2.0 * X[0]) is being tested at X[0] = -6
+
+Tape operations sequence for differentiation of Y with respect to X[0]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = -6                   fwd[1] = 1                   
+2    2    *       2        var#1      value = -12                  fwd[1] = 2                   
+3    3    abs     var#2               value = 12                   fwd[1] = -2                  
+4         End                        
+
+Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
+	dY / dX (X[0]) = -2
+
+Tape operations sequence for differentiation of Y with respect to X: 
+Op#  Var# Op      Operands            Calculated
+3    3    abs     var#2               value = 12                   rev[1] = 1                   
+2    2    *       2        var#1      value = -12                  rev[1] = -1                  
+1    1    Init                        value = -6                   rev[1] = -2                  
+0         Begin                      
+
+
+Derivative of Y with respect to X in Reverse mode has been calculated successfully:
+	dY / dX (X[0]) = -2
 
 ----------------------------------------------------------------------------------------------------
 Testing tape contents for addition of cos and sin of tdouble.
 
-Function Y = cos(X[0]) + sin(X[1]) is being tested at X[0] = 2, X[1] = 3
+Function Y = cos(X[0]) + sin(X[1] + tan(X[0]+ X[1])) is being tested at X[0] = 2, X[1] = 3
 
 Tape operations sequence for differentiation of Y with respect to X[0]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 2                    fz[1] = 1                   
-2    2    Init                        fz[0] = 3                    fz[1] = 0                   
-3    4    sin       v=2               fz[0] = 0.14112              fz[1] = 0                   
-4    6    cos       v=1               fz[0] = -0.416147            fz[1] = -0.909297           
-5    7    +        vl=6     vr=4      fz[0] = -0.275027            fz[1] = -0.909297           
-6         End                        
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 1                   
+2    2    Init                        value = 3                    fwd[1] = 0                   
+3    3    +       var#1    var#2      value = 5                    fwd[1] = 1                   
+4    5    tan     var#3               value = -3.38052             fwd[1] = 12.4279             
+5    7    sin     var#2               value = 0.14112              fwd[1] = 0                   
+6    9    cos     var#1               value = -0.416147            fwd[1] = -0.909297           
+7    10   +       var#9    var#7      value = -0.275027            fwd[1] = -0.909297           
+8    11   +       var#10   var#5      value = -3.65554             fwd[1] = 11.5186             
+9         End                        
 
 Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
-	dY / dX (X[0]) = -0.909297
+	dY / dX (X[0]) = 11.5186
 
 Tape operations sequence for differentiation of Y with respect to X[1]: 
-Op#  Res# Op       Operands#          Taylor coefficients
-1    1    Init                        fz[0] = 2                    fz[1] = 0                   
-2    2    Init                        fz[0] = 3                    fz[1] = 1                   
-3    4    sin       v=2               fz[0] = 0.14112              fz[1] = -0.989992           
-4    6    cos       v=1               fz[0] = -0.416147            fz[1] = 0                   
-5    7    +        vl=6     vr=4      fz[0] = -0.275027            fz[1] = -0.989992           
-6         End                        
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 0                   
+2    2    Init                        value = 3                    fwd[1] = 1                   
+3    3    +       var#1    var#2      value = 5                    fwd[1] = 1                   
+4    5    tan     var#3               value = -3.38052             fwd[1] = 12.4279             
+5    7    sin     var#2               value = 0.14112              fwd[1] = -0.989992           
+6    9    cos     var#1               value = -0.416147            fwd[1] = 0                   
+7    10   +       var#9    var#7      value = -0.275027            fwd[1] = -0.989992           
+8    11   +       var#10   var#5      value = -3.65554             fwd[1] = 11.4379             
+9         End                        
 
 Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:
-	dY / dX (X[1]) = -0.989992
+	dY / dX (X[1]) = 11.4379
 
 Tape operations sequence for differentiation of Y with respect to X: 
-Op#  Res# Op       Operands#          Taylor coefficients
-5    7    +        vl=6     vr=4      fz[0] = -0.275027            rz[0] = 1                   
-4    6    cos       v=1               fz[0] = -0.416147            rz[0] = 1                   
-3    4    sin       v=2               fz[0] = 0.14112              rz[0] = 1                   
-2    2    Init                        fz[0] = 3                    rz[0] = -0.989992           
-1    1    Init                        fz[0] = 2                    rz[0] = -0.909297           
+Op#  Var# Op      Operands            Calculated
+8    11   +       var#10   var#5      value = -3.65554             rev[1] = 1                   
+7    10   +       var#9    var#7      value = -0.275027            rev[1] = 1                   
+6    9    cos     var#1               value = -0.416147            rev[1] = 1                   
+5    7    sin     var#2               value = 0.14112              rev[1] = 1                   
+4    5    tan     var#3               value = -3.38052             rev[1] = 1                   
+3    3    +       var#1    var#2      value = 5                    rev[1] = 12.4279             
+2    2    Init                        value = 3                    rev[1] = 11.4379             
+1    1    Init                        value = 2                    rev[1] = 11.5186             
 0         Begin                      
 
 
 Derivative of Y with respect to X in Reverse mode has been calculated successfully:
-	dY / dX (X[0]) = -0.909297, dY / dX (X[1]) = -0.989992
+	dY / dX (X[0]) = 11.5186, dY / dX (X[1]) = 11.4379
+Testing tape contents for addition of cosh, sinh and tanh of tdouble.
+
+Function Y = cosh(X[0]) + sinh(X[1] + tanh(X[0]+ X[1])) is being tested at X[0] = 2, X[1] = 3
+
+Tape operations sequence for differentiation of Y with respect to X[0]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 1                   
+2    2    Init                        value = 3                    fwd[1] = 0                   
+3    3    +       var#1    var#2      value = 5                    fwd[1] = 1                   
+4    5    tanh    var#3               value = 0.999909             fwd[1] = 0.000181583         
+5    7    sinh    var#2               value = 10.0179              fwd[1] = 0                   
+6    9    cosh    var#1               value = 3.7622               fwd[1] = 3.62686             
+7    10   +       var#9    var#7      value = 13.7801              fwd[1] = 3.62686             
+8    11   +       var#10   var#5      value = 14.78                fwd[1] = 3.62704             
+9         End                        
+
+Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
+	dY / dX (X[0]) = 3.62704
+
+Tape operations sequence for differentiation of Y with respect to X[1]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 2                    fwd[1] = 0                   
+2    2    Init                        value = 3                    fwd[1] = 1                   
+3    3    +       var#1    var#2      value = 5                    fwd[1] = 1                   
+4    5    tanh    var#3               value = 0.999909             fwd[1] = 0.000181583         
+5    7    sinh    var#2               value = 10.0179              fwd[1] = 10.0677             
+6    9    cosh    var#1               value = 3.7622               fwd[1] = 0                   
+7    10   +       var#9    var#7      value = 13.7801              fwd[1] = 10.0677             
+8    11   +       var#10   var#5      value = 14.78                fwd[1] = 10.0678             
+9         End                        
+
+Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:
+	dY / dX (X[1]) = 10.0678
+
+Tape operations sequence for differentiation of Y with respect to X: 
+Op#  Var# Op      Operands            Calculated
+8    11   +       var#10   var#5      value = 14.78                rev[1] = 1                   
+7    10   +       var#9    var#7      value = 13.7801              rev[1] = 1                   
+6    9    cosh    var#1               value = 3.7622               rev[1] = 1                   
+5    7    sinh    var#2               value = 10.0179              rev[1] = 1                   
+4    5    tanh    var#3               value = 0.999909             rev[1] = 1                   
+3    3    +       var#1    var#2      value = 5                    rev[1] = 0.000181583         
+2    2    Init                        value = 3                    rev[1] = 10.0678             
+1    1    Init                        value = 2                    rev[1] = 3.62704             
+0         Begin                      
+
+
+Derivative of Y with respect to X in Reverse mode has been calculated successfully:
+	dY / dX (X[0]) = 3.62704, dY / dX (X[1]) = 10.0678
+Testing tape contents for addition of acos, asin and atan of tdouble.
+
+Function Y = acos(X[0]) + asin(X[1] + atan(X[0]+ X[1]) + atan2(X[1],X[0])) is being tested at X[0] = 0.3, X[1] = 0.2
+
+Tape operations sequence for differentiation of Y with respect to X[0]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 0.3                  fwd[1] = 1                   
+2    2    Init                        value = 0.2                  fwd[1] = 0                   
+3    3    abs     var#1               value = 0.3                  fwd[1] = 1                   
+4    4    abs     var#2               value = 0.2                  fwd[1] = 0                   
+5    5    /       var#4    var#3      value = 0.666667             fwd[1] = -2.22222            
+6    7    atan    var#5               value = 0.588003             fwd[1] = -1.53846            
+7    8    /       var#3    var#4      value = 1.5                  fwd[1] = 5                   
+8    10   atan    var#8               value = 0.982794             fwd[1] = 1.53846             
+9    11   -       1.5708   var#10     value = 0.588003             fwd[1] = -1.53846            
+10   12   > ? :   var#3    var#4    var#7    var#11    value = 0.588003             fwd[1] = -1.53846            
+11   13   -       3.14159  var#12     value = 2.55359              fwd[1] = 1.53846             
+12   14   <= ? :  var#1    0        var#13   var#12    value = 0.588003             fwd[1] = -1.53846            
+13   15   -       0        var#14     value = -0.588003            fwd[1] = 1.53846             
+14   16   <= ? :  var#2    0        var#15   var#14    value = 0.588003             fwd[1] = -1.53846            
+15   17   +       var#1    var#2      value = 0.5                  fwd[1] = 1                   
+16   19   atan    var#17              value = 0.463648             fwd[1] = 0.8                 
+17   21   asin    var#2               value = 0.201358             fwd[1] = 0                   
+18   23   acos    var#1               value = 1.2661               fwd[1] = -1.04828            
+19   24   +       var#23   var#21     value = 1.46746              fwd[1] = -1.04828            
+20   25   +       var#24   var#19     value = 1.93111              fwd[1] = -0.248285           
+21   26   +       var#25   var#16     value = 2.51911              fwd[1] = -1.78675            
+22        End                        
+
+Derivative of Y with respect to X[0] in Forward mode has been calculated successfully:
+	dY / dX (X[0]) = -1.78675
+
+Tape operations sequence for differentiation of Y with respect to X[1]: 
+Op#  Var# Op      Operands            Calculated
+1    1    Init                        value = 0.3                  fwd[1] = 0                   
+2    2    Init                        value = 0.2                  fwd[1] = 1                   
+3    3    abs     var#1               value = 0.3                  fwd[1] = 0                   
+4    4    abs     var#2               value = 0.2                  fwd[1] = 1                   
+5    5    /       var#4    var#3      value = 0.666667             fwd[1] = 3.33333             
+6    7    atan    var#5               value = 0.588003             fwd[1] = 2.30769             
+7    8    /       var#3    var#4      value = 1.5                  fwd[1] = -7.5                
+8    10   atan    var#8               value = 0.982794             fwd[1] = -2.30769            
+9    11   -       1.5708   var#10     value = 0.588003             fwd[1] = 2.30769             
+10   12   > ? :   var#3    var#4    var#7    var#11    value = 0.588003             fwd[1] = 2.30769             
+11   13   -       3.14159  var#12     value = 2.55359              fwd[1] = -2.30769            
+12   14   <= ? :  var#1    0        var#13   var#12    value = 0.588003             fwd[1] = 2.30769             
+13   15   -       0        var#14     value = -0.588003            fwd[1] = -2.30769            
+14   16   <= ? :  var#2    0        var#15   var#14    value = 0.588003             fwd[1] = 2.30769             
+15   17   +       var#1    var#2      value = 0.5                  fwd[1] = 1                   
+16   19   atan    var#17              value = 0.463648             fwd[1] = 0.8                 
+17   21   asin    var#2               value = 0.201358             fwd[1] = 1.02062             
+18   23   acos    var#1               value = 1.2661               fwd[1] = 0                   
+19   24   +       var#23   var#21     value = 1.46746              fwd[1] = 1.02062             
+20   25   +       var#24   var#19     value = 1.93111              fwd[1] = 1.82062             
+21   26   +       var#25   var#16     value = 2.51911              fwd[1] = 4.12831             
+22        End                        
+
+Derivative of Y with respect to X[1] in Forward mode has been calculated successfully:
+	dY / dX (X[1]) = 4.12831
+
+Tape operations sequence for differentiation of Y with respect to X: 
+Op#  Var# Op      Operands            Calculated
+21   26   +       var#25   var#16     value = 2.51911              rev[1] = 1                   
+20   25   +       var#24   var#19     value = 1.93111              rev[1] = 1                   
+19   24   +       var#23   var#21     value = 1.46746              rev[1] = 1                   
+18   23   acos    var#1               value = 1.2661               rev[1] = 1                   
+17   21   asin    var#2               value = 0.201358             rev[1] = 1                   
+16   19   atan    var#17              value = 0.463648             rev[1] = 1                   
+15   17   +       var#1    var#2      value = 0.5                  rev[1] = 0.8                 
+14   16   <= ? :  var#2    0        var#15   var#14    value = 0.588003             rev[1] = 1                   
+13   15   -       0        var#14     value = -0.588003            rev[1] = 0                   
+12   14   <= ? :  var#1    0        var#13   var#12    value = 0.588003             rev[1] = 1                   
+11   13   -       3.14159  var#12     value = 2.55359              rev[1] = 0                   
+10   12   > ? :   var#3    var#4    var#7    var#11    value = 0.588003             rev[1] = 1                   
+9    11   -       1.5708   var#10     value = 0.588003             rev[1] = 0                   
+8    10   atan    var#8               value = 0.982794             rev[1] = 0                   
+7    8    /       var#3    var#4      value = 1.5                  rev[1] = 0                   
+6    7    atan    var#5               value = 0.588003             rev[1] = 1                   
+5    5    /       var#4    var#3      value = 0.666667             rev[1] = 0.692308            
+4    4    abs     var#2               value = 0.2                  rev[1] = 2.30769             
+3    3    abs     var#1               value = 0.3                  rev[1] = -1.53846            
+2    2    Init                        value = 0.2                  rev[1] = 4.12831             
+1    1    Init                        value = 0.3                  rev[1] = -1.78675            
+0         Begin                      
+
+
+Derivative of Y with respect to X in Reverse mode has been calculated successfully:
+	dY / dX (X[0]) = -1.78675, dY / dX (X[1]) = 4.12831
