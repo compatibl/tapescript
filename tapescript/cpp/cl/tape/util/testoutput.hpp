@@ -21,8 +21,10 @@ limitations under the License.
 #ifndef cl_tape_util_testoutput_hpp
 #define cl_tape_util_testoutput_hpp
 
-#define BOOST_FILESYSTEM_NO_LIB
-#define BOOST_SYSTEM_NO_LIB
+# if !defined BOOST_FILESYSTEM_NO_LIB
+#    define BOOST_FILESYSTEM_NO_LIB
+#    define BOOST_SYSTEM_NO_LIB
+# endif
 
 #include <string>
 #include <vector>
