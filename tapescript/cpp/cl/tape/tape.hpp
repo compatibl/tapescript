@@ -21,13 +21,31 @@ limitations under the License.
 #ifndef cl_tape_tape_hpp
 #define cl_tape_tape_hpp
 
+# if defined _MANAGED
+#   pragma managed (push, off)
+#   if defined CL_COMPILE_TIME_FILE_DEBUG
+#       pragma message ("Managed compiling: " __FILE__)
+#   endif
+# else
+#   if defined CL_COMPILE_TIME_FILE_DEBUG
+#       pragma message ("Unmanaged compiling: " __FILE__)
+#   endif
+# endif
+
 namespace cl
 {
     template <typename Base>
     struct remove_ad;
+
+    template <class Type>
+    class tape_accessor;
 }
 
+#   include <cl/tape/impl/detail/tape_def.hpp>
+
 #if defined CL_TAPE_CPPAD
+
+#   define CL_TAPE_TRACE_ENABLED
 
 #if !defined CL_USE_NATIVE_FORWARD
 // Lock forward1sweep include
@@ -46,12 +64,28 @@ namespace cl
 #endif
 
 // Lock undef include
-#define CPPAD_UNDEF_INCLUDED
+#   define CPPAD_UNDEF_INCLUDED
 
-#if defined CL_TAPE_INNER_ARRAY_ENABLED
-#   include <cl/tape/impl/inner/base_tape_inner.hpp>
-#   include <cl/tape/impl/inner/tape_inner_ops.hpp>   
-#endif
+// definitions that come from the installation
+#   include <cppad/configure.hpp>
+
+// definitions that are local to the CppAD include files
+#   include <cppad/local/define.hpp>
+
+// vectors used with CppAD
+#   include <cppad/local/testvector.hpp>
+
+// deprecated vectors used with CppAD
+#   include <cppad/local/test_vector.hpp>
+
+// Declare classes and fucntions that are used before defined
+#   include <cppad/local/declare_ad.hpp>
+
+#   define private protected
+
+#   include <cppad/local/ad.hpp>
+
+#   undef private
 
 #include <cppad/CppAD.h>
 
@@ -63,6 +97,11 @@ namespace cl
 #   include <iostream>
 
 #   include <cl/tape/impl/tape_fwd.hpp>
+
+#   if defined CL_AD_ENABLED_BY_DEFAULT
+#       include <cl/tape/impl/detail/enable_ad.hpp>
+#   endif
+
 #   include <cl/tape/impl/ad/tape_forward0sweep.hpp>
 #   include <cl/tape/impl/ad/tape_forward1sweep.hpp>
 #   include <cl/tape/impl/ad/tape_reverse_sweep.hpp>
@@ -70,15 +109,11 @@ namespace cl
 #   include <cl/tape/impl/ad/tape_serializer_fwd.hpp>
 #   include <cl/tape/impl/ad/tape_serializer_call.hpp>
 
-#   include <cl/tape/impl/reflection/mem_access.hpp>
-#   include <cl/tape/impl/ad/ad_fields.hpp>
-
-#   include <cl/tape/impl/tape_archive/tape_arhive.hpp>
-
 #   define private public
 #   undef CPPAD_PLAYER_INCLUDED
 
 #   undef CPPAD_AD_FUN_INCLUDED
+
 #   include <cppad/local/ad_fun.hpp>
 #   include <cppad/local/player.hpp>
 
@@ -121,6 +156,7 @@ namespace ext
 }
 #endif
 
+#include <cl/tape/impl/detail/double_type_value.hpp>
 #include <cl/tape/impl/tape_fwd.hpp>
 
 #include <cl/tape/impl/double.hpp>
@@ -129,13 +165,21 @@ namespace ext
 #   include <cl/tape/impl/complex.hpp>
 #endif
 
-#include <cl/tape/impl/adjointref.hpp>
+#include <cl/tape/impl/detail/adapters.hpp>
 #include <cl/tape/impl/doublelimits.hpp>
 #include <cl/tape/impl/doublemath.hpp>
 #include <cl/tape/impl/doubleoperators.hpp>
 
 #if defined CL_TAPE_COMPLEX_ENABLED
 #   include <cl/tape/impl/traits.hpp>
+#   include <cl/tape/impl/complexmath.hpp>
+#endif
+
+#if defined CL_TAPE_INNER_ARRAY_ENABLED
+#   include <cl/tape/impl/inner/base_tape_inner.hpp>
+#   include <cl/tape/impl/atomics/tape_inner_ops.hpp>
+#   include <cl/tape/impl/detail/experimental/atomic_reverse.hpp>
+#   include <cl/tape/impl/detail/experimental/atomic_linear_ops.hpp>
 #endif
 
 /// Adaptation adjoint framework essences
@@ -173,9 +217,13 @@ namespace cl
 #endif
 }
 
-#include <cl/tape/impl/adjointrefoperator.hpp>
+#include <cl/tape/impl/detail/adapter_operator.hpp>
 
 # undef CPPAD_UNDEF_INCLUDED
 # include <cppad/local/undef.hpp>
+
+# if defined _MANAGED
+#   pragma managed(pop)
+# endif
 
 #endif // cl_tape_tape_hpp
