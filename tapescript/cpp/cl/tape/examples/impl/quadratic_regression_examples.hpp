@@ -140,7 +140,7 @@ namespace cl
         tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
         tarray d_ref_array;
@@ -198,7 +198,7 @@ namespace cl
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Derivatives in reverse mode.
         if (flag_reverse_mode)
@@ -260,7 +260,7 @@ namespace cl
                 calc_time += stop_time - start_time;
             }
 
-            out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            // out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
         }
         out_stream << std::endl;
     }
@@ -386,7 +386,7 @@ namespace cl
         tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
@@ -440,7 +440,7 @@ namespace cl
         stop_time = std::clock();
         calc_time += stop_time - start_time;
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Derivatives in revrerse mode.
         if (flag_reverse_mode)
@@ -497,7 +497,7 @@ namespace cl
                 calc_time += stop_time - start_time;
             }
 
-            out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';            
+            // out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';            
         }
         out_stream << std::endl;
     }

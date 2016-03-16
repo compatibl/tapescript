@@ -115,7 +115,7 @@ namespace cl
         tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Forward sweep calculations.
         tarray d_ref_array;
@@ -164,7 +164,7 @@ namespace cl
         calc_time += stop_time - start_time;
         check_derivatives_dc(lin_regr, forw, eps);
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
         out_stream << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
     }
@@ -253,7 +253,7 @@ namespace cl
         tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
@@ -301,7 +301,7 @@ namespace cl
         calc_time += stop_time - start_time;
         check_derivatives_dc(lin_regr, forw, eps);
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
         out_stream << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
     }
@@ -367,7 +367,7 @@ namespace cl
         tfunc<tvalue> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Forward sweep calculations.
         tarray dx_ref_array, dy_ref_array;
@@ -425,7 +425,7 @@ namespace cl
             check_derivatives_dy(lin_regr, forw, i, eps);
         }
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
         out_stream << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
     }
@@ -508,7 +508,7 @@ namespace cl
         tfunc<double> f(X, Y);
         std::clock_t stop_time = std::clock();
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Tape creation took (ms): " << (stop_time - start_time) / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Derivative calculation time.
         std::clock_t calc_time = 0;
@@ -554,7 +554,7 @@ namespace cl
             check_derivatives_dy(lin_regr, forw, i, eps);
         }
 
-        out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        // out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
         out_stream << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
     }
