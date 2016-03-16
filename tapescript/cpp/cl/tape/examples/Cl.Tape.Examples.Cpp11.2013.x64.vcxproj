@@ -55,9 +55,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>CL_TAPE_INNER_ARRAY_ENABLED;CL_TAPE_CPPAD;CL_TAPE_COMPLEX_ENABLED;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_SYSTEM_NO_LIB;BOOST_FILESYSTEM_NO_LIB;CL_EXPLICIT_NATIVE_CONVERSION;CL_TAPE_INNER_ARRAY_ENABLED;CL_TAPE_CPPAD;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../../cpp;../../../../../dependencies/cpp;.</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996;4800</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -73,9 +73,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>CL_TAPE_INNER_ARRAY_ENABLED;CL_TAPE_CPPAD;CL_TAPE_COMPLEX_ENABLED;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_SYSTEM_NO_LIB;BOOST_FILESYSTEM_NO_LIB;CL_EXPLICIT_NATIVE_CONVERSION;CL_TAPE_INNER_ARRAY_ENABLED;CL_TAPE_CPPAD;CL_TAPE;CL_TAPE_CAN_GET_VALUE;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../../cpp;../../../../../dependencies/cpp;.</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4520;4244;4290;4267;4396;4996;4800</DisableSpecificWarnings>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -86,10 +88,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="**\*.hpp" />
+    <ClInclude Include="impl\AMC_simulation_examples.hpp" />
+    <ClInclude Include="impl\array_examples.hpp" />
+    <ClInclude Include="impl\array_performance_compare.hpp" />
+    <ClInclude Include="impl\basic_double_examples.hpp" />
+    <ClInclude Include="impl\basic_examples.hpp" />
+    <ClInclude Include="impl\basic_int_examples.hpp" />
+    <ClInclude Include="impl\basic_tvalue_examples.hpp" />
+    <ClInclude Include="impl\double_examples.hpp" />
+    <ClInclude Include="impl\generalized_spline_delete.hpp" />
+    <ClInclude Include="impl\generalized_spline_example_delete.hpp" />
+    <ClInclude Include="impl\linear_regression.hpp" />
+    <ClInclude Include="impl\performance_tests.hpp" />
+    <ClInclude Include="impl\performance_utils.hpp" />
+    <ClInclude Include="impl\polynomial_regression.hpp" />
+    <ClInclude Include="impl\polynomial_regression_data.hpp" />
+    <ClInclude Include="impl\polynomial_regression_examples.hpp" />
+    <ClInclude Include="impl\polynomial_regression_nonoptimized.hpp" />
+    <ClInclude Include="impl\qr_decomposition_examples.hpp" />
+    <ClInclude Include="impl\quadratic_regression_examples.hpp" />
+    <ClInclude Include="impl\linear_regression_examples.hpp" />
+    <ClInclude Include="impl\linear_regression_examples_impl.hpp" />
+    <ClInclude Include="impl\separate_var_array_examples.hpp" />
+    <ClInclude Include="impl\separate_var_basic_examples.hpp" />
+    <ClInclude Include="impl\separate_var_double_array_examples.hpp" />
+    <ClInclude Include="impl\separate_var_regression_examples.hpp" />
+    <ClInclude Include="impl\smooth_cubic_spline_example.hpp" />
+    <ClInclude Include="impl\utils.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="**\*.cpp" />
+    <ClCompile Include="tape_example.cpp" />
+    <ClCompile Include="tape_other_translation_line.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
