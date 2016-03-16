@@ -126,7 +126,7 @@ namespace cl
         }        
         double time_res = timer.elapsed();
         
-        out_stream << "tdouble performance result: " << time_res << " for size portfolio = " << size_portfolio << std::endl;
+        // out_stream << "tdouble performance result: " << time_res << " for size portfolio = " << size_portfolio << std::endl;
     }
 
     inline void amc_tarray_simulation(int size_portfolio, std::ostream& out_stream = std::cout, bool serialize = false)
@@ -184,7 +184,7 @@ namespace cl
             out_str << "Forward sweep result: Delta equal " << forw << "\n\n";
 
         double time_res = timer.elapsed();
-        out_stream << "tarray performance result: " << time_res << " for size portfolio = " << size_portfolio << std::endl;
+        // out_stream << "tarray performance result: " << time_res << " for size portfolio = " << size_portfolio << std::endl;
     }
     
     inline void amc_simulation_examples()
