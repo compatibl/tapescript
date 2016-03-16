@@ -100,7 +100,7 @@ namespace cl
                     mat_X_XT_[i][j] = mat_X_XT_[j][i];
 
             // Calculate inverse matrix (X * X^T)^-1.
-            mat_X_XT_inv_ = polynomial_regression::invert_sym_matrix_boost(mat_X_XT_);
+            mat_X_XT_inv_ = tapescript::invert_sym_matrix_boost(mat_X_XT_);
 
             // Calculate vector X^T * y.
             vec_XT_y_.resize(m_);

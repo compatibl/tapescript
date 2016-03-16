@@ -158,14 +158,21 @@ namespace cl
     }
 
     // Example of polynomial regression differentiation with respect to parameters of input distribution using optimized tape.
-    inline void polynomial_regression_with_params_optimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
+    // Returns vector with the following values:
+    //   [0] tape size (bytes),
+    //   [1] tape creation time (ms),
+    //   [2] forward adjoint derivative calculation time (ms).
+    inline std::vector<double> polynomial_regression_with_params_optimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
     {
+        // Output vector with performance results.
+        std::vector<double> performance(3);
+
         // Control production of tape output to serializer.
         bool flag_serializer = data.GetFlagSerializer();
 
         // Control analytical check of derivatives.
         bool flag_check = data.GetFlagCheck();
-        
+
         // Order of polynomial regression.
         int order = data.GetOrder();
 
@@ -219,8 +226,10 @@ namespace cl
         tfunc<tvalue> f(X, Y);
         tape_time = std::clock() - tape_time;
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << tape_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
-        
+        //out_stream << "Tape creation took (ms): " << tape_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+        performance[0] = f.Memory();
+        performance[1] = tape_time / (double)(CLOCKS_PER_SEC)* 1000;
+
         //  Calculate analytical derivatives if needed.
         std::vector<std::vector<double>> coef_deriv_analyt;
         std::vector<std::vector<double>> estim_deriv_analyt;
@@ -293,7 +302,8 @@ namespace cl
                         out_stream << "Analytic derivatives = " << analyt << "..." << std::endl;
                 }
             }
-            out_stream << std::endl << "Forward calculation took (ms): " << forward_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            //out_stream << std::endl << "Forward calculation took (ms): " << forward_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            performance[2] = forward_time / (double)(CLOCKS_PER_SEC)* 1000;
         }
 
         // Reverse derivatives calculation.
@@ -352,16 +362,25 @@ namespace cl
                     }
                 }
             }
-            out_stream << std::endl << "Reversed calculation took (ms): " << reversed_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            //out_stream << std::endl << "Reversed calculation took (ms): " << reversed_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
         }
 
         out_stream << std::endl << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
+        return performance;
     }
 
     // Example of polynomial regression differentiation with respect to parameters of input distribution using non-optimized tape.
-    inline void polynomial_regression_with_params_nonoptimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
+    // Returns vector with the following values: 
+    //   [0] tape size (bytes),
+    //   [1] tape creation time (ms),
+    //   [2] forward adjoint derivative calculation time (ms),
+    //   [3] finite-difference derivative calculation time (ms).
+    inline std::vector<double> polynomial_regression_with_params_nonoptimized_example(const polynomial_regression_data& data, std::ostream& out_stream = std::cout)
     {
+        // Output vector with performance results.
+        std::vector<double> performance(4);
+
         // Control production of tape output to serializer.
         bool flag_serializer = data.GetFlagSerializer();
 
@@ -425,7 +444,10 @@ namespace cl
         tfunc<double> f(X, Y);
         tape_time = std::clock() - tape_time;
         out_stream << "Tape memory (bytes): " << f.Memory() << std::endl;
-        out_stream << "Tape creation took (ms): " << tape_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        //out_stream << "Tape creation took (ms): " << tape_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        performance[0] = f.Memory();
+        performance[1] = tape_time / (double)(CLOCKS_PER_SEC)* 1000;
+
         //  Calculate analytical derivatives if needed.
         std::vector<std::vector<double>> coef_deriv_analyt;
         std::vector<std::vector<double>> estim_deriv_analyt;
@@ -469,6 +491,43 @@ namespace cl
             }
         }
 
+        // Calculate derivatives using finite-difference method if needed.
+        bool flag_findif = data.GetFlagFinDif();
+        double step_findif = data.GetStepFinDif();
+        std::vector<std::vector<double>> findif(npar);
+        if (flag_findif)
+        {
+            std::clock_t findif_time = 0;
+            int npoints = estim.size();
+            std::vector<double> estim_deriv_findif(npoints);
+            for (int i = 0; i < npar; i++)
+            {
+                findif[i].resize(order + 1 + npoints);
+                findif_time -= std::clock();
+                std::vector<std::vector<tdouble>> X_vector_varied(npar);
+                for (int k = 0; k < npar; k++)
+                    X_vector_varied[k] = { X[k] };
+                X_vector_varied[i][0] += step_findif;
+                std::vector<tdouble> y_varied = polynomial_regression_data::FunctionPolynomPlusExp(x, X_vector_varied);
+                polynomial_regression_nonoptimized regression_varied(x, y_varied, order);
+                std::vector<tdouble> coef_varied = regression_varied.calculate_coefficients();
+                std::vector<tdouble> estim_varied = regression_varied.calculate_estimation();
+                for (int k = 0; k <= order; k++)
+                    findif[i][k] = (double)(coef_varied[k] - coef[k]) / step_findif;
+                for (int k = 0; k < npoints; k++)
+                    findif[i][order + 1 + k] = (double)(estim_varied[k] - estim[k]) / step_findif;
+                findif_time += std::clock();
+                if (flag_check)
+                {
+                    std::vector<double> dx(X.size());
+                    dx[i] = 1;
+                    check_forward_derivatives(dx, findif[i], coef_deriv_analyt, estim_deriv_analyt, data.GetTolerance());
+                }
+            }
+            //out_stream << std::endl << "Finite-difference calculation took (ms): " << findif_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            performance[3] = findif_time / (double)(CLOCKS_PER_SEC)* 1000;
+        }
+
         // Forward derivatives calculation.
         if (data.GetFlagForward())
         {
@@ -495,10 +554,15 @@ namespace cl
                 {
                     std::vector<double> analyt = check_forward_derivatives(dx, forward, coef_deriv_analyt, estim_deriv_analyt, data.GetTolerance());
                     if (flag_serializer)
+                    {
                         out_stream << "Analytic derivatives = " << analyt << "..." << std::endl;
+                        if (flag_findif)
+                            out_stream << "Finite-difference derivatives = " << findif[i] << "..." << std::endl;
+                    }
                 }
             }
-            out_stream << std::endl << "Forward calculation took (ms): " << forward_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+            //out_stream << std::endl << "Forward calculation took (ms): " << forward_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+            performance[2] = forward_time / (double)(CLOCKS_PER_SEC)* 1000;
         }
 
         // Reverse derivatives calculation.
@@ -556,38 +620,129 @@ namespace cl
                     }
                 }
             }
-            out_stream << std::endl << "Reversed calculation took (ms): " << reversed_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+           // out_stream << std::endl << "Reversed calculation took (ms): " << reversed_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
         }
 
         out_stream << std::endl << "All derivatives calculated successfully." << std::endl;
         out_stream << std::endl;
+        return performance;
     }
-    
+
+    void make_polynomial_regression_plot(polynomial_regression_data data)
+    {
+        int order = data.GetOrder();
+        std::cout << "Making plot for polynomial regression (order " << order << ")\n" << std::endl;
+        int step = 1000;
+        std::vector<int> n(25);
+        for (int i = 0; i < n.size(); i++)
+        {
+            n[i] = step * (i + 1);
+        }
+        std::vector<double[4]> plt(n.size());
+        for (int i = 0; i < n.size(); i++)
+        {
+            data.SetPointsNumber(n[i]);
+            std::vector<double> performance_opt = polynomial_regression_with_params_optimized_example(data);
+            std::vector<double> performance_nonopt = polynomial_regression_with_params_nonoptimized_example(data);
+            plt[i][0] = n[i] / step;
+            plt[i][1] = performance_nonopt[3] + performance_nonopt[1];
+            plt[i][2] = performance_nonopt[2] + performance_nonopt[1];
+            plt[i][3] = performance_opt[2] + performance_opt[1];
+        }
+
+        // Make Gnuplot file.
+        std::ostringstream pltfilename;
+        pltfilename << "output/plots/polynomial_regression_order" << data.GetOrder() << ".plt";
+        std::ofstream pltfile(pltfilename.str());
+        pltfile << "set terminal pop" << std::endl;
+        // So far the next line works in Windows only. TODO: make it working in Linux.
+        pltfile << "set locale \"English_US\"" << std::endl;
+        //pltfile << "set locale \"en_US.UTF-8\"" << std::endl;
+        pltfile << "set encoding utf8" << std::endl;
+        pltfile << "set decimalsign '.'" << std::endl;
+        pltfile << "set datafile separator ';'" << std::endl;
+        pltfile << "set for[i = 1:25] linetype i dt i" << std::endl;
+        pltfile << "set size 1, 1" << std::endl;
+        pltfile << "unset grid" << std::endl;
+        pltfile << "set border 1 + 2" << std::endl;
+        pltfile << "set xtics nomirror font \",15\"" << std::endl;
+        pltfile << "set ytics nomirror font \",15\"" << std::endl;
+        pltfile << "set style line 1 linecolor rgb \"#2971AF\" lt 3 lw 3" << std::endl;
+        pltfile << "set style line 2 linecolor rgb \"#77C043\" lt 3 lw 3" << std::endl;
+        pltfile << "set style line 3 linecolor rgb \"#9FC9EB\" lt 3 lw 3" << std::endl;
+        pltfile << "set key left width - 5 height 0.3 font \", 15\" box lw 0.7" << std::endl;
+        pltfile << "set xlabel \"Number of variables (\\327 " << step << ")\" font \",15\"" << std::endl;
+        pltfile << "set ylabel \"Time (ms)\" font \",15\"" << std::endl;
+        pltfile << "set title \"Differentiation of polynomial regression (order " << order << ")\" font \",15\"" << std::endl;
+        pltfile << "plot \"-\" using 1:2 w lines smooth sbezier  title \"    Finite difference\" lt 1 lw 3 lc \"#2971AF\",\\" << std::endl;
+        pltfile << "\"-\" using 1:2 w lines smooth sbezier  title \"Non-optimized tape\" lt 4 lw 3 lc \"#77C043\",\\" << std::endl;
+        pltfile << "\"-\" using 1:2 w lines smooth sbezier  title \"Optimized tape\" lt 5 lw 3 lc \"#9FC9EB\",\\" << std::endl;
+        pltfile << "#State; Row" << std::endl;
+
+        // Plot finite-difference performance curve.
+        for (int i = 0; i < n.size(); i++)
+            pltfile << plt[i][0] << ";" << plt[i][1] << std::endl;
+        pltfile << "end" << std::endl;
+        // Plot adjoint (non-optimized tape) performance curve.
+        for (int i = 0; i < n.size(); i++)
+            pltfile << plt[i][0] << ";" << plt[i][2] << std::endl;
+        pltfile << "end" << std::endl;
+        // Plot adjoint (optimized tape) performance curve.
+        for (int i = 0; i < n.size(); i++)
+            pltfile << plt[i][0] << ";" << plt[i][3] << std::endl;
+        pltfile << "end" << std::endl;
+
+        // Wait until a carriage return is hit (this is needed in Linux, so far does not work anyway).
+        //pltfile << "pause -1" << std::endl;
+    }
+
     inline void polynomial_regression_examples()
     {
-        std::ofstream of("output/performance/polynomial_regression_output.txt");
+        std::ofstream of("output/polynomial_regression_output.txt");
         tape_serializer<tvalue> serializer(of);
         serializer.precision(3);
+        // Flag to control making performance plots.
+        bool flag_make_plot = false;
 
         // Order 1.
         polynomial_regression_data data_1(1);
         polynomial_regression_with_params_optimized_example(data_1, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_1, serializer);
+        if (flag_make_plot)
+        {
+            data_1.SetFlagSerializer(false);
+            make_polynomial_regression_plot(data_1);
+        }
 
         // Order 2.
         polynomial_regression_data data_2(2);
         polynomial_regression_with_params_optimized_example(data_2, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_2, serializer);
+        if(flag_make_plot)
+        {
+            data_2.SetFlagSerializer(false);
+            make_polynomial_regression_plot(data_2);
+        }
 
         // Order 3.
         polynomial_regression_data data_3(3);
         polynomial_regression_with_params_optimized_example(data_3, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_3, serializer);
+        if (flag_make_plot)
+        {
+            data_3.SetFlagSerializer(false);
+            make_polynomial_regression_plot(data_3);
+        }
 
         // Order 4.
         polynomial_regression_data data_4(4);
         polynomial_regression_with_params_optimized_example(data_4, serializer);
         polynomial_regression_with_params_nonoptimized_example(data_4, serializer);
+        if(flag_make_plot)
+        {
+            data_4.SetFlagSerializer(false);
+            make_polynomial_regression_plot(data_4);
+        }
     }
 }
 

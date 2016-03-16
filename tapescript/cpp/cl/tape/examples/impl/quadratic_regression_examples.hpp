@@ -31,12 +31,15 @@ namespace cl
         // Control production of tape output to serializer.
         bool flag_serializer = false;
 
+        // Control calculation of derivatives in reverse mode.
+        bool flag_reverse_mode = false;
+
         // Input quadratic regression parameters.
         // n: number of points {x_i, y_i}.
         // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
         // y_i are y_i = a + b * x_i + c * x_i * x_i + exp(-1 * d * x_i).
 #if defined NDEBUG
-        size_t n = 12000;
+        size_t n = 10000;
 #else
         size_t n = 2000;
 #endif
@@ -54,6 +57,9 @@ namespace cl
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
+
+        // Control calculation of derivatives in reverse mode.
+        bool flag_reverse_mode = data.flag_reverse_mode;
 
         // Input linear regression parameters.
         // n: number of points {x_i, y_i}.
@@ -195,54 +201,27 @@ namespace cl
         out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
 
         // Derivatives in reverse mode.
-        tarray alpha_rev, beta_rev, gamma_rev;
-        tarray y_estimate_rev(n);
-        std::vector<tvalue> dx_rev = { alpha_rev, beta_rev, gamma_rev, y_estimate_rev };
-
-        // Derivatives for alpha.
-        dx_rev[0] = 1;
-        dx_rev[1] = dx_rev[2] = dx_rev[3] = 0;
-        std::vector<tvalue> rev;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time = stop_time - start_time;
-
-        // Derivatives for beta.
-        dx_rev[1] = 1;
-        dx_rev[0] = dx_rev[2] = dx_rev[3] = 0;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time += stop_time - start_time;
-
-        // Derivatives for gamma.
-        dx_rev[2] = 1;
-        dx_rev[0] = dx_rev[1] = dx_rev[3] = 0;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time += stop_time - start_time;
-
-        // Derivatives for y_estimate.
-        dx_rev[0] = dx_rev[1] = dx_rev[2] = 0;
-        std::valarray<double> dx_rev_estim;
-        dx_rev_estim.resize(n);
-        for (int i = 0; i < n; i++)
+        if (flag_reverse_mode)
         {
-            for (int j = 0; j < n; j++)
-                dx_rev_estim[j] = 0;
-            dx_rev_estim[i] = 1;
-            dx_rev[3] = tvalue(dx_rev_estim);
+            tarray alpha_rev, beta_rev, gamma_rev;
+            tarray y_estimate_rev(n);
+            std::vector<tvalue> dx_rev = { alpha_rev, beta_rev, gamma_rev, y_estimate_rev };
+
+            // Derivatives for alpha.
+            dx_rev[0] = 1;
+            dx_rev[1] = dx_rev[2] = dx_rev[3] = 0;
+            std::vector<tvalue> rev;
+            start_time = std::clock();
+            if (flag_serializer)
+                rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+            else
+                rev = f.Reverse(1, dx_rev);
+            stop_time = std::clock();
+            calc_time = stop_time - start_time;
+
+            // Derivatives for beta.
+            dx_rev[1] = 1;
+            dx_rev[0] = dx_rev[2] = dx_rev[3] = 0;
             start_time = std::clock();
             if (flag_serializer)
                 rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
@@ -250,9 +229,39 @@ namespace cl
                 rev = f.Reverse(1, dx_rev);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-        }
 
-        out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC) * 1000 << '\n';
+            // Derivatives for gamma.
+            dx_rev[2] = 1;
+            dx_rev[0] = dx_rev[1] = dx_rev[3] = 0;
+            start_time = std::clock();
+            if (flag_serializer)
+                rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+            else
+                rev = f.Reverse(1, dx_rev);
+            stop_time = std::clock();
+            calc_time += stop_time - start_time;
+
+            // Derivatives for y_estimate.
+            dx_rev[0] = dx_rev[1] = dx_rev[2] = 0;
+            std::valarray<double> dx_rev_estim;
+            dx_rev_estim.resize(n);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    dx_rev_estim[j] = 0;
+                dx_rev_estim[i] = 1;
+                dx_rev[3] = tvalue(dx_rev_estim);
+                start_time = std::clock();
+                if (flag_serializer)
+                    rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+                else
+                    rev = f.Reverse(1, dx_rev);
+                stop_time = std::clock();
+                calc_time += stop_time - start_time;
+            }
+
+            out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+        }
         out_stream << std::endl;
     }
 
@@ -261,6 +270,9 @@ namespace cl
     {
         // Control production of tape output to serializer.
         bool flag_serializer = data.flag_serializer;
+
+        // Control calculation of derivatives in reverse mode.
+        bool flag_reverse_mode = data.flag_reverse_mode;
 
         // Input linear regression parameters.
         // n: number of points {x_i, y_i}.
@@ -431,49 +443,25 @@ namespace cl
         out_stream << "Forward calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
 
         // Derivatives in revrerse mode.
-        std::vector<double> dx_rev(n + 3);
-
-        // Derivatives for alpha.
-        dx_rev[0] = 1;
-        dx_rev[1] = dx_rev[2] = 0;
-        std::vector<double> rev;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time = stop_time - start_time;
-
-        // Derivatives for beta.
-        dx_rev[1] = 1;
-        dx_rev[0] = dx_rev[2] = 0;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time += stop_time - start_time;
-
-        // Derivatives for gamma.
-        dx_rev[2] = 1;
-        dx_rev[0] = dx_rev[1] = 0;
-        start_time = std::clock();
-        if (flag_serializer)
-            rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
-        else
-            rev = f.Reverse(1, dx_rev);
-        stop_time = std::clock();
-        calc_time += stop_time - start_time;
-
-        // Derivatives for y_estimate.
-        dx_rev[0] = dx_rev[1] = dx_rev[2] = 0;
-        for (int i = 0; i < n; i++)
+        if (flag_reverse_mode)
         {
-            for (int j = 0; j < n; j++)
-                dx_rev[3 + j] = 0;
-            dx_rev[3 + i] = 1;
+            std::vector<double> dx_rev(n + 3);
+
+            // Derivatives for alpha.
+            dx_rev[0] = 1;
+            dx_rev[1] = dx_rev[2] = 0;
+            std::vector<double> rev;
+            start_time = std::clock();
+            if (flag_serializer)
+                rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+            else
+                rev = f.Reverse(1, dx_rev);
+            stop_time = std::clock();
+            calc_time = stop_time - start_time;
+
+            // Derivatives for beta.
+            dx_rev[1] = 1;
+            dx_rev[0] = dx_rev[2] = 0;
             start_time = std::clock();
             if (flag_serializer)
                 rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
@@ -481,16 +469,42 @@ namespace cl
                 rev = f.Reverse(1, dx_rev);
             stop_time = std::clock();
             calc_time += stop_time - start_time;
-        }
 
-        out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';
+            // Derivatives for gamma.
+            dx_rev[2] = 1;
+            dx_rev[0] = dx_rev[1] = 0;
+            start_time = std::clock();
+            if (flag_serializer)
+                rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+            else
+                rev = f.Reverse(1, dx_rev);
+            stop_time = std::clock();
+            calc_time += stop_time - start_time;
+
+            // Derivatives for y_estimate.
+            dx_rev[0] = dx_rev[1] = dx_rev[2] = 0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                    dx_rev[3 + j] = 0;
+                dx_rev[3 + i] = 1;
+                start_time = std::clock();
+                if (flag_serializer)
+                    rev = f.Reverse(1, std::make_pair(dx_rev, &out_stream)).first;
+                else
+                    rev = f.Reverse(1, dx_rev);
+                stop_time = std::clock();
+                calc_time += stop_time - start_time;
+            }
+
+            out_stream << "Reverse calculation took (ms): " << calc_time / (double)(CLOCKS_PER_SEC)* 1000 << '\n';            
+        }
         out_stream << std::endl;
     }
 
-
     inline void quadratic_regression_examples()
     {
-        std::ofstream of("output/performance/quadratic_regression_output.txt");
+        std::ofstream of("output/quadratic_regression_output.txt");
         tape_serializer<tvalue> serializer(of);
         serializer.precision(3);
 

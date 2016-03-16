@@ -64,9 +64,9 @@ namespace cl
 
             return y;
         }
-    
-    };    
-    
+
+    };
+
     template<>
     struct caller<std::vector<tdouble> >
     {
@@ -106,7 +106,7 @@ namespace cl
             return y;
         }
     };
-    
+
     // Class to store steering parameters for polynomial regression examples.
     // Also provides service methods for generation of input data.
     class polynomial_regression_data
@@ -139,21 +139,20 @@ namespace cl
         // Check derivatives analytically.
         bool flag_check_;
 
+        // Calculate derivatives analytically.
+        bool flag_findif_;
+
+        // Step for finite-difference method.
+        double step_;
+
     public:
         polynomial_regression_data(int order) : order_(order)
         {
-            // Default settings for debug/release mode.
-#if defined NDEBUG
-            n_ = 1000000;
-            flag_serializer_ = false;
-            flag_check_ = false;
-            flag_reverse_all_ = false;
-#else
-            n_ = 10;
+            // Default settings.
+            n_ = 100;
             flag_serializer_ = true;
             flag_check_ = true;
             flag_reverse_all_ = true;
-#endif
 
             // Default settings for parameters.
             par_polynom_.resize(order + 1);
@@ -168,7 +167,11 @@ namespace cl
             flag_reverse_ = true;
 
             // Default settings for tolerance, serializer and check flags.
-            tol_ = 1e-6;
+            tol_ = 1e-4;
+
+            // Default setting for finite-difference method.
+            step_ = 1e-5;
+            flag_findif_ = true;
         }
 
         // Get and set number of input points.
@@ -190,6 +193,10 @@ namespace cl
         double GetTolerance() const { return tol_; }
         void SetTolerance(double tol) { tol_ = tol; }
 
+        // Get and set finite-difference step.
+        double GetStepFinDif() const { return step_; }
+        void SetStepFinDif(double step) { step_ = step; }
+
         // Get and set serializer flag.
         bool GetFlagSerializer() const { return flag_serializer_; }
         void SetFlagSerializer(bool flag) { flag_serializer_ = flag; }
@@ -209,6 +216,10 @@ namespace cl
         // Get and set reversed derivatives flag.
         bool GetFlagReverseAll() const { return flag_reverse_all_; }
         void SetFlagReverseAll(bool flag) { flag_reverse_all_ = flag; }
+
+        // Get and set finite-difference flag.
+        bool GetFlagFinDif() const { return flag_findif_; }
+        void SetFlagFinDif(bool flag) { flag_findif_ = flag; }
 
         // Create equidistant vector { -1, ..., 9} as tobject.
         template<typename element_type>

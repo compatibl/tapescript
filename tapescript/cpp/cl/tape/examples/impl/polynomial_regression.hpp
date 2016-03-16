@@ -23,9 +23,7 @@ limitations under the License.
 
 #define CL_BASE_SERIALIZER_OPEN
 #include <cl/tape/tape.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/triangular.hpp>
-#include <boost/numeric/ublas/lu.hpp>
+#include <cl/tape/impl/math/matrix_math.hpp>
 
 namespace cl
 {
@@ -97,7 +95,7 @@ namespace cl
                     mat_X_XT_[i][j] = mat_X_XT_[j][i];
 
             // Calculate inverse matrix (X * X^T)^-1.
-            mat_X_XT_inv_ = invert_sym_matrix_boost(mat_X_XT_);
+                mat_X_XT_inv_ = tapescript::invert_sym_matrix_boost(mat_X_XT_);
 
             // Calculate vector X^T * y.
             vec_XT_y_.resize(m_);
@@ -183,7 +181,7 @@ namespace cl
             boost::numeric::ublas::permutation_matrix<std::size_t> pm(m);
             // Perform LU-factorization
             if(boost::numeric::ublas::lu_factorize(input, pm))
-                throw std::runtime_error("Singular matrix");
+                cl::throw_("Singular matrix");
             // Create identity matrix of for inverse
             boost::numeric::ublas::matrix<element_type> inverse(m, m);
             inverse.assign(boost::numeric::ublas::identity_matrix<element_type>(m));
