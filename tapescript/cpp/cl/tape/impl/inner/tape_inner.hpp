@@ -56,6 +56,12 @@ namespace cl
 
         tape_inner(const tape_inner&) = default;
 
+        tape_inner(tape_inner&& other)
+            : mode_(other.mode_)
+            , scalar_value_(std::move(other.scalar_value_))
+            , array_value_(std::move(other.array_value_))
+        {}
+
         // Array mode is used for array value storage.
         tape_inner(const array_type& v)
             : mode_(ArrayMode)
@@ -73,15 +79,28 @@ namespace cl
         tape_inner(const scalar_type& val, size_t count)
             : mode_(ArrayMode)
             , scalar_value_()
-            , array_value_(traits::get_const(count, val))
+            , array_value_(traits::make(val, count))
+        {}
+
+        // Construct as array with values passed by pointer.
+        tape_inner(const scalar_type* ptr, size_t count)
+            : mode_(ArrayMode)
+            , scalar_value_()
+            , array_value_(traits::make(ptr, count))
         {}
 
         // Construct as array with values passed by initializer_list.
         tape_inner(std::initializer_list<scalar_type> il)
-            : mode_(ArrayMode)
-            , scalar_value_()
-            , array_value_(traits::get_from_init_list(il))
+            : tape_inner(il.begin(), il.size())
         {}
+
+        inline tape_inner& operator=(tape_inner&& other)
+        {
+            mode_ = other.mode_;
+            scalar_value_ = std::move(other.scalar_value_);
+            array_value_ = std::move(other.array_value_);
+            return *this;
+        }
 
         // Returns true if scalar mode used (ordinary or intrusive).
         bool is_scalar() const
@@ -122,7 +141,7 @@ namespace cl
         {
             if (is_array())
             {
-                throw "Not a scalar";
+                cl::throw_("Not a scalar");
             }
             return scalar_value_;
         }
@@ -155,7 +174,7 @@ namespace cl
 
         // Assign operations.
 #define CL_INNER_ARRAY_ASSIGN_OPERATOR(Op)                                                      \
-        inline tape_inner& operator Op ## = (const tape_inner& right)                         \
+        inline tape_inner& operator Op ## = (const tape_inner& right)                           \
         {                                                                                       \
             if (is_intrusive())                                                                 \
             {                                                                                   \
@@ -216,9 +235,9 @@ namespace cl
         // Returns size of array value.
         size_t size() const
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array.");
             size_type temp = array_value_.size();
-            assert(temp >= 0);
+            CL_ASSERT(temp >= 0, "");
             return (size_t)temp;
         }
 
@@ -230,37 +249,37 @@ namespace cl
 
         scalar_type* begin()
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to take an iterator.");
             return &array_value_[0];
         }
 
         scalar_type const* begin() const
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to take an iterator.");
             return &array_value_[0];
         }
 
         scalar_type* end()
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to take an iterator.");
             return &array_value_[0] + size();
         }
 
         scalar_type const* end() const
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to take an iterator.");
             return &array_value_[0] + size();
         }
 
         scalar_type& operator[](size_t index)
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to access via [].");
             return array_value_[index];
         }
 
         scalar_type const& operator[](size_t index) const
         {
-            assert(is_array());
+            CL_ASSERT(is_array(), "Have to be an array to access via [].");
             return array_value_[index];
         }
 
@@ -299,9 +318,9 @@ namespace cl
     // Arithmetic binary operations.
 #define CL_BIN_INNER_ARRAY_OPERATOR(Op)                                                         \
     template <class Array>                                                                      \
-    inline tape_inner<Array> operator Op(                                                      \
-        const tape_inner<Array>& x                                                             \
-        , const tape_inner<Array>& y)                                                          \
+    inline tape_inner<Array> operator Op(                                                       \
+        const tape_inner<Array>& x                                                              \
+        , const tape_inner<Array>& y)                                                           \
     {                                                                                           \
         if (x.is_scalar() && y.is_scalar())                                                     \
         {                                                                                       \
@@ -322,9 +341,9 @@ namespace cl
     }                                                                                           \
                                                                                                 \
     template <class Array>                                                                      \
-    inline tape_inner<Array> operator Op(                                                      \
-        const tape_inner<Array>& x                                                             \
-        , const typename tape_inner<Array>::scalar_type& y)                                    \
+    inline tape_inner<Array> operator Op(                                                       \
+        const tape_inner<Array>& x                                                              \
+        , const typename tape_inner<Array>::scalar_type& y)                                     \
     {                                                                                           \
         if (x.is_scalar())                                                                      \
         {                                                                                       \
@@ -334,9 +353,9 @@ namespace cl
     }                                                                                           \
                                                                                                 \
     template <class Array>                                                                      \
-    inline tape_inner<Array> operator Op(                                                      \
-        const typename tape_inner<Array>::scalar_type& x                                       \
-        , const tape_inner<Array>& y)                                                          \
+    inline tape_inner<Array> operator Op(                                                       \
+        const typename tape_inner<Array>::scalar_type& x                                        \
+        , const tape_inner<Array>& y)                                                           \
     {                                                                                           \
         if (y.is_scalar())                                                                      \
         {                                                                                       \
@@ -355,7 +374,7 @@ namespace cl
     // Logical binary operations.
 #define CL_BOOL_INNER_ARRAY_OPERATOR(Op, Code)                                                  \
     template <class Array>                                                                      \
-    inline bool operator Op(const tape_inner<Array>& x, const tape_inner<Array>& y)           \
+    inline bool operator Op(const tape_inner<Array>& x, const tape_inner<Array>& y)             \
     {                                                                                           \
         if (x.is_scalar() && y.is_scalar())                                                     \
         {                                                                                       \
@@ -379,8 +398,8 @@ namespace cl
                                                                                                 \
     template <class Array>                                                                      \
     inline bool operator Op(                                                                    \
-        const tape_inner<Array>& x                                                             \
-        , const typename tape_inner<Array>::scalar_type& y)                                    \
+        const tape_inner<Array>& x                                                              \
+        , const typename tape_inner<Array>::scalar_type& y)                                     \
     {                                                                                           \
         if (x.is_scalar())                                                                      \
         {                                                                                       \
@@ -391,8 +410,8 @@ namespace cl
                                                                                                 \
     template <class Array>                                                                      \
     inline bool operator Op(                                                                    \
-        const typename tape_inner<Array>::scalar_type& x                                       \
-        , const tape_inner<Array>& y)                                                          \
+        const typename tape_inner<Array>::scalar_type& x                                        \
+        , const tape_inner<Array>& y)                                                           \
     {                                                                                           \
         if (y.is_scalar())                                                                      \
         {                                                                                       \
@@ -444,13 +463,13 @@ namespace cl
         // Standart math functions.
 #define CL_INNER_ARRAY_FUNCTION(Name)                                                           \
         template <class Array>                                                                  \
-        inline cl::tape_inner<Array> Name(const cl::tape_inner<Array>& x)                     \
+        inline cl::tape_inner<Array> Name(const cl::tape_inner<Array>& x)                       \
         {                                                                                       \
             if (x.is_scalar())                                                                  \
             {                                                                                   \
                 return std::Name(x.scalar_value_);                                              \
             }                                                                                   \
-            return cl::tape_inner<Array>::traits::Name(x.array_value_);                        \
+            return cl::tape_inner<Array>::traits::Name(x.array_value_);                         \
         }
         CL_INNER_ARRAY_FUNCTION(abs)
         CL_INNER_ARRAY_FUNCTION(acos)
@@ -466,6 +485,23 @@ namespace cl
         CL_INNER_ARRAY_FUNCTION(tan)
         CL_INNER_ARRAY_FUNCTION(tanh)
 #undef CL_INNER_ARRAY_FUNCTION
+
+        template <class Array>
+        inline cl::tape_inner<Array> sign(const cl::tape_inner<Array>& x)
+        {
+            typedef typename cl::tape_inner<Array>::scalar_type scalar_type;
+
+            if (x.is_scalar())
+            {
+                if (x.scalar_value_ > 0.)
+                    return scalar_type(1.0);
+                if (x.scalar_value_ == 0.)
+                    return scalar_type(0.0);
+                return scalar_type(-1.0);
+            }
+
+            return cl::tape_inner<Array>::traits::sign(x.array_value_);
+        }
 
         // Math power functioon.
         template <class Array>
@@ -546,6 +582,18 @@ namespace cl
 
 namespace std
 {
+    template <class Array>
+    cl::tape_inner<Array> ceil(cl::tape_inner<Array> const& x)
+    {
+        return x.apply(std::ceil);
+    }
+
+    template <class Array>
+    cl::tape_inner<Array> floor(cl::tape_inner<Array> const& x)
+    {
+        return x.apply(std::floor);
+    }
+
     // CLASS numeric_limits<cl::tape_inner<Array>>
     template<class Array>
     class numeric_limits<cl::tape_inner<Array>>
@@ -570,5 +618,7 @@ namespace std
         }
     };
 }
+
+#include <cl/tape/impl/inner/tape_inner_fields.hpp>
 
 #endif // cl_tape_impl_inner_tape_inner_hpp
