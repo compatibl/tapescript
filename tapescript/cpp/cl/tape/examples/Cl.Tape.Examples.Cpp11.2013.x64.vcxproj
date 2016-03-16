@@ -88,33 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="impl\AMC_simulation_examples.hpp" />
-    <ClInclude Include="impl\array_examples.hpp" />
-    <ClInclude Include="impl\array_performance_compare.hpp" />
-    <ClInclude Include="impl\basic_double_examples.hpp" />
-    <ClInclude Include="impl\basic_examples.hpp" />
-    <ClInclude Include="impl\basic_int_examples.hpp" />
-    <ClInclude Include="impl\basic_tvalue_examples.hpp" />
-    <ClInclude Include="impl\double_examples.hpp" />
-    <ClInclude Include="impl\generalized_spline_delete.hpp" />
-    <ClInclude Include="impl\generalized_spline_example_delete.hpp" />
-    <ClInclude Include="impl\linear_regression.hpp" />
-    <ClInclude Include="impl\performance_tests.hpp" />
-    <ClInclude Include="impl\performance_utils.hpp" />
-    <ClInclude Include="impl\polynomial_regression.hpp" />
-    <ClInclude Include="impl\polynomial_regression_data.hpp" />
-    <ClInclude Include="impl\polynomial_regression_examples.hpp" />
-    <ClInclude Include="impl\polynomial_regression_nonoptimized.hpp" />
-    <ClInclude Include="impl\qr_decomposition_examples.hpp" />
-    <ClInclude Include="impl\quadratic_regression_examples.hpp" />
-    <ClInclude Include="impl\linear_regression_examples.hpp" />
-    <ClInclude Include="impl\linear_regression_examples_impl.hpp" />
-    <ClInclude Include="impl\separate_var_array_examples.hpp" />
-    <ClInclude Include="impl\separate_var_basic_examples.hpp" />
-    <ClInclude Include="impl\separate_var_double_array_examples.hpp" />
-    <ClInclude Include="impl\separate_var_regression_examples.hpp" />
-    <ClInclude Include="impl\smooth_cubic_spline_example.hpp" />
-    <ClInclude Include="impl\utils.hpp" />
+    <ClInclude Include="**\*.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tape_example.cpp" />
