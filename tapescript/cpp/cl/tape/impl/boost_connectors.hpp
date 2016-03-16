@@ -45,4 +45,12 @@ namespace boost
     }
 }
 
+namespace boost
+{
+    template <typename Base>
+    struct has_trivial_constructor;
+    template <typename Base>
+    struct has_trivial_constructor<cl::tape_wrapper<Base> > { enum { value = 0 }; };
+}
+
 #endif
