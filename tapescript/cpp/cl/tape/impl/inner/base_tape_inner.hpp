@@ -23,12 +23,6 @@ limitations under the License.
 
 #include <limits>
 #include <cl/tape/impl/inner/tape_inner.hpp>
-#include <cppad/local/declare_ad.hpp>
-#include <cppad/local/cppad_assert.hpp>
-#include <cppad/local/base_cond_exp.hpp>
-#include <cppad/local/limits.hpp>
-#include <cppad/local/op_code.hpp>
-#include <cppad/local/hash_code.hpp>
 
 namespace CppAD
 {
@@ -113,16 +107,16 @@ namespace CppAD
             return CondExpOpEq(left, right, exp_if_true, exp_if_false);
 
         default:
-            throw "Unknown compare operation.";
+            cl::throw_("Unknown compare operation.");
             return exp_if_true;
         }
     }
 
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Lt, CompareLt)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Le, CompareLe)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Eq, CompareEq)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Ge, CompareGe)
-	template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Gt, CompareGt)
+    template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Lt, CompareLt)
+    template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Le, CompareLe)
+    template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Eq, CompareEq)
+    template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Ge, CompareGe)
+    template <class Array> CPPAD_COND_EXP_BASE_REL(cl::tape_inner<Array>, Gt, CompareGt)
 
 
     template <class Array>
@@ -191,14 +185,14 @@ namespace CppAD
     template <class Array>
     inline bool abs_geq(const cl::tape_inner<Array>& x, const cl::tape_inner<Array>& y)
     {
-        return std::abs(x) >= std::abs(y);
+        return cl::tapescript::abs(x) >= cl::tapescript::abs(y);
     }
 
 #define CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(Fun) \
     template <class Array>                      \
     inline cl::tape_inner<Array> Fun(          \
         const cl::tape_inner<Array>& x)        \
-    {	return cl::tapescript::Fun(x); }
+    {    return cl::tapescript::Fun(x); }
 
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(acos)
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(asin)
@@ -213,6 +207,7 @@ namespace CppAD
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(sqrt)
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(tan)
     CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(tanh)
+    CL_ARRAY_CPPAD_STANDARD_MATH_UNARY(sign)
 #undef CL_ARRAY_CPPAD_STANDARD_MATH_UNARY
 
 # if CPPAD_COMPILER_HAS_ERF
@@ -223,21 +218,6 @@ namespace CppAD
     inline cl::tape_inner<Array> fabs(const cl::tape_inner<Array>& x)
     {
         return cl::tapescript::abs(x);
-    }
-
-    template <class Array>
-    inline cl::tape_inner<Array> sign(const cl::tape_inner<Array>& x)
-    {
-        auto sign_func = [](double v)
-        {
-            if (v > 0.)
-                return 1.;
-            if (v == 0.)
-                return 0.;
-            return -1.;
-        };
-
-        return x.apply(sign_func);
     }
 
     template <class Array>
@@ -266,6 +246,16 @@ namespace CppAD
             return std::numeric_limits<cl::tape_inner<Array>>::max();
         }
     };
+
+
+    // Deprecated machine epsilon.
+    // We can not provide epsilon<cl::tape_inner<Array>>() for arbitrary Array
+    // class since C++11 has not function template partial specialization.
+    template <>
+    inline cl::tape_value epsilon<cl::tape_value>()
+    {
+        return numeric_limits<cl::tape_value>::epsilon();
+    }
 
     template <class Array>
     inline unsigned short hash_code(const cl::tape_inner<Array>& value)

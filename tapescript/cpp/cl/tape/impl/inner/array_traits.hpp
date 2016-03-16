@@ -45,14 +45,14 @@ namespace cl
 #define CL_INNER_ARRAY_FUNCTION_TRAITS(Qualifier, Name)     \
     static inline array_type Name(const array_type& x)      \
     {                                                       \
-    return Qualifier Name(x);                           \
+        return Qualifier Name(x);                           \
     }
 
 #define CL_INNER_ARRAY_FUNCTION_NOT_DEF(Array, Name)                        \
     static inline array_type Name(const array_type& x)                      \
     {                                                                       \
-    cl::throw_("The function " #Name " is not implemented for " Array); \
-    return x;                                                           \
+        cl::throw_("The function " #Name " is not implemented for " Array); \
+        return x;                                                           \
     }
 
     /// <summary>Array traits of std::valaray.</summary>
@@ -63,14 +63,14 @@ namespace cl
         typedef std::valarray<scalar_type> array_type;
         typedef size_t size_type;
 
-        static inline array_type get_const(size_t count, scalar_type const& val)
+        static inline array_type make(scalar_type const& val, size_t count)
         {
             return std::valarray<scalar_type>(val, count);
         }
 
-        static inline array_type get_from_init_list(std::initializer_list<scalar_type> il)
+        static inline array_type make(const scalar_type* ptr, size_t count)
         {
-            return std::valarray<scalar_type>(il);
+            return std::valarray<scalar_type>(ptr, count);
         }
 
         template <class Ty1, class Ty2>
@@ -98,20 +98,35 @@ namespace cl
         }
 
         CL_INNER_ARRAY_FUNCTION_TRAITS(std::, abs)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, acos)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sqrt)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, asin)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, atan)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cos)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sin)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cosh)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sinh)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, exp)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tan)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tanh)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, acos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sqrt)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, asin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, atan)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, cosh)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, sinh)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, exp)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, log)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tan)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(std::, tanh)
 
-            template <class Ty1, class Ty2>
+        static inline array_type sign(const array_type& x)
+        {
+            auto sign_func = [](const scalar_type& v)
+            {
+                if (v > 0.)
+                    return scalar_type(1.0);
+                if (v == 0.)
+                    return scalar_type(0.0);
+                return scalar_type(-1.0);
+            };
+
+            return x.apply(sign_func);
+        }
+
+
+        template <class Ty1, class Ty2>
         static inline array_type pow(const Ty1& x, const Ty2& y)
         {
             return std::pow(x, y);
@@ -176,21 +191,21 @@ namespace cl
         }
 
         CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, abs)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, acos)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sqrt)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, asin)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, cos)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sin)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, exp)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log)
-            CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, tan)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, acos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sqrt)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, asin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, cos)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, sin)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, exp)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, log)
+        CL_INNER_ARRAY_FUNCTION_TRAITS(Eigen::, tan)
 
-            CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", atan)
-            CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", cosh)
-            CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", sinh)
-            CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", tanh)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", atan)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", cosh)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", sinh)
+        CL_INNER_ARRAY_FUNCTION_NOT_DEF("Eigen::Array", tanh)
 
-            template <class Ty>
+        template <class Ty>
         static inline array_type pow(const array_type& x, const Ty& y)
         {
             return Eigen::pow(x, y);
