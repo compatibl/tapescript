@@ -22,6 +22,7 @@ limitations under the License.
 #define cl_tape_fwd_doublecl_hpp
 
 # include <valarray>
+# include <vector>
 
 namespace CppAD
 {
@@ -37,7 +38,11 @@ namespace CppAD
 /// <summary>Adapter for types convertible to double.</summary>
 namespace cl
 {
+    template <class >
+    struct class_members;
+
 #if defined CL_TAPE_CPPAD
+
     template <typename Base>
     using tape_inner_type = CppAD::AD<Base>;
 
@@ -58,7 +63,7 @@ namespace cl
 
     /// <summary>tape_double forward declaration</summary>
     template<typename Base>
-    class tape_wrapper;
+    struct tape_wrapper;
 
 #if defined CL_TAPE_GEN_ENABLED
     /// <summary>Code generation base type.</summary>
@@ -93,37 +98,39 @@ namespace cl
 
 namespace cl
 {
-    /// Forward declaration about serialization
+#   define SFINAE_DECLARE(sfinae_id, type_of_tag)       \
+    template <typename Ty_, typename Ch_ = cl::dummy>   \
+    struct sfinae_id : std::false_type                  \
+    {                                                   \
+        typedef cl::dummy type_of_tag;                  \
+    };                                                  \
+                                                        \
+    template <typename Ty_>                             \
+    struct sfinae_id<Ty_, typename cl::solve_dummy<     \
+    typename Ty_::type_of_tag>::type > : std::true_type \
+    {                                                   \
+        typedef typename Ty_::type_of_tag type_of_tag;  \
+    };                                                  \
+
+    ///Forward declaration about serialization
     template <typename T>
     struct tape_serializer;
 
-    /// Case when we don't have implement tag
-    template <typename Ty_, typename Ch_ = cl::dummy>
-    struct is_implemented : std::false_type
-    {
-        typedef cl::dummy impl_type;
-    };
+    ///Case when we don't have implement tag
+    SFINAE_DECLARE(is_implemented, impl);
 
-    /// Case when we have impl tag
-    template <typename Ty_>
-    struct is_implemented<Ty_, typename cl::solve_dummy<typename Ty_::impl>::type> : std::true_type
-    {
-        typedef typename
-            Ty_::impl impl_type;
-    };
+    ///Case when we don't have implement io_binary
+    SFINAE_DECLARE(is_io_typed, io_typed);
 
-    /// Case when we don't have implement io_binary
-    template <typename Ty_, typename Ch_ = cl::dummy>
-    struct is_io_typed : std::false_type
-    {
-        typedef cl::dummy impl_type;
-    };
+    ///After serialization event
+    SFINAE_DECLARE(is_has_after, after);
 
-    template <typename Ty_>
-    struct is_io_typed<Ty_, typename cl::solve_dummy<typename Ty_::io_typed>::type > : std::true_type
-    {
-        typedef typename Ty_::io_typed io_typed;
-    };
+    ///If type has encapsulated type
+    SFINAE_DECLARE(is_has_type, type);
+
+    /// We should implement compatibl_ad_enabled
+    /// for use ad checking inside tdouble
+    struct compatibl_ad_enabled;
 }
 
 ///<summary>Short type alias for tape based classes</summary>
@@ -134,8 +141,10 @@ namespace cl
     typedef cl::tape_array tarray;
     typedef cl::tape_object tobject;
 
-    template <typename Base>
+    template <class Base>
     using tfunc = cl::tape_function<Base>;
 }
+
+#  include <cl/tape/impl/boost_connectors.hpp>
 
 #endif

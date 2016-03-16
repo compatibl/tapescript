@@ -24,10 +24,10 @@ limitations under the License.
 namespace std
 {
     template <typename Inner>
-    inline cl::tape_wrapper<Inner> ceil(cl::tape_wrapper<Inner> x);
+    inline cl::tape_wrapper<Inner> ceil(cl::tape_wrapper<Inner> const& x, void*);
 
     template <typename Inner>
-    inline cl::tape_wrapper<Inner> floor(cl::tape_wrapper<Inner> x);
+    inline cl::tape_wrapper<Inner> floor(cl::tape_wrapper<Inner> const& x, void*);
 }
 
 #endif // cl_tape_impl_std_fwd_hpp
