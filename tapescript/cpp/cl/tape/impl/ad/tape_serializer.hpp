@@ -77,9 +77,9 @@ namespace cl
                 "Init",
                 "Ldp",
                 "Ldv",
-                "Lepv",
-                "Levp",
-                "Levv",
+                "<=",
+                "<=",
+                "<=",
                 "log",
                 "<",
                 "<",
@@ -118,7 +118,7 @@ namespace cl
 
         static std::string header()
         {
-            return "\nOp#  Res# Op       Operands#          Taylor coefficients\n";
+            return "\nOp#  Var# Op      Operands            Calculated\n";
         }
 
         static std::string footer()
@@ -177,12 +177,12 @@ namespace cl
             printOpField(os, "", i_op, 5);
             if (NumRes(op) > 0 && op != BeginOp)
                 printOpField(os, "", i_var, 5);
-            else	printOpField(os, "", "", 5);
+            else    printOpField(os, "", "", 5);
             if (op == CExpOp || op == CSkipOp)
             {
                 printOpField(os, "", CompareOpName[ind[0]] + OpName(op), 8);
             }
-            else	printOpField(os, "", OpName(op), 8);
+            else    printOpField(os, "", OpName(op), 8);
 
             // print other fields
             size_t ncol = 5;
@@ -204,32 +204,34 @@ namespace cl
                 CPPAD_ASSERT_UNKNOWN(ind[6 + ind[4] + ind[5]] == ind[4] + ind[5]);
                 CPPAD_ASSERT_UNKNOWN(ind[1] != 0);
                 if (ind[1] & 1)
-                    printOpField(os, " vl=", ind[2], ncol);
-                else	printOpField(os, " pl=", play->GetPar(ind[2]), ncol);
+                    printOpField(os, "var=", ind[2], ncol);
+                else    printOpField(os, "", play->GetPar(ind[2]), ncol + 4);
                 if (ind[1] & 2)
-                    printOpField(os, " vr=", ind[3], ncol);
-                else	printOpField(os, " pr=", play->GetPar(ind[3]), ncol);
+                    printOpField(os, "var=", ind[3], ncol);
+                else    printOpField(os, "", play->GetPar(ind[3]), ncol + 4);
                 if (size_t(ind[4]) < 3)
                 {
+                    os << "true case: ";
                     for (i = 0; i < size_t(ind[4]); i++)
-                        printOpField(os, " ot=", ind[6 + i], ncol);
+                        printOpField(os, " op=", ind[6 + i], ncol);
                 }
                 else
                 {
-                    printOpField(os, "\n\tot=", ind[6 + 0], ncol);
+                    printOpField(os, "\n\ttrue case:  op=", ind[6 + 0], ncol);
                     for (i = 1; i < size_t(ind[4]); i++)
-                        printOpField(os, " ot=", ind[6 + i], ncol);
+                        printOpField(os, " op=", ind[6 + i], ncol);
                 }
                 if (size_t(ind[5]) < 3)
                 {
+                    os << "false case:";
                     for (i = 0; i < size_t(ind[5]); i++)
-                        printOpField(os, " of=", ind[6 + ind[4] + i], ncol);
+                        printOpField(os, " op=", ind[6 + ind[4] + i], ncol);
                 }
                 else
                 {
-                    printOpField(os, "\n\tof=", ind[6 + ind[4] + 0], ncol);
-                    {	for (i = 1; i < size_t(ind[5]); i++)
-                        printOpField(os, " of=", ind[6 + ind[4] + i], ncol);
+                    printOpField(os, "\n\tfalse case: op=", ind[6 + ind[4] + 0], ncol);
+                    {    for (i = 1; i < size_t(ind[5]); i++)
+                        printOpField(os, " op=", ind[6 + ind[4] + i], ncol);
                     }
                 }
                 break;
@@ -244,7 +246,7 @@ namespace cl
                 ind[3+ind[0]+ind[1]] == ind[0] + ind[1]
                 */
                 CPPAD_ASSERT_UNKNOWN(ind[3 + ind[0] + ind[1]] == ind[0] + ind[1]);
-                printOpField(os, " pr=", play->GetPar(ind[2]), ncol);
+                printOpField(os, "", play->GetPar(ind[2]), ncol + 4);
                 for (i = 0; i < size_t(ind[0]); i++)
                     printOpField(os, " +v=", ind[3 + i], ncol);
                 for (i = 0; i < size_t(ind[1]); i++)
@@ -260,35 +262,35 @@ namespace cl
             case LdvOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 printOpField(os, "off=", ind[0], ncol);
-                printOpField(os, "  v=", ind[1], ncol);
+                printOpField(os, "var#", ind[1], ncol);
                 break;
 
             case StppOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 printOpField(os, "off=", ind[0], ncol);
                 printOpField(os, "idx=", ind[1], ncol);
-                printOpField(os, " pr=", play->GetPar(ind[2]), ncol);
+                printOpField(os, "", play->GetPar(ind[2]), ncol + 4);
                 break;
 
             case StpvOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 printOpField(os, "off=", ind[0], ncol);
                 printOpField(os, "idx=", ind[1], ncol);
-                printOpField(os, " vr=", ind[2], ncol);
+                printOpField(os, "var#", ind[2], ncol);
                 break;
 
             case StvpOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 printOpField(os, "off=", ind[0], ncol);
-                printOpField(os, " vl=", ind[1], ncol);
-                printOpField(os, " pr=", play->GetPar(ind[2]), ncol);
+                printOpField(os, "var#", ind[1], ncol);
+                printOpField(os, "", play->GetPar(ind[2]), ncol + 4);
                 break;
 
             case StvvOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 printOpField(os, "off=", ind[0], ncol);
-                printOpField(os, " vl=", ind[1], ncol);
-                printOpField(os, " vr=", ind[2], ncol);
+                printOpField(os, "var#", ind[1], ncol);
+                printOpField(os, "var#", ind[2], ncol);
                 break;
 
             case AddvvOp:
@@ -301,8 +303,8 @@ namespace cl
             case PowvvOp:
             case SubvvOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 2);
-                printOpField(os, " vl=", ind[0], ncol);
-                printOpField(os, " vr=", ind[1], ncol);
+                printOpField(os, "var#", ind[0], ncol);
+                printOpField(os, "var#", ind[1], ncol);
                 break;
 
             case AddpvOp:
@@ -315,8 +317,8 @@ namespace cl
             case PowpvOp:
             case DivpvOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 2);
-                printOpField(os, " pl=", play->GetPar(ind[0]), ncol);
-                printOpField(os, " vr=", ind[1], ncol);
+                printOpField(os, "", play->GetPar(ind[0]), ncol + 4);
+                printOpField(os, "var#", ind[1], ncol);
                 break;
 
             case DivvpOp:
@@ -325,8 +327,8 @@ namespace cl
             case PowvpOp:
             case SubvpOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 2);
-                printOpField(os, " vl=", ind[0], ncol);
-                printOpField(os, " pr=", play->GetPar(ind[1]), ncol);
+                printOpField(os, "var#", ind[0], ncol);
+                printOpField(os, "", play->GetPar(ind[1]), ncol + 4);
                 break;
 
             case AbsOp:
@@ -345,26 +347,26 @@ namespace cl
             case TanOp:
             case TanhOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 1);
-                printOpField(os, "  v=", ind[0], ncol);
+                printOpField(os, "var#", ind[0], ncol);
                 break;
 
             case ErfOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 3);
                 // ind[1] points to the parameter 0
                 // ind[2] points to the parameter 2 / sqrt(pi)
-                printOpField(os, "  v=", ind[0], ncol);
+                printOpField(os, "var#", ind[0], ncol);
                 break;
 
             case ParOp:
             case UsrapOp:
             case UsrrpOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 1);
-                printOpField(os, "  p=", play->GetPar(ind[0]), ncol);
+                printOpField(os, "", play->GetPar(ind[0]), ncol + 4);
                 break;
 
             case UserOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 4);
-                {	std::string name = atomic_base<Base>::class_name(ind[0]);
+                {    std::string name = atomic_base<Base>::class_name(ind[0]);
                     os << " " + name;
                 }
                 break;
@@ -372,12 +374,12 @@ namespace cl
             case PriOp:
                 CPPAD_ASSERT_NARG_NRES(op, 5, 0);
                 if (ind[0] & 1)
-                    printOpField(os, " v=", ind[1], ncol);
-                else	printOpField(os, " p=", play->GetPar(ind[1]), ncol);
+                    printOpField(os, "var#", ind[1], ncol);
+                else    printOpField(os, "", play->GetPar(ind[1]), ncol + 4);
                 os << "before=\"" << play->GetTxt(ind[2]) << "\"";
                 if (ind[0] & 2)
-                    printOpField(os, " v=", ind[3], ncol);
-                else	printOpField(os, " p=", play->GetPar(ind[3]), ncol);
+                    printOpField(os, "var#", ind[3], ncol);
+                else    printOpField(os, "", play->GetPar(ind[3]), ncol + 4);
                 os << "after=\"" << play->GetTxt(ind[4]) << "\"";
                 break;
 
@@ -394,7 +396,7 @@ namespace cl
 
             case DisOp:
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 2);
-                {	const char* name = discrete<Base>::name(ind[0]);
+                {    const char* name = discrete<Base>::name(ind[0]);
                 printOpField(os, " f=", name, ncol);
                 printOpField(os, " x=", ind[1], ncol);
                 }
@@ -405,17 +407,17 @@ namespace cl
                 CPPAD_ASSERT_UNKNOWN(ind[1] != 0);
                 CPPAD_ASSERT_UNKNOWN(NumArg(op) == 6);
                 if (ind[1] & 1)
-                    printOpField(os, " vl=", ind[2], ncol);
-                else	printOpField(os, " pl=", play->GetPar(ind[2]), ncol);
+                    printOpField(os, "var#", ind[2], ncol);
+                else    printOpField(os, "", play->GetPar(ind[2]), ncol + 4);
                 if (ind[1] & 2)
-                    printOpField(os, " vr=", ind[3], ncol);
-                else	printOpField(os, " pr=", play->GetPar(ind[3]), ncol);
+                    printOpField(os, "var#", ind[3], ncol);
+                else    printOpField(os, "", play->GetPar(ind[3]), ncol + 4);
                 if (ind[1] & 4)
-                    printOpField(os, " vt=", ind[4], ncol);
-                else	printOpField(os, " pt=", play->GetPar(ind[4]), ncol);
+                    printOpField(os, "var#", ind[4], ncol);
+                else    printOpField(os, "", play->GetPar(ind[4]), ncol + 4);
                 if (ind[1] & 8)
-                    printOpField(os, " vf=", ind[5], ncol);
-                else	printOpField(os, " pf=", play->GetPar(ind[5]), ncol);
+                    printOpField(os, "var#", ind[5], ncol);
+                else    printOpField(os, "", play->GetPar(ind[5]), ncol + 4);
                 break;
 
             default:
@@ -466,11 +468,11 @@ namespace cl
             buffer << std::left;
             size_t k;
             if (nfz != 0)
-                buffer << " fz[" << 0 << "] = " << std::setw(width) << fz[0];
+                buffer << " value = " << std::setw(width) << fz[0];
             for (k = 1; k < nfz; k++)
-                buffer << prefix << " fz[" << k << "] = " << std::setw(width) << fz[k];
+                buffer << prefix << " fwd[" << k << "] = " << std::setw(width) << fz[k];
             for (k = 0; k < nrz; k++)
-                buffer << prefix << " rz[" << k << "] = " << std::setw(width) << rz[k];
+                buffer << prefix << " rev[" << k + 1 << "] = " << std::setw(width) << rz[k];
             *this << buffer.str();
         }
 
@@ -481,7 +483,7 @@ namespace cl
     struct tape_serializer
         : tape_serializer_base
     {
-        tape_serializer(std::ostream& os = std::cout)
+        explicit tape_serializer(std::ostream& os = std::cout)
             : tape_serializer_base(os)
         {}
     };

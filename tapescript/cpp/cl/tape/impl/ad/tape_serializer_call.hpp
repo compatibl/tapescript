@@ -112,7 +112,7 @@ namespace CppAD
     inline void io_ss__(Stream &archiver, bool&, size_t&, size_t&, size_t&, size_t&, player<Base>*&, size_t&
         , Base*&, bool*&, pod_vector<addr_t>&, size_t&, size_t&, size_t&, CppAD::serializers_list<Rest...>)
     {
-	throw "Not serializable.";
+        cl::throw_("Not serializable.");
     }
 
     template <typename Serializer, typename Stream, typename Base, typename S, typename... Rest>
@@ -329,7 +329,7 @@ namespace cl
                 }
             };
 
-#endif        
+#endif
     } // namespace tapescript
 
 } // namespace cl

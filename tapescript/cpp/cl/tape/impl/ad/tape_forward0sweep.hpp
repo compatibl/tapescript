@@ -269,7 +269,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
         <!-- end forward0sweep_code_define -->
         */
 
-# if CPPAD_FORWARD0SWEEP_TRACE
+# if CPPAD_FORWARD0SWEEP_TRACE || defined CL_TAPE_TRACE_ENABLED
         // variable indices for results vector
         // (done differently for order zero).
         vector<size_t> user_iy;
@@ -295,13 +295,13 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             while (cskip_op[i_op])
             {
                 if (op == CSumOp)
-                {	// CSumOp has a variable number of arguments
+                {    // CSumOp has a variable number of arguments
                     play->forward_csum(op, arg, i_op, i_var);
                 }
                 CPPAD_ASSERT_UNKNOWN(op != CSkipOp);
                 // if( op == CSkipOp )
-                // {	// CSkip has a variable number of arguments
-                // 	play->forward_cskip(op, arg, i_op, i_var);
+                // {    // CSkip has a variable number of arguments
+                //     play->forward_cskip(op, arg, i_op, i_var);
                 // }
                 play->forward_next(op, arg, i_op, i_var);
                 CPPAD_ASSERT_UNKNOWN(i_op < play->num_op_rec());
@@ -426,7 +426,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_eqpv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -439,7 +439,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_eqvv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -501,7 +501,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_lepv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -514,7 +514,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_levp_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -527,7 +527,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_levv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -545,7 +545,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_ltpv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -558,7 +558,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_ltvp_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -571,7 +571,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_ltvv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -595,7 +595,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_nepv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -608,7 +608,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                     forward_nevv_op_0(
                         compare_change_number, arg, parameter, J, taylor
                         );
-                    {	if (compare_change_count == compare_change_number)
+                    {    if (compare_change_count == compare_change_number)
                         compare_change_op_index = i_op;
                     }
                 }
@@ -779,10 +779,11 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                         user_tx.resize(user_n);
                     if (user_ty.size() != user_m)
                         user_ty.resize(user_m);
-# if CPPAD_FORWARD0SWEEP_TRACE
+# if CPPAD_FORWARD0SWEEP_TRACE || defined CL_TAPE_TRACE_ENABLED
                     if (user_iy.size() != user_m)
                         user_iy.resize(user_m);
 # endif
+
                     user_j = 0;
                     user_i = 0;
                     user_state = user_arg;
@@ -818,7 +819,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 CPPAD_ASSERT_UNKNOWN(size_t(arg[0]) < num_par);
                 user_tx[user_j++] = parameter[arg[0]];
                 if (user_j == user_n)
-                {	// call users function for this operation
+                {    // call users function for this operation
                     user_atom->set_id(user_id);
                     CPPAD_ATOMIC_CALL(p, q,
                         user_vx, user_vy, user_tx, user_ty
@@ -834,7 +835,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 CPPAD_ASSERT_UNKNOWN(size_t(arg[0]) <= i_var);
                 user_tx[user_j++] = taylor[arg[0] * J + 0];
                 if (user_j == user_n)
-                {	// call users function for this operation
+                {    // call users function for this operation
                     user_atom->set_id(user_id);
                     CPPAD_ATOMIC_CALL(p, q,
                         user_vx, user_vy, user_tx, user_ty
@@ -847,7 +848,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // parameter result in an atomic operation sequence
                 CPPAD_ASSERT_UNKNOWN(user_state == user_ret);
                 CPPAD_ASSERT_UNKNOWN(user_i < user_m);
-# if CPPAD_FORWARD0SWEEP_TRACE
+# if CPPAD_FORWARD0SWEEP_TRACE || defined CL_TAPE_TRACE_ENABLED
                 user_iy[user_i] = 0;
 # endif
                 user_i++;
@@ -928,6 +929,23 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             }
         }
         std::cout << std::endl;
+# elif defined CL_TAPE_TRACE_ENABLED
+            // serialize tape
+            if (!cl::is_cout(s_out) && cl::is_io_text<Base>(s_out))
+                cl::serialize<Base>(s_out
+                    , user_iy
+                    , play
+                    , taylor
+                    , op
+                    , user_state
+                    , i_op
+                    , q
+                    , user_m
+                    , J
+                    , arg
+                    , i_var
+                );
+        }
 # else
         }
 # endif

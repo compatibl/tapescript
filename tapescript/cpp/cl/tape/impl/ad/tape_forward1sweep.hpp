@@ -350,13 +350,13 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 while (cskip_op[i_op])
                 {
                     if (op == CSumOp)
-                    {	// CSumOp has a variable number of arguments
+                    {    // CSumOp has a variable number of arguments
                         play->forward_csum(op, arg, i_op, i_var);
                     }
                     CPPAD_ASSERT_UNKNOWN(op != CSkipOp);
                     // if( op == CSkipOp )
-                    // {	// CSkip has a variable number of arguments
-                    // 	play->forward_cskip(op, arg, i_op, i_var);
+                    // {    // CSkip has a variable number of arguments
+                    //     play->forward_cskip(op, arg, i_op, i_var);
                     // }
                     play->forward_next(op, arg, i_op, i_var);
                     CPPAD_ASSERT_UNKNOWN(i_op < play->num_op_rec());
@@ -546,7 +546,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                             taylor
                             );
                     }
-                    else	forward_load_op(
+                    else    forward_load_op(
                         play,
                         op,
                         p,
@@ -588,7 +588,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                             taylor
                             );
                     }
-                    else	forward_load_op(
+                    else    forward_load_op(
                         play,
                         op,
                         p,
@@ -1049,7 +1049,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 }
             }
             std::cout << std::endl;
-# else
+# elif defined CL_TAPE_TRACE_ENABLED
                 // serialize tape
                 if (!cl::is_cout(s_out) && cl::is_io_text<Base>(s_out))
                     cl::serialize<Base>(s_out
@@ -1065,6 +1065,8 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                         , arg
                         , i_var
                     );
+            }
+# else
             }
 # endif
             CPPAD_ASSERT_UNKNOWN(user_state == user_start);

@@ -259,7 +259,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
 # endif
         bool more_operators = true;
         while (more_operators)
-        {	// next op
+        {    // next op
             play->reverse_next(op, arg, i_op, i_var);
             CPPAD_ASSERT_UNKNOWN((i_op >  n) | (op == InvOp) | (op == BeginOp));
             CPPAD_ASSERT_UNKNOWN((i_op <= n) | (op != InvOp) | (op != BeginOp));
@@ -269,13 +269,13 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             while (cskip_op[i_op])
             {
                 if (op == CSumOp)
-                {	// CSumOp has a variable number of arguments
+                {    // CSumOp has a variable number of arguments
                     play->reverse_csum(op, arg, i_op, i_var);
                 }
                 CPPAD_ASSERT_UNKNOWN(op != CSkipOp);
                 // if( op == CSkipOp )
-                // {	// CSkip has a variable number of arguments
-                // 	play->reverse_cskip(op, arg, i_op, i_var);
+                // {    // CSkip has a variable number of arguments
+                //     play->reverse_cskip(op, arg, i_op, i_var);
                 // }
                 CPPAD_ASSERT_UNKNOWN(i_op < play->num_op_rec());
                 play->reverse_next(op, arg, i_op, i_var);
@@ -284,11 +284,11 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             // rest of informaiton depends on the case
 # if CPPAD_REVERSE_SWEEP_TRACE
             if (op == CSumOp)
-            {	// CSumOp has a variable number of arguments
+            {    // CSumOp has a variable number of arguments
                 play->reverse_csum(op, arg, i_op, i_var);
             }
             if (op == CSkipOp)
-            {	// CSkip has a variable number of arguments
+            {    // CSkip has a variable number of arguments
                 play->reverse_cskip(op, arg, i_op, i_var);
             }
             size_t       i_tmp = i_var;
@@ -310,7 +310,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 pZ_tmp
                 );
             std::cout << std::endl;
-# else
+# elif defined CL_TAPE_TRACE_ENABLED
             typedef typename
                 cl::serializer_traits<Base>::type Serializer;
 
@@ -318,11 +318,11 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             if (!cl::is_cout(*s_out) && cl::is_io_text<Base>(*s_out))
             {
                 if (op == CSumOp)
-                {	// CSumOp has a variable number of arguments
+                {    // CSumOp has a variable number of arguments
                     play->reverse_csum(op, arg, i_op, i_var);
                 }
                 if (op == CSkipOp)
-                {	// CSkip has a variable number of arguments
+                {    // CSkip has a variable number of arguments
                     play->reverse_cskip(op, arg, i_op, i_var);
                 }
 
@@ -412,7 +412,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // CSkipOp has a variable number of arguments and
                 // forward_next thinks it one has one argument.
                 // we must inform reverse_next of this special case.
-# if ! CPPAD_REVERSE_SWEEP_TRACE
+# if ! CPPAD_REVERSE_SWEEP_TRACE && !defined CL_TAPE_TRACE_ENABLED
                 if (cl::is_cout(s_out) || !cl::is_io_text<Base>(s_out))
                     play->reverse_cskip(op, arg, i_op, i_var);
 # endif
@@ -423,7 +423,7 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
                 // CSumOp has a variable number of arguments and
                 // reverse_next thinks it one has one argument.
                 // We must inform reverse_next of this special case.
-# if ! CPPAD_REVERSE_SWEEP_TRACE
+# if ! CPPAD_REVERSE_SWEEP_TRACE && !defined CL_TAPE_TRACE_ENABLED
                 if (cl::is_cout(s_out) || !cl::is_io_text<Base>(s_out))
                     play->reverse_csum(op, arg, i_op, i_var);
 # endif
