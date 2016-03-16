@@ -18,10 +18,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef cl_tape_impl_doubleconverter_hpp
-#define cl_tape_impl_doubleconverter_hpp
+#ifndef cl_tape_impl_detail_conversion_converter_hpp
+#define cl_tape_impl_detail_conversion_converter_hpp
 
-#include <cl/tape/impl/doubleoperatorcheck.hpp>
+#include <cl/tape/impl/detail/conversion/operator_traits.hpp>
 
 namespace cl
 {
@@ -29,11 +29,11 @@ namespace cl
     {
         // Returns constant ref value from TapeType
         template <typename TapeType>
-        inline typename TapeType::value_type const& cvalue(TapeType const& tv);
+        inline typename TapeType::tdouble_type const& cvalue(TapeType const& tv);
 
         // Returns ref value from TapeType
         template <typename TapeType>
-        inline typename TapeType::value_type& value(TapeType& tv);
+        inline typename TapeType::tdouble_type& value(TapeType& tv);
     }
 
     template <typename... Comparison>
@@ -66,8 +66,10 @@ namespace cl
         template <typename ThisType>
         static void convert(ThisType& this_value, Type const& other_value)
         {
-            this_value.value_
-                    = static_cast<typename cl::remove_ad<ValueType>::type >(other_value);
+            if (this_value.is_ptr())
+                this_value.tdouble_() = static_cast<typename cl::remove_ad<ValueType>::type >(other_value);
+
+            this_value.double_() = static_cast<typename cl::remove_ad<ValueType>::type >(other_value);
         }
     };
 
@@ -85,7 +87,7 @@ namespace cl
         static void convert(ThisType& this_value, Type const& other_value)
         {
             typedef typename cl::remove_ad<ValueType>::type value_type;
-            this_value.value_ = other_value;
+            this_value = other_value;
         }
     };
 
@@ -116,7 +118,8 @@ namespace cl
         template <typename ThisType>
         static void convert(ThisType& this_value, Type const& other_value)
         {
-            this_value.value_ = static_cast<typename cl::remove_ad<ValueType>::type >(other_value);
+            this_value = static_cast<typename cl::remove_ad<ValueType>::type >(other_value);
+
         }
     };
 
@@ -176,4 +179,4 @@ namespace cl
     };
 }
 
-#endif // cl_tape_impl_doubleconverter_hpp
+#endif // cl_tape_impl_detail_conversion_converter_hpp

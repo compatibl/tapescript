@@ -21,7 +21,7 @@ limitations under the License.
 #ifndef cl_tape_impl_adjointref_hpp
 #define cl_tape_impl_adjointref_hpp
 
-#include <cl/tape/impl/adjointrefoperator.hpp>
+#include <cl/tape/impl/detail/adapter_operator.hpp>
 
 /// <summary>adapter for types convertible to double.</summary>
 namespace cl
@@ -201,9 +201,9 @@ namespace cl
 
 namespace std
 {
-#if defined __GNUC__
-    template <typename Type> struct _Is_iterator {};
-#endif
+#   if defined __GNUC__
+       template <typename Type> struct _Is_iterator {};
+#   endif
 
     /// <summary>Implementation of std traits for algorithmic use.</summary>
     template <typename Vector> struct _Is_iterator<cl::tapescript::tape_iterator<Vector> >
@@ -212,19 +212,20 @@ namespace std
 
 namespace cl
 {
-#if defined DEBUG
+#   if defined DEBUG
 
-#   define CL_CHECK_ELEMENTS \
-        assert(refs_.size() == vec_.size()); \
-        assert(check_equals_elements_());
+#      define CL_CHECK_ELEMENTS \
+           assert(refs_.size() == vec_.size()); \
+           assert(check_equals_elements_());
 
-#else
-#   define CL_CHECK_ELEMENTS assert(refs_.size() == vec_.size());
-#endif
+#   else
+#      define CL_CHECK_ELEMENTS assert(refs_.size() == vec_.size());
+#   endif
+
     namespace tapescript
     {
 
-#ifdef CL_TAPE_REF_VECTOR_ENABLED
+#        ifdef CL_TAPE_REF_VECTOR_ENABLED
         class tape_ref_vector
         {
             friend inline void Independent(tape_ref_vector& v);
@@ -238,7 +239,7 @@ namespace cl
             typedef tape_iterator<> const_iterator;
             typedef std::size_t size_type;
 
-#if defined DEBUG
+#        if defined DEBUG
             inline bool
                 check_equals_elements_() const
             {
@@ -249,23 +250,23 @@ namespace cl
                 { assert(result = (aa.ptr_ == &(*begin++))); });
                 return result;
             }
-#endif
+#            endif
             inline tape_iterator<> begin()
             {
-#if defined CL_REF_ITERATOR_ENABLE
+#            if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.begin(), this->refs_.begin());
-#else
+#            else
                 return tape_iterator<>();
-#endif
+#            endif
             }
 
             inline tape_iterator<> end()
             {
-#if defined CL_REF_ITERATOR_ENABLE
+#            if defined CL_REF_ITERATOR_ENABLE
                 return std::make_pair(this->vec_.end(), this->refs_.end());
-#else
+#            else
                 return tape_iterator<>();
-#endif
+#            endif
 
             }
 
@@ -347,7 +348,7 @@ namespace cl
             tape_double_value_vector vec_;
         };
 
-#endif //CL_TAPE_REF_VECTOR_ENABLED
+#        endif //CL_TAPE_REF_VECTOR_ENABLED
 
         /// The pointer adapter
         template <typename P>
@@ -406,12 +407,12 @@ namespace cl
             conv_2value__(Type const& v, std::true_type)
             {
                 // should be checked whether it is param
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
-    #pragma message ("conv_2value : " __FUNCSIG__)
-                return converted_value_type();
-    #else
-                return ext::Value(v);
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
+#               pragma message ("conv_2value : " __FUNCSIG__)
+                           return converted_value_type();
+#               else
+                           return ext::Value(v);
+#               endif
             }
 
             // Get same value when Vector::value_type == Value
@@ -435,12 +436,12 @@ namespace cl
             cconv_2value__(Type const& v, std::true_type)
             {
                 // should be checked whether it is param
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-    #pragma message ("conv_2value : " __FUNCSIG__)
-                return ext::Value(v);
-    #else
-                return ext::Value(v);
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+#               pragma message ("conv_2value : " __FUNCSIG__)
+                           return ext::Value(v);
+#               else
+                           return ext::Value(v);
+#               endif
             }
 
             // Get same value when Vector::value_type == Value
@@ -448,9 +449,10 @@ namespace cl
             static converted_value_type const&
             cconv_2value__(Type const& v, std::false_type)
             {
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-    #pragma message ("conv_2value : " __FUNCSIG__)
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+#                   pragma message ("conv_2value : " __FUNCSIG__)
+#               endif
+
                 // should be checked whether it is param
                 return v;
             }
@@ -461,11 +463,12 @@ namespace cl
             static converted_value_type const&
                 cconv_2value(Type const& v, Branch)
             {
-                return cconv_2value__(cl::tapescript::cvalue(v), Branch());
+                return cconv_2value__(cl::tapescript::tape_calculation_scope::cvalue(v), Branch());
             }
         };
 
-#if defined CL_TAPE_COMPLEX_ENABLED
+#       if defined CL_TAPE_COMPLEX_ENABLED
+
         // Adapted type convertion inside AdaptVector
         // we should provide convertion from complex<tape_inner_type<Base> > to tape_inner_type<complex<Base>>
         // it can help to configure behaviour of adjoint logic
@@ -505,12 +508,13 @@ namespace cl
             conv_2value(Type& v, std::true_type)
             {
                 // should be checked whether it is param
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
-    #pragma message ("conv_2value : " __FUNCSIG__)
-                return converted_value_type();
-    #else
-                return v.complex_base();
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX_
+#                   pragma message ("conv_2value : " __FUNCSIG__)
+                    return converted_value_type();
+#               else
+
+                    return v.complex_base();
+#               endif
             }
 
             // Get same value when Vector::value_type == Value
@@ -528,12 +532,13 @@ namespace cl
             cconv_2value(Type& v, std::true_type)
             {
                 // should be checked whether it is param
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-    #pragma message ("conv_2value : " __FUNCSIG__)
-                return ext::Value(v);
-    #else
-                return v.complex_base();
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+#                   pragma message ("conv_2value : " __FUNCSIG__)
+
+                    return ext::Value(v);
+#               else
+                    return v.complex_base();
+#               endif
             }
 
             // Get same value if Vector::value_type == Value
@@ -541,15 +546,16 @@ namespace cl
             static converted_value_type const&
             cconv_2value(Type const& v, std::false_type)
             {
-    #if defined CL_COMPILE_TIME_DEBUG_COMPLEX
-    #pragma message ("conv_2value : " __FUNCSIG__)
-    #endif
+#               if defined CL_COMPILE_TIME_DEBUG_COMPLEX
+#                   pragma message ("conv_2value : " __FUNCSIG__)
+#               endif
+
                 // should be checked whether it is param
                 return v;
             }
 
         };
-#endif
+#       endif
 
             /// <summary>Class which provides
             /// adaptation </summary>
@@ -671,7 +677,7 @@ namespace cl
         {
             typedef adapter_vector<std::vector<Type, std::allocator<Type>> const, Value>
                     base;
-  
+
             template <typename T>
             using adapt_type = adapt_ptr<T>;
 
@@ -704,7 +710,7 @@ namespace cl
             template <typename T>
             using adapt_type = adapt_ptr<T>;
 
-            typedef typename base::size_type size_type;    
+            typedef typename base::size_type size_type;
 
             typedef std::vector<Type, std::allocator<Type>> vector_type;
             adapter(adapt_type<vector_type> vc_ref)
@@ -786,12 +792,15 @@ namespace cl
         {
             serializer & *this;
         }
-#ifdef CL_TAPE_REF_VECTOR_ENABLED
+
+#       ifdef CL_TAPE_REF_VECTOR_ENABLED
+
         tape_function(tapescript::tape_ref_vector const& x, tapescript::tape_ref_vector const& y)
             : tape_function_base<Base>(x.vec_, y.vec_)
             , serializability(x.vec_)
         { }
-#endif
+
+#       endif
 
         template <typename Inner>
         tape_function(std::vector<cl::tape_wrapper<Inner>> const& x, std::vector<cl::tape_wrapper<Inner>> const& y)
@@ -869,6 +878,9 @@ namespace cl
     inline void
     Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
+        static_assert(cl::is_implemented<cl::compatibl_ad_enabled>::value
+            , "Tapescript must be compiled in this scope.");
+
         auto av = tapescript::adapt(v_tape);
         ext::Independent(av, abort_index);
     }
@@ -877,6 +889,9 @@ namespace cl
     inline void
     Independent(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
+        static_assert(cl::is_implemented<cl::compatibl_ad_enabled>::value
+            , "Tapescript must be compiled in this scope.");
+
         auto av = tapescript::adapt(v_tape);
         ext::Independent(av);
     }
@@ -884,9 +899,9 @@ namespace cl
     inline void
     Independent(std::vector<std::complex<cl::tape_double>> &x, std::size_t abort_index)
     {
-#if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x), abort_index);
-#endif
+#       if defined CL_TAPE_COMPLEX_ENABLED
+            ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x), abort_index);
+#       endif
     }
 
 
@@ -894,6 +909,9 @@ namespace cl
     inline void
     tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape, std::size_t abort_index)
     {
+        static_assert(cl::is_implemented<cl::compatibl_ad_enabled>::value
+            , "Tapescript must be compiled in this scope.");
+
         auto av = tapescript::adapt(v_tape);
         ext::Independent(av, abort_index);
     }
@@ -902,6 +920,9 @@ namespace cl
     inline void
     tape_start(std::vector<cl::tape_wrapper<Inner>>& v_tape)
     {
+        static_assert(cl::is_implemented<cl::compatibl_ad_enabled>::value
+            , "Tapescript must be compiled in this scope.");
+
         auto av = tapescript::adapt(v_tape);
         ext::Independent(av);
     }
@@ -909,18 +930,19 @@ namespace cl
     template <typename Type>
     inline void print_type()
     {
-#pragma message (__FUNCSIG__)
+#       pragma message (__FUNCSIG__)
     }
 
     inline void
     Independent(std::vector<std::complex<cl::tape_double>> &x)
     {
-#if defined CL_COMPILE_TIME_DEBUG
-        print_type<decltype(cl::tapescript::adapt_typed<tape_inner_type<std::complex<double> > >(x)[0])>();
-#endif
-#if defined CL_TAPE_COMPLEX_ENABLED
-        ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x));
-#endif
+#       if defined CL_COMPILE_TIME_DEBUG
+            print_type<decltype(cl::tapescript::adapt_typed<tape_inner_type<std::complex<double> > >(x)[0])>();
+#       endif
+
+#       if defined CL_TAPE_COMPLEX_ENABLED
+            ext::Independent(cl::tapescript::adapt_typed<cl::tape_inner_type<std::complex<double> > >(x));
+#       endif
     }
 
 }
@@ -972,12 +994,6 @@ namespace cl_ext
     ADJOINT_REF_OPERATOR_IMPL(oper_div, / );
     ADJOINT_REF_OPERATOR_IMPL(oper_plus_eq, += );
     ADJOINT_REF_OPERATOR_IMPL(oper_minus_eq, -= );
-
-    /*OPERATOR_TRAITS_ADJOINTREF_DECL(oper_minus);
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_plus);
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_mult);
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_div);
-    OPERATOR_TRAITS_ADJOINTREF_DECL(oper_plus_eq);*/
 
 #if defined EXT_UNARY_OPERATORS
     template <typename Left, typename Right>
