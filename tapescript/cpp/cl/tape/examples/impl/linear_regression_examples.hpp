@@ -37,11 +37,8 @@ namespace cl
         // n: number of points {x_i, y_i}.
         // x_i are x_0 = 0, x_1 = 1, ..., x_n = n.
         // y_i are y_i = a + b * x_i + exp(-1 * c * x_i).
-#if defined NDEBUG
-        size_t n = 5000;
-#else
+
         size_t n = 2000;
-#endif
         double a = 1.0;
         double b = 2.0;
         double c = 3.0;

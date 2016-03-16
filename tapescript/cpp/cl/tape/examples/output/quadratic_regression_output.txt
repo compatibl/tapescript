@@ -1,10 +1,10 @@
 Quadratic regression with parameters (optimized tape):
 
-Input vector size: n = 10000
+Input vector size: n = 2000
 Tape memory (bytes): 2848
 
 Quadratic regression with parameters (non-optimized tape):
 
-Input vector size: n = 10000
-Tape memory (bytes): 5665392
+Input vector size: n = 2000
+Tape memory (bytes): 1094632
 
