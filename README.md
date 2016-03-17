@@ -19,9 +19,13 @@ of tape size.
 * Works with Boost and QuantLib
 * Multithreading support
 
+Performance test results and finance-specific examples are available at
+[www.tapescript.org](http://www.tapescript.org)
+
 ## About CompatibL
 
-CompatibL offers turnkey solutions for XVA and regulatory capital
+CompatibL ([www.compatibl.com](http://www.compatibl.com))
+offers turnkey solutions for XVA and regulatory capital
 as well as custom development, integration, and consultancy.
 
 Check out TapeLib, CompatibL's product suite for AAD that incorporates:
