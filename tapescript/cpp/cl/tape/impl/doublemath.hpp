@@ -27,7 +27,7 @@ limitations under the License.
 /// <summary>Provides math functions for tape_wrapper.</summary>
 namespace std
 {
-    //MATH_FUNC_1(exp);
+    MATH_FUNC_1(cl::tape_wrapper<Base>, exp);
     MATH_FUNC_1(cl::tape_wrapper<Base>, abs);
     MATH_FUNC_1(cl::tape_wrapper<Base>, fabs);
     MATH_FUNC_1(cl::tape_wrapper<Base>, floor);
@@ -55,7 +55,7 @@ namespace std
 #   define CL_USE_UNION
 
 # if defined CL_USE_UNION
-#   define MATH_FUNC pow__skip
+#   define MATH_FUNC pow_impl
 # else
 #   define MATH_FUNC pow__skip
 #endif
@@ -224,7 +224,7 @@ namespace std
                         , cl::argument_adapter<double>                                                                  \
                      >::type const& rv)                                                                                 \
         {                                                                                                               \
-            return MATH_FUNC(l, cl::tape_wrapper<Base>::tape_type(                                                      \
+            return MATH_FUNC(l, typename cl::tape_wrapper<Base>::tape_type(                                             \
                 cl::argument_adapter<double>::get(rv)));                                                                \
         }                                                                                                               \
                                                                                                                         \
@@ -235,7 +235,7 @@ namespace std
                         , cl::argument_adapter<double>                                                                  \
                     >::type const& lv, cl::tape_wrapper<Base> const& l)                                                 \
         {                                                                                                               \
-            return MATH_FUNC(cl::tape_wrapper<Base>::tape_type(cl::argument_adapter<double>::get(lv)), l);              \
+            return MATH_FUNC(typename cl::tape_wrapper<Base>::tape_type(cl::argument_adapter<double>::get(lv)), l);     \
         }
 
 # if defined CL_USE_UNION
@@ -264,42 +264,42 @@ namespace std
         inline cl::tape_wrapper<Base>
         min(cl::tape_wrapper<Base> const& x, cl::tape_wrapper<Base> const& y)
         {
-            return cl::min_impl(x, y);
+            return cl::tapescript::min_impl(x, y);
         }
 
         template <class Base>
         inline cl::tape_wrapper<Base>
         max(cl::tape_wrapper<Base> const& x, cl::tape_wrapper<Base> const& y)
         {
-            return cl::max_impl(x, y);
+            return cl::tapescript::max_impl(x, y);
         }
 
         template <class Ty>
         inline typename cl::enable_if_tape_wrapper<Ty>::type
         min(Ty const& x, double y)
         {
-            return cl::min_impl(x, y);
+            return cl::tapescript::min_impl(x, Ty(y));
         }
 
         template <class Ty>
         inline typename cl::enable_if_tape_wrapper<Ty>::type
         min(double x, Ty const& y)
         {
-            return cl::min_impl(x, y);
+            return cl::tapescript::min_impl(Ty(x), y);
         }
 
         template <class Ty>
         inline typename cl::enable_if_tape_wrapper<Ty>::type
         max(Ty const& x, double y)
         {
-            return cl::max_impl(x, y);
+            return cl::tapescript::max_impl(x, Ty(y));
         }
 
         template <class Ty>
         inline typename cl::enable_if_tape_wrapper<Ty>::type
         max(double x, Ty const& y)
         {
-            return cl::max_impl(x, y);
+            return cl::tapescript::max_impl(Ty(x), y);
         }
 
 # if !defined CL_USE_UNION

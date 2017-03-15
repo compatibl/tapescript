@@ -26,7 +26,7 @@ limitations under the License.
 
 namespace cl
 {
-    inline void throw_(char const* what)
+    inline void throw_(std::string const& what)
     {
         throw std::runtime_error(what);
     }

@@ -33,6 +33,7 @@ limitations under the License.
             ::differentiation_check<struct Branch>();
 #   endif
 
+# include <cl/tape/impl/detail/traits.hpp>
 
 // namespace qualifier for an implementation.
 # define CL_MATH_QUAL cl::tapescript::
@@ -62,13 +63,13 @@ limitations under the License.
                                                                                                      \
         struct oper                                                                                  \
         {                                                                                            \
-            typename rtype                                                                           \
+            rtype                                                                                    \
             op_1(tape_wrapper<Base> const& this_, tape_wrapper<Base> const& r)                       \
             {                                                                                        \
                 return this_.double_() OPERATOR r.tdouble_();                                        \
             }                                                                                        \
                                                                                                      \
-            typename rtype                                                                           \
+            rtype                                                                                    \
             op_2(tape_wrapper<Base> const &this_, tape_wrapper<Base> const& r)                       \
             {                                                                                        \
                 return this_.tdouble_() OPERATOR r.double_();                                        \
@@ -97,7 +98,7 @@ limitations under the License.
                     , argument_adapter<double>                                                       \
                  >::type const& rv)                                                                  \
     {                                                                                                \
-        return l OPERATOR tape_wrapper<Base>::tape_type(                                             \
+        return l OPERATOR typename  tape_wrapper<Base>::tape_type(                                   \
             argument_adapter<double>::get(rv));                                                      \
     }                                                                                                \
                                                                                                      \
@@ -108,7 +109,7 @@ limitations under the License.
                     , argument_adapter<double>                                                       \
                 >::type const& lv, tape_wrapper<Base> const& l)                                      \
     {                                                                                                \
-        return tape_wrapper<Base>::tape_type(argument_adapter<double>::get(lv)) OPERATOR l;          \
+        return typename tape_wrapper<Base>::tape_type(argument_adapter<double>::get(lv)) OPERATOR l; \
     }                                                                                                \
 
 
@@ -162,7 +163,7 @@ limitations under the License.
             }                                                                                        \
         };                                                                                           \
                                                                                                      \
-        typedef tape_wrapper<Base>::tape_type&                                                       \
+        typedef typename tape_wrapper<Base>::tape_type&                                              \
             (oper::*func_ptr)(tape_wrapper<Base>&, tape_wrapper<Base> const&);                       \
                                                                                                      \
         static func_ptr f[] = { 0, &oper::oper_1, &oper::oper_2, &oper::oper_3 };                    \
@@ -177,7 +178,7 @@ limitations under the License.
                     , argument_adapter<double>                                                       \
                  >::type const& rv)                                                                  \
     {                                                                                                \
-        return l OPERATOR tape_wrapper<Base>::tape_type(                                             \
+        return l OPERATOR typename tape_wrapper<Base>::tape_type(                                    \
             argument_adapter<double>::get(rv));                                                      \
     }                                                                                                \
     template <typename Base>                                                                         \
@@ -216,7 +217,7 @@ limitations under the License.
     }
 
 namespace std
-{
+{/*
 #   define CL_DEBUG_FUNC exp
 
     template <class Base>
@@ -242,7 +243,7 @@ namespace std
     {
         return CL_MATH_QUAL CL_DEBUG_FUNC (x);
     }
-
+*/
 }
 
 # define CL_DEBUG_OPERATORS
@@ -250,8 +251,8 @@ namespace std
 # if defined CL_DEBUG_OPERATORS
 namespace cl
 {
-    template <class T, int IsImpl = cl::is_implemented<cl::compatibl_ad_enabled>::value>
-    struct argument_adapter;
+    //template <class T, int IsImpl = cl::is_implemented<cl::compatibl_ad_enabled>::value>
+    //struct argument_adapter;
 
 # define OPERATOR /
 
@@ -296,7 +297,7 @@ namespace cl
             }
         };
 
-        typedef tape_wrapper<Base>::tape_type
+        typedef typename tape_wrapper<Base>::tape_type
             (oper::*func_ptr)(tape_wrapper<Base> const&, tape_wrapper<Base> const&);
 
         static func_ptr f[] = { 0, &oper::op_1, &oper::op_2, &oper::op_3 };
@@ -312,7 +313,7 @@ namespace cl
                     , argument_adapter<double>
                  >::type const& rv)
     {
-        return l OPERATOR tape_wrapper<Base>::tape_type(
+        return l OPERATOR typename tape_wrapper<Base>::tape_type(
             argument_adapter<double>::get(rv));
     }
 
@@ -323,7 +324,7 @@ namespace cl
                     , argument_adapter<double>
                 >::type const& lv, tape_wrapper<Base> const& l)
     {
-        return tape_wrapper<Base>::tape_type(argument_adapter<double>::get(lv)) OPERATOR l;
+        return typename tape_wrapper<Base>::tape_type(argument_adapter<double>::get(lv)) OPERATOR l;
     }
 }
 # undef OPERATOR

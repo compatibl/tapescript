@@ -79,7 +79,7 @@ namespace cl
             return mean_price(number_paths) * std::exp(-rate_*time_);
         }
 
-        void setNull(T& null)
+        void setNull(T const& null)
         {
             null_ = null;
         }
@@ -152,13 +152,13 @@ namespace cl
             unity_vector[i] = 1.0;
         }
         
-        cl::tobject start_price = start_price_vector;
-        cl::tobject volatility = volatility_vector;
-        cl::tobject strike_price = strike_price_vector;
-        cl::tobject time = time_vector;
-        cl::tobject rate = rate_vector;
-        cl::tobject null = null_vector;
-        cl::tobject unity = unity_vector;
+        cl::tobject start_price = cl::tvalue(start_price_vector);
+        cl::tobject volatility = cl::tvalue(volatility_vector);
+        cl::tobject strike_price = cl::tvalue(strike_price_vector);
+        cl::tobject time = cl::tvalue(time_vector);
+        cl::tobject rate = cl::tvalue(rate_vector);
+        cl::tobject null = cl::tvalue(null_vector);
+        cl::tobject unity = cl::tvalue(unity_vector);
 
 
         std::vector<cl::tobject> X = { start_price, strike_price, volatility, time, rate };

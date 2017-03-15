@@ -42,6 +42,7 @@ namespace cl
 }
 
 #   include <cl/tape/impl/detail/tape_def.hpp>
+#   include <cl/tape/impl/tape_fwd.hpp>
 
 #if defined CL_TAPE_CPPAD
 
@@ -95,8 +96,6 @@ namespace cl
 #   endif
 
 #   include <iostream>
-
-#   include <cl/tape/impl/tape_fwd.hpp>
 
 #   if defined CL_AD_ENABLED_BY_DEFAULT
 #       include <cl/tape/impl/detail/enable_ad.hpp>

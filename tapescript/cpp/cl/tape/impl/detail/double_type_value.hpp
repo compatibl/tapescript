@@ -27,6 +27,18 @@ limitations under the License.
 
 namespace cl
 {
+
+    struct mask
+    {
+        static const uint64_t
+            max_double = 0xFFF8000000000000
+            , ptr_mask64 = 0xFFFA000000000000
+            , double_mask32 = 0xFFF80000
+            , ptr_mask32 = 0xFFFA0000
+            , double_mask16 = 0xFFF8
+            , ptr_mask16 = 0xFFFA;
+    };
+
     template <class W
         , bool Is_union_able>
     struct double_traits_base
@@ -36,7 +48,7 @@ namespace cl
         tdouble_(Value& value)
         {
             return *reinterpret_cast<Request *>
-                (value.bits_ & ~Value::ptr_mask64);
+                (value.bits_ & ~mask::ptr_mask64);
         }
 
         template <class Request, class Value>
@@ -79,8 +91,8 @@ namespace cl
             typedef typename
             W::double_value_type Switch;
 
-            return (this_.value_.bits2<3>() & Switch::ptr_mask16)
-                        == Switch::ptr_mask16;
+            return (this_.value_.template bits2<3>() & mask::ptr_mask16)
+                == mask::ptr_mask16;
         }
 
         template <class T>
@@ -90,8 +102,8 @@ namespace cl
             typedef typename
                 W::double_value_type Switch;
 
-            return ((l.value_.bits2<3>() & Switch::ptr_mask16) == Switch::ptr_mask16) ||
-                ((r.value_.bits2<3>() & Switch::ptr_mask16) == Switch::ptr_mask16);
+            return ((l.value_.template bits2<3>() & mask::ptr_mask16) == mask::ptr_mask16) ||
+                ((r.value_.template bits2<3>() & mask::ptr_mask16) == mask::ptr_mask16);
         }
 
         template <typename T> inline static void free(T& v)
@@ -153,17 +165,10 @@ namespace cl
         typedef typename
         std::remove_pointer<Mirror>::type mirror_type;
 
-        static const uint64_t
-        max_double = 0xFFF8000000000000
-        , ptr_mask64 = 0xFFFA000000000000
-        , double_mask32 = 0xFFF80000
-        , ptr_mask32 = 0xFFFA0000
-        , double_mask16 = 0xFFF8
-        , ptr_mask16 = 0xFFFA;
-
         double_value()
             : dbl_(0.0)
-        {}
+        {
+        }
 
         double_value(Value d)
             : dbl_(d)
@@ -182,7 +187,7 @@ namespace cl
 
         inline static void free(double_value& v)
         {
-            mirror_type* ptr = reinterpret_cast<mirror_type*>(v.bits_ & ~ptr_mask64);
+            mirror_type* ptr = reinterpret_cast<mirror_type*>(v.bits_ & ~mask::ptr_mask64);
 
 #           if defined CL_CHECK_INSTANCE_COUNTER
                 std::map<void*, bool >& m = ll();
@@ -205,7 +210,7 @@ namespace cl
 #           endif
 
             return (reinterpret_cast<uint64_t>(ptr)
-                | double_value::ptr_mask64);
+                | mask::ptr_mask64);
         }
 
 #       if defined CL_CHECK_INSTANCE_COUNTER
@@ -237,7 +242,7 @@ namespace cl
     };
 
     template <typename Stream, typename... Types>
-    inline typename Stream&
+    inline Stream&
     operator << (Stream& s, cl::double_value<Types...> const& v)
     {
         s << (void*)v.bits_;

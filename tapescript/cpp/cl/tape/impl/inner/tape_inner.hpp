@@ -94,6 +94,14 @@ namespace cl
             : tape_inner(il.begin(), il.size())
         {}
 
+        inline tape_inner& operator=(tape_inner const& other)
+        {
+            mode_ = other.mode_;
+            scalar_value_ = other.scalar_value_;
+            array_value_ = other.array_value_;
+            return *this;
+        }
+
         inline tape_inner& operator=(tape_inner&& other)
         {
             mode_ = other.mode_;

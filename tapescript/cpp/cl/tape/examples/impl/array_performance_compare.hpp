@@ -41,18 +41,18 @@ namespace cl
 
 
         boost::timer timer1;
-        cl::tobject& xObj1 = cl::tobject(xObj0 + 0.5);
+        cl::tobject const& xObj1 = cl::tobject(xObj0 + 0.5);
         double time1 = timer1.elapsed();
         // out_str << "tobject performance result: " << time1 << std::endl;
 
 
         boost::timer timer2;
-        cl::tvalue& x1 = cl::tvalue(x0 + 0.5);
+        cl::tvalue const& x1 = cl::tvalue(x0 + 0.5);
         double time2 = timer2.elapsed();
         // out_str << "tvalue performance result: " << time2 << std::endl;
 
         boost::timer timer3;
-        CppAD::AD<tape_inner<tape_array>>& ccpAdArray1 = CppAD::AD<tape_inner<tape_array>>(ccpAdArray0 + 0.5);
+        CppAD::AD<tape_inner<tape_array>> const& ccpAdArray1 = CppAD::AD<tape_inner<tape_array>>(ccpAdArray0 + 0.5);
         double time3 = timer3.elapsed();
         // out_str << "CppAD::AD<tape_inner<tape_array>> performance result: " << time3 << std::endl;
 

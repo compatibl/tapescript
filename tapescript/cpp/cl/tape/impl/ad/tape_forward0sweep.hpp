@@ -929,23 +929,6 @@ namespace CppAD { // BEGIN_CPPAD_NAMESPACE
             }
         }
         std::cout << std::endl;
-# elif defined CL_TAPE_TRACE_ENABLED
-            // serialize tape
-            if (!cl::is_cout(s_out) && cl::is_io_text<Base>(s_out))
-                cl::serialize<Base>(s_out
-                    , user_iy
-                    , play
-                    , taylor
-                    , op
-                    , user_state
-                    , i_op
-                    , q
-                    , user_m
-                    , J
-                    , arg
-                    , i_var
-                );
-        }
 # else
         }
 # endif

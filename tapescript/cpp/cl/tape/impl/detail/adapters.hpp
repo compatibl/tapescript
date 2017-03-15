@@ -22,6 +22,7 @@ limitations under the License.
 #define cl_tape_impl_adjointref_hpp
 
 #include <cl/tape/impl/detail/adapter_operator.hpp>
+#include <cl/tape/impl/detail/value_detail.hpp>
 
 /// <summary>adapter for types convertible to double.</summary>
 namespace cl

@@ -42,6 +42,9 @@ namespace cl
 
             struct atomic_sum_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_sum_vec()
                     : dense_atomic<inner_type>("Sum")
                 {}
@@ -162,6 +165,9 @@ namespace cl
 
             struct atomic_conc_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_conc_vec()
                     : dense_atomic<inner_type>("Concatenation")
                 {}
@@ -293,17 +299,17 @@ namespace cl
             return conc_vec(tapescript::adapt(v));
         }
 
-        template <class OutIt, class Head, class ... Tail>
-        OutIt copy(OutIt dest, Head const& first, Tail const& ... rest)
-        {
-            *dest++ = first;
-            return copy(dest, rest ...);
-        }
-
         template <class OutIt>
         OutIt copy(OutIt dest)
         {
             return dest;
+        }
+
+        template <class OutIt, class Head, class ... Tail>
+        OutIt copy(OutIt dest, Head const& first, Tail const& ... rest)
+        {
+            *dest++ = first;
+            return cl::tapescript::copy(dest, rest ...);
         }
 
         // Concatenation of tape_wrappers (arrays or scalars).
@@ -339,6 +345,9 @@ namespace cl
 
             struct atomic_make_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_make_vec()
                     : dense_atomic<inner_type>("Construction(val, n)")
                 {}
@@ -434,6 +443,9 @@ namespace cl
 
             struct atomic_unpack_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_unpack_vec()
                     : dense_atomic<inner_type>("Unpack")
                 {}
@@ -527,6 +539,9 @@ namespace cl
 
             struct atomic_pack_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_pack_vec()
                     : dense_atomic<inner_type>("Pack")
                 {}

@@ -18,6 +18,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+# if !defined cl_tape_impl_detail_traits_hpp
+# define cl_tape_impl_detail_traits_hpp 
+
 namespace cl
 {
     template <class Ty_>
@@ -73,7 +76,7 @@ namespace cl
     // This class is pressure to instanciate operator
     // on transation line with impl and without
     template <class T
-        , int IsImpl /*= cl::is_implemented<cl::compatibl_ad_enabled>::value*/>
+        , int IsImpl = cl::is_implemented<cl::compatibl_ad_enabled>::value>
     struct argument_adapter
     {
         argument_adapter(T const& v) : v_(v)
@@ -120,3 +123,5 @@ namespace cl
     };
 
 }
+
+#endif

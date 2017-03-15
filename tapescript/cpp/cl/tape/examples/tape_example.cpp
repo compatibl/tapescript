@@ -91,7 +91,7 @@ struct test_stream
 #include "impl/quadratic_regression_examples.hpp"
 #include "impl/amc_simulation_examples.hpp"
 
-extern void performance_without_struct();
+//extern void performance_without_struct();
 
 namespace cl
 {
@@ -166,8 +166,8 @@ int main()
         tests.push_back({ "Run qr_decomposition_examples see tape data in output / qr_decomposition_examples_output.txt ..."
             , cl::qr_decomposition_examples });
 
-        tests.push_back({ "Run performance test without using compatibl_ad_enabled ..."
-            , performance_without_struct });
+        //tests.push_back({ "Run performance test without using compatibl_ad_enabled ..."
+        //    , performance_without_struct });
 
         tests.push_back({ "Run polynomial_regression_examples see tape data in output/performance/polynomial_regression_examples_output.txt ..."
             , cl::polynomial_regression_examples });

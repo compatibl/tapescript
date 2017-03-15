@@ -516,14 +516,14 @@ namespace boost { namespace numeric { namespace ublas
 
     namespace detail {
 
-    template <typename Left>
-    inline bool operator < (Left const& left, cl::tape_double const& right)
-    {
-#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
-#           pragma message ("overload operator < : " __FUNCSIG__)
-#       endif
-        return (cl::tape_double)left < right;
-    }
+//    template <typename Left>
+//    inline bool operator < (Left const& left, cl::tape_double const& right)
+//    {
+//#       if defined CL_COMPILE_TIME_OPERATORS_DEBUG
+//#           pragma message ("overload operator < : " __FUNCSIG__)
+//#       endif
+//        return (cl::tape_double)left < right;
+//    }
 
     template <typename Left, typename Base>
     inline bool operator < (Left const& left, cl::tape_wrapper<Base> const& right)

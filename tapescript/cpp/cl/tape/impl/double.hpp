@@ -30,6 +30,7 @@ limitations under the License.
 # include <cl/tape/impl/detail/double_type_value.hpp>
 # include <cl/tape/impl/detail/traits.hpp>
 # include <cl/tape/impl/detail/double/differentiable.hpp>
+# include <cl/tape/impl/detail/value_detail.hpp>
 
 namespace cl
 {
@@ -72,17 +73,17 @@ namespace cl
         // double_value type is calculated if we can use union for Inner
         typedef typename
             base_type_traits<base_type>
-        ::double_value_type<Inner, value_type*>::type double_value_type;
+        ::template double_value_type<Inner, value_type*>::type double_value_type;
 
         // Ad type
         typedef typename
             base_type_traits<base_type>
-        ::double_value_type<Inner, value_type*>::tdouble_type tdouble_type;
+        ::template double_value_type<Inner, value_type*>::tdouble_type tdouble_type;
 
         // If we can't use in union double is equals tdouble_type
         typedef typename
             base_type_traits<base_type>
-        ::double_value_type<Inner, value_type*>::double_type double_type;
+        ::template double_value_type<Inner, value_type*>::double_type double_type;
 
     private:
 
@@ -311,7 +312,7 @@ namespace cl
                 ::free(this_ptr->value_);
 
             // Here for case when ~ called twice
-            this_ptr->value_ = cl::tape_wrapper<Base>::double_value_type();
+            this_ptr->value_ = Base();
         }
     }
 
@@ -325,7 +326,7 @@ namespace cl
     template <typename Inner>
     inline bool
     tape_wrapper<Inner>::check__(bool enabled_diff
-        , bool set_differ_on = false, bool value = true)
+        , bool set_differ_on/* = false*/, bool value/* = true*/)
     {
         static bool is_differ_on = false;
 
@@ -395,7 +396,7 @@ namespace cl
     template <typename D
         , typename Base, template <typename > class Back>
     inline D
-    alloc_value_(typename Back<Base> const& v, std::true_type)
+    alloc_value_(Back<Base> const& v, std::true_type)
     {
         return D::alloc_(v);
     }
@@ -403,7 +404,7 @@ namespace cl
     template <typename D
         , typename Base, template <typename > class Back>
     inline D
-    alloc_value_(typename Back<Base> const& v, std::false_type)
+    alloc_value_(Back<Base> const& v, std::false_type)
     {
         return D(v);
     }
@@ -454,7 +455,7 @@ namespace cl
     {
         CL_CHECK_ENABLED_DIFF(Inner);
 
-        ov.value_ = tape_wrapper<Inner>::double_value_type();
+        ov.value_ = Inner();
     }
 
     template <typename Inner>
@@ -464,7 +465,7 @@ namespace cl
         CL_CHECK_ENABLED_DIFF(Inner);
 
         value_ = ov.value_;
-        ov.value_ = tape_wrapper<Inner>::double_value_type();
+        ov.value_ = Inner();
         return *this;
     }
 
@@ -537,7 +538,7 @@ namespace cl
         typedef std::integral_constant<bool
             , double_traits_type::is_union_able> value_using;
 
-        return double_traits_type::tdouble_<tdouble_type>(value_);
+        return double_traits_type::template tdouble_<tdouble_type>(value_);
     }
 
     template <typename Inner>
@@ -563,7 +564,7 @@ namespace cl
         typedef std::integral_constant<bool
             , double_traits_type::is_union_able> value_using;
 
-        return double_traits_type::tdouble_<tdouble_type const>(value_);
+        return double_traits_type::template tdouble_<tdouble_type const>(value_);
     }
 
     template <typename Inner>
@@ -590,7 +591,7 @@ namespace cl
         typedef std::integral_constant<bool
             , double_traits_type::is_union_able> value_using;
 
-        return double_traits_type::double_<double_type>(value_);
+        return double_traits_type::template double_<double_type>(value_);
     }
 
     template <typename Inner>
@@ -600,7 +601,7 @@ namespace cl
         CL_ASSERT(!this->is_ptr() || !std::is_arithmetic<base_type>::value
             , "The tape should be initialized.");
 
-        return double_traits_type::double_<double_type const>(value_);
+        return double_traits_type::template double_<double_type const>(value_);
     }
 
     template <typename Inner>
@@ -648,13 +649,13 @@ namespace cl
     }
 
     /// <summary>Assign through reference wrapper.</summary>
-    template <typename Inner>
-    template <typename Type>
-    tape_wrapper<Inner>::tape_wrapper(ref_wrap<Type> const& v)
-        : value_(traits<>::get())
-    {
-        CL_CHECK_ENABLED_DIFF(Inner);
-    }
+    //template <typename Inner>
+    //template <typename Type>
+    //tape_wrapper<Inner>::tape_wrapper(ref_wrap<Type> const& v)
+    //    : value_(traits<>::get())
+    //{
+    //    CL_CHECK_ENABLED_DIFF(Inner);
+    //}
 
 //!!  This can break AD if it is misused; or stop recording if it is invoked
 #   ifdef CL_TAPE_CAN_GET_VALUE

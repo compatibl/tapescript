@@ -44,6 +44,9 @@ namespace cl
 
             struct atomic_reverse_vec : dense_atomic<inner_type>
             {
+                typedef typename dense_atomic<inner_type>::Base Base;
+                template <class T> using vector = CppAD::vector<T>;
+
                 atomic_reverse_vec()
                     : dense_atomic<inner_type>("Reversing")
                 {}

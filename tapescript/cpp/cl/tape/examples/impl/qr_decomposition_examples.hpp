@@ -32,15 +32,15 @@ namespace cl {
     typedef boost::numeric::ublas::matrix<tdouble, boost::numeric::ublas::column_major> tmatrix;
     struct qr_decomp_input_data;
     void decomposeMatrix(std::vector<tdouble> &elementsA, tmatrix &Q, tmatrix &R, std::ostream& out_stream);
-    void printMatrix(tmatrix &m, std::ostream& out_stream);
-    void qr_decomposition_start(qr_decomp_input_data& inputData, std::ostream& out_stream);
+    void printMatrix(tmatrix const&m, std::ostream& out_stream);
+    void qr_decomposition_start(qr_decomp_input_data const& inputData, std::ostream& out_stream);
     void finiteDifferenceCheck(std::vector<tdouble> &indep, tmatrix &Q, tmatrix &R, std::ostream& out_stream);
 
 
     // A struct to create and store input data.
     struct qr_decomp_input_data {
         tmatrix data;
-        qr_decomp_input_data(std::vector<std::vector<tdouble>> & rows) {
+        qr_decomp_input_data(std::vector<std::vector<tdouble>> const& rows) {
             int n = rows.size();
             data.resize(n, n);
             for (int i = 0; i < n; i++) {
@@ -49,7 +49,7 @@ namespace cl {
                 }
             }
         }
-        qr_decomp_input_data(tmatrix & input) {
+        qr_decomp_input_data(tmatrix const& input) {
             int n = input.size1();
             data(n, n);
             for (int i = 0; i < n; i++) {
@@ -58,7 +58,7 @@ namespace cl {
                 }
             }
         }
-        tmatrix getData() {
+        tmatrix const& getData() const {
             return data;
         }
     };
@@ -86,11 +86,11 @@ namespace cl {
     }
 
     // Starts the qr decomposition tests from received input data corresponding to left side matrix A.
-    inline void qr_decomposition_start(qr_decomp_input_data& inputData, std::ostream& out_stream = std::cout) {
+    inline void qr_decomposition_start(qr_decomp_input_data const& inputData, std::ostream& out_stream = std::cout) {
         out_stream << std::endl;
         out_stream << " Start of decomposition " << std::endl << std::endl;
         // Get input matrix.
-        tmatrix A = inputData.getData();
+        tmatrix const& A = inputData.getData();
         int n = A.size1();
         tmatrix Q(n, n);
         tmatrix R(n, n);
@@ -286,7 +286,7 @@ namespace cl {
     }
 
     // Formatted matrix output.
-    void printMatrix(tmatrix &m, std::ostream & out_stream)
+    void printMatrix(tmatrix const&m, std::ostream & out_stream)
     {
         for (unsigned i = 0; i < m.size1(); ++i)
         {
